@@ -56,17 +56,20 @@
   <h2 data-i18n="h2_2">Vad tillägget lagrar på din enhet</h2>
   <ul>
     <li data-i18n="li1">Dina inställningar (tillägg på/av, språk).</li>
-    <li data-i18n="li2">Din Anthropic API-nyckel, om du använder din egen — lagras i Chromes tilläggslagring på din enhet och skickas endast till Anthropic när du kör en analys. Den skickas aldrig till oss eller någon tredje part.</li>
+    <li data-i18n="li2">Din licensnyckel, om du har aktiverat en — lagras i Chromes tilläggslagring på din enhet.</li>
     <li data-i18n="li3">En lokal prisdatabas byggd från annonser du tittat på, används för att uppskatta marknadsvärde.</li>
     <li data-i18n="li4">En slumpmässig installations-identifierare (ett UUID). Den kopplas inte till ditt namn, e-post, Google-konto eller IP-adress av oss.</li>
   </ul>
 
   <h2 data-i18n="h2_3">Data som skickas när du analyserar en annons</h2>
   <p data-i18n-html="p2">När du klickar <strong>Analysera</strong> skickas annonsens titel, beskrivning, pris, platstext och bilder till <strong>Anthropic</strong> (AI-leverantören) för att skapa en bedömning. Detta sker endast när du aktivt begär en analys. Anthropics hantering av den datan styrs av Anthropics egen integritetspolicy och API-villkor.</p>
-  <p data-i18n="p3">Om du använder det värdbaserade läget (utan egen nyckel) skickas begäran via vår backend, som håller AI-nyckeln å dina vägnar. I det fallet registrerar vi endast din slumpmässiga installations-identifierare och ett antal använda analyser, för att upprätthålla gränser för gratisnivån. Vi lagrar inte annonsinnehåll, titlar, URL:er, säljaruppgifter eller bilder.</p>
+  <p data-i18n="p3">Vår backend håller Anthropic-nyckeln å dina vägnar, så du aldrig behöver en egen. Vi registrerar din slumpmässiga installations-identifierare och ett antal använda analyser, för att upprätthålla gränser för gratisnivån. Vi lagrar inte den ursprungliga annonstexten, säljaruppgifter eller bilder — endast AI:ns resulterande bedömning (produktnamn, skick, marknadsvärde) cachas, kopplat till annons-ID, i upp till 7 dagar, så att samma annons som analyserats av en annan användare visas gratis. Vi sparar även en rullande prishistorik per produkt (inte per annons eller användare) för att göra framtida uppskattningar mer träffsäkra över tid.</p>
 
   <h2 data-i18n="h2_4">Köp av krediter (Stripe)</h2>
   <p data-i18n-html="p4">Om du köper analyskrediter hanteras utcheckningen helt av <strong>Stripe</strong> — vi ser eller lagrar aldrig dina kortuppgifter. Stripe skickar din e-postadress och vilket paket du köpt så att vi kan mejla dig en licensnyckel (t.ex. <code>FS-XXXX-XXXX</code>) och ge dig rätt antal krediter. Vi lagrar: din e-post, licensnyckeln, kreditsaldot och en journal över Stripe-ordern (belopp, valuta, order-id) för att förhindra dubbla leveranser och låta upprepade köp läggas på samma nyckel. Denna data behålls så länge din licensnyckel är aktiv, plus vanliga krav på bokföringsarkivering. Stripes hantering av dina betalningsuppgifter styrs av Stripes egen integritetspolicy.</p>
+
+  <h2 data-i18n="h2_bug">Buggrapporter och funktionsförslag</h2>
+  <p data-i18n="p_bug">Om du skickar en buggrapport (från tillägget) eller ett funktionsförslag (från vår hemsida) lagrar vi meddelandet du skriver, en valfri e-postadress om du väljer att ange en (så vi kan följa upp), det kontext som behövs för att utreda en bugg (t.ex. tilläggsversion, annonsen du tittade på) samt vilken sida/språk du skickade från. Detta används enbart för att åtgärda problem och förbättra produkten — aldrig för marknadsföring utan ditt uttryckliga samtycke — och sparas så länge det är användbart för det syftet.</p>
 
   <h2 data-i18n="h2_5">Rättslig grund (GDPR)</h2>
   <p data-i18n="p5">Behandlingen är nödvändig för att tillhandahålla den bedömningstjänst du uttryckligen begär (Art. 6(1)(b) GDPR). Lokal bearbetning på din enhet kräver ingen överföring till oss.</p>
@@ -137,14 +140,16 @@
       p1: 'Fyndkollen is a browser extension that helps you evaluate second-hand listings on Blocket. It runs locally in your browser. The only data that ever leaves your device is the listing content you choose to analyze, sent to the AI provider to produce a score.',
       h2_2: 'What the extension stores on your device',
       li1: 'Your settings (extension on/off, language).',
-      li2: "Your Anthropic API key, if you use your own — stored in Chrome's extension storage on your device and sent only to Anthropic when you run an analysis. It is never sent to us or any third party.",
+      li2: "Your license key, if you've activated one — stored in Chrome's extension storage on your device.",
       li3: 'A local price database built from listings you view, used to estimate market value.',
       li4: 'A random installation identifier (a UUID). It is not linked to your name, email, Google account, or IP address by us.',
       h2_3: 'Data sent when you analyze a listing',
       p2: "When you click <strong>Appraise</strong>, the listing's title, description, price, location text, and photos are sent to <strong>Anthropic</strong> (the AI provider) to generate an appraisal. This happens only when you actively request an analysis. Anthropic's handling of that data is governed by Anthropic's own privacy policy and API terms.",
-      p3: 'If you use the hosted (no-key) mode, the request is relayed through our backend, which holds the AI key on your behalf. In that case we record only your random installation identifier and a count of appraisals used, to enforce free-tier limits. We do not store listing content, titles, URLs, seller details, or images.',
+      p3: "Our backend holds the Anthropic API key on your behalf, so you never need one yourself. We record your random installation identifier and a count of appraisals used, to enforce free-tier limits. We do not store the original listing text, seller details, or images — only the AI's resulting appraisal (item name, condition, market value) is cached, keyed by listing ID, for up to 7 days, so the same listing appraised by another user is served for free. We also keep a rolling market-value history per product (not per listing or per user) to make future estimates more accurate over time.",
       h2_4: 'Buying credits (Stripe)',
       p4: "If you purchase appraisal credits, checkout is handled entirely by <strong>Stripe</strong> — we never see or store your card details. Stripe passes us your email address and the pack you bought so we can email you a license key (e.g. <code>FS-XXXX-XXXX</code>) and grant the correct number of credits. We store: your email, the license key, the credit balance, and a record of the Stripe order (amount, currency, order id) to prevent duplicate fulfillment and to let repeat purchases stack credits onto the same key. This data is retained for as long as your license key is active, plus standard accounting/bookkeeping retention requirements. Stripe's handling of your payment data is governed by Stripe's own privacy policy.",
+      h2_bug: 'Bug reports and feature suggestions',
+      p_bug: "If you send a bug report (from the extension) or a feature suggestion (from our website), we store the message you write, an optional email address if you choose to provide one (so we can follow up), the browser/extension context needed to investigate a bug (e.g. extension version, the listing you were viewing), and the page/language you submitted from. This is used only to fix problems and improve the product — never for marketing without your explicit consent — and is retained for as long as it's useful for that purpose.",
       h2_5: 'Legal basis (GDPR)',
       p5: 'Processing is necessary to provide the appraisal service you explicitly request (Art. 6(1)(b) GDPR). Local processing on your device requires no transfer to us.',
       h2_6: 'Your rights',
