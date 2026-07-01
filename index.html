@@ -80,6 +80,17 @@
   .faq h3{font-size:15px;margin-bottom:3px}
   .faq p{font-size:14px;color:var(--mid)}
 
+  /* Suggest-a-feature */
+  .suggest-form{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+  .suggest-textarea,.suggest-email{
+    width:100%;box-sizing:border-box;background:#fff;border:1.5px solid var(--border);
+    border-radius:10px;padding:11px 13px;font-size:14px;font-family:inherit;color:var(--text);
+    outline:none;transition:border-color .15s;
+  }
+  .suggest-textarea{min-height:90px;resize:vertical}
+  .suggest-textarea:focus,.suggest-email:focus{border-color:var(--accent)}
+  .suggest-status{font-size:12.5px;color:var(--green);text-align:center;min-height:16px}
+
   footer{padding:30px 0 50px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;position:relative;z-index:1}
   footer a{color:var(--muted)}
   footer .links{margin-bottom:8px}
@@ -104,6 +115,7 @@
     #features{background:var(--surface)}
     #pricing{background:var(--bg)}
     #faq{background:var(--surface)}
+    #suggest{background:var(--bg)}
     footer{background:var(--bg)}
 
     /* Decorative dot-grid + star texture, confined to outer margins via mask so
@@ -445,11 +457,25 @@
   </div>
 </section>
 
+<section id="suggest">
+  <div class="wrap-wide">
+    <h2 data-i18n="suggestH2">Har du en idé?</h2>
+    <p class="lead" data-i18n="suggestLead">Berätta vad du vill se härnäst i Fyndkollen — vi läser varje förslag.</p>
+    <div class="suggest-form">
+      <textarea id="suggest-msg" class="suggest-textarea" data-i18n-attr="placeholder:suggestPlaceholder" placeholder="Vad skulle göra Fyndkollen bättre för dig?" maxlength="4000"></textarea>
+      <input type="email" id="suggest-email" class="suggest-email" data-i18n-attr="placeholder:suggestEmail" placeholder="E-post (valfritt)" autocomplete="off"/>
+      <button class="cta sm" id="suggest-submit" data-i18n="suggestSubmit">Skicka förslag</button>
+      <div class="suggest-status" id="suggest-status"></div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap-wide">
     <div class="links">
       <a href="privacy.html" data-i18n="footerPrivacy">Integritet</a> ·
       <a href="#pricing" data-i18n="footerPricing">Priser</a> ·
+      <a href="#suggest" data-i18n="footerSuggest">Funktionsförslag</a> ·
       <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>
     </div>
     <div>© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen · Inte anslutet till Blocket.</span></div>
@@ -487,7 +513,17 @@
       q4h: 'Vad är skillnaden mellan snabbkollen och fotoanalysen?', q4p: 'Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.',
       q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.',
       footerPrivacy: 'Integritet', footerPricing: 'Priser',
-      footerCopy: 'Fyndkollen · Inte anslutet till Blocket.'
+      footerCopy: 'Fyndkollen · Inte anslutet till Blocket.',
+      suggestH2: 'Har du en idé?',
+      suggestLead: 'Berätta vad du vill se härnäst i Fyndkollen — vi läser varje förslag.',
+      suggestPlaceholder: 'Vad skulle göra Fyndkollen bättre för dig?',
+      suggestEmail: 'E-post (valfritt)',
+      suggestSubmit: 'Skicka förslag',
+      suggestEmpty: 'Skriv ditt förslag först.',
+      suggestSending: 'Skickar…',
+      suggestSent: 'Tack för förslaget!',
+      suggestFailed: 'Kunde inte skicka just nu, försök igen senare.',
+      footerSuggest: 'Funktionsförslag'
     },
     en: {
       pageTitle: 'Fyndkollen — Know if a Blocket listing is a deal before you buy',
@@ -518,7 +554,17 @@
       q4h: 'What’s the difference between the quick check and the photo analysis?', q4p: 'The quick check (1 credit) asks a few multiple-choice questions about condition and is the fastest option. The photo analysis (5 credits) instead reads several of the listing\'s photos and cross-checks them against each other — our most accurate read, priced accordingly.',
       q5h: 'What’s the refund policy on credit packs?', q5p: 'Try it free before you buy — you get 5 free credits right at install, no card needed. If something goes wrong after a purchase, contact us and we\'ll sort it out.',
       footerPrivacy: 'Privacy', footerPricing: 'Pricing',
-      footerCopy: 'Fyndkollen · Not affiliated with Blocket.'
+      footerCopy: 'Fyndkollen · Not affiliated with Blocket.',
+      suggestH2: 'Got an idea?',
+      suggestLead: 'Tell us what you want to see next in Fyndkollen — we read every suggestion.',
+      suggestPlaceholder: 'What would make Fyndkollen better for you?',
+      suggestEmail: 'Email (optional)',
+      suggestSubmit: 'Send suggestion',
+      suggestEmpty: 'Write your suggestion first.',
+      suggestSending: 'Sending…',
+      suggestSent: 'Thanks for the suggestion!',
+      suggestFailed: "Couldn't send right now, try again later.",
+      footerSuggest: 'Feature suggestions'
     }
   };
 
@@ -534,6 +580,11 @@
       var key = el.getAttribute('data-i18n-html');
       if (DICT[lang][key] != null) el.innerHTML = DICT[lang][key];
     });
+    document.querySelectorAll('[data-i18n-attr]').forEach(function(el) {
+      var parts = el.getAttribute('data-i18n-attr').split(':');
+      var attr = parts[0], key = parts[1];
+      if (DICT[lang][key] != null) el.setAttribute(attr, DICT[lang][key]);
+    });
     document.getElementById('yr').textContent = new Date().getFullYear();
     document.getElementById('lang-sv').classList.toggle('on', lang === 'sv');
     document.getElementById('lang-en').classList.toggle('on', lang === 'en');
@@ -547,6 +598,37 @@
 
   document.getElementById('lang-sv').addEventListener('click', function() { applyLang('sv'); });
   document.getElementById('lang-en').addEventListener('click', function() { applyLang('en'); });
+
+  // ── Feature suggestion form ──────────────────────────────────────────
+  var FEEDBACK_URL = 'https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
+  var suggestBtn = document.getElementById('suggest-submit');
+  if (suggestBtn) {
+    suggestBtn.addEventListener('click', async function() {
+      var lang = document.documentElement.lang === 'en' ? 'en' : 'sv';
+      var statusEl = document.getElementById('suggest-status');
+      var msgEl = document.getElementById('suggest-msg');
+      var emailEl = document.getElementById('suggest-email');
+      var msg = (msgEl.value || '').trim();
+      var email = (emailEl.value || '').trim();
+      if (!msg) { statusEl.textContent = DICT[lang].suggestEmpty; return; }
+      statusEl.textContent = DICT[lang].suggestSending;
+      try {
+        var res = await fetch(FEEDBACK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'suggestion', message: msg, email: email || null, source: 'website',
+            context: { lang: lang, page: location.href }
+          })
+        });
+        if (!res.ok) throw new Error('bad status');
+        statusEl.textContent = DICT[lang].suggestSent;
+        msgEl.value = ''; emailEl.value = '';
+      } catch (e) {
+        statusEl.textContent = DICT[lang].suggestFailed;
+      }
+    });
+  }
 </script>
 
 <style>
