@@ -16,12 +16,21 @@
   a{color:var(--accent);text-decoration:none}
   .wrap{max-width:760px;margin:0 auto;padding:0 22px}
 
+  /* ============ Desktop-wide layer ============ */
+  /* .wrap keeps the mobile-safe 760px column for text-only sections.
+     .wrap-wide is the desktop-only wider canvas used by hero/features/pricing/faq. */
+  .wrap-wide{max-width:760px;margin:0 auto;padding:0 22px;position:relative}
+
+  /* Full-bleed band wrapper (desktop-only effect; harmless no-op on mobile) */
+  .band{position:relative}
+  .band-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+
   /* Header */
-  header{padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  header{padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:relative;z-index:1}
   .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:14px;color:#3D2F1F}
   .brand svg{color:var(--accent)}
   .hdr-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .nav a{font-size:13px;color:var(--mid);margin-left:18px}
+  .nav a{font-size:13px;color:var(--mid);margin-left:18px;position:relative}
   .install-pill{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12.5px;padding:8px 16px;border-radius:20px;white-space:nowrap;transition:background .15s}
   .install-pill:hover{background:var(--accent-h)}
   .lang-tog{display:flex;gap:4px}
@@ -30,7 +39,7 @@
   .lang-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 
   /* Hero */
-  .hero{text-align:center;padding:54px 0 40px}
+  .hero{text-align:center;padding:54px 0 40px;position:relative;z-index:1}
   .hero h1{font-size:42px;line-height:1.12;letter-spacing:-1px;font-weight:800;margin-bottom:16px}
   .hero h1 .hl{color:var(--accent)}
   .hero p{font-size:18px;color:var(--mid);max-width:560px;margin:0 auto 28px}
@@ -42,7 +51,7 @@
   .secondary-cta a:hover{color:var(--accent)}
 
   /* Sections */
-  section{padding:40px 0;border-top:1px solid var(--border)}
+  section{padding:40px 0;border-top:1px solid var(--border);position:relative}
   h2{font-size:26px;letter-spacing:-.5px;margin-bottom:8px;text-align:center}
   .lead{text-align:center;color:var(--mid);max-width:540px;margin:0 auto 30px}
 
@@ -71,24 +80,222 @@
   .faq h3{font-size:15px;margin-bottom:3px}
   .faq p{font-size:14px;color:var(--mid)}
 
-  footer{padding:30px 0 50px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px}
+  footer{padding:30px 0 50px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;position:relative;z-index:1}
   footer a{color:var(--muted)}
   footer .links{margin-bottom:8px}
   footer .links a{margin:0 8px}
 
-  @media(max-width:640px){
-    .hero h1{font-size:32px}
-    .grid{grid-template-columns:1fr}
-    .packs{grid-template-columns:1fr}
-    .hdr-right{width:100%;justify-content:space-between}
-    .nav a:first-child{margin-left:0}
+  /* ============================================================
+     DESKTOP REDESIGN — "Product Visual Anchor" (base concept)
+     + full-bleed alternating section bands and decorative texture
+     grafted in from the editorial-bands concept, confined to the
+     outer margins so they never interfere with readability.
+     Widens the canvas at >=980px and introduces a CSS/SVG-only
+     browser + Blocket-listing + Fyndkollen result-card mockup as
+     a real centerpiece next to the hero copy. Features become an
+     asymmetric two-column layout. Everything below 640px is left
+     exactly as it was (untouched mobile media query at bottom).
+     ============================================================ */
+  @media(min-width:980px){
+    .wrap-wide{max-width:1280px;padding:0 48px}
+
+    /* ---------- Full-bleed alternating bands ---------- */
+    header{background:var(--bg)}
+    #features{background:var(--surface)}
+    #pricing{background:var(--bg)}
+    #faq{background:var(--surface)}
+    footer{background:var(--bg)}
+
+    /* Decorative dot-grid + star texture, confined to outer margins via mask so
+       it never overlaps the readable content column. Purely cosmetic, aria-hidden. */
+    .hero .band-bg,#pricing .band-bg{
+      background-image:radial-gradient(circle,rgba(107,87,68,.14) 1.4px,transparent 1.4px);
+      background-size:26px 26px;
+      -webkit-mask-image:linear-gradient(to right,black 0%,transparent 14%,transparent 86%,black 100%);
+      mask-image:linear-gradient(to right,black 0%,transparent 14%,transparent 86%,black 100%);
+    }
+    .hero .band-bg::after{
+      content:'★';position:absolute;top:12%;right:6%;font-size:15px;color:rgba(204,107,44,.28);
+    }
+    .hero .band-bg::before{
+      content:'★';position:absolute;bottom:10%;left:5%;font-size:11px;color:rgba(204,107,44,.2);
+    }
+
+    header{padding:26px 0}
+    .nav a::after{
+      content:'';position:absolute;left:0;right:0;bottom:-4px;height:1px;background:var(--accent);
+      transform:scaleX(0);transform-origin:right;transition:transform .18s;
+    }
+    .nav a:hover::after{transform:scaleX(1);transform-origin:left}
+
+    /* ---------- Hero: two columns, copy + visual anchor ---------- */
+    .hero{
+      text-align:left;
+      padding:64px 0 76px;
+      display:grid;
+      grid-template-columns:1.05fr 1fr;
+      gap:56px;
+      align-items:center;
+    }
+    .hero-copy{max-width:none}
+    .hero .eyebrow{
+      display:inline-flex;align-items:center;gap:7px;
+      font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+      color:var(--accent);background:rgba(204,107,44,.09);
+      border:1px solid rgba(204,107,44,.25);border-radius:20px;
+      padding:6px 13px;margin-bottom:20px;
+    }
+    .hero .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+    .hero h1{font-size:48px;max-width:640px;margin-bottom:18px}
+    .hero p{font-size:18px;max-width:520px;margin:0 0 30px}
+    .hero-actions{display:flex;flex-direction:column;align-items:flex-start}
+    .cta-sub{margin-top:14px}
+    .secondary-cta{margin-top:6px}
+
+    .hero-trust{display:flex;gap:22px;margin-top:34px;flex-wrap:wrap}
+    .hero-trust div{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+    .hero-trust b{color:var(--text);font-size:15px}
+
+    /* Trust strip — reuses existing brand-name copy already in the page, no new i18n keys */
+    .trust-strip{display:flex;align-items:center;gap:18px;margin-top:38px;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap}
+    .trust-strip span{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+    .trust-strip .src{font-size:13px;font-weight:700;color:var(--mid);opacity:.8}
+
+    /* ---------- Visual anchor: browser chrome + listing + result card ---------- */
+    .hero-visual{position:relative;width:100%}
+    .hero-visual::before{
+      content:'';position:absolute;top:8%;right:-8%;width:290px;height:290px;
+      background:radial-gradient(circle,rgba(204,107,44,.16) 0%,rgba(204,107,44,0) 70%);
+      pointer-events:none;
+    }
+    .browser-mock{
+      position:relative;background:#fff;border:1px solid var(--border);border-radius:16px;
+      box-shadow:0 24px 60px -18px rgba(61,47,31,.28),0 4px 18px rgba(61,47,31,.08);
+      overflow:hidden;
+    }
+    .browser-bar{
+      display:flex;align-items:center;gap:14px;padding:11px 14px;
+      background:var(--surface);border-bottom:1px solid var(--border);
+    }
+    .browser-dots{display:flex;gap:6px}
+    .browser-dots span{width:9px;height:9px;border-radius:50%;background:var(--border)}
+    .browser-url{
+      flex:1;background:#fff;border:1px solid var(--border);border-radius:7px;
+      padding:5px 10px;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .browser-body{position:relative;background:#F7F4EF;padding:18px 18px 22px;min-height:300px}
+
+    /* Fake Blocket-style listing behind the result card */
+    .listing-mock{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;}
+    .listing-mock .ph{
+      height:130px;border-radius:8px;
+      background:
+        linear-gradient(135deg,#EDE6DA 25%,transparent 25%) 0 0/16px 16px,
+        linear-gradient(225deg,#EDE6DA 25%,transparent 25%) 0 0/16px 16px,
+        linear-gradient(315deg,#EDE6DA 25%,transparent 25%) 0 0/16px 16px,
+        linear-gradient(45deg,#EDE6DA 25%,transparent 25%) 0 0/16px 16px,
+        #F4F0EA;
+      margin-bottom:12px;position:relative;overflow:hidden;
+    }
+    .listing-mock .ph::after{
+      content:'📦';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;opacity:.5;
+    }
+    .listing-mock .ttl{height:12px;width:78%;background:var(--border);border-radius:4px;margin-bottom:8px}
+    .listing-mock .sub{height:9px;width:46%;background:var(--border);border-radius:4px;margin-bottom:14px}
+    .listing-mock .price{font-size:19px;font-weight:800;color:#3D2F1F}
+    .listing-mock .meta{font-size:11px;color:var(--muted);margin-top:4px}
+
+    /* Result card floats over/beside the listing */
+    .result-card{
+      position:absolute;right:14px;bottom:-22px;width:230px;
+      background:#fff;border:1px solid var(--border);border-radius:14px;
+      box-shadow:0 20px 40px -12px rgba(61,47,31,.32);
+      padding:16px 16px 15px;
+    }
+    .result-card .rc-head{display:flex;align-items:center;gap:7px;margin-bottom:11px}
+    .result-card .rc-head svg{color:var(--accent);flex:none}
+    .result-card .rc-head b{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--mid)}
+    .result-card .rc-verdict{
+      display:inline-flex;align-items:center;gap:6px;
+      background:rgba(5,150,105,.1);color:var(--green);
+      font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:20px;margin-bottom:12px;
+    }
+    .result-card .rc-verdict .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+    .result-card .rc-row{display:flex;justify-content:space-between;font-size:12px;color:var(--mid);padding:6px 0;border-top:1px dashed var(--border)}
+    .result-card .rc-row b{color:var(--text);font-weight:700}
+    .result-card .rc-margin{
+      margin-top:10px;background:var(--surface);border-radius:8px;padding:8px 10px;
+      font-size:11.5px;color:var(--mid);display:flex;justify-content:space-between;align-items:center;
+    }
+    .result-card .rc-margin b{color:var(--green);font-size:13px}
+
+    .badge-float{
+      position:absolute;left:-16px;top:34px;background:var(--accent);color:#fff;
+      font-size:11.5px;font-weight:700;padding:7px 13px;border-radius:20px;
+      box-shadow:0 8px 20px rgba(204,107,44,.35);display:flex;align-items:center;gap:6px;
+    }
+
+    /* ---------- Features: asymmetric two-column (visual + list) ---------- */
+    section{padding:64px 0}
+    .wrap-wide > h2, .wrap-wide > .lead{max-width:760px;margin-left:auto;margin-right:auto}
+    #features h2, #features .lead{text-align:left;margin-left:0}
+    .lead{text-align:left}
+
+    .feature-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;align-items:center;margin-top:36px;position:relative;z-index:1}
+
+    /* Secondary CSS/SVG illustration for the features side (distinct from hero mock) */
+    .feature-visual{
+      position:relative;background:#fff;border:1px solid var(--border);border-radius:20px;
+      padding:30px;min-height:380px;display:flex;flex-direction:column;justify-content:center;gap:14px;
+    }
+    .feature-visual .fv-row{
+      background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;
+      display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(61,47,31,.04);
+    }
+    .feature-visual .fv-row .fv-ic{
+      width:34px;height:34px;border-radius:9px;background:rgba(204,107,44,.1);
+      display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;
+    }
+    .feature-visual .fv-row .fv-bar{height:8px;border-radius:4px;background:var(--border)}
+    .feature-visual .fv-row .fv-bar.w1{width:80%}
+    .feature-visual .fv-row .fv-bar.w2{width:55%;margin-top:6px}
+    .feature-visual .fv-row.hit{border-color:var(--accent);box-shadow:0 6px 18px rgba(204,107,44,.15)}
+    .feature-visual .fv-row.hit .fv-ic{background:var(--accent);color:#fff}
+
+    .feature-list{display:flex;flex-direction:column;gap:4px}
+    .grid{display:flex;flex-direction:column;gap:0}
+    .card{
+      background:transparent;border:none;border-top:1px solid var(--border);
+      border-radius:0;padding:22px 0;display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start;
+    }
+    .card:first-child{border-top:none;padding-top:0}
+    .card .ic{
+      font-size:19px;margin-bottom:0;width:44px;height:44px;border-radius:12px;
+      background:#fff;display:flex;align-items:center;justify-content:center;flex:none;
+      border:1px solid var(--border);
+    }
+    .card h3{font-size:16.5px;margin-bottom:5px}
+    .card p{font-size:14.5px}
+
+    /* ---------- Pricing: wider, breathing room, featured card scaled up ---------- */
+    #pricing h2, #pricing .lead{text-align:center;margin-left:auto;margin-right:auto}
+    .packs{max-width:920px;margin:0 auto;gap:22px;position:relative;z-index:1}
+    .pack{padding:30px 22px}
+    .pack.featured{padding-top:36px;transform:scale(1.045)}
+
+    /* ---------- FAQ: two-column layout to use the width ---------- */
+    #faq h2, #faq .lead{text-align:center;margin-left:auto;margin-right:auto}
+    .faq{max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:28px 40px;position:relative;z-index:1}
+    .faq > div{padding-bottom:4px}
+
+    footer{padding:40px 0 56px}
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <header>
+<header>
+<div class="wrap-wide">
     <div class="brand">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5.6H18L13.5 11l2 6L10 14l-5.5 3 2-6L2 7.6h5.6z" fill="currentColor"/></svg>
       Fyndkollen
@@ -105,78 +312,141 @@
         <button class="lang-btn" id="lang-en">EN</button>
       </div>
     </div>
-  </header>
+</div>
+</header>
 
-  <div class="hero">
-    <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span></h1>
-    <p data-i18n="heroP">Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.</p>
-    <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
-    <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 analyser ingår direkt, inget kort behövs.</div>
-    <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Se priser</a></div>
+<div class="band">
+  <div class="band-bg" aria-hidden="true"></div>
+  <div class="wrap-wide">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="dot"></span>Chrome-tillägg för Blocket</span>
+        <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span></h1>
+        <p data-i18n="heroP">Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.</p>
+        <div class="hero-actions">
+          <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
+          <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 gratiskrediter ingår direkt, inget kort behövs.</div>
+          <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Se priser</a></div>
+        </div>
+        <div class="trust-strip" aria-hidden="true">
+          <span>Prisdata från</span>
+          <span class="src">Blocket</span>
+          <span class="src">Tradera</span>
+          <span class="src">Prisjakt</span>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="browser-mock">
+          <div class="browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">blocket.se/annons/…</div>
+          </div>
+          <div class="browser-body">
+            <div class="listing-mock">
+              <div class="ph"></div>
+              <div class="ttl"></div>
+              <div class="sub"></div>
+              <div class="price">1 200 kr</div>
+              <div class="meta">Stockholm · Idag</div>
+            </div>
+            <div class="badge-float">
+              <svg width="12" height="12" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5.6H18L13.5 11l2 6L10 14l-5.5 3 2-6L2 7.6h5.6z" fill="currentColor"/></svg>
+              Fyndkollen
+            </div>
+            <div class="result-card">
+              <div class="rc-head">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5.6H18L13.5 11l2 6L10 14l-5.5 3 2-6L2 7.6h5.6z" fill="currentColor"/></svg>
+                <b>Fyndkollen</b>
+              </div>
+              <div class="rc-verdict"><span class="dot"></span>Bra fynd</div>
+              <div class="rc-row"><span>Marknadsvärde</span><b>1 650 kr</b></div>
+              <div class="rc-row"><span>Annonspris</span><b>1 200 kr</b></div>
+              <div class="rc-row"><span>Skick</span><b>Mycket bra</b></div>
+              <div class="rc-margin"><span>Möjlig vinst</span><b>+450 kr</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-trust">
+          <div><b>3</b>&nbsp;marknader jämförs</div>
+          <div><b>5</b>&nbsp;gratiskrediter direkt</div>
+          <div><b>0</b>&nbsp;prenumerationer</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <section id="features">
-  <div class="wrap">
+  <div class="wrap-wide">
     <h2 data-i18n="featuresH2">Vad tillägget faktiskt gör</h2>
     <p class="lead" data-i18n="featuresLead">Fyndkollen läser annonsen, värderar objektet och säger rakt ut om priset är ett fynd, rimligt eller för högt.</p>
-    <div class="grid">
-      <div class="card"><div class="ic">🔍</div><h3 data-i18n="f1h">Identifierar och prissätter direkt i annonsen</h3><p data-i18n="f1p">Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.</p></div>
-      <div class="card"><div class="ic">📸</div><h3 data-i18n="f2h">Skick från foto eller snabba frågor</h3><p data-i18n="f2p">Tillägget bedömer skicket utifrån bilderna i annonsen, eller ställer några snabba flervalsfrågor när foton saknas eller inte räcker till.</p></div>
-      <div class="card"><div class="ic">💰</div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">Värderingen hämtas live från Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir träffsäkrare för varje analys som görs.</p></div>
-      <div class="card"><div class="ic">🏷️</div><h3 data-i18n="f4h">Rakt prisomdöme, även i sökresultatet</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.</p></div>
+    <div class="feature-layout">
+      <div class="feature-visual">
+        <div class="fv-row hit"><div class="fv-ic">🔍</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic">📸</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic">💰</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic">🏷️</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+      </div>
+      <div class="grid">
+        <div class="card"><div class="ic">🔍</div><div><h3 data-i18n="f1h">Identifierar och prissätter direkt i annonsen</h3><p data-i18n="f1p">Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.</p></div></div>
+        <div class="card"><div class="ic">📸</div><div><h3 data-i18n="f2h">Snabbkoll eller fotoanalys</h3><p data-i18n="f2p">Svara på några snabba frågor för en snabb koll, eller låt tillägget läsa flera av annonsens bilder för den mest träffsäkra bedömningen.</p></div></div>
+        <div class="card"><div class="ic">💰</div><div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">Värderingen hämtas live från Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir träffsäkrare för varje analys som görs.</p></div></div>
+        <div class="card"><div class="ic">🏷️</div><div><h3 data-i18n="f4h">Rakt prisomdöme, även i sökresultatet</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.</p></div></div>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="pricing">
-  <div class="wrap">
-    <h2 data-i18n="pricingH2">Betala per analys, ingen prenumeration</h2>
+  <div class="band-bg" aria-hidden="true"></div>
+  <div class="wrap-wide">
+    <h2 data-i18n="pricingH2">Köp krediter, ingen prenumeration</h2>
     <p class="lead" data-i18n="pricingLead">Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.</p>
     <div class="packs">
       <div class="pack">
         <div class="pack-name">Starter</div>
-        <div class="pack-credits">100<span data-i18n="packUnit"> analyser</span></div>
+        <div class="pack-credits">100<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">99&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach1">0.99 kr per analys</span></div>
+        <div class="pack-each"><span data-i18n="packEach1">0.99 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/test_6oUcN6cXO4m72gv30D1oI04" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack">
         <div class="pack-name">Standard</div>
-        <div class="pack-credits">200<span data-i18n="packUnit"> analyser</span></div>
+        <div class="pack-credits">200<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">149&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach2">0.75 kr per analys</span></div>
+        <div class="pack-each"><span data-i18n="packEach2">0.75 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/test_5kQbJ2ga03i34oD9p11oI02" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack featured">
         <div class="pack-badge" data-i18n="bestValue">Bäst värde</div>
         <div class="pack-name">Pro</div>
-        <div class="pack-credits">1000<span data-i18n="packUnit"> analyser</span></div>
+        <div class="pack-credits">1000<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">499&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach3">0.50 kr per analys</span></div>
+        <div class="pack-each"><span data-i18n="packEach3">0.50 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/test_8x28wQ3ne8Cn8ET30D1oI01" data-i18n="buyBtn">Köp krediter</a>
       </div>
     </div>
-    <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratis analyser vid start. Inget kort krävs.</div>
+    <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratiskrediter vid start. Inget kort krävs.</div>
     <div class="free-note" style="text-align:center;margin-top:4px" data-i18n="testNote">⚠ Testläge — betalningar dras inte på riktigt förrän detta växlas till Stripes livelänkar.</div>
   </div>
 </section>
 
 <section id="faq">
-  <div class="wrap">
+  <div class="wrap-wide">
     <h2 data-i18n="faqH2">Vanliga frågor</h2>
     <div class="faq">
       <div><h3 data-i18n="q1h">Hur aktiverar jag min licensnyckel efter köp?</h3><p data-i18n-html="q1p">Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, så laddas krediterna in direkt. Ingen ominstallation krävs.</p></div>
-      <div><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3><p data-i18n="q2p">Varje analys av en ny annons drar en kredit. Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne, utan att det kostar dig något. Krediter går aldrig ut, så det finns ingen anledning att stressa.</p></div>
+      <div><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3><p data-i18n="q2p">Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne — ingen kredit dras. Krediter går aldrig ut.</p></div>
       <div><h3 data-i18n="q3h">Om jag köper fler krediter senare, försvinner de gamla?</h3><p data-i18n="q3p">Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.</p></div>
-      <div><h3 data-i18n="q4h">Måste jag ha en egen API-nyckel från Anthropic?</h3><p data-i18n="q4p">Nej, det är valfritt. De flesta använder krediter direkt i tillägget. Vill du hoppa över krediter helt kan du koppla in din egen Anthropic-nyckel i inställningarna och betala Anthropic direkt istället.</p></div>
-      <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n="q5p">Testa gratis innan du bestämmer dig — du får 5 kostnadsfria analyser direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.</p></div>
+      <div><h3 data-i18n="q4h">Vad är skillnaden mellan snabbkollen och fotoanalysen?</h3><p data-i18n="q4p">Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.</p></div>
+      <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n="q5p">Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.</p></div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
+  <div class="wrap-wide">
     <div class="links">
       <a href="privacy.html" data-i18n="footerPrivacy">Integritet</a> ·
       <a href="#pricing" data-i18n="footerPricing">Priser</a> ·
@@ -196,26 +466,26 @@
       heroTitle: 'Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span>',
       heroP: 'Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.',
       installBtn: 'Lägg till i Chrome, gratis',
-      installSub: 'Gratis att installera. 5 analyser ingår direkt, inget kort behövs.',
+      installSub: 'Gratis att installera. 5 gratiskrediter ingår direkt, inget kort behövs.',
       secondaryCta: 'Se priser',
       featuresH2: 'Vad tillägget faktiskt gör',
       featuresLead: 'Fyndkollen läser annonsen, värderar objektet och säger rakt ut om priset är ett fynd, rimligt eller för högt.',
       f1h: 'Identifierar och prissätter direkt i annonsen', f1p: 'Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.',
-      f2h: 'Skick från foto eller snabba frågor', f2p: 'Tillägget bedömer skicket utifrån bilderna i annonsen, eller ställer några snabba flervalsfrågor när foton saknas eller inte räcker till.',
+      f2h: 'Snabbkoll eller fotoanalys', f2p: 'Svara på några snabba frågor för en snabb koll, eller låt tillägget läsa flera av annonsens bilder för den mest träffsäkra bedömningen.',
       f3h: 'Grundat i verklig prisdata', f3p: 'Värderingen hämtas live från Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir träffsäkrare för varje analys som görs.',
       f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.',
-      pricingH2: 'Betala per analys, ingen prenumeration',
+      pricingH2: 'Köp krediter, ingen prenumeration',
       pricingLead: 'Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.',
-      packUnit: ' analyser', packEach1: '0.99 kr per analys', packEach2: '0.75 kr per analys', packEach3: '0.50 kr per analys',
+      packUnit: ' krediter', packEach1: '0.99 kr per kredit', packEach2: '0.75 kr per kredit', packEach3: '0.50 kr per kredit',
       buyBtn: 'Köp krediter', bestValue: 'Bäst värde',
-      freeNote: '5 gratis analyser vid start. Inget kort krävs.',
+      freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
       testNote: '⚠ Testläge — betalningar dras inte på riktigt förrän detta växlas till Stripes livelänkar.',
       faqH2: 'Vanliga frågor',
       q1h: 'Hur aktiverar jag min licensnyckel efter köp?', q1p: 'Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, så laddas krediterna in direkt. Ingen ominstallation krävs.',
-      q2h: 'Hur fungerar krediter och cachning?', q2p: 'Varje analys av en ny annons drar en kredit. Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne, utan att det kostar dig något. Krediter går aldrig ut, så det finns ingen anledning att stressa.',
+      q2h: 'Hur fungerar krediter och cachning?', q2p: 'Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne — ingen kredit dras. Krediter går aldrig ut.',
       q3h: 'Om jag köper fler krediter senare, försvinner de gamla?', q3p: 'Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.',
-      q4h: 'Måste jag ha en egen API-nyckel från Anthropic?', q4p: 'Nej, det är valfritt. De flesta använder krediter direkt i tillägget. Vill du hoppa över krediter helt kan du koppla in din egen Anthropic-nyckel i inställningarna och betala Anthropic direkt istället.',
-      q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis innan du bestämmer dig — du får 5 kostnadsfria analyser direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.',
+      q4h: 'Vad är skillnaden mellan snabbkollen och fotoanalysen?', q4p: 'Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.',
+      q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.',
       footerPrivacy: 'Integritet', footerPricing: 'Priser',
       footerCopy: 'Fyndkollen · Inte anslutet till Blocket.'
     },
@@ -227,26 +497,26 @@
       heroTitle: 'Know if it’s a deal <span class="hl">before you click buy</span>',
       heroP: 'Fyndkollen reads the Blocket listing you’re on, checks the item’s condition, and estimates real market value from live Blocket, Tradera, and Prisjakt data. You get a straight verdict: good deal, fair, or overpriced, plus your resale margin.',
       installBtn: 'Add to Chrome',
-      installSub: 'Free to add. 5 appraisals included, no card required.',
+      installSub: 'Free to add. 5 free credits included, no card required.',
       secondaryCta: 'See pricing first',
       featuresH2: 'What it actually does',
       featuresLead: 'No fluff. Just what happens when you open a listing.',
       f1h: 'Reads the listing for you', f1p: 'Opens on any Blocket listing page, identifies the item, and skips the manual research.',
-      f2h: 'Judges condition from photos', f2p: 'Scores condition from the listing photos, or a quick multiple-choice check when photos aren’t enough.',
+      f2h: 'Quick check or photo analysis', f2p: 'Answer a few quick questions for a fast check, or let the extension read several of the listing photos for the most accurate read.',
       f3h: 'Grounded market pricing', f3p: 'Estimates real market value from live Blocket, Tradera, and Prisjakt data plus a price memory that sharpens with every appraisal run.',
       f4h: 'Deal score on every card', f4p: 'Shows a deal-score badge directly on listing cards while you scroll search results, so you know before you click.',
-      pricingH2: 'Pay only for what you use',
-      pricingLead: 'Credit packs, no subscription. Start with 5 free appraisals, top up when you run out.',
-      packUnit: ' appraisals', packEach1: '0.99 kr per appraisal', packEach2: '0.75 kr per appraisal', packEach3: '0.50 kr per appraisal',
+      pricingH2: 'Buy credits, no subscription',
+      pricingLead: 'Credits never expire. Top up whenever you need — it just adds to your balance.',
+      packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit',
       buyBtn: 'Get credits', bestValue: 'Best value',
-      freeNote: 'Credits never expire. No subscription, ever.',
+      freeNote: '5 free credits to start. No card required.',
       testNote: '⚠ Test mode — payments won’t be charged for real until this is switched to live Stripe links.',
       faqH2: 'Questions people actually ask',
       q1h: 'How do I activate my license key after buying credits?', q1p: 'After checkout you get a license key by email. Open the Fyndkollen extension popup, paste it into the "Fyndkollen Pro" box, and click Activate — your credits are available right away, no reinstall needed.',
-      q2h: 'How do credits and caching actually work?', q2p: 'Each appraisal costs one credit. If someone else already appraised that exact listing, you see their result for free and no credit is deducted. That shared price memory is also what makes valuations more accurate over time.',
+      q2h: 'How do credits and caching actually work?', q2p: 'The quick check costs 1 credit, the photo analysis costs 5 (it’s the more accurate option, priced for the extra work it does). If someone else already appraised that exact listing, you see their result for free — no credit spent. Credits never expire.',
       q3h: 'If I buy more credits later, do they stack?', q3p: 'Yes. Buy another pack with the same email and the new credits are added to your existing license key’s balance. Nothing resets, and unused credits never expire.',
-      q4h: 'Do I need my own Anthropic API key to use Fyndkollen?', q4p: 'No. Credit packs work out of the box with no key required. If you already have an Anthropic API key, you can enter it in the extension instead and run appraisals through it, bypassing credits entirely.',
-      q5h: 'What’s the refund policy on credit packs?', q5p: 'Credits are billed pay-as-you-go with no subscription to cancel. If a pack isn’t working as described, contact us before using the credits and we’ll refund the purchase in full.',
+      q4h: 'What’s the difference between the quick check and the photo analysis?', q4p: 'The quick check (1 credit) asks a few multiple-choice questions about condition and is the fastest option. The photo analysis (5 credits) instead reads several of the listing\'s photos and cross-checks them against each other — our most accurate read, priced accordingly.',
+      q5h: 'What’s the refund policy on credit packs?', q5p: 'Try it free before you buy — you get 5 free credits right at install, no card needed. If something goes wrong after a purchase, contact us and we\'ll sort it out.',
       footerPrivacy: 'Privacy', footerPricing: 'Pricing',
       footerCopy: 'Fyndkollen · Not affiliated with Blocket.'
     }
@@ -278,5 +548,22 @@
   document.getElementById('lang-sv').addEventListener('click', function() { applyLang('sv'); });
   document.getElementById('lang-en').addEventListener('click', function() { applyLang('en'); });
 </script>
+
+<style>
+  @media(max-width:979px){
+    /* .hero-visual, .feature-visual, and .trust-strip are desktop-only CSS/SVG
+       elements — their layout rules only exist inside the >=980px media query
+       above, so without this they'd show as unstyled raw text on narrower screens. */
+    .hero-visual,.feature-visual,.trust-strip{display:none}
+  }
+  @media(max-width:640px){
+    .hero h1{font-size:32px}
+    .grid{grid-template-columns:1fr}
+    .packs{grid-template-columns:1fr}
+    .hdr-right{width:100%;justify-content:space-between}
+    .nav a:first-child{margin-left:0}
+    .band-bg,.trust-strip{display:none}
+  }
+</style>
 </body>
 </html>
