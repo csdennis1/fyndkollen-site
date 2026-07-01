@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title data-i18n="pageTitle">Fyndkollen — vet vad det faktiskt är värt på Blocket</title>
-<meta name="description" data-i18n-attr="content:metaDesc" content="AI-värdering av Blocket-annonser, byggt för den svenska andrahandsmarknaden. Vet vad något faktiskt är värt innan du kontaktar säljaren."/>
+<title data-i18n="pageTitle">Fyndkollen: Vet om Blocket-annonsen är ett fynd</title>
+<meta name="description" content="Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Se direkt om priset är ett fynd, rimligt eller för högt."/>
+<!-- TODO: replace CHROME_STORE_URL below (both occurrences) with your real Chrome Web Store listing URL once published -->
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
@@ -19,8 +20,10 @@
   header{padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:14px;color:#3D2F1F}
   .brand svg{color:var(--accent)}
-  .hdr-right{display:flex;align-items:center;gap:18px}
+  .hdr-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
   .nav a{font-size:13px;color:var(--mid);margin-left:18px}
+  .install-pill{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:12.5px;padding:8px 16px;border-radius:20px;white-space:nowrap;transition:background .15s}
+  .install-pill:hover{background:var(--accent-h)}
   .lang-tog{display:flex;gap:4px}
   .lang-btn{font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s}
   .lang-btn:hover{border-color:var(--accent);color:var(--accent)}
@@ -34,6 +37,9 @@
   .cta{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:16px;padding:14px 30px;border-radius:12px;box-shadow:0 2px 10px rgba(204,107,44,.3);transition:background .15s,box-shadow .15s}
   .cta:hover{background:var(--accent-h);box-shadow:0 4px 16px rgba(204,107,44,.4)}
   .cta-sub{font-size:13px;color:var(--muted);margin-top:12px}
+  .secondary-cta{margin-top:14px;font-size:13.5px}
+  .secondary-cta a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
+  .secondary-cta a:hover{color:var(--accent)}
 
   /* Sections */
   section{padding:40px 0;border-top:1px solid var(--border)}
@@ -70,7 +76,13 @@
   footer .links{margin-bottom:8px}
   footer .links a{margin:0 8px}
 
-  @media(max-width:640px){.hero h1{font-size:32px}.grid{grid-template-columns:1fr}.packs{grid-template-columns:1fr}}
+  @media(max-width:640px){
+    .hero h1{font-size:32px}
+    .grid{grid-template-columns:1fr}
+    .packs{grid-template-columns:1fr}
+    .hdr-right{width:100%;justify-content:space-between}
+    .nav a:first-child{margin-left:0}
+  }
 </style>
 </head>
 <body>
@@ -85,8 +97,9 @@
       <nav class="nav">
         <a href="#features" data-i18n="navFeatures">Funktioner</a>
         <a href="#pricing" data-i18n="navPricing">Priser</a>
-        <a href="#faq" data-i18n="navFaq">Frågor</a>
+        <a href="#faq" data-i18n="navFaq">Vanliga frågor</a>
       </nav>
+      <a class="install-pill" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installNavBtn">Lägg till gratis</a>
       <div class="lang-tog">
         <button class="lang-btn" id="lang-sv">SV</button>
         <button class="lang-btn" id="lang-en">EN</button>
@@ -95,68 +108,69 @@
   </header>
 
   <div class="hero">
-    <h1 data-i18n-html="heroTitle">Vet vad det faktiskt är <span class="hl">värt</span><br/>innan du kontaktar säljaren</h1>
-    <p data-i18n="heroP">Fyndkollen sätter ett AI-baserat fyndbetyg på varje Blocket-annons — skick, verkligt marknadsvärde och din vinst på ett ögonblick. Byggt för den svenska andrahandsmarknaden.</p>
-    <a class="cta" id="buy" href="#pricing" data-i18n="ctaMain">Skaffa krediter</a>
-    <div class="cta-sub" data-i18n="ctaSub">Betala per analys · krediter går aldrig ut · 5 gratis analyser innan du behöver betala, inget kort krävs</div>
+    <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span></h1>
+    <p data-i18n="heroP">Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.</p>
+    <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
+    <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 analyser ingår direkt, inget kort behövs.</div>
+    <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Se priser</a></div>
   </div>
 </div>
 
 <section id="features">
   <div class="wrap">
-    <h2 data-i18n="featuresH2">Vad den gör</h2>
-    <p class="lead" data-i18n="featuresLead">Den läser annonsen, bedömer föremålets skick från bilderna, och prissätter det mot den verkliga svenska andrahandsmarknaden.</p>
+    <h2 data-i18n="featuresH2">Vad tillägget faktiskt gör</h2>
+    <p class="lead" data-i18n="featuresLead">Fyndkollen läser annonsen, värderar objektet och säger rakt ut om priset är ett fynd, rimligt eller för högt.</p>
     <div class="grid">
-      <div class="card"><div class="ic">⭐</div><h3 data-i18n="f1h">Snabbt fyndbetyg</h3><p data-i18n="f1p">Ett betyg 1–10 och en bedömning på varje annons — se de underprissatta fynden på en gång.</p></div>
-      <div class="card"><div class="ic">🔎</div><h3 data-i18n="f2h">Verkligt marknadsvärde</h3><p data-i18n="f2p">Grundat i priser från Blocket, Tradera och Prisjakt, plus den lokala data tillägget lär sig medan du surfar.</p></div>
-      <div class="card"><div class="ic">💰</div><h3 data-i18n="f3h">Vinst, uträknat åt dig</h3><p data-i18n="f3p">Inköpspris → återförsäljningsvärde → uppskattad vinst och marginal, efter avgifter. Ingen huvudräkning.</p></div>
-      <div class="card"><div class="ic">🇸🇪</div><h3 data-i18n="f4h">Byggt för Sverige</h3><p data-i18n="f4p">Svenska & engelska. Finjusterat för bilar, klockor, elektronik, möbler och kläder.</p></div>
+      <div class="card"><div class="ic">🔍</div><h3 data-i18n="f1h">Identifierar och prissätter direkt i annonsen</h3><p data-i18n="f1p">Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.</p></div>
+      <div class="card"><div class="ic">📸</div><h3 data-i18n="f2h">Skick från foto eller snabba frågor</h3><p data-i18n="f2p">Tillägget bedömer skicket utifrån bilderna i annonsen, eller ställer några snabba flervalsfrågor när foton saknas eller inte räcker till.</p></div>
+      <div class="card"><div class="ic">💰</div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">Värderingen hämtas live från Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir träffsäkrare för varje analys som görs.</p></div>
+      <div class="card"><div class="ic">🏷️</div><h3 data-i18n="f4h">Rakt prisomdöme, även i sökresultatet</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.</p></div>
     </div>
   </div>
 </section>
 
 <section id="pricing">
   <div class="wrap">
-    <h2 data-i18n="pricingH2">Köp krediter</h2>
-    <p class="lead" data-i18n="pricingLead">En kredit = en analys. Redan analyserade annonser är gratis. Krediter går aldrig ut, och påfyllningar läggs på samma nyckel — använd bara samma e-post.</p>
+    <h2 data-i18n="pricingH2">Betala per analys, ingen prenumeration</h2>
+    <p class="lead" data-i18n="pricingLead">Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.</p>
     <div class="packs">
       <div class="pack">
         <div class="pack-name">Starter</div>
         <div class="pack-credits">100<span data-i18n="packUnit"> analyser</span></div>
         <div class="price-tag sm">99&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach1">0.99 kr / analys</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/test_6oUcN6cXO4m72gv30D1oI04" data-i18n="buyBtn">Köp</a>
+        <div class="pack-each"><span data-i18n="packEach1">0.99 kr per analys</span></div>
+        <a class="cta sm" href="https://buy.stripe.com/test_6oUcN6cXO4m72gv30D1oI04" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack">
         <div class="pack-name">Standard</div>
         <div class="pack-credits">200<span data-i18n="packUnit"> analyser</span></div>
         <div class="price-tag sm">149&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach2">0.75 kr / analys</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/test_5kQbJ2ga03i34oD9p11oI02" data-i18n="buyBtn">Köp</a>
+        <div class="pack-each"><span data-i18n="packEach2">0.75 kr per analys</span></div>
+        <a class="cta sm" href="https://buy.stripe.com/test_5kQbJ2ga03i34oD9p11oI02" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack featured">
         <div class="pack-badge" data-i18n="bestValue">Bäst värde</div>
         <div class="pack-name">Pro</div>
         <div class="pack-credits">1000<span data-i18n="packUnit"> analyser</span></div>
         <div class="price-tag sm">499&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach3">0.50 kr / analys</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/test_8x28wQ3ne8Cn8ET30D1oI01" data-i18n="buyBtn">Köp</a>
+        <div class="pack-each"><span data-i18n="packEach3">0.50 kr per analys</span></div>
+        <a class="cta sm" href="https://buy.stripe.com/test_8x28wQ3ne8Cn8ET30D1oI01" data-i18n="buyBtn">Köp krediter</a>
       </div>
     </div>
-    <div class="free-note" style="text-align:center" data-i18n="freeNote">Börja gratis: 5 analyser ingår, inget kort krävs.</div>
+    <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratis analyser vid start. Inget kort krävs.</div>
     <div class="free-note" style="text-align:center;margin-top:4px" data-i18n="testNote">⚠ Testläge — betalningar dras inte på riktigt förrän detta växlas till Stripes livelänkar.</div>
   </div>
 </section>
 
 <section id="faq">
   <div class="wrap">
-    <h2 data-i18n="faqH2">Frågor</h2>
+    <h2 data-i18n="faqH2">Vanliga frågor</h2>
     <div class="faq">
-      <div><h3 data-i18n="q1h">Hur aktiverar jag nyckeln efter köp?</h3><p data-i18n-html="q1p">Du får en <strong>FS-XXXX-XXXX</strong>-nyckel via e-post några sekunder efter betalning. Öppna Fyndkollen-tillägget, klistra in den i rutan "Fyndkollen Pro" och klicka Aktivera.</p></div>
-      <div><h3 data-i18n="q2h">Hur fungerar krediter?</h3><p data-i18n="q2p">En kredit = en analys. Om en annons nyligen analyserats av någon annan får du det cachade resultatet gratis — ingen kredit dras. Krediter går aldrig ut.</p></div>
-      <div><h3 data-i18n="q3h">Läggs krediter på samma nyckel om jag köper igen?</h3><p data-i18n="q3p">Ja. Köp ett till paket med samma e-post så läggs krediterna automatiskt på din befintliga nyckel — ingen ny nyckel att hålla koll på.</p></div>
-      <div><h3 data-i18n="q4h">Behöver jag min egen AI-nyckel?</h3><p data-i18n="q4p">Nej. Krediter går genom vår värdtjänst. (Du kan fortfarande använda din egen Anthropic-nyckel om du vill — det kringgår krediter helt.)</p></div>
-      <div><h3 data-i18n="q5h">Återbetalning?</h3><p data-i18n="q5p">Gratisnivån låter dig testa innan du köper. Om ett paket inte fungerar för dig, svara på ditt kvitto inom 14 dagar så återbetalar vi oanvända krediter.</p></div>
+      <div><h3 data-i18n="q1h">Hur aktiverar jag min licensnyckel efter köp?</h3><p data-i18n-html="q1p">Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, så laddas krediterna in direkt. Ingen ominstallation krävs.</p></div>
+      <div><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3><p data-i18n="q2p">Varje analys av en ny annons drar en kredit. Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne, utan att det kostar dig något. Krediter går aldrig ut, så det finns ingen anledning att stressa.</p></div>
+      <div><h3 data-i18n="q3h">Om jag köper fler krediter senare, försvinner de gamla?</h3><p data-i18n="q3p">Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.</p></div>
+      <div><h3 data-i18n="q4h">Måste jag ha en egen API-nyckel från Anthropic?</h3><p data-i18n="q4p">Nej, det är valfritt. De flesta använder krediter direkt i tillägget. Vill du hoppa över krediter helt kan du koppla in din egen Anthropic-nyckel i inställningarna och betala Anthropic direkt istället.</p></div>
+      <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n="q5p">Testa gratis innan du bestämmer dig — du får 5 kostnadsfria analyser direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.</p></div>
     </div>
   </div>
 </section>
@@ -168,67 +182,71 @@
       <a href="#pricing" data-i18n="footerPricing">Priser</a> ·
       <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>
     </div>
-    <div>© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen · Inte kopplat till Blocket.</span></div>
+    <div>© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen · Inte anslutet till Blocket.</span></div>
   </div>
 </footer>
 
 <script>
   var DICT = {
     sv: {
-      pageTitle: 'Fyndkollen — vet vad det faktiskt är värt på Blocket',
-      metaDesc: 'AI-värdering av Blocket-annonser, byggt för den svenska andrahandsmarknaden. Vet vad något faktiskt är värt innan du kontaktar säljaren.',
-      navFeatures: 'Funktioner', navPricing: 'Priser', navFaq: 'Frågor',
-      heroTitle: 'Vet vad det faktiskt är <span class="hl">värt</span><br/>innan du kontaktar säljaren',
-      heroP: 'Fyndkollen sätter ett AI-baserat fyndbetyg på varje Blocket-annons — skick, verkligt marknadsvärde och din vinst på ett ögonblick. Byggt för den svenska andrahandsmarknaden.',
-      ctaMain: 'Skaffa krediter',
-      ctaSub: 'Betala per analys · krediter går aldrig ut · 5 gratis analyser innan du behöver betala, inget kort krävs',
-      featuresH2: 'Vad den gör',
-      featuresLead: 'Den läser annonsen, bedömer föremålets skick från bilderna, och prissätter det mot den verkliga svenska andrahandsmarknaden.',
-      f1h: 'Snabbt fyndbetyg', f1p: 'Ett betyg 1–10 och en bedömning på varje annons — se de underprissatta fynden på en gång.',
-      f2h: 'Verkligt marknadsvärde', f2p: 'Grundat i priser från Blocket, Tradera och Prisjakt, plus den lokala data tillägget lär sig medan du surfar.',
-      f3h: 'Vinst, uträknat åt dig', f3p: 'Inköpspris → återförsäljningsvärde → uppskattad vinst och marginal, efter avgifter. Ingen huvudräkning.',
-      f4h: 'Byggt för Sverige', f4p: 'Svenska & engelska. Finjusterat för bilar, klockor, elektronik, möbler och kläder.',
-      pricingH2: 'Köp krediter',
-      pricingLead: 'En kredit = en analys. Redan analyserade annonser är gratis. Krediter går aldrig ut, och påfyllningar läggs på samma nyckel — använd bara samma e-post.',
-      packUnit: ' analyser', packEach1: '0.99 kr / analys', packEach2: '0.75 kr / analys', packEach3: '0.50 kr / analys',
-      buyBtn: 'Köp', bestValue: 'Bäst värde',
-      freeNote: 'Börja gratis: 5 analyser ingår, inget kort krävs.',
+      pageTitle: 'Fyndkollen: Vet om Blocket-annonsen är ett fynd',
+      metaDesc: 'Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Se direkt om priset är ett fynd, rimligt eller för högt.',
+      navFeatures: 'Funktioner', navPricing: 'Priser', navFaq: 'Vanliga frågor',
+      installNavBtn: 'Lägg till gratis',
+      heroTitle: 'Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span>',
+      heroP: 'Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.',
+      installBtn: 'Lägg till i Chrome, gratis',
+      installSub: 'Gratis att installera. 5 analyser ingår direkt, inget kort behövs.',
+      secondaryCta: 'Se priser',
+      featuresH2: 'Vad tillägget faktiskt gör',
+      featuresLead: 'Fyndkollen läser annonsen, värderar objektet och säger rakt ut om priset är ett fynd, rimligt eller för högt.',
+      f1h: 'Identifierar och prissätter direkt i annonsen', f1p: 'Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.',
+      f2h: 'Skick från foto eller snabba frågor', f2p: 'Tillägget bedömer skicket utifrån bilderna i annonsen, eller ställer några snabba flervalsfrågor när foton saknas eller inte räcker till.',
+      f3h: 'Grundat i verklig prisdata', f3p: 'Värderingen hämtas live från Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir träffsäkrare för varje analys som görs.',
+      f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.',
+      pricingH2: 'Betala per analys, ingen prenumeration',
+      pricingLead: 'Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.',
+      packUnit: ' analyser', packEach1: '0.99 kr per analys', packEach2: '0.75 kr per analys', packEach3: '0.50 kr per analys',
+      buyBtn: 'Köp krediter', bestValue: 'Bäst värde',
+      freeNote: '5 gratis analyser vid start. Inget kort krävs.',
       testNote: '⚠ Testläge — betalningar dras inte på riktigt förrän detta växlas till Stripes livelänkar.',
-      faqH2: 'Frågor',
-      q1h: 'Hur aktiverar jag nyckeln efter köp?', q1p: 'Du får en <strong>FS-XXXX-XXXX</strong>-nyckel via e-post några sekunder efter betalning. Öppna Fyndkollen-tillägget, klistra in den i rutan "Fyndkollen Pro" och klicka Aktivera.',
-      q2h: 'Hur fungerar krediter?', q2p: 'En kredit = en analys. Om en annons nyligen analyserats av någon annan får du det cachade resultatet gratis — ingen kredit dras. Krediter går aldrig ut.',
-      q3h: 'Läggs krediter på samma nyckel om jag köper igen?', q3p: 'Ja. Köp ett till paket med samma e-post så läggs krediterna automatiskt på din befintliga nyckel — ingen ny nyckel att hålla koll på.',
-      q4h: 'Behöver jag min egen AI-nyckel?', q4p: 'Nej. Krediter går genom vår värdtjänst. (Du kan fortfarande använda din egen Anthropic-nyckel om du vill — det kringgår krediter helt.)',
-      q5h: 'Återbetalning?', q5p: 'Gratisnivån låter dig testa innan du köper. Om ett paket inte fungerar för dig, svara på ditt kvitto inom 14 dagar så återbetalar vi oanvända krediter.',
+      faqH2: 'Vanliga frågor',
+      q1h: 'Hur aktiverar jag min licensnyckel efter köp?', q1p: 'Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, så laddas krediterna in direkt. Ingen ominstallation krävs.',
+      q2h: 'Hur fungerar krediter och cachning?', q2p: 'Varje analys av en ny annons drar en kredit. Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne, utan att det kostar dig något. Krediter går aldrig ut, så det finns ingen anledning att stressa.',
+      q3h: 'Om jag köper fler krediter senare, försvinner de gamla?', q3p: 'Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.',
+      q4h: 'Måste jag ha en egen API-nyckel från Anthropic?', q4p: 'Nej, det är valfritt. De flesta använder krediter direkt i tillägget. Vill du hoppa över krediter helt kan du koppla in din egen Anthropic-nyckel i inställningarna och betala Anthropic direkt istället.',
+      q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis innan du bestämmer dig — du får 5 kostnadsfria analyser direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.',
       footerPrivacy: 'Integritet', footerPricing: 'Priser',
-      footerCopy: 'Fyndkollen · Inte kopplat till Blocket.'
+      footerCopy: 'Fyndkollen · Inte anslutet till Blocket.'
     },
     en: {
-      pageTitle: 'Fyndkollen — know what it\'s really worth on Blocket',
-      metaDesc: "AI appraisals for Blocket listings, built for the Swedish second-hand market. Know what something is really worth before you message the seller.",
+      pageTitle: 'Fyndkollen — Know if a Blocket listing is a deal before you buy',
+      metaDesc: 'Fyndkollen is a Chrome extension that appraises Blocket listings on the spot: condition from photos, market value from live Blocket/Tradera/Prisjakt data, and a clear good deal / fair / overpriced verdict with resale margin.',
       navFeatures: 'Features', navPricing: 'Pricing', navFaq: 'FAQ',
-      heroTitle: 'Know what it\'s <span class="hl">really worth</span><br/>before you message the seller',
-      heroP: 'Fyndkollen puts an AI deal score on every Blocket listing — condition, true market value, and your profit at a glance. Built for the Swedish second-hand market.',
-      ctaMain: 'Get credits',
-      ctaSub: 'Pay as you go · credits never expire · 5 free appraisals first, no card needed',
-      featuresH2: 'What it does',
-      featuresLead: 'It reads the listing, grades the item from the photos, and prices it against the real Swedish second-hand market.',
-      f1h: 'Instant deal score', f1p: 'A 1–10 score and verdict on every listing — spot the underpriced ones in a glance.',
-      f2h: 'Real market value', f2p: 'Grounded in live Blocket, Tradera and Prisjakt prices plus the local data the extension learns as you browse.',
-      f3h: 'Profit, done for you', f3p: 'Buy price → resale value → estimated profit and margin, after fees. No mental math.',
-      f4h: 'Built for Sweden', f4p: 'Swedish & English. Tuned for cars, watches, electronics, furniture and clothing.',
-      pricingH2: 'Buy credits',
-      pricingLead: 'One credit = one appraisal. Cached listings are free. Credits never expire, and refills stack onto the same key — just use the same email.',
-      packUnit: ' credits', packEach1: '0.99 kr / appraisal', packEach2: '0.75 kr / appraisal', packEach3: '0.50 kr / appraisal',
-      buyBtn: 'Buy', bestValue: 'Best value',
-      freeNote: 'Start free: 5 appraisals included, no card required.',
-      testNote: "⚠ Test mode — payments won't be charged for real until this is switched to live Stripe links.",
-      faqH2: 'Questions',
-      q1h: 'How do I activate after buying?', q1p: 'You\'ll get an <strong>FS-XXXX-XXXX</strong> key by email seconds after payment. Open the Fyndkollen extension, paste it into the "Fyndkollen Pro" box, and click Activate.',
-      q2h: 'How do credits work?', q2p: 'One credit = one appraisal. If a listing was recently appraised by anyone, you get the cached result for free — no credit spent. Credits never expire.',
-      q3h: 'Do credits stack if I buy again?', q3p: 'Yes. Buy another pack with the same email and the credits add onto your existing key automatically — no new key to manage.',
-      q4h: 'Do I need my own AI key?', q4p: 'No. Credits run through our hosted backend. (You can still plug in your own Anthropic key if you prefer — that bypasses credits entirely.)',
-      q5h: 'Refunds?', q5p: "The free tier lets you try before you buy. If a pack doesn't work for you, reply to your receipt within 14 days and we'll refund unused credits.",
+      installNavBtn: 'Add to Chrome',
+      heroTitle: 'Know if it’s a deal <span class="hl">before you click buy</span>',
+      heroP: 'Fyndkollen reads the Blocket listing you’re on, checks the item’s condition, and estimates real market value from live Blocket, Tradera, and Prisjakt data. You get a straight verdict: good deal, fair, or overpriced, plus your resale margin.',
+      installBtn: 'Add to Chrome',
+      installSub: 'Free to add. 5 appraisals included, no card required.',
+      secondaryCta: 'See pricing first',
+      featuresH2: 'What it actually does',
+      featuresLead: 'No fluff. Just what happens when you open a listing.',
+      f1h: 'Reads the listing for you', f1p: 'Opens on any Blocket listing page, identifies the item, and skips the manual research.',
+      f2h: 'Judges condition from photos', f2p: 'Scores condition from the listing photos, or a quick multiple-choice check when photos aren’t enough.',
+      f3h: 'Grounded market pricing', f3p: 'Estimates real market value from live Blocket, Tradera, and Prisjakt data plus a price memory that sharpens with every appraisal run.',
+      f4h: 'Deal score on every card', f4p: 'Shows a deal-score badge directly on listing cards while you scroll search results, so you know before you click.',
+      pricingH2: 'Pay only for what you use',
+      pricingLead: 'Credit packs, no subscription. Start with 5 free appraisals, top up when you run out.',
+      packUnit: ' appraisals', packEach1: '0.99 kr per appraisal', packEach2: '0.75 kr per appraisal', packEach3: '0.50 kr per appraisal',
+      buyBtn: 'Get credits', bestValue: 'Best value',
+      freeNote: 'Credits never expire. No subscription, ever.',
+      testNote: '⚠ Test mode — payments won’t be charged for real until this is switched to live Stripe links.',
+      faqH2: 'Questions people actually ask',
+      q1h: 'How do I activate my license key after buying credits?', q1p: 'After checkout you get a license key by email. Open the Fyndkollen extension popup, paste it into the "Fyndkollen Pro" box, and click Activate — your credits are available right away, no reinstall needed.',
+      q2h: 'How do credits and caching actually work?', q2p: 'Each appraisal costs one credit. If someone else already appraised that exact listing, you see their result for free and no credit is deducted. That shared price memory is also what makes valuations more accurate over time.',
+      q3h: 'If I buy more credits later, do they stack?', q3p: 'Yes. Buy another pack with the same email and the new credits are added to your existing license key’s balance. Nothing resets, and unused credits never expire.',
+      q4h: 'Do I need my own Anthropic API key to use Fyndkollen?', q4p: 'No. Credit packs work out of the box with no key required. If you already have an Anthropic API key, you can enter it in the extension instead and run appraisals through it, bypassing credits entirely.',
+      q5h: 'What’s the refund policy on credit packs?', q5p: 'Credits are billed pay-as-you-go with no subscription to cancel. If a pack isn’t working as described, contact us before using the credits and we’ll refund the purchase in full.',
       footerPrivacy: 'Privacy', footerPricing: 'Pricing',
       footerCopy: 'Fyndkollen · Not affiliated with Blocket.'
     }
