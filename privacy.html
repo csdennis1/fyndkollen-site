@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Privacy Policy — Fyndkollen</title>
+<meta name="description" content="Fyndkollen privacy policy — what data the extension stores, what's sent to Anthropic and Stripe, and your rights."/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#FAFAF8;--surface:#F4F0EA;--border:#EBE5DC;--text:#1A1A1A;
+    --mid:#6B5744;--muted:#A89880;--accent:#CC6B2C;
+  }
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent)}
+  .wrap{max-width:680px;margin:0 auto;padding:0 22px 60px}
+  header{padding:22px 0;display:flex;align-items:center;justify-content:space-between}
+  .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:14px;color:#3D2F1F;text-decoration:none}
+  .brand svg{color:var(--accent)}
+  h1{font-size:28px;letter-spacing:-.5px;margin:20px 0 4px}
+  .meta{font-size:13px;color:var(--muted);margin-bottom:20px}
+  .draft{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--mid);margin-bottom:28px}
+  h2{font-size:18px;margin:28px 0 8px;letter-spacing:-.2px}
+  p,li{font-size:15px;color:var(--mid)}
+  ul{padding-left:20px;margin-top:6px}
+  li{margin-bottom:4px}
+  strong{color:var(--text)}
+  footer{padding:30px 0;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="index.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5.6H18L13.5 11l2 6L10 14l-5.5 3 2-6L2 7.6h5.6z" fill="currentColor"/></svg>
+      Fyndkollen
+    </a>
+  </header>
+
+  <h1>Privacy Policy</h1>
+  <div class="meta">Last updated: 2026-07-01 · Contact: <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a></div>
+
+  <div class="draft"><strong>Draft — not legal advice.</strong> This has been checked for completeness but should be reviewed against GDPR and Chrome Web Store requirements, ideally by a lawyer, before relying on it for a real launch.</div>
+
+  <h2>Summary</h2>
+  <p>Fyndkollen is a browser extension that helps you evaluate second-hand listings on Blocket. It runs locally in your browser. The only data that ever leaves your device is the listing content you choose to analyze, sent to the AI provider to produce a score.</p>
+
+  <h2>What the extension stores on your device</h2>
+  <ul>
+    <li>Your settings (extension on/off, language).</li>
+    <li>Your Anthropic API key, if you use your own — stored in Chrome's extension storage on your device and sent only to Anthropic when you run an analysis. It is never sent to us or any third party.</li>
+    <li>A local price database built from listings you view, used to estimate market value.</li>
+    <li>A random installation identifier (a UUID). It is not linked to your name, email, Google account, or IP address by us.</li>
+  </ul>
+
+  <h2>Data sent when you analyze a listing</h2>
+  <p>When you click <strong>Appraise</strong>, the listing's title, description, price, location text, and photos are sent to <strong>Anthropic</strong> (the AI provider) to generate an appraisal. This happens only when you actively request an analysis. Anthropic's handling of that data is governed by Anthropic's own privacy policy and API terms.</p>
+  <p>If you use the hosted (no-key) mode, the request is relayed through our backend, which holds the AI key on your behalf. In that case we record only your random installation identifier and a count of appraisals used, to enforce free-tier limits. We do not store listing content, titles, URLs, seller details, or images.</p>
+
+  <h2>Buying credits (Stripe)</h2>
+  <p>If you purchase appraisal credits, checkout is handled entirely by <strong>Stripe</strong> — we never see or store your card details. Stripe passes us your email address and the pack you bought so we can email you a license key (e.g. <code>FS-XXXX-XXXX</code>) and grant the correct number of credits. We store: your email, the license key, the credit balance, and a record of the Stripe order (amount, currency, order id) to prevent duplicate fulfillment and to let repeat purchases stack credits onto the same key. This data is retained for as long as your license key is active, plus standard accounting/bookkeeping retention requirements. Stripe's handling of your payment data is governed by Stripe's own privacy policy.</p>
+
+  <h2>Legal basis (GDPR)</h2>
+  <p>Processing is necessary to provide the appraisal service you explicitly request (Art. 6(1)(b) GDPR). Local processing on your device requires no transfer to us.</p>
+
+  <h2>Your rights</h2>
+  <p>You can clear your local data at any time from the extension popup ("Clear all"). For questions or data requests, contact <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.</p>
+
+  <h2>Data retention & security</h2>
+  <p>In hosted mode, the installation identifier and appraisal count are retained to enforce usage limits. Access to the backend is restricted to the extension's service functions.</p>
+
+  <h2>Changes</h2>
+  <p>We may update this policy; material changes will be reflected by the "Last updated" date.</p>
+
+  <h2>Third parties</h2>
+  <ul>
+    <li><strong>Anthropic</strong> — AI analysis of listings you choose to analyze.</li>
+    <li><strong>Supabase</strong> — hosting for the optional no-key appraisal service, its usage counts, and license/credit records.</li>
+    <li><strong>Stripe</strong> — payment processing for credit purchases. We never see your card details.</li>
+    <li><strong>Resend</strong> (if enabled) — delivers your license key by email after purchase.</li>
+  </ul>
+</div>
+<footer>© 2026 Fyndkollen · Not affiliated with Blocket.</footer>
+</body>
+</html>
