@@ -5,9 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title data-i18n="pageTitle">Fyndkollen: Vet om Blocket-annonsen är ett fynd</title>
 <meta name="description" content="Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Se direkt om priset är ett fynd, rimligt eller för högt."/>
+<link rel="canonical" href="https://csdennis1.github.io/fyndkollen-site/"/>
+<link rel="alternate" hreflang="sv" href="https://csdennis1.github.io/fyndkollen-site/"/>
+<link rel="alternate" hreflang="en" href="https://csdennis1.github.io/fyndkollen-site/?lang=en"/>
+<link rel="alternate" hreflang="x-default" href="https://csdennis1.github.io/fyndkollen-site/"/>
+<link rel="icon" type="image/png" sizes="48x48" href="icon48.png"/>
+<link rel="icon" type="image/png" sizes="128x128" href="icon128.png"/>
+<link rel="apple-touch-icon" href="icon128.png"/>
+<meta name="theme-color" content="#CC6B2C"/>
+<link rel="preconnect" href="https://buy.stripe.com"/>
+<link rel="dns-prefetch" href="https://buy.stripe.com"/>
+<!-- Social sharing (Open Graph + Twitter). og:image uses the extension icon until a real
+     1200x630 share card exists — small but correct beats missing. -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Fyndkollen"/>
+<meta property="og:title" content="Fyndkollen: Vet om Blocket-annonsen är ett fynd"/>
+<meta property="og:description" content="Chrome-tillägg som läser Blocket-annonsen, bedömer skicket och jämför mot verklig prisdata. Rakt svar: fynd, rimligt eller för dyrt."/>
+<meta property="og:url" content="https://csdennis1.github.io/fyndkollen-site/"/>
+<meta property="og:image" content="https://csdennis1.github.io/fyndkollen-site/icon128.png"/>
+<meta property="og:locale" content="sv_SE"/>
+<meta property="og:locale:alternate" content="en_US"/>
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Fyndkollen: Vet om Blocket-annonsen är ett fynd"/>
+<meta name="twitter:description" content="Chrome-tillägg som läser Blocket-annonsen, bedömer skicket och jämför mot verklig prisdata. Rakt svar: fynd, rimligt eller för dyrt."/>
+<meta name="twitter:image" content="https://csdennis1.github.io/fyndkollen-site/icon128.png"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Fyndkollen",
+  "operatingSystem": "Chrome",
+  "applicationCategory": "BrowserApplication",
+  "description": "Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt.",
+  "url": "https://csdennis1.github.io/fyndkollen-site/",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SEK", "description": "Gratis att installera, 5 gratiskrediter ingår" }
+}
+</script>
 <!-- TODO: replace CHROME_STORE_URL below (both occurrences) with your real Chrome Web Store listing URL once published -->
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  }
+  .cta:focus-visible,.install-pill:focus-visible,.lang-btn:focus-visible,.suggest-textarea:focus-visible,.suggest-email:focus-visible{outline:2px solid #1A1A1A;outline-offset:2px}
+  .nav a:focus-visible,footer a:focus-visible{outline:2px solid #CC6B2C;outline-offset:2px;border-radius:3px}
   :root{
     --bg:#FAFAF8;--surface:#F4F0EA;--border:#EBE5DC;--text:#1A1A1A;
     --mid:#6B5744;--muted:#A89880;--accent:#CC6B2C;--accent-h:#B85C22;--green:#059669;
@@ -49,6 +92,9 @@
   .secondary-cta{margin-top:14px;font-size:13.5px}
   .secondary-cta a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
   .secondary-cta a:hover{color:var(--accent)}
+  .privacy-note{margin-top:16px;font-size:12.5px;color:var(--muted)}
+  .privacy-note a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
+  .privacy-note a:hover{color:var(--accent)}
 
   /* Sections */
   section{padding:40px 0;border-top:1px solid var(--border);position:relative}
@@ -95,6 +141,7 @@
   footer a{color:var(--muted)}
   footer .links{margin-bottom:8px}
   footer .links a{margin:0 8px}
+  .trust-row{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-bottom:10px}
 
   /* ============================================================
      DESKTOP REDESIGN — "Product Visual Anchor" (base concept)
@@ -286,6 +333,7 @@
       background:#fff;display:flex;align-items:center;justify-content:center;flex:none;
       border:1px solid var(--border);
     }
+    .card:hover .ic{background:rgba(204,107,44,.06);border-color:rgba(204,107,44,.3)}
     .card h3{font-size:16.5px;margin-bottom:5px}
     .card p{font-size:14.5px}
 
@@ -299,6 +347,14 @@
     #faq h2, #faq .lead{text-align:center;margin-left:auto;margin-right:auto}
     .faq{max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:28px 40px;position:relative;z-index:1}
     .faq > div{padding-bottom:4px}
+    .faq h3{font-size:16.5px}
+
+    /* ---------- Card hover feedback (features + pricing) ---------- */
+    .card{transition:background .15s}
+    .pack{transition:box-shadow .15s,transform .15s}
+    .pack:hover{box-shadow:0 8px 30px rgba(61,47,31,.12);transform:translateY(-2px)}
+    .pack.featured:hover{transform:translateY(-2px) scale(1.045)}
+    .card .ic{transition:background .15s,border-color .15s}
 
     footer{padding:40px 0 56px}
   }
@@ -332,13 +388,14 @@
   <div class="wrap-wide">
     <div class="hero">
       <div class="hero-copy">
-        <span class="eyebrow"><span class="dot"></span>Chrome-tillägg för Blocket</span>
+        <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">Chrome-tillägg för Blocket</span></span>
         <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span></h1>
         <p data-i18n="heroP">Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.</p>
         <div class="hero-actions">
           <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
-          <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 gratiskrediter ingår direkt, inget kort behövs.</div>
-          <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Se priser</a></div>
+          <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 gratiskrediter ingår direkt — räcker till 5 snabbkollar eller 1 fotoanalys. Inget kort behövs.</div>
+          <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Vad kostar det?</a></div>
+          <div class="privacy-note" data-i18n-html="privacyNote">🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a></div>
         </div>
         <div class="trust-strip" aria-hidden="true">
           <span>Prisdata från</span>
@@ -436,7 +493,7 @@
         <div class="pack-credits">1000<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">499&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach3">0.50 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/test_8x28wQ3ne8Cn8ET30D1oI01" data-i18n="buyBtn">Köp krediter</a>
+        <a class="cta sm" href="https://buy.stripe.com/test_8x28wQ3ne8Cn8ET30D1oI01" data-i18n="buyBtnFeatured">Få Pro – bäst värde</a>
       </div>
     </div>
     <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratiskrediter vid start. Inget kort krävs.</div>
@@ -453,6 +510,9 @@
       <div><h3 data-i18n="q3h">Om jag köper fler krediter senare, försvinner de gamla?</h3><p data-i18n="q3p">Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.</p></div>
       <div><h3 data-i18n="q4h">Vad är skillnaden mellan snabbkollen och fotoanalysen?</h3><p data-i18n="q4p">Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.</p></div>
       <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n="q5p">Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.</p></div>
+      <div><h3 data-i18n="q6h">Vilka webbläsare och enheter fungerar det på?</h3><p data-i18n="q6p">Fyndkollen är ett Chrome-tillägg för datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webbläsare ännu.</p></div>
+      <div><h3 data-i18n="q7h">Varför behöver tillägget läsa Blocket-sidan?</h3><p data-i18n="q7p">För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.</p></div>
+      <div><h3 data-i18n="q8h">Behöver jag vara uppkopplad?</h3><p data-i18n="q8p">Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.</p></div>
     </div>
   </div>
 </section>
@@ -478,6 +538,11 @@
       <a href="#suggest" data-i18n="footerSuggest">Funktionsförslag</a> ·
       <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>
     </div>
+    <div class="trust-row">
+      <span>✓ <span data-i18n="trustNoAccount">Inget konto behövs</span></span>
+      <span>✓ <span data-i18n="trustNoStorage">Vi sparar inte dina sökningar</span></span>
+      <span>✓ <span data-i18n="trustStripe">Betalningar hanteras av Stripe</span></span>
+    </div>
     <div>© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen · Inte anslutet till Blocket.</span></div>
   </div>
 </footer>
@@ -489,11 +554,13 @@
       metaDesc: 'Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Se direkt om priset är ett fynd, rimligt eller för högt.',
       navFeatures: 'Funktioner', navPricing: 'Priser', navFaq: 'Vanliga frågor',
       installNavBtn: 'Lägg till gratis',
+      eyebrow: 'Chrome-tillägg för Blocket',
       heroTitle: 'Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span>',
       heroP: 'Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.',
       installBtn: 'Lägg till i Chrome, gratis',
-      installSub: 'Gratis att installera. 5 gratiskrediter ingår direkt, inget kort behövs.',
-      secondaryCta: 'Se priser',
+      installSub: 'Gratis att installera. 5 gratiskrediter ingår direkt — räcker till 5 snabbkollar eller 1 fotoanalys. Inget kort behövs.',
+      secondaryCta: 'Vad kostar det?',
+      privacyNote: '🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a>',
       featuresH2: 'Vad tillägget faktiskt gör',
       featuresLead: 'Fyndkollen läser annonsen, värderar objektet och säger rakt ut om priset är ett fynd, rimligt eller för högt.',
       f1h: 'Identifierar och prissätter direkt i annonsen', f1p: 'Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.',
@@ -503,7 +570,7 @@
       pricingH2: 'Köp krediter, ingen prenumeration',
       pricingLead: 'Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.',
       packUnit: ' krediter', packEach1: '0.99 kr per kredit', packEach2: '0.75 kr per kredit', packEach3: '0.50 kr per kredit',
-      buyBtn: 'Köp krediter', bestValue: 'Bäst värde',
+      buyBtn: 'Köp krediter', buyBtnFeatured: 'Få Pro – bäst värde', bestValue: 'Bäst värde',
       freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
       testNote: '⚠ Testläge — betalningar dras inte på riktigt förrän detta växlas till Stripes livelänkar.',
       faqH2: 'Vanliga frågor',
@@ -512,6 +579,12 @@
       q3h: 'Om jag köper fler krediter senare, försvinner de gamla?', q3p: 'Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.',
       q4h: 'Vad är skillnaden mellan snabbkollen och fotoanalysen?', q4p: 'Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.',
       q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.',
+      q6h: 'Vilka webbläsare och enheter fungerar det på?', q6p: 'Fyndkollen är ett Chrome-tillägg för datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webbläsare ännu.',
+      q7h: 'Varför behöver tillägget läsa Blocket-sidan?', q7p: 'För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.',
+      q8h: 'Behöver jag vara uppkopplad?', q8p: 'Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.',
+      trustNoAccount: 'Inget konto behövs',
+      trustNoStorage: 'Vi sparar inte dina sökningar',
+      trustStripe: 'Betalningar hanteras av Stripe',
       footerPrivacy: 'Integritet', footerPricing: 'Priser',
       footerCopy: 'Fyndkollen · Inte anslutet till Blocket.',
       suggestH2: 'Har du en idé?',
@@ -530,21 +603,23 @@
       metaDesc: 'Fyndkollen is a Chrome extension that appraises Blocket listings on the spot: condition from photos, market value from live Blocket/Tradera/Prisjakt data, and a clear good deal / fair / overpriced verdict with resale margin.',
       navFeatures: 'Features', navPricing: 'Pricing', navFaq: 'FAQ',
       installNavBtn: 'Add to Chrome',
+      eyebrow: 'Chrome extension for Blocket',
       heroTitle: 'Know if it’s a deal <span class="hl">before you click buy</span>',
       heroP: 'Fyndkollen reads the Blocket listing you’re on, checks the item’s condition, and estimates real market value from live Blocket, Tradera, and Prisjakt data. You get a straight verdict: good deal, fair, or overpriced, plus your resale margin.',
       installBtn: 'Add to Chrome',
-      installSub: 'Free to add. 5 free credits included, no card required.',
-      secondaryCta: 'See pricing first',
+      installSub: 'Free to add. 5 free credits included — enough for 5 quick checks or 1 photo analysis. No card required.',
+      secondaryCta: 'What does it cost?',
+      privacyNote: '🔒 We don\'t store your searches — read our <a href="privacy.html">policy</a>',
       featuresH2: 'What it actually does',
-      featuresLead: 'No fluff. Just what happens when you open a listing.',
+      featuresLead: 'Fyndkollen reads the listing, appraises the item, and tells you straight: good deal, fair price, or overpriced.',
       f1h: 'Reads the listing for you', f1p: 'Opens on any Blocket listing page, identifies the item, and skips the manual research.',
       f2h: 'Quick check or photo analysis', f2p: 'Answer a few quick questions for a fast check, or let the extension read several of the listing photos for the most accurate read.',
       f3h: 'Grounded market pricing', f3p: 'Estimates real market value from live Blocket, Tradera, and Prisjakt data plus a price memory that sharpens with every appraisal run.',
-      f4h: 'Deal score on every card', f4p: 'Shows a deal-score badge directly on listing cards while you scroll search results, so you know before you click.',
+      f4h: 'A straight price verdict, even in search results', f4p: 'You get a clear price verdict and an estimated resale margin — both inside the listing itself and as badges on listing cards while you browse.',
       pricingH2: 'Buy credits, no subscription',
       pricingLead: 'Credits never expire. Top up whenever you need — it just adds to your balance.',
       packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit',
-      buyBtn: 'Get credits', bestValue: 'Best value',
+      buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro — best value', bestValue: 'Best value',
       freeNote: '5 free credits to start. No card required.',
       testNote: '⚠ Test mode — payments won’t be charged for real until this is switched to live Stripe links.',
       faqH2: 'Questions people actually ask',
@@ -553,6 +628,12 @@
       q3h: 'If I buy more credits later, do they stack?', q3p: 'Yes. Buy another pack with the same email and the new credits are added to your existing license key’s balance. Nothing resets, and unused credits never expire.',
       q4h: 'What’s the difference between the quick check and the photo analysis?', q4p: 'The quick check (1 credit) asks a few multiple-choice questions about condition and is the fastest option. The photo analysis (5 credits) instead reads several of the listing\'s photos and cross-checks them against each other — our most accurate read, priced accordingly.',
       q5h: 'What’s the refund policy on credit packs?', q5p: 'Try it free before you buy — you get 5 free credits right at install, no card needed. If something goes wrong after a purchase, contact us and we\'ll sort it out.',
+      q6h: 'Which browsers and devices does it work on?', q6p: 'Fyndkollen is a Chrome extension for desktop (Windows, macOS, Linux, ChromeOS). It doesn\'t work in mobile apps or other browsers yet.',
+      q7h: 'Why does the extension need to read the Blocket page?', q7p: 'To appraise the listing you\'re looking at — it only reads listing pages on blocket.se, never other sites. The content is sent to our AI service only when you click "Check this deal" yourself. See our privacy policy for details.',
+      q8h: 'Do I need to be online?', q8p: 'Yes — the appraisal fetches current price data live, so an internet connection is required when you run an analysis.',
+      trustNoAccount: 'No account needed',
+      trustNoStorage: 'We don\'t store your searches',
+      trustStripe: 'Payments handled by Stripe',
       footerPrivacy: 'Privacy', footerPricing: 'Pricing',
       footerCopy: 'Fyndkollen · Not affiliated with Blocket.',
       suggestH2: 'Got an idea?',
@@ -591,9 +672,14 @@
     try { localStorage.setItem('fk_site_lang', lang); } catch (e) {}
   }
 
+  // Language resolution: explicit ?lang= in the URL wins (lets marketing/hreflang link
+  // straight to a language), then the visitor's saved choice, then Swedish default.
+  var urlLang = null;
+  try { urlLang = new URLSearchParams(location.search).get('lang'); } catch (e) {}
   var saved = null;
   try { saved = localStorage.getItem('fk_site_lang'); } catch (e) {}
-  var initial = (saved === 'en' || saved === 'sv') ? saved : 'sv'; // Swedish default
+  var initial = (urlLang === 'en' || urlLang === 'sv') ? urlLang
+              : (saved === 'en' || saved === 'sv') ? saved : 'sv'; // Swedish default
   applyLang(initial);
 
   document.getElementById('lang-sv').addEventListener('click', function() { applyLang('sv'); });
@@ -645,6 +731,8 @@
     .hdr-right{width:100%;justify-content:space-between}
     .nav a:first-child{margin-left:0}
     .band-bg,.trust-strip{display:none}
+    .card p{line-height:1.75}
+    section{padding:48px 0}
   }
 </style>
 </body>
