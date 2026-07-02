@@ -42,6 +42,10 @@
 }
 </script>
 <!-- TODO: replace CHROME_STORE_URL below (both occurrences) with your real Chrome Web Store listing URL once published -->
+<!-- Inter via Bunny Fonts: GDPR-safe drop-in for Google Fonts (EU-hosted, zero logging/tracking —
+     the Google Fonts CDN itself is a documented GDPR problem for an EU audience). Verified 200. -->
+<link rel="preconnect" href="https://fonts.bunny.net"/>
+<style>@import url('https://fonts.bunny.net/css?family=inter:400,500,600,700,800');</style>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -54,8 +58,18 @@
   :root{
     --bg:#FAFAF8;--surface:#F4F0EA;--border:#EBE5DC;--text:#1A1A1A;
     --mid:#6B5744;--muted:#A89880;--accent:#CC6B2C;--accent-h:#B85C22;--green:#059669;
+    /* Layered shadow system — depth via soft/tight pairs, no blur/glassmorphism (stays
+       trustworthy for a value-conscious Swedish audience, and safe next to Blocket's UI
+       when the same tokens are reused in the extension panel). */
+    --shadow-sm:0 1px 2px rgba(40,30,20,.06),0 2px 8px rgba(40,30,20,.06);
+    --shadow-md:0 2px 6px rgba(40,30,20,.08),0 8px 20px rgba(40,30,20,.10);
+    --shadow-lg:0 6px 16px rgba(40,30,20,.10),0 20px 40px rgba(40,30,20,.14);
+    --ease-out:cubic-bezier(.16,1,.3,1);
+    /* Warm charcoal (not pure black) for the single dark contrast band — a deliberately
+       contained "premium infrastructure" signal on the pricing section only. */
+    --dark-bg:#2A2420;--dark-text:#F4F0EA;--dark-mid:#D8D2C8;--dark-muted:#B0A493;
   }
-  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
   a{color:var(--accent);text-decoration:none}
   .wrap{max-width:760px;margin:0 auto;padding:0 22px}
 
@@ -83,11 +97,17 @@
 
   /* Hero */
   .hero{text-align:center;padding:54px 0 40px;position:relative;z-index:1}
-  .hero h1{font-size:42px;line-height:1.12;letter-spacing:-1px;font-weight:800;margin-bottom:16px}
+  .hero h1{font-size:42px;line-height:1.08;letter-spacing:-1px;font-weight:800;margin-bottom:18px}
   .hero h1 .hl{color:var(--accent)}
   .hero p{font-size:18px;color:var(--mid);max-width:560px;margin:0 auto 28px}
-  .cta{display:inline-block;background:var(--accent);color:#fff;font-weight:700;font-size:16px;padding:14px 30px;border-radius:12px;box-shadow:0 2px 10px rgba(204,107,44,.3);transition:background .15s,box-shadow .15s}
-  .cta:hover{background:var(--accent-h);box-shadow:0 4px 16px rgba(204,107,44,.4)}
+  .cta{
+    display:inline-block;background:linear-gradient(135deg,#D9772F 0%,var(--accent) 100%);color:#fff;
+    font-weight:700;font-size:16px;padding:14px 30px;border-radius:12px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 2px 8px rgba(204,107,44,.22),0 8px 20px rgba(204,107,44,.18);
+    transition:filter .15s var(--ease-out),box-shadow .15s var(--ease-out),transform .1s var(--ease-out);
+  }
+  .cta:hover{filter:brightness(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 12px rgba(204,107,44,.28),0 12px 28px rgba(204,107,44,.24)}
+  .cta:active{transform:scale(.98)}
   .cta-sub{font-size:13px;color:var(--muted);margin-top:12px}
   .secondary-cta{margin-top:14px;font-size:13.5px}
   .secondary-cta a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
@@ -95,6 +115,32 @@
   .privacy-note{margin-top:16px;font-size:12.5px;color:var(--muted)}
   .privacy-note a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
   .privacy-note a:hover{color:var(--accent)}
+
+  /* Pre-launch "notify me" modal — shown instead of navigating when the Chrome Web
+     Store link is still a placeholder (extension not published yet). */
+  .notify-backdrop{
+    display:none;position:fixed;inset:0;background:rgba(26,23,20,.5);z-index:1000;
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .notify-backdrop.open{display:flex}
+  .notify-modal{
+    background:#fff;border-radius:18px;max-width:380px;width:100%;padding:26px 24px;
+    box-shadow:0 24px 60px rgba(26,23,20,.28);position:relative;
+  }
+  .notify-close{
+    position:absolute;top:14px;right:14px;width:28px;height:28px;border-radius:8px;border:none;
+    background:none;color:var(--muted);font-size:16px;cursor:pointer;line-height:1;
+  }
+  .notify-close:hover{background:var(--surface);color:var(--text)}
+  .notify-modal h3{font-size:19px;margin-bottom:8px;padding-right:24px}
+  .notify-modal p{font-size:13.5px;color:var(--mid);margin-bottom:16px;line-height:1.55}
+  .notify-form{display:flex;flex-direction:column;gap:10px}
+  .notify-email{
+    width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;
+    padding:11px 13px;font-size:14px;font-family:inherit;color:var(--text);outline:none;transition:border-color .15s;
+  }
+  .notify-email:focus{border-color:var(--accent)}
+  .notify-status{font-size:12.5px;color:var(--green);text-align:center;min-height:16px}
 
   /* Sections */
   section{padding:40px 0;border-top:1px solid var(--border);position:relative}
@@ -110,8 +156,8 @@
 
   /* Pricing — credit packs */
   .packs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end}
-  .pack{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;position:relative;box-shadow:0 4px 24px rgba(61,47,31,.05)}
-  .pack.featured{border-color:var(--accent);box-shadow:0 6px 28px rgba(204,107,44,.18);padding-top:30px}
+  .pack{background:#fff;color:var(--text);border:1.5px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.7),var(--shadow-sm)}
+  .pack.featured{border-color:var(--accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 6px 28px rgba(204,107,44,.18);padding-top:30px}
   .pack-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:20px;white-space:nowrap}
   .pack-name{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mid);margin-bottom:8px}
   .pack-credits{font-size:30px;font-weight:800;letter-spacing:-1px;color:var(--accent)}
@@ -120,6 +166,23 @@
   .pack-each{font-size:12px;color:var(--muted);margin:2px 0 16px}
   .cta.sm{font-size:14px;padding:10px 22px;display:block}
   .free-note{font-size:13px;color:var(--muted);margin-top:18px}
+
+  /* ---------- Pricing: single warm-dark contrast band ----------
+     One deliberate dark section (not alternating dark/light throughout — that reads as
+     overdesigned for a Swedish audience). Applies at EVERY width, not just desktop, so
+     mobile doesn't end up with light text on a light background. .pack stays a white
+     card (color:var(--text) reset above) so nothing inside it needs a dark-mode variant;
+     only the text sitting directly on the dark band (heading/lead/notes) needs new colors. */
+  #pricing{background:var(--dark-bg);position:relative}
+  #pricing h2{color:var(--dark-text)}
+  #pricing .lead{color:var(--dark-mid)}
+  #pricing .free-note{color:var(--dark-muted)}
+  #pricing::before,#pricing::after{
+    content:'';position:absolute;left:0;right:0;height:44px;pointer-events:none;z-index:0;
+  }
+  #pricing::before{top:-1px;background:linear-gradient(180deg,var(--bg) 0%,var(--dark-bg) 100%)}
+  #pricing::after{bottom:-1px;background:linear-gradient(180deg,var(--dark-bg) 0%,var(--surface) 100%)}
+  #pricing .wrap-wide{position:relative;z-index:1}
 
   /* FAQ */
   .faq{max-width:580px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
@@ -136,6 +199,12 @@
   .suggest-textarea{min-height:90px;resize:vertical}
   .suggest-textarea:focus,.suggest-email:focus{border-color:var(--accent)}
   .suggest-status{font-size:12.5px;color:var(--green);text-align:center;min-height:16px}
+
+  /* Scroll-reveal — the class is added by JS right before observing, never baked into
+     the HTML, so content is always visible by default if JS fails to load/run. */
+  .will-animate{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
+  .will-animate.is-visible{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.will-animate{opacity:1!important;transform:none!important;transition:none!important}}
 
   footer{padding:30px 0 50px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;position:relative;z-index:1}
   footer a{color:var(--muted)}
@@ -160,19 +229,22 @@
     /* ---------- Full-bleed alternating bands ---------- */
     header{background:var(--bg)}
     #features{background:var(--surface)}
-    #pricing{background:var(--bg)}
+    /* #pricing stays the dark band set globally above — do not reset it to light here. */
     #faq{background:var(--surface)}
     #suggest{background:var(--bg)}
     footer{background:var(--bg)}
 
     /* Decorative dot-grid + star texture, confined to outer margins via mask so
-       it never overlaps the readable content column. Purely cosmetic, aria-hidden. */
+       it never overlaps the readable content column. Purely cosmetic, aria-hidden.
+       #pricing gets its own lighter dot color — the shared warm-brown dot from the
+       light hero would be nearly invisible against the dark pricing band. */
     .hero .band-bg,#pricing .band-bg{
-      background-image:radial-gradient(circle,rgba(107,87,68,.14) 1.4px,transparent 1.4px);
       background-size:26px 26px;
       -webkit-mask-image:linear-gradient(to right,black 0%,transparent 14%,transparent 86%,black 100%);
       mask-image:linear-gradient(to right,black 0%,transparent 14%,transparent 86%,black 100%);
     }
+    .hero .band-bg{background-image:radial-gradient(circle,rgba(107,87,68,.14) 1.4px,transparent 1.4px)}
+    #pricing .band-bg{background-image:radial-gradient(circle,rgba(255,255,255,.08) 1.4px,transparent 1.4px)}
     .hero .band-bg::after{
       content:'★';position:absolute;top:12%;right:6%;font-size:15px;color:rgba(204,107,44,.28);
     }
@@ -229,7 +301,8 @@
     }
     .browser-mock{
       position:relative;background:#fff;border:1px solid var(--border);border-radius:16px;
-      box-shadow:0 24px 60px -18px rgba(61,47,31,.28),0 4px 18px rgba(61,47,31,.08);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 4px 12px rgba(40,30,20,.08),
+        0 24px 60px -18px rgba(61,47,31,.28),0 4px 18px rgba(61,47,31,.08);
       overflow:hidden;
     }
     .browser-bar{
@@ -268,7 +341,7 @@
     .result-card{
       position:absolute;right:14px;bottom:-22px;width:230px;
       background:#fff;border:1px solid var(--border);border-radius:14px;
-      box-shadow:0 20px 40px -12px rgba(61,47,31,.32);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 4px 12px rgba(204,107,44,.1),0 20px 40px -12px rgba(61,47,31,.32);
       padding:16px 16px 15px;
     }
     .result-card .rc-head{display:flex;align-items:center;gap:7px;margin-bottom:11px}
@@ -306,11 +379,14 @@
     .feature-visual{
       position:relative;background:#fff;border:1px solid var(--border);border-radius:20px;
       padding:30px;min-height:380px;display:flex;flex-direction:column;justify-content:center;gap:14px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.6),var(--shadow-md);
     }
     .feature-visual .fv-row{
       background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;
       display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(61,47,31,.04);
+      transition:box-shadow .15s var(--ease-out),border-color .15s var(--ease-out);
     }
+    .feature-visual .fv-row:hover{border-color:rgba(204,107,44,.25);box-shadow:0 4px 14px rgba(204,107,44,.1)}
     .feature-visual .fv-row .fv-ic{
       width:34px;height:34px;border-radius:9px;background:rgba(204,107,44,.1);
       display:flex;align-items:center;justify-content:center;font-size:16px;flex:none;
@@ -351,10 +427,10 @@
 
     /* ---------- Card hover feedback (features + pricing) ---------- */
     .card{transition:background .15s}
-    .pack{transition:box-shadow .15s,transform .15s}
-    .pack:hover{box-shadow:0 8px 30px rgba(61,47,31,.12);transform:translateY(-2px)}
-    .pack.featured:hover{transform:translateY(-2px) scale(1.045)}
-    .card .ic{transition:background .15s,border-color .15s}
+    .pack{transition:box-shadow .2s var(--ease-out),transform .2s var(--ease-out)}
+    .pack:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+    .pack.featured:hover{transform:translateY(-3px) scale(1.045)}
+    .card .ic{transition:background .15s,border-color .15s,box-shadow .15s}
 
     footer{padding:40px 0 56px}
   }
@@ -530,6 +606,19 @@
   </div>
 </section>
 
+<div class="notify-backdrop" id="notify-backdrop" role="dialog" aria-modal="true" aria-labelledby="notify-title">
+  <div class="notify-modal">
+    <button class="notify-close" id="notify-close" aria-label="Close" data-i18n-attr="aria-label:notifyClose">×</button>
+    <h3 id="notify-title" data-i18n="notifyTitle">Fyndkollen kommer snart</h3>
+    <p data-i18n="notifyLead">Tillägget är inte publicerat på Chrome Web Store än. Lämna din e-post så hör vi av oss när det går att installera.</p>
+    <div class="notify-form">
+      <input type="email" id="notify-email" class="notify-email" data-i18n-attr="placeholder:notifyPlaceholder" placeholder="Din e-postadress" autocomplete="email"/>
+      <button class="cta sm" id="notify-submit" data-i18n="notifySubmit">Meddela mig</button>
+      <div class="notify-status" id="notify-status"></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap-wide">
     <div class="links">
@@ -596,7 +685,16 @@
       suggestSending: 'Skickar…',
       suggestSent: 'Tack för förslaget!',
       suggestFailed: 'Kunde inte skicka just nu, försök igen senare.',
-      footerSuggest: 'Funktionsförslag'
+      footerSuggest: 'Funktionsförslag',
+      notifyTitle: 'Fyndkollen kommer snart',
+      notifyLead: 'Tillägget är inte publicerat på Chrome Web Store än. Lämna din e-post så hör vi av oss när det går att installera.',
+      notifyPlaceholder: 'Din e-postadress',
+      notifySubmit: 'Meddela mig',
+      notifyClose: 'Stäng',
+      notifyEmpty: 'Skriv din e-postadress först.',
+      notifySending: 'Skickar…',
+      notifySent: 'Tack! Vi hör av oss när Fyndkollen är live.',
+      notifyFailed: 'Kunde inte skicka just nu, försök igen senare.'
     },
     en: {
       pageTitle: 'Fyndkollen — Know if a Blocket listing is a deal before you buy',
@@ -645,7 +743,16 @@
       suggestSending: 'Sending…',
       suggestSent: 'Thanks for the suggestion!',
       suggestFailed: "Couldn't send right now, try again later.",
-      footerSuggest: 'Feature suggestions'
+      footerSuggest: 'Feature suggestions',
+      notifyTitle: 'Fyndkollen is launching soon',
+      notifyLead: 'The extension isn\'t published on the Chrome Web Store yet. Leave your email and we\'ll let you know the moment you can install it.',
+      notifyPlaceholder: 'Your email address',
+      notifySubmit: 'Notify me',
+      notifyClose: 'Close',
+      notifyEmpty: 'Enter your email first.',
+      notifySending: 'Sending…',
+      notifySent: 'Thanks! We\'ll email you when Fyndkollen is live.',
+      notifyFailed: "Couldn't send right now, try again later."
     }
   };
 
@@ -685,8 +792,95 @@
   document.getElementById('lang-sv').addEventListener('click', function() { applyLang('sv'); });
   document.getElementById('lang-en').addEventListener('click', function() { applyLang('en'); });
 
-  // ── Feature suggestion form ──────────────────────────────────────────
   var FEEDBACK_URL = 'https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
+
+  // ── Pre-launch "notify me" fallback ────────────────────────────────────
+  // Both install links point at a Chrome Web Store URL with a REPLACE_WITH_REAL_EXTENSION_ID
+  // placeholder until the extension is actually published. Rather than send visitors to a
+  // 404, intercept those clicks and collect an email to notify instead. Once the real
+  // Web Store URL is in place, this block simply never triggers (installLinks.length === 0).
+  (function() {
+    var installLinks = Array.prototype.filter.call(
+      document.querySelectorAll('a[href*="chromewebstore.google.com"]'),
+      function(a) { return a.getAttribute('href').indexOf('REPLACE_WITH_REAL_EXTENSION_ID') !== -1; }
+    );
+    if (!installLinks.length) return;
+
+    var backdrop = document.getElementById('notify-backdrop');
+    var emailEl = document.getElementById('notify-email');
+    var statusEl = document.getElementById('notify-status');
+    var lastFocused = null;
+
+    function openModal() {
+      lastFocused = document.activeElement;
+      backdrop.classList.add('open');
+      statusEl.textContent = '';
+      emailEl.value = '';
+      emailEl.focus();
+    }
+    function closeModal() {
+      backdrop.classList.remove('open');
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    installLinks.forEach(function(a) {
+      a.addEventListener('click', function(e) { e.preventDefault(); openModal(); });
+    });
+    document.getElementById('notify-close').addEventListener('click', closeModal);
+    backdrop.addEventListener('click', function(e) { if (e.target === backdrop) closeModal(); });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && backdrop.classList.contains('open')) closeModal();
+    });
+    document.getElementById('notify-submit').addEventListener('click', async function() {
+      var lang = document.documentElement.lang === 'en' ? 'en' : 'sv';
+      var email = (emailEl.value || '').trim();
+      if (!email) { statusEl.textContent = DICT[lang].notifyEmpty; return; }
+      statusEl.textContent = DICT[lang].notifySending;
+      try {
+        var res = await fetch(FEEDBACK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'waitlist', message: 'Notify me when Fyndkollen launches', email: email, source: 'website',
+            context: { lang: lang, page: location.href }
+          })
+        });
+        if (!res.ok) throw new Error('bad status');
+        statusEl.textContent = DICT[lang].notifySent;
+        emailEl.value = '';
+      } catch (e) {
+        statusEl.textContent = DICT[lang].notifyFailed;
+      }
+    });
+  })();
+
+  // ── Scroll-reveal (progressive enhancement) ────────────────────────────
+  // Adds the fade-in class only right before observing each element, so if
+  // IntersectionObserver is unsupported or this script fails, content simply has no
+  // .will-animate class at all and stays fully visible (see the CSS default above).
+  (function() {
+    if (!('IntersectionObserver' in window)) return;
+    var targets = document.querySelectorAll('.wrap-wide > h2, .wrap-wide > .lead, #features .card, .pack, .feature-visual');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach(function(el, i) {
+      el.classList.add('will-animate');
+      el.style.transitionDelay = Math.min(i % 4, 3) * 0.06 + 's';
+      observer.observe(el);
+      // Belt-and-braces: if the observer never fires for this element for any reason
+      // (an already-in-viewport element on some browser/engine combo, a bug, whatever),
+      // never leave content permanently invisible. 2.5s is well past any real scroll-in.
+      setTimeout(function() { el.classList.add('is-visible'); }, 2500);
+    });
+  })();
+
+  // ── Feature suggestion form ──────────────────────────────────────────
   var suggestBtn = document.getElementById('suggest-submit');
   if (suggestBtn) {
     suggestBtn.addEventListener('click', async function() {
