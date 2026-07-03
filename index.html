@@ -239,6 +239,26 @@
   .will-animate.is-visible{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){.will-animate{opacity:1!important;transform:none!important;transition:none!important}}
 
+  /* ---------- Hero-visual entrance + ambient motion (ported from the redesign concept) ----------
+     The redesign's own ambient blob-drift (.band::before/::after + a second @keyframes fkDrift)
+     is intentionally NOT ported here — this file already has an equivalent, more capable version
+     via .band-bg > .blob-a/.blob-b (see the DESKTOP REDESIGN block below), and porting both would
+     stack two overlapping blurred layers under the same animation name. */
+  @keyframes fkPopIn{0%{opacity:0;transform:scale(.85) translateY(10px)}70%{transform:scale(1.015) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
+  @keyframes fkFadeStep{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @keyframes fkFillX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes fkScan{0%{top:2%;opacity:0}8%{opacity:.9}92%{opacity:.9}100%{top:96%;opacity:0}}
+  .badge-float{animation:fkPopIn .5s var(--ease-out) .15s both}
+  .result-card{animation:fkPopIn .6s var(--ease-out) .45s both}
+  .result-card .rc-verdict{animation:fkFadeStep .4s ease .9s both}
+  .result-card .rc-row:nth-of-type(1){animation:fkFadeStep .4s ease 1.05s both}
+  .result-card .rc-row:nth-of-type(2){animation:fkFadeStep .4s ease 1.2s both}
+  .result-card .rc-row:nth-of-type(3){animation:fkFadeStep .4s ease 1.35s both}
+  .rc-condbar{height:4px;background:var(--border);border-radius:3px;overflow:hidden;margin:1px 0 9px;animation:fkFadeStep .4s ease 1.35s both}
+  .rc-condbar span{display:block;height:100%;width:82%;background:var(--green);border-radius:3px;transform-origin:left;transform:scaleX(0);animation:fkFillX .7s var(--ease-out) 1.55s both}
+  .result-card .rc-margin{animation:fkFadeStep .4s ease 1.75s both}
+  .listing-mock .ph::before{content:'';position:absolute;left:4%;right:4%;height:3px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;animation:fkScan 3.6s ease-in-out .6s infinite}
+
   footer{padding:30px 0 50px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;position:relative;z-index:1}
   footer a{color:var(--muted)}
   footer .links{margin-bottom:8px}
@@ -250,13 +270,13 @@
      + full-bleed alternating section bands and decorative texture
      grafted in from the editorial-bands concept, confined to the
      outer margins so they never interfere with readability.
-     Widens the canvas at >=980px and introduces a CSS/SVG-only
+     Widens the canvas at >=860px and introduces a CSS/SVG-only
      browser + Blocket-listing + Fyndkollen result-card mockup as
      a real centerpiece next to the hero copy. Features become an
      asymmetric two-column layout. Everything below 640px is left
      exactly as it was (untouched mobile media query at bottom).
      ============================================================ */
-  @media(min-width:980px){
+  @media(min-width:860px){
     .wrap-wide{max-width:1280px;padding:0 48px}
 
     /* ---------- Full-bleed alternating bands ---------- */
@@ -559,7 +579,8 @@
               <div class="rc-row"><span>Marknadsvärde</span><b>1 650 kr</b></div>
               <div class="rc-row"><span>Annonspris</span><b>1 200 kr</b></div>
               <div class="rc-row"><span>Skick</span><b>Mycket bra</b></div>
-              <div class="rc-margin"><span>Möjlig vinst</span><b>+450 kr</b></div>
+              <div class="rc-condbar"><span></span></div>
+              <div class="rc-margin"><span>Vid återförsälj</span><b style="display:inline-flex;align-items:center;gap:5px"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span>Vinst</b></div>
             </div>
           </div>
         </div>
@@ -1011,9 +1032,9 @@
 </script>
 
 <style>
-  @media(max-width:979px){
+  @media(max-width:859px){
     /* .hero-visual, .feature-visual, and .trust-strip are desktop-only CSS/SVG
-       elements — their layout rules only exist inside the >=980px media query
+       elements — their layout rules only exist inside the >=860px media query
        above, so without this they'd show as unstyled raw text on narrower screens. */
     .hero-visual,.feature-visual,.trust-strip{display:none}
   }
