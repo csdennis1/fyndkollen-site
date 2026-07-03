@@ -481,7 +481,7 @@
 
     /* ---------- Pricing: wider, breathing room, featured card scaled up ---------- */
     #pricing h2, #pricing .lead{text-align:center;margin-left:auto;margin-right:auto}
-    .packs{max-width:920px;margin:0 auto;gap:22px;position:relative;z-index:1}
+    .packs{max-width:1180px;margin:0 auto;gap:22px;position:relative;z-index:1}
     .pack{padding:30px 22px}
     .pack.featured{padding-top:36px;transform:scale(1.045)}
 
@@ -634,6 +634,13 @@
     <p class="lead" data-i18n="pricingLead">Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.</p>
     <div class="packs">
       <div class="pack">
+        <div class="pack-name">Mini</div>
+        <div class="pack-credits">20<span data-i18n="packUnit"> krediter</span></div>
+        <div class="price-tag sm">30&nbsp;kr</div>
+        <div class="pack-each"><span data-i18n="packEach4">1.50 kr per kredit</span></div>
+        <a class="cta sm" href="https://buy.stripe.com/14A00k2hK0hdaHYcYkb3q09" data-i18n="buyBtn">Köp krediter</a>
+      </div>
+      <div class="pack">
         <div class="pack-name">Starter</div>
         <div class="pack-credits">100<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">99&nbsp;kr</div>
@@ -654,6 +661,13 @@
         <div class="price-tag sm">499&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach3">0.50 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/7sY7sMcWo4xt3fw8I4b3q06" data-i18n="buyBtnFeatured">Få Pro – bäst värde</a>
+      </div>
+      <div class="pack">
+        <div class="pack-name">Extra</div>
+        <div class="pack-credits">50<span data-i18n="packUnit"> krediter</span></div>
+        <div class="price-tag sm">75&nbsp;kr</div>
+        <div class="pack-each"><span data-i18n="packEach4">1.50 kr per kredit</span></div>
+        <a class="cta sm" href="https://buy.stripe.com/5kQ14oaOg1lh7vM2jGb3q08" data-i18n="buyBtn">Köp krediter</a>
       </div>
     </div>
     <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratiskrediter vid start. Inget kort krävs.</div>
@@ -756,7 +770,7 @@
       f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.',
       pricingH2: 'Köp krediter, ingen prenumeration',
       pricingLead: 'Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.',
-      packUnit: ' krediter', packEach1: '0.99 kr per kredit', packEach2: '0.75 kr per kredit', packEach3: '0.50 kr per kredit',
+      packUnit: ' krediter', packEach1: '0.99 kr per kredit', packEach2: '0.75 kr per kredit', packEach3: '0.50 kr per kredit', packEach4: '1.50 kr per kredit',
       buyBtn: 'Köp krediter', buyBtnFeatured: 'Få Pro – bäst värde', bestValue: 'Bäst värde',
       freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
       climateNote: '0,5 % av varje köp går till koldioxidinfångning via Stripe Climate',
@@ -820,7 +834,7 @@
       f4h: 'A straight price verdict, even in search results', f4p: 'You get a clear price verdict and an estimated resale margin — both inside the listing itself and as badges on listing cards while you browse.',
       pricingH2: 'Buy credits, no subscription',
       pricingLead: 'Credits never expire. Top up whenever you need — it just adds to your balance.',
-      packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit',
+      packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit', packEach4: '1.50 kr per credit',
       buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro — best value', bestValue: 'Best value',
       freeNote: '5 free credits to start. No card required.',
       climateNote: '0.5% of every purchase funds carbon removal via Stripe Climate',
@@ -1037,6 +1051,11 @@
        elements — their layout rules only exist inside the >=860px media query
        above, so without this they'd show as unstyled raw text on narrower screens. */
     .hero-visual,.feature-visual,.trust-strip{display:none}
+  }
+  /* 5 credit packs: 3-per-row (wrapping 3+2) by default, one single row of 5 only
+     when the viewport is wide enough that each card stays readable. */
+  @media(min-width:1100px){
+    .packs{grid-template-columns:repeat(5,1fr)}
   }
   @media(max-width:640px){
     .hero h1{font-size:32px}
