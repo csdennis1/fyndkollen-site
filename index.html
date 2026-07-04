@@ -162,6 +162,7 @@
   }
   .notify-email:focus{border-color:var(--accent)}
   .notify-status{font-size:12.5px;color:var(--green);text-align:center;min-height:16px}
+  .notify-status.err,.suggest-status.err{color:#DC2626}
 
   /* Sections */
   section{padding:40px 0;border-top:1px solid var(--border);position:relative}
@@ -545,7 +546,7 @@
           <div class="privacy-note" data-i18n-html="privacyNote">🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a></div>
         </div>
         <div class="trust-strip" aria-hidden="true">
-          <span>Prisdata från</span>
+          <span data-i18n="trustSources">Prisdata från</span>
           <span class="src">Blocket</span>
           <span class="src">Tradera</span>
           <span class="src">Prisjakt</span>
@@ -585,9 +586,9 @@
           </div>
         </div>
         <div class="hero-trust">
-          <div><b>3</b>&nbsp;marknader jämförs</div>
-          <div><b>5</b>&nbsp;gratiskrediter direkt</div>
-          <div><b>0</b>&nbsp;prenumerationer</div>
+          <div><b>3</b>&nbsp;<span data-i18n="heroTrust1">marknader jämförs</span></div>
+          <div><b>5</b>&nbsp;<span data-i18n="heroTrust2">gratiskrediter direkt</span></div>
+          <div><b>0</b>&nbsp;<span data-i18n="heroTrust3">prenumerationer</span></div>
         </div>
       </div>
     </div>
@@ -637,21 +638,21 @@
         <div class="pack-name">Mini</div>
         <div class="pack-credits">20<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">30&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach4">1.50 kr per kredit</span></div>
+        <div class="pack-each"><span data-i18n="packEach4">1,50 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/14A00k2hK0hdaHYcYkb3q09" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack">
         <div class="pack-name">Starter</div>
         <div class="pack-credits">100<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">99&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach1">0.99 kr per kredit</span></div>
+        <div class="pack-each"><span data-i18n="packEach1">0,99 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/aFabJ2g8AbZV6rI7E0b3q04" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack">
         <div class="pack-name">Standard</div>
         <div class="pack-credits">200<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">149&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach2">0.75 kr per kredit</span></div>
+        <div class="pack-each"><span data-i18n="packEach2">0,75 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/dRmcN6e0s6FB3fwe2ob3q05" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack featured">
@@ -659,14 +660,14 @@
         <div class="pack-name">Pro</div>
         <div class="pack-credits">1000<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">499&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach3">0.50 kr per kredit</span></div>
+        <div class="pack-each"><span data-i18n="packEach3">0,50 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/7sY7sMcWo4xt3fw8I4b3q06" data-i18n="buyBtnFeatured">Få Pro – bäst värde</a>
       </div>
       <div class="pack">
         <div class="pack-name">Extra</div>
         <div class="pack-credits">50<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">75&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach4">1.50 kr per kredit</span></div>
+        <div class="pack-each"><span data-i18n="packEach4">1,50 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/5kQ14oaOg1lh7vM2jGb3q08" data-i18n="buyBtn">Köp krediter</a>
       </div>
     </div>
@@ -770,7 +771,10 @@
       f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.',
       pricingH2: 'Köp krediter, ingen prenumeration',
       pricingLead: 'Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.',
-      packUnit: ' krediter', packEach1: '0.99 kr per kredit', packEach2: '0.75 kr per kredit', packEach3: '0.50 kr per kredit', packEach4: '1.50 kr per kredit',
+      packUnit: ' krediter', packEach1: '0,99 kr per kredit', packEach2: '0,75 kr per kredit', packEach3: '0,50 kr per kredit', packEach4: '1,50 kr per kredit',
+      heroTrust1: 'marknader jämförs', heroTrust2: 'gratiskrediter direkt', heroTrust3: 'prenumerationer',
+      trustSources: 'Prisdata från',
+      emailInvalid: 'Ange en giltig e-postadress.',
       buyBtn: 'Köp krediter', buyBtnFeatured: 'Få Pro – bäst värde', bestValue: 'Bäst värde',
       freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
       climateNote: '0,5 % av varje köp går till koldioxidinfångning via Stripe Climate',
@@ -835,6 +839,9 @@
       pricingH2: 'Buy credits, no subscription',
       pricingLead: 'Credits never expire. Top up whenever you need — it just adds to your balance.',
       packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit', packEach4: '1.50 kr per credit',
+      heroTrust1: 'markets compared', heroTrust2: 'free credits included', heroTrust3: 'subscriptions',
+      trustSources: 'Price data from',
+      emailInvalid: 'Enter a valid email address.',
       buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro — best value', bestValue: 'Best value',
       freeNote: '5 free credits to start. No card required.',
       climateNote: '0.5% of every purchase funds carbon removal via Stripe Climate',
@@ -907,8 +914,20 @@
               : (saved === 'en' || saved === 'sv') ? saved : 'sv'; // Swedish default
   applyLang(initial);
 
-  document.getElementById('lang-sv').addEventListener('click', function() { applyLang('sv'); });
-  document.getElementById('lang-en').addEventListener('click', function() { applyLang('en'); });
+  // A manual switch must strip any ?lang= from the URL — otherwise the param wins over
+  // the saved choice on every reload, silently reverting the visitor's explicit pick.
+  function chooseLang(l) {
+    applyLang(l);
+    try {
+      var u = new URL(location.href);
+      if (u.searchParams.has('lang')) {
+        u.searchParams.delete('lang');
+        history.replaceState(null, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams.toString() : '') + u.hash);
+      }
+    } catch (e) {}
+  }
+  document.getElementById('lang-sv').addEventListener('click', function() { chooseLang('sv'); });
+  document.getElementById('lang-en').addEventListener('click', function() { chooseLang('en'); });
 
   // ── Theme toggle (light default, dark opt-in, persisted) ──────────────
   // The <head> anti-flash script already set data-theme on first load if a dark
@@ -927,6 +946,8 @@
   })();
 
   var FEEDBACK_URL = 'https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
+  // Light shape check, not RFC — catches "asdf" and copy-paste accidents, nothing more.
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   // ── Pre-launch "notify me" fallback ────────────────────────────────────
   // Both install links point at a Chrome Web Store URL with a REPLACE_WITH_REAL_EXTENSION_ID
@@ -958,6 +979,10 @@
     }
 
     installLinks.forEach(function(a) {
+      // Neutralize the placeholder href too: the click handler only catches left-clicks,
+      // so middle-click / "open in new tab" would otherwise navigate straight to the
+      // 404 placeholder Web Store URL.
+      a.setAttribute('href', '#');
       a.addEventListener('click', function(e) { e.preventDefault(); openModal(); });
     });
     document.getElementById('notify-close').addEventListener('click', closeModal);
@@ -965,10 +990,14 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && backdrop.classList.contains('open')) closeModal();
     });
-    document.getElementById('notify-submit').addEventListener('click', async function() {
+    var notifyBtn = document.getElementById('notify-submit');
+    notifyBtn.addEventListener('click', async function() {
       var lang = document.documentElement.lang === 'en' ? 'en' : 'sv';
       var email = (emailEl.value || '').trim();
-      if (!email) { statusEl.textContent = DICT[lang].notifyEmpty; return; }
+      statusEl.classList.remove('err');
+      if (!email) { statusEl.classList.add('err'); statusEl.textContent = DICT[lang].notifyEmpty; return; }
+      if (!EMAIL_RE.test(email)) { statusEl.classList.add('err'); statusEl.textContent = DICT[lang].emailInvalid; return; }
+      notifyBtn.disabled = true;
       statusEl.textContent = DICT[lang].notifySending;
       try {
         var res = await fetch(FEEDBACK_URL, {
@@ -983,9 +1012,13 @@
         statusEl.textContent = DICT[lang].notifySent;
         emailEl.value = '';
       } catch (e) {
+        statusEl.classList.add('err');
         statusEl.textContent = DICT[lang].notifyFailed;
+      } finally {
+        notifyBtn.disabled = false;
       }
     });
+    emailEl.addEventListener('keydown', function(e) { if (e.key === 'Enter') notifyBtn.click(); });
   })();
 
   // ── Scroll-reveal (progressive enhancement) ────────────────────────────
@@ -1007,10 +1040,20 @@
       el.classList.add('will-animate');
       el.style.transitionDelay = Math.min(i % 4, 3) * 0.06 + 's';
       observer.observe(el);
+      // The stagger delay must NOT stay on the element after the reveal — it's inline,
+      // so it would also delay every later hover transition (packs, step cards) by up
+      // to 180 ms. Clear it once the reveal transition has finished.
+      el.addEventListener('transitionend', function onEnd() {
+        el.style.transitionDelay = '';
+        el.removeEventListener('transitionend', onEnd);
+      });
       // Belt-and-braces: if the observer never fires for this element for any reason
       // (an already-in-viewport element on some browser/engine combo, a bug, whatever),
       // never leave content permanently invisible. 2.5s is well past any real scroll-in.
+      // The second timeout clears the stagger delay even if transitionend never fired
+      // (e.g. prefers-reduced-motion disables the transition entirely).
       setTimeout(function() { el.classList.add('is-visible'); }, 2500);
+      setTimeout(function() { el.style.transitionDelay = ''; }, 3600);
     });
   })();
 
@@ -1024,7 +1067,11 @@
       var emailEl = document.getElementById('suggest-email');
       var msg = (msgEl.value || '').trim();
       var email = (emailEl.value || '').trim();
-      if (!msg) { statusEl.textContent = DICT[lang].suggestEmpty; return; }
+      statusEl.classList.remove('err');
+      if (!msg) { statusEl.classList.add('err'); statusEl.textContent = DICT[lang].suggestEmpty; return; }
+      // Email is optional here — validate only when one was actually entered.
+      if (email && !EMAIL_RE.test(email)) { statusEl.classList.add('err'); statusEl.textContent = DICT[lang].emailInvalid; return; }
+      suggestBtn.disabled = true;
       statusEl.textContent = DICT[lang].suggestSending;
       try {
         var res = await fetch(FEEDBACK_URL, {
@@ -1039,9 +1086,14 @@
         statusEl.textContent = DICT[lang].suggestSent;
         msgEl.value = ''; emailEl.value = '';
       } catch (e) {
+        statusEl.classList.add('err');
         statusEl.textContent = DICT[lang].suggestFailed;
+      } finally {
+        suggestBtn.disabled = false;
       }
     });
+    var suggestEmailEl = document.getElementById('suggest-email');
+    if (suggestEmailEl) suggestEmailEl.addEventListener('keydown', function(e) { if (e.key === 'Enter') suggestBtn.click(); });
   }
 </script>
 
