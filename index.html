@@ -954,6 +954,19 @@
   })();
 
   var FEEDBACK_URL = 'https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
+
+  // ── Privacy-friendly visitor count ── fire-and-forget aggregate page-view ping (no PII,
+  // no cookie, no third party). Once per tab so a reload spree doesn't inflate it.
+  (function () {
+    try {
+      if (sessionStorage.getItem('fk_pv')) return;
+      sessionStorage.setItem('fk_pv', '1');
+      fetch(FEEDBACK_URL, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'pageview' }), keepalive: true
+      }).catch(function () {});
+    } catch (e) {}
+  })();
   // Light shape check, not RFC — catches "asdf" and copy-paste accidents, nothing more.
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
