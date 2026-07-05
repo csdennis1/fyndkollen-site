@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Fyndkollen Admin</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800">
+<style>
+:root{--bg:#F7F4EF;--surface:#EFEAE1;--card:#FFF;--border:#E6DFD4;--text:#1A1611;--mid:#6B5F4E;--muted:#A2937E;--accent:#CC6B2C;--green:#0E9F6E;--red:#DC2626;--amber:#D97706}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 26px;background:var(--card);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;font-size:13px}
+.brand svg{color:var(--accent)}
+.tag{font-size:10.5px;font-weight:700;color:var(--mid);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 26px 70px}
+.grid{display:grid;gap:13px;grid-template-columns:repeat(auto-fit,minmax(196px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+.k-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.k-val{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:5px;font-variant-numeric:tabular-nums}
+.k-sub{font-size:12px;color:var(--mid);margin-top:3px}
+h2{font-size:12px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sec-h{font-size:15px;font-weight:800;margin:30px 0 12px;letter-spacing:-.01em}
+.row{display:grid;gap:13px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:7px 6px;border-bottom:1px solid var(--border)}
+td{padding:9px 6px;border-bottom:1px solid var(--surface);font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+.track{height:8px;background:var(--surface);border-radius:5px;overflow:hidden;margin-top:6px}
+.fill{height:100%;border-radius:5px;transition:width .3s}
+.pill{font-size:11px;font-weight:700;border-radius:6px;padding:2px 9px;display:inline-block}
+.btn{font-family:inherit;font-size:13px;font-weight:700;padding:9px 15px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:.12s}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.pri:hover{color:#fff;filter:brightness(.95)}
+.btn.danger{color:var(--red);border-color:rgba(220,38,38,.3)}.btn.danger:hover{border-color:var(--red);color:var(--red)}
+input{font-family:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);outline:none;width:100%}
+input:focus{border-color:var(--accent)}
+svg.chart{width:100%;height:110px;display:block}
+#login{max-width:320px;margin:16vh auto;text-align:center}
+#login .card{padding:26px 24px}
+#login input{margin:16px 0}
+.muted{color:var(--muted)}.mid{color:var(--mid)}
+.warn{background:rgba(217,119,6,.09);border:1px solid rgba(217,119,6,.3);border-radius:12px;padding:13px 16px;font-size:13.5px;color:#8a5308;margin-bottom:16px;display:flex;gap:9px;align-items:flex-start}
+.ok-note{color:var(--green);font-size:12.5px;margin-bottom:16px}
+.mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px}
+</style>
+</head>
+<body>
+<div id="login">
+  <div class="card">
+    <div class="brand" style="justify-content:center;margin-bottom:4px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="currentColor"/></svg>
+      Fyndkollen Admin
+    </div>
+    <input id="pw" type="password" placeholder="Lösenord" autofocus>
+    <button class="btn pri" style="width:100%" onclick="login()">Logga in</button>
+    <div id="lerr" class="muted" style="font-size:12px;margin-top:10px"></div>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="bar">
+    <div class="brand">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="currentColor"/></svg>
+      Fyndkollen <span class="tag">Admin</span>
+    </div>
+    <button class="btn" onclick="load()">↻ Uppdatera</button>
+  </div>
+  <div class="wrap" id="body"></div>
+</div>
+
+<script>
+var API="https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/admin";
+var PW="";
+async function call(action, extra){
+  var r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.assign({password:PW,action:action},extra||{}))});
+  return {status:r.status, body:await r.json().catch(function(){return{};})};
+}
+async function login(){
+  PW=document.getElementById("pw").value;
+  var r=await call("data");
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats);}
+  else{document.getElementById("lerr").textContent="Fel lösenord.";}
+}
+async function load(){var r=await call("data");if(r.status===200)render(r.body.stats);}
+function kr(ore){return (Number(ore||0)/100).toLocaleString("sv-SE")+" kr";}
+function n(x){return Number(x||0).toLocaleString("sv-SE");}
+function pct(a,b){return b?Math.min(100,Math.round(a/b*100)):0;}
+function barColor(p){return p>=85?"var(--red)":p>=60?"var(--amber)":"var(--green)";}
+function kpi(l,v,sub){return '<div class="card"><div class="k-lbl">'+l+'</div><div class="k-val">'+v+'</div><div class="k-sub">'+sub+'</div></div>';}
+function spark(arr,key){
+  if(!arr||!arr.length)return '<div class="muted" style="font-size:12px">Ingen data än.</div>';
+  var W=600,H=110,vals=arr.map(function(d){return Number(d[key]||0);}),max=Math.max.apply(null,vals)*1.15||1;
+  var pts=vals.map(function(v,i){var x=arr.length>1?i/(arr.length-1)*W:0;var y=H-4-(v/max)*(H-10);return x.toFixed(1)+","+y.toFixed(1);});
+  var area="M0,"+H+" L"+pts.join(" L")+" L"+W+","+H+" Z";
+  return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="'+area+'" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+}
+function render(s){
+  var q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,ac=s.activity,vi=s.visitors,sy=s.system;
+  var dbMB=q.db_bytes/1048576,dbLimit=500;
+  var bytesPerRow=pd.total?q.db_bytes/pd.total:0, rowsPerDay=pd.added_7d/7;
+  var dbRunway=(bytesPerRow*rowsPerDay)>0?Math.round((dbLimit*1048576-q.db_bytes)/(bytesPerRow*rowsPerDay)):null;
+  var burn=Number(q.anthropic_burn_30d||0), bal=q.anthropic_balance;
+  var antRunway=(bal!=null&&burn>0)?Math.round(bal/(burn/30)):null;
+  var services=[
+    {name:"Supabase databas",use:dbMB,lim:dbLimit,unit:"MB",extra:dbRunway!=null?("≈ "+n(dbRunway)+" dagar till taket vid nuvarande tillväxt"):""},
+    {name:"Tradera API (idag)",use:Number(q.tradera_today),lim:10000,unit:"anrop/dygn",extra:""},
+    {name:"Resend e-post (denna månad)",use:Number(q.emails_month),lim:3000,unit:"mejl/mån",extra:""},
+    {name:"Anthropic AI-saldo",use:burn,lim:(bal!=null?bal:null),unit:"USD",extra:(antRunway!=null?("≈ "+n(antRunway)+" dagar kvar (burn ~"+burn+" USD/30 dgr)"):(bal==null?"sätt ditt saldo under Kontroller":"burn ~"+burn+" USD/30 dgr"))}
+  ];
+  var worst=null;services.forEach(function(x){if(x.lim){x.p=pct(x.use,x.lim);if(!worst||x.p>worst.p)worst=x;}});
+
+  var h="";
+  // ── Bottleneck banner ──
+  if(worst&&worst.p>=60){h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen använd'+(worst.extra?". "+worst.extra:"")+'. Åtgärda i god tid.</div></div>';}
+  else{h+='<div class="ok-note">✓ Alla tredjepartstjänster har god marginal till sina gratisgränser.</div>';}
+
+  // ── KPIs ──
+  h+='<div class="grid">';
+  h+=kpi("Intäkt totalt",kr(rev.total_ore),n(rev.orders)+" ordrar · "+kr(rev.d30_ore)+" senaste 30 d");
+  h+=kpi("Insamlad prisdata",n(pd.total),n(pd.verified_sold)+" verifierade slutpriser · +"+n(pd.added_today)+" idag");
+  h+=kpi("Produkter i indexet",n(pd.distinct_products),"+"+n(pd.added_7d)+" nya rader (7 d)");
+  h+=kpi("Aktiva licenser",n(cr.active_keys),n(Number(cr.total_credits)-Number(cr.total_used))+" krediter kvar totalt");
+  h+=kpi("Besökare (7 d)",n(vi.d7),n(vi.today)+" idag");
+  h+=kpi("Analyser (30 d)",n(Number(ac.appraise_quick_30d)+Number(ac.appraise_photo_30d)),n(ac.cache_hit_30d)+" gratis cache-träffar");
+  h+='</div>';
+
+  // ── Bottleneck monitor ──
+  h+='<div class="sec-h">Flaskhals-monitor — tredjeparts gratisgränser</div><div class="card">';
+  services.forEach(function(x){
+    var p=x.lim?pct(x.use,x.lim):0;
+    h+='<div style="margin-bottom:15px"><div style="display:flex;justify-content:space-between;font-size:13px;gap:10px"><span class="mid">'+x.name+'</span><b style="white-space:nowrap">'+(x.lim?(n(Math.round(x.use))+" / "+n(x.lim)+" "+x.unit+" · "+p+"%"):(n(Math.round(x.use))+" "+x.unit))+'</b></div>';
+    if(x.lim)h+='<div class="track"><div class="fill" style="width:'+p+'%;background:'+barColor(p)+'"></div></div>';
+    if(x.extra)h+='<div class="muted" style="font-size:11.5px;margin-top:4px">'+x.extra+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+
+  // ── Charts ──
+  h+='<div class="sec-h">Trender</div><div class="row">';
+  h+='<div class="card"><h2>Prisdata-tillväxt (14 d)</h2>'+spark(pd.growth_by_day,"n")+'</div>';
+  h+='<div class="card"><h2>Intäkt per dag (30 d)</h2>'+spark(rev.by_day,"ore")+'</div>';
+  h+='<div class="card"><h2>Besökare per dag (14 d)</h2>'+spark(vi.by_day,"views")+'</div>';
+  h+='</div>';
+
+  // ── Price data + orders ──
+  h+='<div class="sec-h">Insamlad data & försäljning</div><div class="row">';
+  var cats=(pd.by_category||[]).map(function(c){var p=pct(c.n,pd.total);return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12.5px"><span class="mid">'+c.category+'</span><b>'+n(c.n)+'</b></div><div class="track"><div class="fill" style="width:'+p+'%;background:var(--accent);opacity:.7"></div></div></div>';}).join("")||'<div class="muted">Ingen data.</div>';
+  h+='<div class="card"><h2>Prisdata per kategori</h2>'+cats+'<div class="muted" style="font-size:11.5px;margin-top:6px">'+n(pd.verified_sold)+' Tradera-sålt · '+n(pd.reported_sold)+' användarrapporterade · '+n(pd.asking)+' annonspriser</div></div>';
+  var ord=(rev.recent||[]).map(function(o){return '<tr><td>'+n(o.credits)+' kr</td><td>'+kr(o.amount)+'</td><td class="muted" style="font-size:12px">'+String(o.created_at||"").slice(0,16).replace("T"," ")+'</td></tr>';}).join("")||'<tr><td colspan="3" class="muted">Inga ordrar än.</td></tr>';
+  h+='<div class="card"><h2>Senaste ordrar</h2><table><tr><th>Krediter</th><th>Belopp</th><th>Tid</th></tr>'+ord+'</table></div>';
+  h+='</div>';
+
+  // ── Licenses ──
+  var keys=(cr.top_keys||[]).map(function(k){return '<tr><td class="mono">'+k.key+'</td><td class="muted">'+(k.email||"—")+'</td><td>'+n(k.credits)+'</td><td>'+n(k.used)+'</td><td>'+(k.active?'<span class="pill" style="color:var(--green);background:rgba(14,159,110,.1)">aktiv</span>':'<span class="pill" style="color:var(--red);background:rgba(220,38,38,.1)">spärrad</span>')+'</td></tr>';}).join("")||'<tr><td colspan="5" class="muted">Inga nycklar än.</td></tr>';
+  h+='<div class="sec-h">Licensnycklar</div><div class="card"><table><tr><th>Nyckel</th><th>E-post</th><th>Krediter</th><th>Använt</th><th>Status</th></tr>'+keys+'</table></div>';
+
+  // ── Controls ──
+  h+='<div class="sec-h">Kontroller</div><div class="row">';
+  h+='<div class="card"><h2>Underhållsläge</h2><div class="k-sub" style="margin-bottom:9px">Just nu: <b>'+(sy.maintenance?'PÅ – tjänsten pausad':'AV – tjänsten körs')+'</b></div><input id="mmsg" placeholder="Meddelande till användare" style="margin-bottom:9px" value="'+String(sy.maintenance_msg||"").replace(/"/g,"&quot;")+'"><div style="display:flex;gap:8px"><button class="btn danger" onclick="maint(true)">Pausa</button><button class="btn" onclick="maint(false)">Återuppta</button></div></div>';
+  h+='<div class="card"><h2>Anthropic-saldo</h2><div class="k-sub" style="margin-bottom:9px">Senast satt: '+(q.anthropic_balance_at?String(q.anthropic_balance_at).slice(0,10):"aldrig")+' · burn ~'+burn+' USD/30 d</div><input id="abal" type="number" step="0.01" placeholder="Aktuellt saldo (USD)" style="margin-bottom:9px"><button class="btn pri" onclick="setBal()">Spara saldo</button></div>';
+  h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><div style="display:flex;gap:8px"><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund (nollställ)</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
+  h+='</div>';
+
+  document.getElementById("body").innerHTML=h;
+}
+async function maint(on){var r=await call("set_maintenance",{on:on,msg:document.getElementById("mmsg").value});if(r.status===200)load();}
+async function setBal(){var r=await call("set_anthropic_balance",{usd:document.getElementById("abal").value});if(r.status===200)load();else alert("Fel: "+(r.body.error||r.status));}
+async function keyAct(a){var el=document.getElementById("kmsg");var r=await call(a,{key:(document.getElementById("kkey").value||"").toUpperCase()});el.textContent=r.status===200?("Klart — "+r.body.affected+" nyckel uppdaterad."):("Fel: "+(r.body.error||r.status));if(r.status===200)setTimeout(load,700);}
+document.getElementById("pw").addEventListener("keydown",function(e){if(e.key==="Enter")login();});
+</script>
+</body>
+</html>
