@@ -5,47 +5,53 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Fyndkollen Admin</title>
+<script>(function(){try{if(localStorage.getItem('fk_admin_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800">
 <style>
 :root{--bg:#F7F4EF;--surface:#EFEAE1;--card:#FFF;--border:#E6DFD4;--text:#1A1611;--mid:#6B5F4E;--muted:#A2937E;--accent:#CC6B2C;--green:#0E9F6E;--red:#DC2626;--amber:#D97706}
+:root[data-theme=dark]{--bg:#161310;--surface:#211C17;--card:#221D18;--border:#322B23;--text:#F1ECE4;--mid:#C9BDAC;--muted:#8C8070;--accent:#E07E3C;--green:#34D399;--red:#F87171;--amber:#FBBF24}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
-.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 26px;background:var(--card);border-bottom:1px solid var(--border)}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:13px 22px;background:var(--card);border-bottom:1px solid var(--border)}
 .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;font-size:13px}
 .brand svg{color:var(--accent)}
 .tag{font-size:10.5px;font-weight:700;color:var(--mid);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
-.wrap{max-width:1180px;margin:0 auto;padding:22px 26px 70px}
-.grid{display:grid;gap:13px;grid-template-columns:repeat(auto-fit,minmax(196px,1fr))}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+.tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.chip{font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--mid);cursor:pointer;font-family:inherit}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.wrap{max-width:1180px;margin:0 auto;padding:20px 22px 70px}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:17px}
 .k-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.k-val{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:5px;font-variant-numeric:tabular-nums}
+.k-val{font-size:25px;font-weight:800;letter-spacing:-.02em;margin-top:5px;font-variant-numeric:tabular-nums}
 .k-sub{font-size:12px;color:var(--mid);margin-top:3px}
+.delta{font-size:12px;font-weight:700;margin-left:7px}
 h2{font-size:12px;font-weight:700;margin:0 0 12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.sec-h{font-size:15px;font-weight:800;margin:30px 0 12px;letter-spacing:-.01em}
-.row{display:grid;gap:13px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.sec-h{font-size:15px;font-weight:800;margin:28px 0 12px;letter-spacing:-.01em}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th{text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:7px 6px;border-bottom:1px solid var(--border)}
-td{padding:9px 6px;border-bottom:1px solid var(--surface);font-variant-numeric:tabular-nums}
+td{padding:9px 6px;border-bottom:1px solid var(--surface);font-variant-numeric:tabular-nums;vertical-align:top}
 tr:last-child td{border-bottom:none}
 .track{height:8px;background:var(--surface);border-radius:5px;overflow:hidden;margin-top:6px}
 .fill{height:100%;border-radius:5px;transition:width .3s}
 .pill{font-size:11px;font-weight:700;border-radius:6px;padding:2px 9px;display:inline-block}
 .btn{font-family:inherit;font-size:13px;font-weight:700;padding:9px 15px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:.12s}
 .btn:hover{border-color:var(--accent);color:var(--accent)}
-.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}
-.btn.pri:hover{color:#fff;filter:brightness(.95)}
+.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}.btn.pri:hover{color:#fff;filter:brightness(.95)}
 .btn.danger{color:var(--red);border-color:rgba(220,38,38,.3)}.btn.danger:hover{border-color:var(--red);color:var(--red)}
 input{font-family:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);outline:none;width:100%}
 input:focus{border-color:var(--accent)}
-svg.chart{width:100%;height:110px;display:block}
+svg.chart{width:100%;height:104px;display:block}
 #login{max-width:320px;margin:16vh auto;text-align:center}
-#login .card{padding:26px 24px}
-#login input{margin:16px 0}
+#login .card{padding:26px 24px}#login input{margin:16px 0}
 .muted{color:var(--muted)}.mid{color:var(--mid)}
-.warn{background:rgba(217,119,6,.09);border:1px solid rgba(217,119,6,.3);border-radius:12px;padding:13px 16px;font-size:13.5px;color:#8a5308;margin-bottom:16px;display:flex;gap:9px;align-items:flex-start}
+.warn{background:rgba(217,119,6,.09);border:1px solid rgba(217,119,6,.3);border-radius:12px;padding:13px 16px;font-size:13.5px;color:var(--amber);margin-bottom:16px;display:flex;gap:9px;align-items:flex-start}
 .ok-note{color:var(--green);font-size:12.5px;margin-bottom:16px}
 .mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px}
+.fb-msg{font-size:12.5px;color:var(--mid);white-space:pre-wrap;word-break:break-word}
+@media(max-width:640px){.wrap{padding:16px 14px 60px}.bar{padding:12px 14px}.k-val{font-size:22px}}
 </style>
 </head>
 <body>
@@ -67,109 +73,146 @@ svg.chart{width:100%;height:110px;display:block}
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="currentColor"/></svg>
       Fyndkollen <span class="tag">Admin</span>
     </div>
-    <button class="btn" onclick="load()">↻ Uppdatera</button>
+    <div class="tools">
+      <button class="chip" id="c-today" onclick="setP('today')">Idag</button>
+      <button class="chip on" id="c-7d" onclick="setP('7d')">7 dagar</button>
+      <button class="chip" id="c-30d" onclick="setP('30d')">30 dagar</button>
+      <button class="chip" onclick="toggleTheme()" title="Tema" style="padding:6px 10px">◐</button>
+      <button class="chip" onclick="load()">↻</button>
+    </div>
   </div>
   <div class="wrap" id="body"></div>
 </div>
 
 <script>
 var API="https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/admin";
-var PW="";
+var PW="", PERIOD="7d", TIMER=null;
 async function call(action, extra){
   var r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(Object.assign({password:PW,action:action},extra||{}))});
   return {status:r.status, body:await r.json().catch(function(){return{};})};
 }
 async function login(){
   PW=document.getElementById("pw").value;
-  var r=await call("data");
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats);}
+  var r=await call("data",{period:PERIOD});
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats);startAuto();}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data");if(r.status===200)render(r.body.stats);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats);}
+function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
+function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
+function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
 function kr(ore){return (Number(ore||0)/100).toLocaleString("sv-SE")+" kr";}
 function n(x){return Number(x||0).toLocaleString("sv-SE");}
 function pct(a,b){return b?Math.min(100,Math.round(a/b*100)):0;}
 function barColor(p){return p>=85?"var(--red)":p>=60?"var(--amber)":"var(--green)";}
+function delta(now,prev){now=Number(now||0);prev=Number(prev||0);if(prev===0)return now>0?'<span class="delta" style="color:var(--green)">ny</span>':'';var p=Math.round((now-prev)/prev*100);var c=p>=0?"var(--green)":"var(--red)";return '<span class="delta" style="color:'+c+'">'+(p>=0?"▲":"▼")+Math.abs(p)+'%</span>';}
 function kpi(l,v,sub){return '<div class="card"><div class="k-lbl">'+l+'</div><div class="k-val">'+v+'</div><div class="k-sub">'+sub+'</div></div>';}
 function spark(arr,key){
   if(!arr||!arr.length)return '<div class="muted" style="font-size:12px">Ingen data än.</div>';
-  var W=600,H=110,vals=arr.map(function(d){return Number(d[key]||0);}),max=Math.max.apply(null,vals)*1.15||1;
+  var W=600,H=104,vals=arr.map(function(d){return Number(d[key]||0);}),max=Math.max.apply(null,vals)*1.15||1;
   var pts=vals.map(function(v,i){var x=arr.length>1?i/(arr.length-1)*W:0;var y=H-4-(v/max)*(H-10);return x.toFixed(1)+","+y.toFixed(1);});
-  var area="M0,"+H+" L"+pts.join(" L")+" L"+W+","+H+" Z";
-  return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="'+area+'" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
+  return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
+function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
 function render(s){
-  var q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,ac=s.activity,vi=s.visitors,sy=s.system;
+  var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
-  var bytesPerRow=pd.total?q.db_bytes/pd.total:0, rowsPerDay=pd.added_7d/7;
+  var bytesPerRow=pd.total?q.db_bytes/pd.total:0,rowsPerDay=pd.added_7d/7;
   var dbRunway=(bytesPerRow*rowsPerDay)>0?Math.round((dbLimit*1048576-q.db_bytes)/(bytesPerRow*rowsPerDay)):null;
-  var burn=Number(q.anthropic_burn_30d||0), bal=q.anthropic_balance;
+  var burn=Number(q.anthropic_burn_30d||0),bal=q.anthropic_balance;
   var antRunway=(bal!=null&&burn>0)?Math.round(bal/(burn/30)):null;
   var services=[
     {name:"Supabase databas",use:dbMB,lim:dbLimit,unit:"MB",extra:dbRunway!=null?("≈ "+n(dbRunway)+" dagar till taket vid nuvarande tillväxt"):""},
     {name:"Tradera API (idag)",use:Number(q.tradera_today),lim:10000,unit:"anrop/dygn",extra:""},
-    {name:"Resend e-post (denna månad)",use:Number(q.emails_month),lim:3000,unit:"mejl/mån",extra:""},
-    {name:"Anthropic AI-saldo",use:burn,lim:(bal!=null?bal:null),unit:"USD",extra:(antRunway!=null?("≈ "+n(antRunway)+" dagar kvar (burn ~"+burn+" USD/30 dgr)"):(bal==null?"sätt ditt saldo under Kontroller":"burn ~"+burn+" USD/30 dgr"))}
+    {name:"Resend e-post (månad)",use:Number(q.emails_month),lim:3000,unit:"mejl/mån",extra:""},
+    {name:"Anthropic AI-saldo",use:burn,lim:(bal!=null?bal:null),unit:"USD",extra:(antRunway!=null?("≈ "+n(antRunway)+" dagar kvar (burn ~"+burn+" USD/30 d)"):(bal==null?"sätt ditt saldo under Kontroller":"burn ~"+burn+" USD/30 d"))}
   ];
   var worst=null;services.forEach(function(x){if(x.lim){x.p=pct(x.use,x.lim);if(!worst||x.p>worst.p)worst=x;}});
+  var groundedPct=pct(pd.well_grounded,pd.distinct_products);
+  var totalUse=Number(cr.total_used)+Number(cr.free_used), paidPct=pct(cr.total_used,totalUse);
 
   var h="";
-  // ── Bottleneck banner ──
-  if(worst&&worst.p>=60){h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen använd'+(worst.extra?". "+worst.extra:"")+'. Åtgärda i god tid.</div></div>';}
-  else{h+='<div class="ok-note">✓ Alla tredjepartstjänster har god marginal till sina gratisgränser.</div>';}
+  // banners
+  if(sy.ingest_paused)h+='<div class="warn"><span>⏸</span><div><b>Datainsamlingen är pausad.</b> Ingen ny prisdata hämtas. Återuppta under Kontroller.</div></div>';
+  if(sy.maintenance)h+='<div class="warn"><span>⚠</span><div><b>Underhållsläge PÅ</b> — tjänsten är pausad för användarna.</div></div>';
+  if(worst&&worst.p>=60)h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen'+(worst.extra?". "+worst.extra:"")+'.</div></div>';
+  else h+='<div class="ok-note">✓ Alla tredjepartstjänster har god marginal till sina gratisgränser.</div>';
 
-  // ── KPIs ──
+  // KPIs (period-scoped, with deltas)
   h+='<div class="grid">';
-  h+=kpi("Intäkt totalt",kr(rev.total_ore),n(rev.orders)+" ordrar · "+kr(rev.d30_ore)+" senaste 30 d");
-  h+=kpi("Insamlad prisdata",n(pd.total),n(pd.verified_sold)+" verifierade slutpriser · +"+n(pd.added_today)+" idag");
-  h+=kpi("Produkter i indexet",n(pd.distinct_products),"+"+n(pd.added_7d)+" nya rader (7 d)");
-  h+=kpi("Aktiva licenser",n(cr.active_keys),n(Number(cr.total_credits)-Number(cr.total_used))+" krediter kvar totalt");
-  h+=kpi("Besökare (7 d)",n(vi.d7),n(vi.today)+" idag");
-  h+=kpi("Analyser (30 d)",n(Number(ac.appraise_quick_30d)+Number(ac.appraise_photo_30d)),n(ac.cache_hit_30d)+" gratis cache-träffar");
+  h+=kpi("Intäkt ("+plabel()+")",kr(K.rev_now)+delta(K.rev_now,K.rev_prev),n(K.orders)+" ordrar · "+kr(rev.total_ore)+" totalt");
+  h+=kpi("Bruttomarginal ("+plabel()+")",kr(K.margin_ore),"kostnad ~"+(K.cost_usd*11).toFixed(0)+" kr (est. AI)");
+  h+=kpi("Besökare ("+plabel()+")",n(K.vis_now)+delta(K.vis_now,K.vis_prev),(K.conv!=null?K.conv+"% → köp":"—")+" konvertering");
+  h+=kpi("Analyser ("+plabel()+")",n(K.appr_now)+delta(K.appr_now,K.appr_prev),K.cache_rate+"% serverades gratis ur cache");
+  h+=kpi("Datakvalitet",n(pd.well_grounded)+" välgrundade",groundedPct+"% av produkter har ≥2 slutpriser");
+  h+=kpi("Insamlad prisdata",n(pd.total),n(pd.verified_sold)+" verifierade · +"+n(pd.added_today)+" idag");
   h+='</div>';
 
-  // ── Bottleneck monitor ──
+  // Unit economics
+  h+='<div class="sec-h">Enhetsekonomi</div><div class="row">';
+  h+='<div class="card"><h2>Analysfördelning (livstid)</h2><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span class="mid">Betalda (licens)</span><b>'+n(cr.total_used)+'</b></div><div class="track"><div class="fill" style="width:'+paidPct+'%;background:var(--accent)"></div></div><div style="display:flex;justify-content:space-between;font-size:13px;margin-top:10px"><span class="mid">Gratisnivå</span><b>'+n(cr.free_used)+'</b></div><div class="muted" style="font-size:11.5px;margin-top:8px">Cache-träff denna period: <b>'+K.cache_rate+'%</b> — ju högre desto lägre AI-kostnad.</div></div>';
+  h+='<div class="card"><h2>Datakvalitet — grundning</h2><div style="display:flex;justify-content:space-between;font-size:13px"><span class="mid">Produkter med ≥2 slutpriser</span><b>'+n(pd.well_grounded)+' / '+n(pd.distinct_products)+'</b></div><div class="track"><div class="fill" style="width:'+groundedPct+'%;background:var(--green)"></div></div><div class="muted" style="font-size:11.5px;margin-top:8px">Andelen produkter där värderingen vilar på riktig transaktionsdata. Växer med insamlingen.</div></div>';
+  h+='</div>';
+
+  // Bottleneck monitor
   h+='<div class="sec-h">Flaskhals-monitor — tredjeparts gratisgränser</div><div class="card">';
-  services.forEach(function(x){
-    var p=x.lim?pct(x.use,x.lim):0;
+  services.forEach(function(x){var p=x.lim?pct(x.use,x.lim):0;
     h+='<div style="margin-bottom:15px"><div style="display:flex;justify-content:space-between;font-size:13px;gap:10px"><span class="mid">'+x.name+'</span><b style="white-space:nowrap">'+(x.lim?(n(Math.round(x.use))+" / "+n(x.lim)+" "+x.unit+" · "+p+"%"):(n(Math.round(x.use))+" "+x.unit))+'</b></div>';
     if(x.lim)h+='<div class="track"><div class="fill" style="width:'+p+'%;background:'+barColor(p)+'"></div></div>';
-    if(x.extra)h+='<div class="muted" style="font-size:11.5px;margin-top:4px">'+x.extra+'</div>';
-    h+='</div>';
-  });
+    if(x.extra)h+='<div class="muted" style="font-size:11.5px;margin-top:4px">'+x.extra+'</div>';h+='</div>';});
   h+='</div>';
 
-  // ── Charts ──
+  // Trends
   h+='<div class="sec-h">Trender</div><div class="row">';
   h+='<div class="card"><h2>Prisdata-tillväxt (14 d)</h2>'+spark(pd.growth_by_day,"n")+'</div>';
-  h+='<div class="card"><h2>Intäkt per dag (30 d)</h2>'+spark(rev.by_day,"ore")+'</div>';
+  h+='<div class="card"><h2>Intäkt per dag ('+plabel()+')</h2>'+spark(rev.by_day,"ore")+'</div>';
   h+='<div class="card"><h2>Besökare per dag (14 d)</h2>'+spark(vi.by_day,"views")+'</div>';
   h+='</div>';
 
-  // ── Price data + orders ──
+  // Price data + orders
   h+='<div class="sec-h">Insamlad data & försäljning</div><div class="row">';
   var cats=(pd.by_category||[]).map(function(c){var p=pct(c.n,pd.total);return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12.5px"><span class="mid">'+c.category+'</span><b>'+n(c.n)+'</b></div><div class="track"><div class="fill" style="width:'+p+'%;background:var(--accent);opacity:.7"></div></div></div>';}).join("")||'<div class="muted">Ingen data.</div>';
-  h+='<div class="card"><h2>Prisdata per kategori</h2>'+cats+'<div class="muted" style="font-size:11.5px;margin-top:6px">'+n(pd.verified_sold)+' Tradera-sålt · '+n(pd.reported_sold)+' användarrapporterade · '+n(pd.asking)+' annonspriser</div></div>';
+  h+='<div class="card"><h2>Prisdata per kategori</h2>'+cats+'<div class="muted" style="font-size:11.5px;margin-top:6px">'+n(pd.verified_sold)+' Tradera-sålt · '+n(pd.reported_sold)+' användarrapp. · '+n(pd.asking)+' annonspriser</div></div>';
   var ord=(rev.recent||[]).map(function(o){return '<tr><td>'+n(o.credits)+' kr</td><td>'+kr(o.amount)+'</td><td class="muted" style="font-size:12px">'+String(o.created_at||"").slice(0,16).replace("T"," ")+'</td></tr>';}).join("")||'<tr><td colspan="3" class="muted">Inga ordrar än.</td></tr>';
   h+='<div class="card"><h2>Senaste ordrar</h2><table><tr><th>Krediter</th><th>Belopp</th><th>Tid</th></tr>'+ord+'</table></div>';
   h+='</div>';
 
-  // ── Licenses ──
-  var keys=(cr.top_keys||[]).map(function(k){return '<tr><td class="mono">'+k.key+'</td><td class="muted">'+(k.email||"—")+'</td><td>'+n(k.credits)+'</td><td>'+n(k.used)+'</td><td>'+(k.active?'<span class="pill" style="color:var(--green);background:rgba(14,159,110,.1)">aktiv</span>':'<span class="pill" style="color:var(--red);background:rgba(220,38,38,.1)">spärrad</span>')+'</td></tr>';}).join("")||'<tr><td colspan="5" class="muted">Inga nycklar än.</td></tr>';
+  // Licenses
+  var keys=(cr.top_keys||[]).map(function(k){return '<tr><td class="mono">'+k.key+'</td><td class="muted">'+(k.email||"—")+'</td><td>'+n(k.credits)+'</td><td>'+n(k.used)+'</td><td>'+(k.active?'<span class="pill" style="color:var(--green);background:rgba(14,159,110,.12)">aktiv</span>':'<span class="pill" style="color:var(--red);background:rgba(220,38,38,.12)">spärrad</span>')+'</td></tr>';}).join("")||'<tr><td colspan="5" class="muted">Inga nycklar än.</td></tr>';
   h+='<div class="sec-h">Licensnycklar</div><div class="card"><table><tr><th>Nyckel</th><th>E-post</th><th>Krediter</th><th>Använt</th><th>Status</th></tr>'+keys+'</table></div>';
 
-  // ── Controls ──
+  // Feedback inbox
+  h+='<div class="sec-h">Inkorg — feedback & väntelista</div><div class="card"><div class="tools" style="margin-bottom:12px"><button class="chip on" id="fb-all" onclick="loadFb(null)">Alla</button><button class="chip" id="fb-bug" onclick="loadFb(\'bug\')">Buggar</button><button class="chip" id="fb-suggestion" onclick="loadFb(\'suggestion\')">Förslag</button><button class="chip" id="fb-waitlist" onclick="loadFb(\'waitlist\')">Väntelista</button><button class="btn" style="margin-left:auto" onclick="copyWaitlist()">Kopiera väntelistans mejl</button></div><div id="fb-body" class="muted" style="font-size:12.5px">Välj en flik för att läsa.</div></div>';
+
+  // Controls
   h+='<div class="sec-h">Kontroller</div><div class="row">';
-  h+='<div class="card"><h2>Underhållsläge</h2><div class="k-sub" style="margin-bottom:9px">Just nu: <b>'+(sy.maintenance?'PÅ – tjänsten pausad':'AV – tjänsten körs')+'</b></div><input id="mmsg" placeholder="Meddelande till användare" style="margin-bottom:9px" value="'+String(sy.maintenance_msg||"").replace(/"/g,"&quot;")+'"><div style="display:flex;gap:8px"><button class="btn danger" onclick="maint(true)">Pausa</button><button class="btn" onclick="maint(false)">Återuppta</button></div></div>';
+  h+='<div class="card"><h2>Underhållsläge</h2><div class="k-sub" style="margin-bottom:9px">Just nu: <b>'+(sy.maintenance?"PÅ – pausad":"AV – körs")+'</b></div><input id="mmsg" placeholder="Meddelande till användare" style="margin-bottom:9px" value="'+String(sy.maintenance_msg||"").replace(/"/g,"&quot;")+'"><div style="display:flex;gap:8px"><button class="btn danger" onclick="maint(true)">Pausa</button><button class="btn" onclick="maint(false)">Återuppta</button></div></div>';
+  h+='<div class="card"><h2>Datainsamling</h2><div class="k-sub" style="margin-bottom:9px">Just nu: <b>'+(sy.ingest_paused?"PAUSAD":"AKTIV")+'</b> · senast: '+(sy.latest_tradera_at?String(sy.latest_tradera_at).slice(0,16).replace("T"," "):"—")+'</div><div style="display:flex;gap:8px"><button class="btn danger" onclick="ingest(true)">Pausa insamling</button><button class="btn" onclick="ingest(false)">Återuppta</button></div></div>';
   h+='<div class="card"><h2>Anthropic-saldo</h2><div class="k-sub" style="margin-bottom:9px">Senast satt: '+(q.anthropic_balance_at?String(q.anthropic_balance_at).slice(0,10):"aldrig")+' · burn ~'+burn+' USD/30 d</div><input id="abal" type="number" step="0.01" placeholder="Aktuellt saldo (USD)" style="margin-bottom:9px"><button class="btn pri" onclick="setBal()">Spara saldo</button></div>';
-  h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><div style="display:flex;gap:8px"><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund (nollställ)</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
+  h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><input id="kamt" type="number" placeholder="Antal krediter att ge" style="margin-bottom:9px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="keyAct(\'grant_credits\')">Ge krediter</button><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
   h+='</div>';
 
   document.getElementById("body").innerHTML=h;
 }
+var FBROWS=[];
+async function loadFb(kind){
+  ["all","bug","suggestion","waitlist"].forEach(function(x){var el=document.getElementById("fb-"+x);if(el)el.classList.toggle("on",(kind===null&&x==="all")||x===kind);});
+  var r=await call("feedback_list",{kind:kind});
+  if(r.status!==200){document.getElementById("fb-body").textContent="Fel.";return;}
+  FBROWS=r.body.rows||[];
+  if(!FBROWS.length){document.getElementById("fb-body").textContent="Inget här än.";return;}
+  var rows=FBROWS.map(function(f){return '<tr><td><span class="pill" style="background:var(--surface);color:var(--mid)">'+f.type+'</span></td><td class="fb-msg">'+(f.message||"").replace(/</g,"&lt;")+'</td><td class="muted">'+(f.email||"—")+'</td><td class="muted" style="font-size:11.5px;white-space:nowrap">'+String(f.created_at||"").slice(0,10)+'</td></tr>';}).join("");
+  document.getElementById("fb-body").innerHTML='<table><tr><th>Typ</th><th>Meddelande</th><th>E-post</th><th>Datum</th></tr>'+rows+'</table>';
+}
+function copyWaitlist(){
+  var emails=(FBROWS||[]).filter(function(f){return f.type==="waitlist"&&f.email;}).map(function(f){return f.email;});
+  if(!emails.length){alert("Ladda väntelistan först (klicka fliken Väntelista).");return;}
+  navigator.clipboard.writeText(emails.join(", ")).then(function(){alert(emails.length+" mejladresser kopierade.");});
+}
 async function maint(on){var r=await call("set_maintenance",{on:on,msg:document.getElementById("mmsg").value});if(r.status===200)load();}
+async function ingest(on){var r=await call("set_ingest_paused",{on:on});if(r.status===200)load();}
 async function setBal(){var r=await call("set_anthropic_balance",{usd:document.getElementById("abal").value});if(r.status===200)load();else alert("Fel: "+(r.body.error||r.status));}
-async function keyAct(a){var el=document.getElementById("kmsg");var r=await call(a,{key:(document.getElementById("kkey").value||"").toUpperCase()});el.textContent=r.status===200?("Klart — "+r.body.affected+" nyckel uppdaterad."):("Fel: "+(r.body.error||r.status));if(r.status===200)setTimeout(load,700);}
+async function keyAct(a){var el=document.getElementById("kmsg");var key=(document.getElementById("kkey").value||"").toUpperCase();var extra={key:key};if(a==="grant_credits")extra.amount=document.getElementById("kamt").value;var r=await call(a,extra);el.textContent=r.status===200?("Klart"+(r.body.credits!=null?" — saldo nu "+r.body.credits:(" — "+(r.body.affected||0)+" nyckel"))+"."):("Fel: "+(r.body.error||r.status));if(r.status===200)setTimeout(load,700);}
 document.getElementById("pw").addEventListener("keydown",function(e){if(e.key==="Enter")login();});
 </script>
 </body>
