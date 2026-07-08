@@ -521,7 +521,7 @@
         <a href="#pricing" data-i18n="navPricing">Priser</a>
         <a href="#faq" data-i18n="navFaq">Vanliga frÃ¥gor</a>
       </nav>
-      <a class="install-pill" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installNavBtn">LÃ¤gg till gratis</a>
+      <a class="install-pill" href="https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka" target="_blank" rel="noopener" data-i18n="installNavBtn">LÃ¤gg till gratis</a>
       <div class="lang-tog">
         <button class="lang-btn" id="lang-sv" aria-pressed="true">SV</button>
         <button class="lang-btn" id="lang-en" aria-pressed="false">EN</button>
@@ -543,7 +543,7 @@
         <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen Ã¤r ett fynd <span class="hl">innan du budar</span></h1>
         <p data-i18n="heroP">Fyndkollen lÃ¤ser Blocket-annonsen du tittar pÃ¥, bedÃ¶mer skicket och jÃ¤mfÃ¶r mot verklig prisdata frÃ¥n Blocket, Tradera och Prisjakt. Du fÃ¥r ett rakt svar: fynd, rimligt pris eller fÃ¶r dyrt, plus vad du kan tjÃ¤na vid vidarefÃ¶rsÃ¤ljning.</p>
         <div class="hero-actions">
-          <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installBtn">LÃ¤gg till i Chrome, gratis</a>
+          <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka" target="_blank" rel="noopener" data-i18n="installBtn">LÃ¤gg till i Chrome, gratis</a>
           <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 gratiskrediter ingÃ¥r direkt â€” rÃ¤cker till 5 snabbkollar eller 1 fotoanalys. Inget kort behÃ¶vs.</div>
           <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Vad kostar det?</a></div>
           <div class="privacy-note" data-i18n-html="privacyNote">ðŸ”’ Vi sparar inte dina sÃ¶kningar â€” lÃ¤s vÃ¥r <a href="privacy.html">policy</a></div>
@@ -976,6 +976,7 @@
   // 404, intercept those clicks and collect an email to notify instead. Once the real
   // Web Store URL is in place, this block simply never triggers (installLinks.length === 0).
   (function() {
+    return;
     var installLinks = Array.prototype.filter.call(
       document.querySelectorAll('a[href*="chromewebstore.google.com"]'),
       function(a) { return a.getAttribute('href').indexOf('REPLACE_WITH_REAL_EXTENSION_ID') !== -1; }
