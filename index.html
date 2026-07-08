@@ -167,6 +167,33 @@
   .notify-status{font-size:12.5px;color:var(--green);text-align:center;min-height:16px}
   .notify-status.err,.suggest-status.err{color:#DC2626}
 
+
+  /* WEB_APPRAISE_MVP */
+  .web-appraise-box{max-width:760px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow-sm)}
+  .web-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .web-form .full{grid-column:1/-1}
+  .web-input,.web-textarea,.web-select{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-size:14px;font-family:inherit;color:var(--text);outline:none}
+  .web-textarea{min-height:98px;resize:vertical}
+  .web-input:focus,.web-textarea:focus,.web-select:focus{border-color:var(--accent)}
+  .web-help{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .web-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+  .web-status{font-size:13px;color:var(--muted);min-height:18px}
+  .web-status.err{color:#DC2626}
+  .web-status.ok{color:var(--green)}
+  .web-panel{display:none;margin-top:16px;border-top:1px solid var(--border);padding-top:16px}
+  .web-panel.open{display:block}
+  .web-result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+  .web-metric{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px}
+  .web-metric span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700}
+  .web-metric b{font-size:18px}
+  .web-verdict{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:800;background:#DCFCE7;color:#047857}
+  .web-verdict.fair{background:#FEF3C7;color:#92400E}
+  .web-verdict.over{background:#FEE2E2;color:#B91C1C}
+  .web-reason{font-size:14px;color:var(--mid);line-height:1.65}
+  @media(max-width:640px){.web-form{grid-template-columns:1fr}.web-result-grid{grid-template-columns:1fr}}
+
+
+
   /* Sections */
   section{padding:40px 0;border-top:1px solid var(--border);position:relative}
   h2{font-size:26px;letter-spacing:-.5px;margin-bottom:8px;text-align:center}
@@ -516,6 +543,7 @@
     </div>
     <div class="hdr-right">
       <nav class="nav">
+        <a href="#web-appraise" data-i18n="navWeb">Värdera länk</a>
         <a href="#how" data-i18n="navHow">Så fungerar det</a>
         <a href="#features" data-i18n="navFeatures">Funktioner</a>
         <a href="#pricing" data-i18n="navPricing">Priser</a>
@@ -751,7 +779,7 @@
     sv: {
       pageTitle: 'Fyndkollen: Vet om Blocket-annonsen är ett fynd',
       metaDesc: 'Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Se direkt om priset är ett fynd, rimligt eller för högt.',
-      navHow: 'Så fungerar det', navFeatures: 'Funktioner', navPricing: 'Priser', navFaq: 'Vanliga frågor',
+      navWeb: 'Värdera länk', navHow: 'Så fungerar det', navFeatures: 'Funktioner', navPricing: 'Priser', navFaq: 'Vanliga frågor',
       installNavBtn: 'Lägg till gratis',
       themeToggle: 'Byt tema',
       eyebrow: 'Chrome-tillägg för Blocket',
@@ -761,6 +789,20 @@
       installSub: 'Gratis att installera. 5 gratiskrediter ingår direkt — räcker till 5 snabbkollar eller 1 fotoanalys. Inget kort behövs.',
       secondaryCta: 'Vad kostar det?',
       privacyNote: '🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a>',
+
+      webH2: 'Värdera en Blocket-länk direkt',
+      webLead: 'Klistra in en annonslänk och få en privat textvärdering utan att installera tillägget. Byggt för mobil och för dig som vill testa först.',
+      webUrlLabel: 'Blocket-länk', webEmailLabel: 'E-post', webLicenseLabel: 'Licensnyckel (valfritt)',
+      webHelp: 'Första webbtestet är gratis. Därefter används samma krediter som i Chrome-tillägget. Version 1 använder bara text och pris för låg kostnad och låg risk.',
+      webSubmit: 'Värdera annonsen',
+      webManualH: 'Fyll i annonsen manuellt', webManualP: 'Om Blocket-sidan inte kan läsas automatiskt kan du klistra in uppgifterna själv.',
+      webTitlePh: 'Titel', webPricePh: 'Pris i kr', webDescPh: 'Beskrivning från annonsen',
+      webCondUnknown: 'Skick okänt', webCondExcellent: 'Mycket bra skick', webCondGood: 'Bra skick', webCondWorn: 'Slitet/skador',
+      webManualSubmit: 'Värdera manuellt',
+      webMarket: 'Marknadsvärde', webAsking: 'Annonspris', webConfidence: 'Säkerhet',
+      webInstallCta: 'Installera tillägget för snabbare värderingar',
+
+
       howH2: 'Så fungerar det',
       howLead: 'Tre steg. Inga formulär, inga konton — bara ett svar du kan lita på.',
       how1h: 'Öppna en annons', how1p: 'Fyndkollen känner igen produkten automatiskt, oavsett kategori — klockor, bilar, elektronik, vad som helst.',
@@ -818,7 +860,7 @@
     en: {
       pageTitle: 'Fyndkollen — Know if a Blocket listing is a deal before you buy',
       metaDesc: 'Fyndkollen is a Chrome extension that appraises Blocket listings on the spot: condition from photos, market value from live Blocket/Tradera/Prisjakt data, and a clear good deal / fair / overpriced verdict with resale margin.',
-      navHow: 'How it works', navFeatures: 'Features', navPricing: 'Pricing', navFaq: 'FAQ',
+      navWeb: 'Appraise link', navHow: 'How it works', navFeatures: 'Features', navPricing: 'Pricing', navFaq: 'FAQ',
       installNavBtn: 'Add to Chrome',
       themeToggle: 'Toggle theme',
       eyebrow: 'Chrome extension for Blocket',
@@ -828,6 +870,20 @@
       installSub: 'Free to add. 5 free credits included — enough for 5 quick checks or 1 photo analysis. No card required.',
       secondaryCta: 'What does it cost?',
       privacyNote: '🔒 We don\'t store your searches — read our <a href="privacy.html">policy</a>',
+
+      webH2: 'Appraise a Blocket link directly',
+      webLead: 'Paste a listing link and get a private text appraisal without installing the extension. Built for mobile and for people who want to try it first.',
+      webUrlLabel: 'Blocket link', webEmailLabel: 'Email', webLicenseLabel: 'License key (optional)',
+      webHelp: 'The first web check is free. After that it uses the same credits as the Chrome extension. Version 1 uses text and price only to keep cost and risk low.',
+      webSubmit: 'Appraise listing',
+      webManualH: 'Enter the listing manually', webManualP: 'If the Blocket page cannot be read automatically, paste the listing details yourself.',
+      webTitlePh: 'Title', webPricePh: 'Price in SEK', webDescPh: 'Listing description',
+      webCondUnknown: 'Unknown condition', webCondExcellent: 'Very good condition', webCondGood: 'Good condition', webCondWorn: 'Worn/damaged',
+      webManualSubmit: 'Appraise manually',
+      webMarket: 'Market value', webAsking: 'Listing price', webConfidence: 'Confidence',
+      webInstallCta: 'Install the extension for faster appraisals',
+
+
       howH2: 'How it works',
       howLead: 'Three steps. No forms, no accounts — just an answer you can trust.',
       how1h: 'Open a listing', how1p: 'Fyndkollen recognizes the product automatically, regardless of category — watches, cars, electronics, anything.',
@@ -1042,6 +1098,99 @@
     });
     emailEl.addEventListener('keydown', function(e) { if (e.key === 'Enter') notifyBtn.click(); });
   })();
+
+
+  // WEB_APPRAISE_CLIENT
+  var WEB_APPRAISE_URL = 'https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/web-appraise';
+  (function() {
+    var urlEl = document.getElementById('web-url');
+    if (!urlEl) return;
+    var emailEl = document.getElementById('web-email');
+    var licenseEl = document.getElementById('web-license');
+    var statusEl = document.getElementById('web-status');
+    var submitEl = document.getElementById('web-submit');
+    var manualEl = document.getElementById('web-manual');
+    var manualSubmitEl = document.getElementById('web-manual-submit');
+    var resultEl = document.getElementById('web-result');
+
+    function lang() { return document.documentElement.lang === 'en' ? 'en' : 'sv'; }
+    function msg(sv, en) { return lang() === 'en' ? en : sv; }
+    function setStatus(text, kind) {
+      statusEl.className = 'web-status' + (kind ? ' ' + kind : '');
+      statusEl.textContent = text || '';
+    }
+    function validBlocketUrl(v) {
+      try {
+        var u = new URL(v);
+        return u.hostname === 'www.blocket.se' || u.hostname === 'blocket.se';
+      } catch (e) { return false; }
+    }
+    function kr(v) {
+      if (typeof v !== 'number' || !isFinite(v)) return '-';
+      return Math.round(v).toLocaleString('sv-SE') + ' kr';
+    }
+    function renderResult(data) {
+      var r = data.result || data;
+      resultEl.classList.add('open');
+      manualEl.classList.remove('open');
+      var verdict = (r.recommendation || r.verdict || '').toString().toLowerCase();
+      var label = r.recommendationLabel || r.verdictLabel || r.recommendation || 'Resultat';
+      var vEl = document.getElementById('web-verdict');
+      vEl.textContent = label;
+      vEl.className = 'web-verdict' + (verdict.includes('over') || verdict.includes('dyr') ? ' over' : verdict.includes('fair') || verdict.includes('rim') ? ' fair' : '');
+      document.getElementById('web-market').textContent = kr(Number(r.marketValue || r.market_value));
+      document.getElementById('web-asking').textContent = kr(Number(r.askingPrice || r.asking_price));
+      document.getElementById('web-confidence').textContent = r.confidence || r.confidenceLabel || '-';
+      document.getElementById('web-reason').textContent = r.reasoning || r.reason || '';
+      setStatus(msg('Klar.', 'Done.'), 'ok');
+    }
+    async function send(manual) {
+      var url = (urlEl.value || '').trim();
+      var email = (emailEl.value || '').trim();
+      var license = (licenseEl.value || '').trim();
+      setStatus('', '');
+      resultEl.classList.remove('open');
+      if (!validBlocketUrl(url)) { setStatus(msg('Klistra in en giltig Blocket-länk.', 'Paste a valid Blocket link.'), 'err'); return; }
+      if (!email || !EMAIL_RE.test(email)) { setStatus(msg('Ange en giltig e-postadress.', 'Enter a valid email address.'), 'err'); return; }
+      var payload = { url: url, email: email, license: license || null, lang: lang() };
+      if (manual) {
+        payload.manual = {
+          title: document.getElementById('web-title').value,
+          price: Number(document.getElementById('web-price').value || 0),
+          description: document.getElementById('web-description').value,
+          condition: document.getElementById('web-condition').value
+        };
+      }
+      submitEl.disabled = true;
+      if (manualSubmitEl) manualSubmitEl.disabled = true;
+      setStatus(msg('Värderar annonsen...', 'Appraising listing...'), '');
+      try {
+        var res = await fetch(WEB_APPRAISE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        var data = await res.json().catch(function(){ return {}; });
+        if (data.needs_manual_input) {
+          manualEl.classList.add('open');
+          setStatus(msg('Vi kunde inte läsa allt automatiskt. Fyll i uppgifterna manuellt.', 'We could not read everything automatically. Enter the details manually.'), '');
+          return;
+        }
+        if (!res.ok) {
+          throw new Error(data.error || 'request failed');
+        }
+        renderResult(data);
+      } catch (e) {
+        setStatus(msg('Webbvärderingen är inte tillgänglig just nu. Försök igen om en stund.', 'Web appraisal is not available right now. Try again shortly.'), 'err');
+      } finally {
+        submitEl.disabled = false;
+        if (manualSubmitEl) manualSubmitEl.disabled = false;
+      }
+    }
+    submitEl.addEventListener('click', function() { send(false); });
+    manualSubmitEl.addEventListener('click', function() { send(true); });
+  })();
+
 
   // ── Scroll-reveal (progressive enhancement) ────────────────────────────
   // Adds the fade-in class only right before observing each element, so if
