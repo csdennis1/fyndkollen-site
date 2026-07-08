@@ -976,7 +976,7 @@
   // 404, intercept those clicks and collect an email to notify instead. Once the real
   // Web Store URL is in place, this block simply never triggers (installLinks.length === 0).
   (function() {
-    return;
+ 	return;
     var installLinks = Array.prototype.filter.call(
       document.querySelectorAll('a[href*="chromewebstore.google.com"]'),
       function(a) { return a.getAttribute('href').indexOf('REPLACE_WITH_REAL_EXTENSION_ID') !== -1; }
@@ -1144,3 +1144,4 @@
 </style>
 </body>
 </html>
+
