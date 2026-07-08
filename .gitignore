@@ -1,0 +1,7 @@
+# Redigeringsbackuper och CLI-rester ska aldrig committas
+*.bak
+*.bak-*
+*.before-*
+supabase/
+.DS_Store
+Thumbs.db
