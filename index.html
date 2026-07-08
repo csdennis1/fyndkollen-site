@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="sv">
 <head>
 <meta charset="UTF-8"/>
 <!-- Set data-theme before first paint so a saved dark-mode choice never flashes light first. -->
 <script>(function(){try{if(localStorage.getItem('fk_site_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title data-i18n="pageTitle">Fyndkollen: Vet om Blocket-annonsen är ett fynd</title>
-<meta name="description" content="Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Se direkt om priset är ett fynd, rimligt eller för högt."/>
+<title data-i18n="pageTitle">Fyndkollen: Vet om Blocket-annonsen Ã¤r ett fynd</title>
+<meta name="description" content="Chrome-tillÃ¤gg som lÃ¤ser Blocket-annonser, bedÃ¶mer skick och jÃ¤mfÃ¶r mot verklig prisdata frÃ¥n Blocket, Tradera och Prisjakt. Se direkt om priset Ã¤r ett fynd, rimligt eller fÃ¶r hÃ¶gt."/>
 <link rel="canonical" href="https://fyndkollen.com/"/>
 <link rel="alternate" hreflang="sv" href="https://fyndkollen.com/"/>
 <link rel="alternate" hreflang="en" href="https://fyndkollen.com/?lang=en"/>
@@ -18,18 +18,18 @@
 <link rel="preconnect" href="https://buy.stripe.com"/>
 <link rel="dns-prefetch" href="https://buy.stripe.com"/>
 <!-- Social sharing (Open Graph + Twitter). og:image uses the extension icon until a real
-     1200x630 share card exists — small but correct beats missing. -->
+     1200x630 share card exists â€” small but correct beats missing. -->
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Fyndkollen"/>
-<meta property="og:title" content="Fyndkollen: Vet om Blocket-annonsen är ett fynd"/>
-<meta property="og:description" content="Chrome-tillägg som läser Blocket-annonsen, bedömer skicket och jämför mot verklig prisdata. Rakt svar: fynd, rimligt eller för dyrt."/>
+<meta property="og:title" content="Fyndkollen: Vet om Blocket-annonsen Ã¤r ett fynd"/>
+<meta property="og:description" content="Chrome-tillÃ¤gg som lÃ¤ser Blocket-annonsen, bedÃ¶mer skicket och jÃ¤mfÃ¶r mot verklig prisdata. Rakt svar: fynd, rimligt eller fÃ¶r dyrt."/>
 <meta property="og:url" content="https://fyndkollen.com/"/>
 <meta property="og:image" content="https://fyndkollen.com/icon128.png"/>
 <meta property="og:locale" content="sv_SE"/>
 <meta property="og:locale:alternate" content="en_US"/>
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Fyndkollen: Vet om Blocket-annonsen är ett fynd"/>
-<meta name="twitter:description" content="Chrome-tillägg som läser Blocket-annonsen, bedömer skicket och jämför mot verklig prisdata. Rakt svar: fynd, rimligt eller för dyrt."/>
+<meta name="twitter:title" content="Fyndkollen: Vet om Blocket-annonsen Ã¤r ett fynd"/>
+<meta name="twitter:description" content="Chrome-tillÃ¤gg som lÃ¤ser Blocket-annonsen, bedÃ¶mer skicket och jÃ¤mfÃ¶r mot verklig prisdata. Rakt svar: fynd, rimligt eller fÃ¶r dyrt."/>
 <meta name="twitter:image" content="https://fyndkollen.com/icon128.png"/>
 <script type="application/ld+json">
 {
@@ -38,13 +38,13 @@
   "name": "Fyndkollen",
   "operatingSystem": "Chrome",
   "applicationCategory": "BrowserApplication",
-  "description": "Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt.",
+  "description": "Chrome-tillÃ¤gg som lÃ¤ser Blocket-annonser, bedÃ¶mer skick och jÃ¤mfÃ¶r mot verklig prisdata frÃ¥n Blocket, Tradera och Prisjakt.",
   "url": "https://fyndkollen.com/",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SEK", "description": "Gratis att installera, 5 gratiskrediter ingår" }
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SEK", "description": "Gratis att installera, 5 gratiskrediter ingÃ¥r" }
 }
 </script>
 <!-- TODO: replace CHROME_STORE_URL below (both occurrences) with your real Chrome Web Store listing URL once published -->
-<!-- Inter via Bunny Fonts: GDPR-safe drop-in for Google Fonts (EU-hosted, zero logging/tracking —
+<!-- Inter via Bunny Fonts: GDPR-safe drop-in for Google Fonts (EU-hosted, zero logging/tracking â€”
      the Google Fonts CDN itself is a documented GDPR problem for an EU audience). Verified 200. -->
 <link rel="preconnect" href="https://fonts.bunny.net"/>
 <style>@import url('https://fonts.bunny.net/css?family=inter:400,500,600,700,800');</style>
@@ -64,7 +64,7 @@
     --bg:#FAFAF8;--surface:#F4F0EA;--card:#FFFFFF;--border:#EBE5DC;--text:#1A1A1A;
     --mid:#6B5744;--muted:#786858;--accent:#CC6B2C;--accent-h:#B85C22;--green:#059669;
     --gloss:rgba(255,255,255,.7);
-    /* Layered shadow system — depth via soft/tight pairs, no blur/glassmorphism (stays
+    /* Layered shadow system â€” depth via soft/tight pairs, no blur/glassmorphism (stays
        trustworthy for a value-conscious Swedish audience, and safe next to Blocket's UI
        when the same tokens are reused in the extension panel). */
     --shadow-sm:0 1px 2px rgba(40,30,20,.06),0 2px 8px rgba(40,30,20,.06);
@@ -72,14 +72,14 @@
     --shadow-lg:0 6px 16px rgba(40,30,20,.10),0 20px 40px rgba(40,30,20,.14);
     --ease-out:cubic-bezier(.16,1,.3,1);
     --checker:#EDE6DA;
-    /* Warm charcoal (not pure black) for the single dark contrast band — a deliberately
+    /* Warm charcoal (not pure black) for the single dark contrast band â€” a deliberately
        contained "premium infrastructure" signal on the pricing section only. Independent
        of the light/dark toggle below: this band stays the same in both site themes. */
     --dark-bg:#2A2420;--dark-text:#F4F0EA;--dark-mid:#D8D2C8;--dark-muted:#B0A493;
   }
   /* Site-wide light/dark theme, user-toggled via the header button (default: light).
-     Lives entirely in the stylesheet via an attribute selector — never set inline on the
-     root element — so the cascade always repaints cleanly when the attribute flips. */
+     Lives entirely in the stylesheet via an attribute selector â€” never set inline on the
+     root element â€” so the cascade always repaints cleanly when the attribute flips. */
   :root[data-theme="dark"]{
     --bg:#161310;--surface:#1E1A16;--card:#221D18;--border:#322B23;--text:#F1ECE4;
     --mid:#C9BDAC;--muted:#988A79;--accent:#E07E3C;--accent-h:#EE8B49;--green:#34D399;
@@ -140,7 +140,7 @@
   .privacy-note a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
   .privacy-note a:hover{color:var(--accent)}
 
-  /* Pre-launch "notify me" modal — shown instead of navigating when the Chrome Web
+  /* Pre-launch "notify me" modal â€” shown instead of navigating when the Chrome Web
      Store link is still a placeholder (extension not published yet). */
   .notify-backdrop{
     display:none;position:fixed;inset:0;background:rgba(26,23,20,.5);z-index:1000;
@@ -179,7 +179,7 @@
   .card h3{font-size:15px;margin-bottom:4px}
   .card p{font-size:14px;color:var(--mid)}
 
-  /* How it works — 3-step process */
+  /* How it works â€” 3-step process */
   .steps{display:grid;grid-template-columns:1fr;gap:16px}
   .step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;transition:box-shadow .2s var(--ease-out),transform .2s var(--ease-out)}
   .step:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
@@ -187,7 +187,7 @@
   .step h3{font-size:15px;margin-bottom:4px}
   .step p{font-size:14px;color:var(--mid)}
 
-  /* Pricing — credit packs */
+  /* Pricing â€” credit packs */
   .packs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end}
   .pack{background:var(--card);color:var(--text);border:1.5px solid var(--border);border-radius:16px;padding:24px 18px;text-align:center;position:relative;box-shadow:inset 0 1px 0 var(--gloss),var(--shadow-sm)}
   .pack.featured{border-color:var(--accent);box-shadow:inset 0 1px 0 var(--gloss),0 6px 28px rgba(204,107,44,.18);padding-top:30px}
@@ -205,7 +205,7 @@
   .climate-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
 
   /* ---------- Pricing: single warm-dark contrast band ----------
-     One deliberate dark section (not alternating dark/light throughout — that reads as
+     One deliberate dark section (not alternating dark/light throughout â€” that reads as
      overdesigned for a Swedish audience). Applies at EVERY width, not just desktop, so
      mobile doesn't end up with light text on a light background. .pack stays a white
      card (color:var(--text) reset above) so nothing inside it needs a dark-mode variant;
@@ -237,7 +237,7 @@
   .suggest-textarea:focus,.suggest-email:focus{border-color:var(--accent)}
   .suggest-status{font-size:12.5px;color:var(--green);text-align:center;min-height:16px}
 
-  /* Scroll-reveal — the class is added by JS right before observing, never baked into
+  /* Scroll-reveal â€” the class is added by JS right before observing, never baked into
      the HTML, so content is always visible by default if JS fails to load/run. */
   .will-animate{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease-out),transform .5s var(--ease-out)}
   .will-animate.is-visible{opacity:1;transform:none}
@@ -245,7 +245,7 @@
 
   /* ---------- Hero-visual entrance + ambient motion (ported from the redesign concept) ----------
      The redesign's own ambient blob-drift (.band::before/::after + a second @keyframes fkDrift)
-     is intentionally NOT ported here — this file already has an equivalent, more capable version
+     is intentionally NOT ported here â€” this file already has an equivalent, more capable version
      via .band-bg > .blob-a/.blob-b (see the DESKTOP REDESIGN block below), and porting both would
      stack two overlapping blurred layers under the same animation name. */
   @keyframes fkPopIn{0%{opacity:0;transform:scale(.85) translateY(10px)}70%{transform:scale(1.015) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
@@ -270,7 +270,7 @@
   .trust-row{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;font-size:11.5px;color:var(--muted);margin-bottom:10px}
 
   /* ============================================================
-     DESKTOP REDESIGN — "Product Visual Anchor" (base concept)
+     DESKTOP REDESIGN â€” "Product Visual Anchor" (base concept)
      + full-bleed alternating section bands and decorative texture
      grafted in from the editorial-bands concept, confined to the
      outer margins so they never interfere with readability.
@@ -286,14 +286,14 @@
     /* ---------- Full-bleed alternating bands ---------- */
     header{background:var(--bg)}
     #features{background:var(--surface)}
-    /* #pricing stays the dark band set globally above — do not reset it to light here. */
+    /* #pricing stays the dark band set globally above â€” do not reset it to light here. */
     #faq{background:var(--surface)}
     #suggest{background:var(--bg)}
     footer{background:var(--bg)}
 
     /* Decorative dot-grid + star texture, confined to outer margins via mask so
        it never overlaps the readable content column. Purely cosmetic, aria-hidden.
-       #pricing gets its own lighter dot color — the shared warm-brown dot from the
+       #pricing gets its own lighter dot color â€” the shared warm-brown dot from the
        light hero would be nearly invisible against the dark pricing band. */
     .hero .band-bg,#pricing .band-bg{
       background-size:26px 26px;
@@ -303,13 +303,13 @@
     .hero .band-bg{background-image:radial-gradient(circle,rgba(107,87,68,.14) 1.4px,transparent 1.4px)}
     #pricing .band-bg{background-image:radial-gradient(circle,rgba(255,255,255,.08) 1.4px,transparent 1.4px)}
     .hero .band-bg::after{
-      content:'★';position:absolute;top:12%;right:6%;font-size:15px;color:rgba(204,107,44,.28);
+      content:'â˜…';position:absolute;top:12%;right:6%;font-size:15px;color:rgba(204,107,44,.28);
     }
     .hero .band-bg::before{
-      content:'★';position:absolute;bottom:10%;left:5%;font-size:11px;color:rgba(204,107,44,.2);
+      content:'â˜…';position:absolute;bottom:10%;left:5%;font-size:11px;color:rgba(204,107,44,.2);
     }
 
-    /* Subtle drifting background blobs — slow, low-opacity, decorative only. */
+    /* Subtle drifting background blobs â€” slow, low-opacity, decorative only. */
     .band{overflow:hidden}
     #pricing{overflow:hidden}
     @keyframes fkDrift{from{transform:translate(0,0) scale(1)}to{transform:translate(46px,-32px) scale(1.12)}}
@@ -353,7 +353,7 @@
     .hero-trust div{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
     .hero-trust b{color:var(--text);font-size:15px}
 
-    /* Trust strip — reuses existing brand-name copy already in the page, no new i18n keys */
+    /* Trust strip â€” reuses existing brand-name copy already in the page, no new i18n keys */
     .trust-strip{display:flex;align-items:center;gap:18px;margin-top:38px;padding-top:22px;border-top:1px solid var(--border);flex-wrap:wrap}
     .trust-strip span{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
     .trust-strip .src{font-size:13px;font-weight:700;color:var(--mid);opacity:.8}
@@ -396,7 +396,7 @@
       margin-bottom:12px;position:relative;overflow:hidden;
     }
     .listing-mock .ph::after{
-      content:'📦';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;opacity:.5;
+      content:'ðŸ“¦';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;opacity:.5;
     }
     .listing-mock .ttl{height:12px;width:78%;background:var(--border);border-radius:4px;margin-bottom:8px}
     .listing-mock .sub{height:9px;width:46%;background:var(--border);border-radius:4px;margin-bottom:14px}
@@ -516,12 +516,12 @@
     </div>
     <div class="hdr-right">
       <nav class="nav">
-        <a href="#how" data-i18n="navHow">Så fungerar det</a>
+        <a href="#how" data-i18n="navHow">SÃ¥ fungerar det</a>
         <a href="#features" data-i18n="navFeatures">Funktioner</a>
         <a href="#pricing" data-i18n="navPricing">Priser</a>
-        <a href="#faq" data-i18n="navFaq">Vanliga frågor</a>
+        <a href="#faq" data-i18n="navFaq">Vanliga frÃ¥gor</a>
       </nav>
-      <a class="install-pill" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installNavBtn">Lägg till gratis</a>
+      <a class="install-pill" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installNavBtn">LÃ¤gg till gratis</a>
       <div class="lang-tog">
         <button class="lang-btn" id="lang-sv" aria-pressed="true">SV</button>
         <button class="lang-btn" id="lang-en" aria-pressed="false">EN</button>
@@ -539,17 +539,17 @@
   <div class="wrap-wide">
     <div class="hero">
       <div class="hero-copy">
-        <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">Chrome-tillägg för Blocket</span></span>
-        <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span></h1>
-        <p data-i18n="heroP">Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.</p>
+        <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">Chrome-tillÃ¤gg fÃ¶r Blocket</span></span>
+        <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen Ã¤r ett fynd <span class="hl">innan du budar</span></h1>
+        <p data-i18n="heroP">Fyndkollen lÃ¤ser Blocket-annonsen du tittar pÃ¥, bedÃ¶mer skicket och jÃ¤mfÃ¶r mot verklig prisdata frÃ¥n Blocket, Tradera och Prisjakt. Du fÃ¥r ett rakt svar: fynd, rimligt pris eller fÃ¶r dyrt, plus vad du kan tjÃ¤na vid vidarefÃ¶rsÃ¤ljning.</p>
         <div class="hero-actions">
-          <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
-          <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 gratiskrediter ingår direkt — räcker till 5 snabbkollar eller 1 fotoanalys. Inget kort behövs.</div>
+          <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/REPLACE_WITH_REAL_EXTENSION_ID" target="_blank" rel="noopener" data-i18n="installBtn">LÃ¤gg till i Chrome, gratis</a>
+          <div class="cta-sub" data-i18n="installSub">Gratis att installera. 5 gratiskrediter ingÃ¥r direkt â€” rÃ¤cker till 5 snabbkollar eller 1 fotoanalys. Inget kort behÃ¶vs.</div>
           <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Vad kostar det?</a></div>
-          <div class="privacy-note" data-i18n-html="privacyNote">🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a></div>
+          <div class="privacy-note" data-i18n-html="privacyNote">ðŸ”’ Vi sparar inte dina sÃ¶kningar â€” lÃ¤s vÃ¥r <a href="privacy.html">policy</a></div>
         </div>
         <div class="trust-strip" aria-hidden="true">
-          <span data-i18n="trustSources">Prisdata från</span>
+          <span data-i18n="trustSources">Prisdata frÃ¥n</span>
           <span class="src">Blocket</span>
           <span class="src">Tradera</span>
           <span class="src">Prisjakt</span>
@@ -560,7 +560,7 @@
         <div class="browser-mock">
           <div class="browser-bar">
             <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-url">blocket.se/annons/…</div>
+            <div class="browser-url">blocket.se/annons/â€¦</div>
           </div>
           <div class="browser-body">
             <div class="listing-mock">
@@ -568,7 +568,7 @@
               <div class="ttl"></div>
               <div class="sub"></div>
               <div class="price">1 200 kr</div>
-              <div class="meta">Stockholm · Idag</div>
+              <div class="meta">Stockholm Â· Idag</div>
             </div>
             <div class="badge-float">
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="#FFFFFF"/><circle cx="7.2" cy="7.2" r="1.7" fill="var(--accent)"/><path d="M9.8 12.6l2.3 2.3 4.2-4.2" stroke="var(--accent)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -580,16 +580,16 @@
                 <b>Fyndkollen</b>
               </div>
               <div class="rc-verdict"><span class="dot"></span>Bra fynd</div>
-              <div class="rc-row"><span>Marknadsvärde</span><b>1 650 kr</b></div>
+              <div class="rc-row"><span>MarknadsvÃ¤rde</span><b>1 650 kr</b></div>
               <div class="rc-row"><span>Annonspris</span><b>1 200 kr</b></div>
               <div class="rc-row"><span>Skick</span><b>Mycket bra</b></div>
               <div class="rc-condbar"><span></span></div>
-              <div class="rc-margin"><span>Vid återförsälj</span><b style="display:inline-flex;align-items:center;gap:5px"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span>Vinst</b></div>
+              <div class="rc-margin"><span>Vid Ã¥terfÃ¶rsÃ¤lj</span><b style="display:inline-flex;align-items:center;gap:5px"><span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block"></span>Vinst</b></div>
             </div>
           </div>
         </div>
         <div class="hero-trust">
-          <div><b>3</b>&nbsp;<span data-i18n="heroTrust1">marknader jämförs</span></div>
+          <div><b>3</b>&nbsp;<span data-i18n="heroTrust1">marknader jÃ¤mfÃ¶rs</span></div>
           <div><b>5</b>&nbsp;<span data-i18n="heroTrust2">gratiskrediter direkt</span></div>
           <div><b>0</b>&nbsp;<span data-i18n="heroTrust3">prenumerationer</span></div>
         </div>
@@ -600,32 +600,32 @@
 
 <section id="how">
   <div class="wrap-wide">
-    <h2 data-i18n="howH2">Så fungerar det</h2>
-    <p class="lead" data-i18n="howLead">Tre steg. Inga formulär, inga konton — bara ett svar du kan lita på.</p>
+    <h2 data-i18n="howH2">SÃ¥ fungerar det</h2>
+    <p class="lead" data-i18n="howLead">Tre steg. Inga formulÃ¤r, inga konton â€” bara ett svar du kan lita pÃ¥.</p>
     <div class="steps">
-      <div class="step"><div class="step-num">1</div><h3 data-i18n="how1h">Öppna en annons</h3><p data-i18n="how1p">Fyndkollen känner igen produkten automatiskt, oavsett kategori — klockor, bilar, elektronik, vad som helst.</p></div>
-      <div class="step"><div class="step-num">2</div><h3 data-i18n="how2h">AI:n läser allt</h3><p data-i18n="how2p">Text, pris och varje bild i annonsen. Skicket bedöms visuellt — repor, slitage och defekter säljaren inte nämner.</p></div>
-      <div class="step"><div class="step-num">3</div><h3 data-i18n="how3h">Få ett rakt svar</h3><p data-i18n="how3p">Fynd, rimligt eller för dyrt — plus marknadsvärde och möjlig vinst vid vidareförsäljning.</p></div>
+      <div class="step"><div class="step-num">1</div><h3 data-i18n="how1h">Ã–ppna en annons</h3><p data-i18n="how1p">Fyndkollen kÃ¤nner igen produkten automatiskt, oavsett kategori â€” klockor, bilar, elektronik, vad som helst.</p></div>
+      <div class="step"><div class="step-num">2</div><h3 data-i18n="how2h">AI:n lÃ¤ser allt</h3><p data-i18n="how2p">Text, pris och varje bild i annonsen. Skicket bedÃ¶ms visuellt â€” repor, slitage och defekter sÃ¤ljaren inte nÃ¤mner.</p></div>
+      <div class="step"><div class="step-num">3</div><h3 data-i18n="how3h">FÃ¥ ett rakt svar</h3><p data-i18n="how3p">Fynd, rimligt eller fÃ¶r dyrt â€” plus marknadsvÃ¤rde och mÃ¶jlig vinst vid vidarefÃ¶rsÃ¤ljning.</p></div>
     </div>
   </div>
 </section>
 
 <section id="features">
   <div class="wrap-wide">
-    <h2 data-i18n="featuresH2">Vad tillägget faktiskt gör</h2>
-    <p class="lead" data-i18n="featuresLead">Fyndkollen läser annonsen, värderar objektet och säger rakt ut om priset är ett fynd, rimligt eller för högt.</p>
+    <h2 data-i18n="featuresH2">Vad tillÃ¤gget faktiskt gÃ¶r</h2>
+    <p class="lead" data-i18n="featuresLead">Fyndkollen lÃ¤ser annonsen, vÃ¤rderar objektet och sÃ¤ger rakt ut om priset Ã¤r ett fynd, rimligt eller fÃ¶r hÃ¶gt.</p>
     <div class="feature-layout">
       <div class="feature-visual">
-        <div class="fv-row hit"><div class="fv-ic">🔍</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
-        <div class="fv-row"><div class="fv-ic">📸</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
-        <div class="fv-row"><div class="fv-ic">💰</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
-        <div class="fv-row"><div class="fv-ic">🏷️</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row hit"><div class="fv-ic">ðŸ”</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic">ðŸ“¸</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic">ðŸ’°</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic">ðŸ·ï¸</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
       </div>
       <div class="grid">
-        <div class="card"><div class="ic">🔍</div><div><h3 data-i18n="f1h">Identifierar och prissätter direkt i annonsen</h3><p data-i18n="f1p">Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.</p></div></div>
-        <div class="card"><div class="ic">📸</div><div><h3 data-i18n="f2h">Snabbkoll eller fotoanalys</h3><p data-i18n="f2p">Svara på några snabba frågor för en snabb koll, eller låt tillägget läsa flera av annonsens bilder för den mest träffsäkra bedömningen.</p></div></div>
-        <div class="card"><div class="ic">💰</div><div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">Värderingen hämtas live från Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir träffsäkrare för varje analys som görs.</p></div></div>
-        <div class="card"><div class="ic">🏷️</div><div><h3 data-i18n="f4h">Rakt prisomdöme, även i sökresultatet</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.</p></div></div>
+        <div class="card"><div class="ic">ðŸ”</div><div><h3 data-i18n="f1h">Identifierar och prissÃ¤tter direkt i annonsen</h3><p data-i18n="f1p">Fyndkollen lÃ¤ser annonsen du tittar pÃ¥, kÃ¤nner igen produkten och rÃ¤knar ut marknadsvÃ¤rdet utan att du behÃ¶ver lÃ¤mna sidan.</p></div></div>
+        <div class="card"><div class="ic">ðŸ“¸</div><div><h3 data-i18n="f2h">Snabbkoll eller fotoanalys</h3><p data-i18n="f2p">Svara pÃ¥ nÃ¥gra snabba frÃ¥gor fÃ¶r en snabb koll, eller lÃ¥t tillÃ¤gget lÃ¤sa flera av annonsens bilder fÃ¶r den mest trÃ¤ffsÃ¤kra bedÃ¶mningen.</p></div></div>
+        <div class="card"><div class="ic">ðŸ’°</div><div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">VÃ¤rderingen hÃ¤mtas live frÃ¥n Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir trÃ¤ffsÃ¤krare fÃ¶r varje analys som gÃ¶rs.</p></div></div>
+        <div class="card"><div class="ic">ðŸ·ï¸</div><div><h3 data-i18n="f4h">Rakt prisomdÃ¶me, Ã¤ven i sÃ¶kresultatet</h3><p data-i18n="f4p">Du fÃ¥r ett tydligt omdÃ¶me om priset och en uppskattad vinstmarginal vid vidarefÃ¶rsÃ¤ljning, bÃ¥de i annonsen och som mÃ¤rken pÃ¥ annonskorten medan du blÃ¤ddrar.</p></div></div>
       </div>
     </div>
   </div>
@@ -634,47 +634,47 @@
 <section id="pricing">
   <div class="band-bg" aria-hidden="true"><span class="blob blob-a"></span></div>
   <div class="wrap-wide">
-    <h2 data-i18n="pricingH2">Köp krediter, ingen prenumeration</h2>
-    <p class="lead" data-i18n="pricingLead">Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.</p>
+    <h2 data-i18n="pricingH2">KÃ¶p krediter, ingen prenumeration</h2>
+    <p class="lead" data-i18n="pricingLead">Krediter gÃ¥r aldrig ut. KÃ¶p mer nÃ¤r du behÃ¶ver, det lÃ¤ggs bara pÃ¥ ditt saldo.</p>
     <div class="packs">
       <div class="pack">
         <div class="pack-name">Mini</div>
         <div class="pack-credits">20<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">30&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach4">1,50 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/14A00k2hK0hdaHYcYkb3q09" data-i18n="buyBtn">Köp krediter</a>
+        <a class="cta sm" href="https://buy.stripe.com/14A00k2hK0hdaHYcYkb3q09" data-i18n="buyBtn">KÃ¶p krediter</a>
       </div>
       <div class="pack">
         <div class="pack-name">Starter</div>
         <div class="pack-credits">100<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">99&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach1">0,99 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/aFabJ2g8AbZV6rI7E0b3q04" data-i18n="buyBtn">Köp krediter</a>
+        <a class="cta sm" href="https://buy.stripe.com/aFabJ2g8AbZV6rI7E0b3q04" data-i18n="buyBtn">KÃ¶p krediter</a>
       </div>
       <div class="pack">
         <div class="pack-name">Standard</div>
         <div class="pack-credits">200<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">149&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach2">0,75 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/dRmcN6e0s6FB3fwe2ob3q05" data-i18n="buyBtn">Köp krediter</a>
+        <a class="cta sm" href="https://buy.stripe.com/dRmcN6e0s6FB3fwe2ob3q05" data-i18n="buyBtn">KÃ¶p krediter</a>
       </div>
       <div class="pack featured">
-        <div class="pack-badge" data-i18n="bestValue">Bäst värde</div>
+        <div class="pack-badge" data-i18n="bestValue">BÃ¤st vÃ¤rde</div>
         <div class="pack-name">Pro</div>
         <div class="pack-credits">1000<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">499&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach3">0,50 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/7sY7sMcWo4xt3fw8I4b3q06" data-i18n="buyBtnFeatured">Få Pro – bäst värde</a>
+        <a class="cta sm" href="https://buy.stripe.com/7sY7sMcWo4xt3fw8I4b3q06" data-i18n="buyBtnFeatured">FÃ¥ Pro â€“ bÃ¤st vÃ¤rde</a>
       </div>
       <div class="pack">
         <div class="pack-name">Extra</div>
         <div class="pack-credits">50<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">75&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach4">1,50 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/5kQ14oaOg1lh7vM2jGb3q08" data-i18n="buyBtn">Köp krediter</a>
+        <a class="cta sm" href="https://buy.stripe.com/5kQ14oaOg1lh7vM2jGb3q08" data-i18n="buyBtn">KÃ¶p krediter</a>
       </div>
     </div>
-    <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratiskrediter vid start. Inget kort krävs.</div>
+    <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratiskrediter vid start. Inget kort krÃ¤vs.</div>
     <div class="pay-row" aria-hidden="true">
       <span class="pay-pill">VISA</span>
       <span class="pay-pill">Mastercard</span>
@@ -682,34 +682,34 @@
       <span class="pay-pill">Apple Pay</span>
       <span class="pay-pill">Google Pay</span>
     </div>
-    <div class="climate-row"><span class="climate-dot"></span><span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></div>
+    <div class="climate-row"><span class="climate-dot"></span><span data-i18n="climateNote">0,5 % av varje kÃ¶p gÃ¥r till koldioxidinfÃ¥ngning via Stripe Climate</span></div>
   </div>
 </section>
 
 <section id="faq">
   <div class="wrap-wide">
-    <h2 data-i18n="faqH2">Vanliga frågor</h2>
+    <h2 data-i18n="faqH2">Vanliga frÃ¥gor</h2>
     <div class="faq">
-      <div><h3 data-i18n="q1h">Hur aktiverar jag min licensnyckel efter köp?</h3><p data-i18n-html="q1p">Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, så laddas krediterna in direkt. Ingen ominstallation krävs.</p></div>
-      <div><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3><p data-i18n="q2p">Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne — ingen kredit dras. Krediter går aldrig ut.</p></div>
-      <div><h3 data-i18n="q3h">Om jag köper fler krediter senare, försvinner de gamla?</h3><p data-i18n="q3p">Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.</p></div>
-      <div><h3 data-i18n="q4h">Vad är skillnaden mellan snabbkollen och fotoanalysen?</h3><p data-i18n="q4p">Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.</p></div>
-      <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n="q5p">Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.</p></div>
-      <div><h3 data-i18n="q6h">Vilka webbläsare och enheter fungerar det på?</h3><p data-i18n="q6p">Fyndkollen är ett Chrome-tillägg för datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webbläsare ännu.</p></div>
-      <div><h3 data-i18n="q7h">Varför behöver tillägget läsa Blocket-sidan?</h3><p data-i18n="q7p">För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.</p></div>
-      <div><h3 data-i18n="q8h">Behöver jag vara uppkopplad?</h3><p data-i18n="q8p">Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.</p></div>
+      <div><h3 data-i18n="q1h">Hur aktiverar jag min licensnyckel efter kÃ¶p?</h3><p data-i18n-html="q1p">Efter kÃ¶pet fÃ¥r du en licensnyckel via e-post. Ã–ppna Fyndkollen-tillÃ¤ggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, sÃ¥ laddas krediterna in direkt. Ingen ominstallation krÃ¤vs.</p></div>
+      <div><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3><p data-i18n="q2p">Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den Ã¤r mer trÃ¤ffsÃ¤ker och kostar mer att kÃ¶ra). Har nÃ¥gon annan redan analyserat exakt samma annons visas resultatet gratis, hÃ¤mtat ur vÃ¥rt prisminne â€” ingen kredit dras. Krediter gÃ¥r aldrig ut.</p></div>
+      <div><h3 data-i18n="q3h">Om jag kÃ¶per fler krediter senare, fÃ¶rsvinner de gamla?</h3><p data-i18n="q3p">Nej. KÃ¶per du en ny kreditpack med samma e-post lÃ¤ggs krediterna pÃ¥ ditt befintliga saldo, pÃ¥ samma licensnyckel. Inget nollstÃ¤lls och inget behÃ¶ver flyttas manuellt.</p></div>
+      <div><h3 data-i18n="q4h">Vad Ã¤r skillnaden mellan snabbkollen och fotoanalysen?</h3><p data-i18n="q4p">Snabbkollen (1 kredit) stÃ¤ller nÃ¥gra flervalsfrÃ¥gor om skicket och Ã¤r snabbast. Fotoanalysen (5 krediter) lÃ¤ser istÃ¤llet flera av annonsens bilder och korsrefererar dem mot varandra â€” vÃ¥r mest trÃ¤ffsÃ¤kra analys, prissatt dÃ¤refter.</p></div>
+      <div><h3 data-i18n="q5h">Kan jag fÃ¥ pengarna tillbaka om jag inte Ã¤r nÃ¶jd?</h3><p data-i18n="q5p">Testa gratis innan du bestÃ¤mmer dig â€” du fÃ¥r 5 gratiskrediter direkt vid installation, utan kort. HÃ¶r av dig till oss om nÃ¥got krÃ¥nglar efter kÃ¶p, sÃ¥ lÃ¶ser vi det.</p></div>
+      <div><h3 data-i18n="q6h">Vilka webblÃ¤sare och enheter fungerar det pÃ¥?</h3><p data-i18n="q6p">Fyndkollen Ã¤r ett Chrome-tillÃ¤gg fÃ¶r datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webblÃ¤sare Ã¤nnu.</p></div>
+      <div><h3 data-i18n="q7h">VarfÃ¶r behÃ¶ver tillÃ¤gget lÃ¤sa Blocket-sidan?</h3><p data-i18n="q7p">FÃ¶r att kunna vÃ¤rdera annonsen du tittar pÃ¥ â€” tillÃ¤gget lÃ¤ser bara annonssidor pÃ¥ blocket.se, aldrig andra sajter. InnehÃ¥llet skickas till vÃ¥r AI-tjÃ¤nst fÃ¶rst nÃ¤r du sjÃ¤lv klickar pÃ¥ "Kolla affÃ¤ren". Se vÃ¥r integritetspolicy fÃ¶r detaljer.</p></div>
+      <div><h3 data-i18n="q8h">BehÃ¶ver jag vara uppkopplad?</h3><p data-i18n="q8p">Ja â€” vÃ¤rderingen hÃ¤mtar aktuell prisdata live, sÃ¥ en internetanslutning krÃ¤vs nÃ¤r du kÃ¶r en analys.</p></div>
     </div>
   </div>
 </section>
 
 <section id="suggest">
   <div class="wrap-wide">
-    <h2 data-i18n="suggestH2">Har du en idé?</h2>
-    <p class="lead" data-i18n="suggestLead">Berätta vad du vill se härnäst i Fyndkollen — vi läser varje förslag.</p>
+    <h2 data-i18n="suggestH2">Har du en idÃ©?</h2>
+    <p class="lead" data-i18n="suggestLead">BerÃ¤tta vad du vill se hÃ¤rnÃ¤st i Fyndkollen â€” vi lÃ¤ser varje fÃ¶rslag.</p>
     <div class="suggest-form">
-      <textarea id="suggest-msg" class="suggest-textarea" data-i18n-attr="placeholder:suggestPlaceholder" placeholder="Vad skulle göra Fyndkollen bättre för dig?" maxlength="4000"></textarea>
+      <textarea id="suggest-msg" class="suggest-textarea" data-i18n-attr="placeholder:suggestPlaceholder" placeholder="Vad skulle gÃ¶ra Fyndkollen bÃ¤ttre fÃ¶r dig?" maxlength="4000"></textarea>
       <input type="email" id="suggest-email" class="suggest-email" data-i18n-attr="placeholder:suggestEmail" placeholder="E-post (valfritt)" autocomplete="off"/>
-      <button class="cta sm" id="suggest-submit" data-i18n="suggestSubmit">Skicka förslag</button>
+      <button class="cta sm" id="suggest-submit" data-i18n="suggestSubmit">Skicka fÃ¶rslag</button>
       <div class="suggest-status" id="suggest-status"></div>
     </div>
   </div>
@@ -717,9 +717,9 @@
 
 <div class="notify-backdrop" id="notify-backdrop" role="dialog" aria-modal="true" aria-labelledby="notify-title">
   <div class="notify-modal">
-    <button class="notify-close" id="notify-close" aria-label="Close" data-i18n-attr="aria-label:notifyClose">×</button>
+    <button class="notify-close" id="notify-close" aria-label="Close" data-i18n-attr="aria-label:notifyClose">Ã—</button>
     <h3 id="notify-title" data-i18n="notifyTitle">Fyndkollen kommer snart</h3>
-    <p data-i18n="notifyLead">Tillägget är inte publicerat på Chrome Web Store än. Lämna din e-post så hör vi av oss när det går att installera.</p>
+    <p data-i18n="notifyLead">TillÃ¤gget Ã¤r inte publicerat pÃ¥ Chrome Web Store Ã¤n. LÃ¤mna din e-post sÃ¥ hÃ¶r vi av oss nÃ¤r det gÃ¥r att installera.</p>
     <div class="notify-form">
       <input type="email" id="notify-email" class="notify-email" data-i18n-attr="placeholder:notifyPlaceholder" placeholder="Din e-postadress" autocomplete="email"/>
       <button class="cta sm" id="notify-submit" data-i18n="notifySubmit">Meddela mig</button>
@@ -731,144 +731,144 @@
 <footer>
   <div class="wrap-wide">
     <div class="links">
-      <a href="privacy.html" data-i18n="footerPrivacy">Integritet</a> ·
-      <a href="#pricing" data-i18n="footerPricing">Priser</a> ·
-      <a href="#suggest" data-i18n="footerSuggest">Funktionsförslag</a> ·
+      <a href="privacy.html" data-i18n="footerPrivacy">Integritet</a> Â·
+      <a href="#pricing" data-i18n="footerPricing">Priser</a> Â·
+      <a href="#suggest" data-i18n="footerSuggest">FunktionsfÃ¶rslag</a> Â·
       <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>
     </div>
     <div class="trust-row">
-      <span>✓ <span data-i18n="trustNoAccount">Inget konto behövs</span></span>
-      <span>✓ <span data-i18n="trustNoStorage">Vi sparar inte dina sökningar</span></span>
-      <span>✓ <span data-i18n="trustStripe">Betalningar hanteras av Stripe</span></span>
-      <span>🌱 <span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></span>
+      <span>âœ“ <span data-i18n="trustNoAccount">Inget konto behÃ¶vs</span></span>
+      <span>âœ“ <span data-i18n="trustNoStorage">Vi sparar inte dina sÃ¶kningar</span></span>
+      <span>âœ“ <span data-i18n="trustStripe">Betalningar hanteras av Stripe</span></span>
+      <span>ðŸŒ± <span data-i18n="climateNote">0,5 % av varje kÃ¶p gÃ¥r till koldioxidinfÃ¥ngning via Stripe Climate</span></span>
     </div>
-    <div>© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen · Inte anslutet till Blocket.</span></div>
+    <div>Â© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen Â· Inte anslutet till Blocket.</span></div>
   </div>
 </footer>
 
 <script>
   var DICT = {
     sv: {
-      pageTitle: 'Fyndkollen: Vet om Blocket-annonsen är ett fynd',
-      metaDesc: 'Chrome-tillägg som läser Blocket-annonser, bedömer skick och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Se direkt om priset är ett fynd, rimligt eller för högt.',
-      navHow: 'Så fungerar det', navFeatures: 'Funktioner', navPricing: 'Priser', navFaq: 'Vanliga frågor',
-      installNavBtn: 'Lägg till gratis',
+      pageTitle: 'Fyndkollen: Vet om Blocket-annonsen Ã¤r ett fynd',
+      metaDesc: 'Chrome-tillÃ¤gg som lÃ¤ser Blocket-annonser, bedÃ¶mer skick och jÃ¤mfÃ¶r mot verklig prisdata frÃ¥n Blocket, Tradera och Prisjakt. Se direkt om priset Ã¤r ett fynd, rimligt eller fÃ¶r hÃ¶gt.',
+      navHow: 'SÃ¥ fungerar det', navFeatures: 'Funktioner', navPricing: 'Priser', navFaq: 'Vanliga frÃ¥gor',
+      installNavBtn: 'LÃ¤gg till gratis',
       themeToggle: 'Byt tema',
-      eyebrow: 'Chrome-tillägg för Blocket',
-      heroTitle: 'Se om Blocket-annonsen är ett fynd <span class="hl">innan du budar</span>',
-      heroP: 'Fyndkollen läser Blocket-annonsen du tittar på, bedömer skicket och jämför mot verklig prisdata från Blocket, Tradera och Prisjakt. Du får ett rakt svar: fynd, rimligt pris eller för dyrt, plus vad du kan tjäna vid vidareförsäljning.',
-      installBtn: 'Lägg till i Chrome, gratis',
-      installSub: 'Gratis att installera. 5 gratiskrediter ingår direkt — räcker till 5 snabbkollar eller 1 fotoanalys. Inget kort behövs.',
+      eyebrow: 'Chrome-tillÃ¤gg fÃ¶r Blocket',
+      heroTitle: 'Se om Blocket-annonsen Ã¤r ett fynd <span class="hl">innan du budar</span>',
+      heroP: 'Fyndkollen lÃ¤ser Blocket-annonsen du tittar pÃ¥, bedÃ¶mer skicket och jÃ¤mfÃ¶r mot verklig prisdata frÃ¥n Blocket, Tradera och Prisjakt. Du fÃ¥r ett rakt svar: fynd, rimligt pris eller fÃ¶r dyrt, plus vad du kan tjÃ¤na vid vidarefÃ¶rsÃ¤ljning.',
+      installBtn: 'LÃ¤gg till i Chrome, gratis',
+      installSub: 'Gratis att installera. 5 gratiskrediter ingÃ¥r direkt â€” rÃ¤cker till 5 snabbkollar eller 1 fotoanalys. Inget kort behÃ¶vs.',
       secondaryCta: 'Vad kostar det?',
-      privacyNote: '🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a>',
-      howH2: 'Så fungerar det',
-      howLead: 'Tre steg. Inga formulär, inga konton — bara ett svar du kan lita på.',
-      how1h: 'Öppna en annons', how1p: 'Fyndkollen känner igen produkten automatiskt, oavsett kategori — klockor, bilar, elektronik, vad som helst.',
-      how2h: 'AI:n läser allt', how2p: 'Text, pris och varje bild i annonsen. Skicket bedöms visuellt — repor, slitage och defekter säljaren inte nämner.',
-      how3h: 'Få ett rakt svar', how3p: 'Fynd, rimligt eller för dyrt — plus marknadsvärde och möjlig vinst vid vidareförsäljning.',
-      featuresH2: 'Vad tillägget faktiskt gör',
-      featuresLead: 'Fyndkollen läser annonsen, värderar objektet och säger rakt ut om priset är ett fynd, rimligt eller för högt.',
-      f1h: 'Identifierar och prissätter direkt i annonsen', f1p: 'Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.',
-      f2h: 'Snabbkoll eller fotoanalys', f2p: 'Svara på några snabba frågor för en snabb koll, eller låt tillägget läsa flera av annonsens bilder för den mest träffsäkra bedömningen.',
-      f3h: 'Grundat i verklig prisdata', f3p: 'Värderingen hämtas live från Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir träffsäkrare för varje analys som görs.',
-      f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset och en uppskattad vinstmarginal vid vidareförsäljning, både i annonsen och som märken på annonskorten medan du bläddrar.',
-      pricingH2: 'Köp krediter, ingen prenumeration',
-      pricingLead: 'Krediter går aldrig ut. Köp mer när du behöver, det läggs bara på ditt saldo.',
+      privacyNote: 'ðŸ”’ Vi sparar inte dina sÃ¶kningar â€” lÃ¤s vÃ¥r <a href="privacy.html">policy</a>',
+      howH2: 'SÃ¥ fungerar det',
+      howLead: 'Tre steg. Inga formulÃ¤r, inga konton â€” bara ett svar du kan lita pÃ¥.',
+      how1h: 'Ã–ppna en annons', how1p: 'Fyndkollen kÃ¤nner igen produkten automatiskt, oavsett kategori â€” klockor, bilar, elektronik, vad som helst.',
+      how2h: 'AI:n lÃ¤ser allt', how2p: 'Text, pris och varje bild i annonsen. Skicket bedÃ¶ms visuellt â€” repor, slitage och defekter sÃ¤ljaren inte nÃ¤mner.',
+      how3h: 'FÃ¥ ett rakt svar', how3p: 'Fynd, rimligt eller fÃ¶r dyrt â€” plus marknadsvÃ¤rde och mÃ¶jlig vinst vid vidarefÃ¶rsÃ¤ljning.',
+      featuresH2: 'Vad tillÃ¤gget faktiskt gÃ¶r',
+      featuresLead: 'Fyndkollen lÃ¤ser annonsen, vÃ¤rderar objektet och sÃ¤ger rakt ut om priset Ã¤r ett fynd, rimligt eller fÃ¶r hÃ¶gt.',
+      f1h: 'Identifierar och prissÃ¤tter direkt i annonsen', f1p: 'Fyndkollen lÃ¤ser annonsen du tittar pÃ¥, kÃ¤nner igen produkten och rÃ¤knar ut marknadsvÃ¤rdet utan att du behÃ¶ver lÃ¤mna sidan.',
+      f2h: 'Snabbkoll eller fotoanalys', f2p: 'Svara pÃ¥ nÃ¥gra snabba frÃ¥gor fÃ¶r en snabb koll, eller lÃ¥t tillÃ¤gget lÃ¤sa flera av annonsens bilder fÃ¶r den mest trÃ¤ffsÃ¤kra bedÃ¶mningen.',
+      f3h: 'Grundat i verklig prisdata', f3p: 'VÃ¤rderingen hÃ¤mtas live frÃ¥n Blocket, Tradera och Prisjakt, kombinerat med ett prisminne som blir trÃ¤ffsÃ¤krare fÃ¶r varje analys som gÃ¶rs.',
+      f4h: 'Rakt prisomdÃ¶me, Ã¤ven i sÃ¶kresultatet', f4p: 'Du fÃ¥r ett tydligt omdÃ¶me om priset och en uppskattad vinstmarginal vid vidarefÃ¶rsÃ¤ljning, bÃ¥de i annonsen och som mÃ¤rken pÃ¥ annonskorten medan du blÃ¤ddrar.',
+      pricingH2: 'KÃ¶p krediter, ingen prenumeration',
+      pricingLead: 'Krediter gÃ¥r aldrig ut. KÃ¶p mer nÃ¤r du behÃ¶ver, det lÃ¤ggs bara pÃ¥ ditt saldo.',
       packUnit: ' krediter', packEach1: '0,99 kr per kredit', packEach2: '0,75 kr per kredit', packEach3: '0,50 kr per kredit', packEach4: '1,50 kr per kredit',
-      heroTrust1: 'marknader jämförs', heroTrust2: 'gratiskrediter direkt', heroTrust3: 'prenumerationer',
-      trustSources: 'Prisdata från',
+      heroTrust1: 'marknader jÃ¤mfÃ¶rs', heroTrust2: 'gratiskrediter direkt', heroTrust3: 'prenumerationer',
+      trustSources: 'Prisdata frÃ¥n',
       emailInvalid: 'Ange en giltig e-postadress.',
-      buyBtn: 'Köp krediter', buyBtnFeatured: 'Få Pro – bäst värde', bestValue: 'Bäst värde',
-      freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
-      climateNote: '0,5 % av varje köp går till koldioxidinfångning via Stripe Climate',
-      faqH2: 'Vanliga frågor',
-      q1h: 'Hur aktiverar jag min licensnyckel efter köp?', q1p: 'Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, så laddas krediterna in direkt. Ingen ominstallation krävs.',
-      q2h: 'Hur fungerar krediter och cachning?', q2p: 'Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons visas resultatet gratis, hämtat ur vårt prisminne — ingen kredit dras. Krediter går aldrig ut.',
-      q3h: 'Om jag köper fler krediter senare, försvinner de gamla?', q3p: 'Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.',
-      q4h: 'Vad är skillnaden mellan snabbkollen och fotoanalysen?', q4p: 'Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.',
-      q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.',
-      q6h: 'Vilka webbläsare och enheter fungerar det på?', q6p: 'Fyndkollen är ett Chrome-tillägg för datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webbläsare ännu.',
-      q7h: 'Varför behöver tillägget läsa Blocket-sidan?', q7p: 'För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.',
-      q8h: 'Behöver jag vara uppkopplad?', q8p: 'Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.',
-      trustNoAccount: 'Inget konto behövs',
-      trustNoStorage: 'Vi sparar inte dina sökningar',
+      buyBtn: 'KÃ¶p krediter', buyBtnFeatured: 'FÃ¥ Pro â€“ bÃ¤st vÃ¤rde', bestValue: 'BÃ¤st vÃ¤rde',
+      freeNote: '5 gratiskrediter vid start. Inget kort krÃ¤vs.',
+      climateNote: '0,5 % av varje kÃ¶p gÃ¥r till koldioxidinfÃ¥ngning via Stripe Climate',
+      faqH2: 'Vanliga frÃ¥gor',
+      q1h: 'Hur aktiverar jag min licensnyckel efter kÃ¶p?', q1p: 'Efter kÃ¶pet fÃ¥r du en licensnyckel via e-post. Ã–ppna Fyndkollen-tillÃ¤ggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka Aktivera, sÃ¥ laddas krediterna in direkt. Ingen ominstallation krÃ¤vs.',
+      q2h: 'Hur fungerar krediter och cachning?', q2p: 'Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den Ã¤r mer trÃ¤ffsÃ¤ker och kostar mer att kÃ¶ra). Har nÃ¥gon annan redan analyserat exakt samma annons visas resultatet gratis, hÃ¤mtat ur vÃ¥rt prisminne â€” ingen kredit dras. Krediter gÃ¥r aldrig ut.',
+      q3h: 'Om jag kÃ¶per fler krediter senare, fÃ¶rsvinner de gamla?', q3p: 'Nej. KÃ¶per du en ny kreditpack med samma e-post lÃ¤ggs krediterna pÃ¥ ditt befintliga saldo, pÃ¥ samma licensnyckel. Inget nollstÃ¤lls och inget behÃ¶ver flyttas manuellt.',
+      q4h: 'Vad Ã¤r skillnaden mellan snabbkollen och fotoanalysen?', q4p: 'Snabbkollen (1 kredit) stÃ¤ller nÃ¥gra flervalsfrÃ¥gor om skicket och Ã¤r snabbast. Fotoanalysen (5 krediter) lÃ¤ser istÃ¤llet flera av annonsens bilder och korsrefererar dem mot varandra â€” vÃ¥r mest trÃ¤ffsÃ¤kra analys, prissatt dÃ¤refter.',
+      q5h: 'Kan jag fÃ¥ pengarna tillbaka om jag inte Ã¤r nÃ¶jd?', q5p: 'Testa gratis innan du bestÃ¤mmer dig â€” du fÃ¥r 5 gratiskrediter direkt vid installation, utan kort. HÃ¶r av dig till oss om nÃ¥got krÃ¥nglar efter kÃ¶p, sÃ¥ lÃ¶ser vi det.',
+      q6h: 'Vilka webblÃ¤sare och enheter fungerar det pÃ¥?', q6p: 'Fyndkollen Ã¤r ett Chrome-tillÃ¤gg fÃ¶r datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webblÃ¤sare Ã¤nnu.',
+      q7h: 'VarfÃ¶r behÃ¶ver tillÃ¤gget lÃ¤sa Blocket-sidan?', q7p: 'FÃ¶r att kunna vÃ¤rdera annonsen du tittar pÃ¥ â€” tillÃ¤gget lÃ¤ser bara annonssidor pÃ¥ blocket.se, aldrig andra sajter. InnehÃ¥llet skickas till vÃ¥r AI-tjÃ¤nst fÃ¶rst nÃ¤r du sjÃ¤lv klickar pÃ¥ "Kolla affÃ¤ren". Se vÃ¥r integritetspolicy fÃ¶r detaljer.',
+      q8h: 'BehÃ¶ver jag vara uppkopplad?', q8p: 'Ja â€” vÃ¤rderingen hÃ¤mtar aktuell prisdata live, sÃ¥ en internetanslutning krÃ¤vs nÃ¤r du kÃ¶r en analys.',
+      trustNoAccount: 'Inget konto behÃ¶vs',
+      trustNoStorage: 'Vi sparar inte dina sÃ¶kningar',
       trustStripe: 'Betalningar hanteras av Stripe',
       footerPrivacy: 'Integritet', footerPricing: 'Priser',
-      footerCopy: 'Fyndkollen · Inte anslutet till Blocket.',
-      suggestH2: 'Har du en idé?',
-      suggestLead: 'Berätta vad du vill se härnäst i Fyndkollen — vi läser varje förslag.',
-      suggestPlaceholder: 'Vad skulle göra Fyndkollen bättre för dig?',
+      footerCopy: 'Fyndkollen Â· Inte anslutet till Blocket.',
+      suggestH2: 'Har du en idÃ©?',
+      suggestLead: 'BerÃ¤tta vad du vill se hÃ¤rnÃ¤st i Fyndkollen â€” vi lÃ¤ser varje fÃ¶rslag.',
+      suggestPlaceholder: 'Vad skulle gÃ¶ra Fyndkollen bÃ¤ttre fÃ¶r dig?',
       suggestEmail: 'E-post (valfritt)',
-      suggestSubmit: 'Skicka förslag',
-      suggestEmpty: 'Skriv ditt förslag först.',
-      suggestSending: 'Skickar…',
-      suggestSent: 'Tack för förslaget!',
-      suggestFailed: 'Kunde inte skicka just nu, försök igen senare.',
-      footerSuggest: 'Funktionsförslag',
+      suggestSubmit: 'Skicka fÃ¶rslag',
+      suggestEmpty: 'Skriv ditt fÃ¶rslag fÃ¶rst.',
+      suggestSending: 'Skickarâ€¦',
+      suggestSent: 'Tack fÃ¶r fÃ¶rslaget!',
+      suggestFailed: 'Kunde inte skicka just nu, fÃ¶rsÃ¶k igen senare.',
+      footerSuggest: 'FunktionsfÃ¶rslag',
       notifyTitle: 'Fyndkollen kommer snart',
-      notifyLead: 'Tillägget är inte publicerat på Chrome Web Store än. Lämna din e-post så hör vi av oss när det går att installera.',
+      notifyLead: 'TillÃ¤gget Ã¤r inte publicerat pÃ¥ Chrome Web Store Ã¤n. LÃ¤mna din e-post sÃ¥ hÃ¶r vi av oss nÃ¤r det gÃ¥r att installera.',
       notifyPlaceholder: 'Din e-postadress',
       notifySubmit: 'Meddela mig',
-      notifyClose: 'Stäng',
-      notifyEmpty: 'Skriv din e-postadress först.',
-      notifySending: 'Skickar…',
-      notifySent: 'Tack! Vi hör av oss när Fyndkollen är live.',
-      notifyFailed: 'Kunde inte skicka just nu, försök igen senare.'
+      notifyClose: 'StÃ¤ng',
+      notifyEmpty: 'Skriv din e-postadress fÃ¶rst.',
+      notifySending: 'Skickarâ€¦',
+      notifySent: 'Tack! Vi hÃ¶r av oss nÃ¤r Fyndkollen Ã¤r live.',
+      notifyFailed: 'Kunde inte skicka just nu, fÃ¶rsÃ¶k igen senare.'
     },
     en: {
-      pageTitle: 'Fyndkollen — Know if a Blocket listing is a deal before you buy',
+      pageTitle: 'Fyndkollen â€” Know if a Blocket listing is a deal before you buy',
       metaDesc: 'Fyndkollen is a Chrome extension that appraises Blocket listings on the spot: condition from photos, market value from live Blocket/Tradera/Prisjakt data, and a clear good deal / fair / overpriced verdict with resale margin.',
       navHow: 'How it works', navFeatures: 'Features', navPricing: 'Pricing', navFaq: 'FAQ',
       installNavBtn: 'Add to Chrome',
       themeToggle: 'Toggle theme',
       eyebrow: 'Chrome extension for Blocket',
-      heroTitle: 'Know if it’s a deal <span class="hl">before you click buy</span>',
-      heroP: 'Fyndkollen reads the Blocket listing you’re on, checks the item’s condition, and estimates real market value from live Blocket, Tradera, and Prisjakt data. You get a straight verdict: good deal, fair, or overpriced, plus your resale margin.',
+      heroTitle: 'Know if itâ€™s a deal <span class="hl">before you click buy</span>',
+      heroP: 'Fyndkollen reads the Blocket listing youâ€™re on, checks the itemâ€™s condition, and estimates real market value from live Blocket, Tradera, and Prisjakt data. You get a straight verdict: good deal, fair, or overpriced, plus your resale margin.',
       installBtn: 'Add to Chrome',
-      installSub: 'Free to add. 5 free credits included — enough for 5 quick checks or 1 photo analysis. No card required.',
+      installSub: 'Free to add. 5 free credits included â€” enough for 5 quick checks or 1 photo analysis. No card required.',
       secondaryCta: 'What does it cost?',
-      privacyNote: '🔒 We don\'t store your searches — read our <a href="privacy.html">policy</a>',
+      privacyNote: 'ðŸ”’ We don\'t store your searches â€” read our <a href="privacy.html">policy</a>',
       howH2: 'How it works',
-      howLead: 'Three steps. No forms, no accounts — just an answer you can trust.',
-      how1h: 'Open a listing', how1p: 'Fyndkollen recognizes the product automatically, regardless of category — watches, cars, electronics, anything.',
-      how2h: 'The AI reads everything', how2p: 'Text, price, and every photo in the listing. Condition is assessed visually — scratches, wear, and defects the seller doesn\'t mention.',
-      how3h: 'Get a straight answer', how3p: 'Good deal, fair, or overpriced — plus market value and potential resale profit.',
+      howLead: 'Three steps. No forms, no accounts â€” just an answer you can trust.',
+      how1h: 'Open a listing', how1p: 'Fyndkollen recognizes the product automatically, regardless of category â€” watches, cars, electronics, anything.',
+      how2h: 'The AI reads everything', how2p: 'Text, price, and every photo in the listing. Condition is assessed visually â€” scratches, wear, and defects the seller doesn\'t mention.',
+      how3h: 'Get a straight answer', how3p: 'Good deal, fair, or overpriced â€” plus market value and potential resale profit.',
       featuresH2: 'What it actually does',
       featuresLead: 'Fyndkollen reads the listing, appraises the item, and tells you straight: good deal, fair price, or overpriced.',
       f1h: 'Reads the listing for you', f1p: 'Opens on any Blocket listing page, identifies the item, and skips the manual research.',
       f2h: 'Quick check or photo analysis', f2p: 'Answer a few quick questions for a fast check, or let the extension read several of the listing photos for the most accurate read.',
       f3h: 'Grounded market pricing', f3p: 'Estimates real market value from live Blocket, Tradera, and Prisjakt data plus a price memory that sharpens with every appraisal run.',
-      f4h: 'A straight price verdict, even in search results', f4p: 'You get a clear price verdict and an estimated resale margin — both inside the listing itself and as badges on listing cards while you browse.',
+      f4h: 'A straight price verdict, even in search results', f4p: 'You get a clear price verdict and an estimated resale margin â€” both inside the listing itself and as badges on listing cards while you browse.',
       pricingH2: 'Buy credits, no subscription',
-      pricingLead: 'Credits never expire. Top up whenever you need — it just adds to your balance.',
+      pricingLead: 'Credits never expire. Top up whenever you need â€” it just adds to your balance.',
       packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit', packEach4: '1.50 kr per credit',
       heroTrust1: 'markets compared', heroTrust2: 'free credits included', heroTrust3: 'subscriptions',
       trustSources: 'Price data from',
       emailInvalid: 'Enter a valid email address.',
-      buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro — best value', bestValue: 'Best value',
+      buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro â€” best value', bestValue: 'Best value',
       freeNote: '5 free credits to start. No card required.',
       climateNote: '0.5% of every purchase funds carbon removal via Stripe Climate',
       faqH2: 'Questions people actually ask',
-      q1h: 'How do I activate my license key after buying credits?', q1p: 'After checkout you get a license key by email. Open the Fyndkollen extension popup, paste it into the "Fyndkollen Pro" box, and click Activate — your credits are available right away, no reinstall needed.',
-      q2h: 'How do credits and caching actually work?', q2p: 'The quick check costs 1 credit, the photo analysis costs 5 (it’s the more accurate option, priced for the extra work it does). If someone else already appraised that exact listing, you see their result for free — no credit spent. Credits never expire.',
-      q3h: 'If I buy more credits later, do they stack?', q3p: 'Yes. Buy another pack with the same email and the new credits are added to your existing license key’s balance. Nothing resets, and unused credits never expire.',
-      q4h: 'What’s the difference between the quick check and the photo analysis?', q4p: 'The quick check (1 credit) asks a few multiple-choice questions about condition and is the fastest option. The photo analysis (5 credits) instead reads several of the listing\'s photos and cross-checks them against each other — our most accurate read, priced accordingly.',
-      q5h: 'What’s the refund policy on credit packs?', q5p: 'Try it free before you buy — you get 5 free credits right at install, no card needed. If something goes wrong after a purchase, contact us and we\'ll sort it out.',
+      q1h: 'How do I activate my license key after buying credits?', q1p: 'After checkout you get a license key by email. Open the Fyndkollen extension popup, paste it into the "Fyndkollen Pro" box, and click Activate â€” your credits are available right away, no reinstall needed.',
+      q2h: 'How do credits and caching actually work?', q2p: 'The quick check costs 1 credit, the photo analysis costs 5 (itâ€™s the more accurate option, priced for the extra work it does). If someone else already appraised that exact listing, you see their result for free â€” no credit spent. Credits never expire.',
+      q3h: 'If I buy more credits later, do they stack?', q3p: 'Yes. Buy another pack with the same email and the new credits are added to your existing license keyâ€™s balance. Nothing resets, and unused credits never expire.',
+      q4h: 'Whatâ€™s the difference between the quick check and the photo analysis?', q4p: 'The quick check (1 credit) asks a few multiple-choice questions about condition and is the fastest option. The photo analysis (5 credits) instead reads several of the listing\'s photos and cross-checks them against each other â€” our most accurate read, priced accordingly.',
+      q5h: 'Whatâ€™s the refund policy on credit packs?', q5p: 'Try it free before you buy â€” you get 5 free credits right at install, no card needed. If something goes wrong after a purchase, contact us and we\'ll sort it out.',
       q6h: 'Which browsers and devices does it work on?', q6p: 'Fyndkollen is a Chrome extension for desktop (Windows, macOS, Linux, ChromeOS). It doesn\'t work in mobile apps or other browsers yet.',
-      q7h: 'Why does the extension need to read the Blocket page?', q7p: 'To appraise the listing you\'re looking at — it only reads listing pages on blocket.se, never other sites. The content is sent to our AI service only when you click "Check this deal" yourself. See our privacy policy for details.',
-      q8h: 'Do I need to be online?', q8p: 'Yes — the appraisal fetches current price data live, so an internet connection is required when you run an analysis.',
+      q7h: 'Why does the extension need to read the Blocket page?', q7p: 'To appraise the listing you\'re looking at â€” it only reads listing pages on blocket.se, never other sites. The content is sent to our AI service only when you click "Check this deal" yourself. See our privacy policy for details.',
+      q8h: 'Do I need to be online?', q8p: 'Yes â€” the appraisal fetches current price data live, so an internet connection is required when you run an analysis.',
       trustNoAccount: 'No account needed',
       trustNoStorage: 'We don\'t store your searches',
       trustStripe: 'Payments handled by Stripe',
       footerPrivacy: 'Privacy', footerPricing: 'Pricing',
-      footerCopy: 'Fyndkollen · Not affiliated with Blocket.',
+      footerCopy: 'Fyndkollen Â· Not affiliated with Blocket.',
       suggestH2: 'Got an idea?',
-      suggestLead: 'Tell us what you want to see next in Fyndkollen — we read every suggestion.',
+      suggestLead: 'Tell us what you want to see next in Fyndkollen â€” we read every suggestion.',
       suggestPlaceholder: 'What would make Fyndkollen better for you?',
       suggestEmail: 'Email (optional)',
       suggestSubmit: 'Send suggestion',
       suggestEmpty: 'Write your suggestion first.',
-      suggestSending: 'Sending…',
+      suggestSending: 'Sendingâ€¦',
       suggestSent: 'Thanks for the suggestion!',
       suggestFailed: "Couldn't send right now, try again later.",
       footerSuggest: 'Feature suggestions',
@@ -878,7 +878,7 @@
       notifySubmit: 'Notify me',
       notifyClose: 'Close',
       notifyEmpty: 'Enter your email first.',
-      notifySending: 'Sending…',
+      notifySending: 'Sendingâ€¦',
       notifySent: 'Thanks! We\'ll email you when Fyndkollen is live.',
       notifyFailed: "Couldn't send right now, try again later."
     }
@@ -919,7 +919,7 @@
               : (saved === 'en' || saved === 'sv') ? saved : 'sv'; // Swedish default
   applyLang(initial);
 
-  // A manual switch must strip any ?lang= from the URL — otherwise the param wins over
+  // A manual switch must strip any ?lang= from the URL â€” otherwise the param wins over
   // the saved choice on every reload, silently reverting the visitor's explicit pick.
   function chooseLang(l) {
     applyLang(l);
@@ -934,7 +934,7 @@
   document.getElementById('lang-sv').addEventListener('click', function() { chooseLang('sv'); });
   document.getElementById('lang-en').addEventListener('click', function() { chooseLang('en'); });
 
-  // ── Theme toggle (light default, dark opt-in, persisted) ──────────────
+  // â”€â”€ Theme toggle (light default, dark opt-in, persisted) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // The <head> anti-flash script already set data-theme on first load if a dark
   // preference was saved; this just wires the button and keeps localStorage in sync.
   (function() {
@@ -955,7 +955,7 @@
 
   var FEEDBACK_URL = 'https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
 
-  // ── Privacy-friendly visitor count ── fire-and-forget aggregate page-view ping (no PII,
+  // â”€â”€ Privacy-friendly visitor count â”€â”€ fire-and-forget aggregate page-view ping (no PII,
   // no cookie, no third party). Once per tab so a reload spree doesn't inflate it.
   (function () {
     try {
@@ -967,10 +967,10 @@
       }).catch(function () {});
     } catch (e) {}
   })();
-  // Light shape check, not RFC — catches "asdf" and copy-paste accidents, nothing more.
+  // Light shape check, not RFC â€” catches "asdf" and copy-paste accidents, nothing more.
   var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-  // ── Pre-launch "notify me" fallback ────────────────────────────────────
+  // â”€â”€ Pre-launch "notify me" fallback â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Both install links point at a Chrome Web Store URL with a REPLACE_WITH_REAL_EXTENSION_ID
   // placeholder until the extension is actually published. Rather than send visitors to a
   // 404, intercept those clicks and collect an email to notify instead. Once the real
@@ -1042,7 +1042,7 @@
     emailEl.addEventListener('keydown', function(e) { if (e.key === 'Enter') notifyBtn.click(); });
   })();
 
-  // ── Scroll-reveal (progressive enhancement) ────────────────────────────
+  // â”€â”€ Scroll-reveal (progressive enhancement) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Adds the fade-in class only right before observing each element, so if
   // IntersectionObserver is unsupported or this script fails, content simply has no
   // .will-animate class at all and stays fully visible (see the CSS default above).
@@ -1061,7 +1061,7 @@
       el.classList.add('will-animate');
       el.style.transitionDelay = Math.min(i % 4, 3) * 0.06 + 's';
       observer.observe(el);
-      // The stagger delay must NOT stay on the element after the reveal — it's inline,
+      // The stagger delay must NOT stay on the element after the reveal â€” it's inline,
       // so it would also delay every later hover transition (packs, step cards) by up
       // to 180 ms. Clear it once the reveal transition has finished.
       el.addEventListener('transitionend', function onEnd() {
@@ -1078,7 +1078,7 @@
     });
   })();
 
-  // ── Feature suggestion form ──────────────────────────────────────────
+  // â”€â”€ Feature suggestion form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   var suggestBtn = document.getElementById('suggest-submit');
   if (suggestBtn) {
     suggestBtn.addEventListener('click', async function() {
@@ -1090,7 +1090,7 @@
       var email = (emailEl.value || '').trim();
       statusEl.classList.remove('err');
       if (!msg) { statusEl.classList.add('err'); statusEl.textContent = DICT[lang].suggestEmpty; return; }
-      // Email is optional here — validate only when one was actually entered.
+      // Email is optional here â€” validate only when one was actually entered.
       if (email && !EMAIL_RE.test(email)) { statusEl.classList.add('err'); statusEl.textContent = DICT[lang].emailInvalid; return; }
       suggestBtn.disabled = true;
       statusEl.textContent = DICT[lang].suggestSending;
@@ -1121,7 +1121,7 @@
 <style>
   @media(max-width:859px){
     /* .hero-visual, .feature-visual, and .trust-strip are desktop-only CSS/SVG
-       elements — their layout rules only exist inside the >=860px media query
+       elements â€” their layout rules only exist inside the >=860px media query
        above, so without this they'd show as unstyled raw text on narrower screens. */
     .hero-visual,.feature-visual,.trust-strip{display:none}
   }
