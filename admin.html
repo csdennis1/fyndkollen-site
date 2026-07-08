@@ -138,6 +138,9 @@ function render(s){
   if(worst&&worst.p>=60)h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen'+(worst.extra?". "+worst.extra:"")+'.</div></div>';
   else h+='<div class="ok-note">✓ Alla tredjepartstjänster har god marginal till sina gratisgränser.</div>';
 
+  // Nästa steg (roadmap) — fylls i av loadRoadmap() efter render
+  h+='<div class="sec-h" style="margin-top:4px">Nästa steg</div><div id="rm-body" class="card"><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
+
   // KPIs (period-scoped, with deltas)
   h+='<div class="grid">';
   h+=kpi("Intäkt ("+plabel()+")",kr(K.rev_now)+delta(K.rev_now,K.rev_prev),n(K.orders)+" ordrar · "+kr(rev.total_ore)+" totalt");
@@ -193,6 +196,7 @@ function render(s){
   h+='</div>';
 
   document.getElementById("body").innerHTML=h;
+  loadRoadmap();
 }
 var FBROWS=[];
 async function loadFb(kind){
@@ -213,6 +217,49 @@ async function maint(on){var r=await call("set_maintenance",{on:on,msg:document.
 async function ingest(on){var r=await call("set_ingest_paused",{on:on});if(r.status===200)load();}
 async function setBal(){var r=await call("set_anthropic_balance",{usd:document.getElementById("abal").value});if(r.status===200)load();else alert("Fel: "+(r.body.error||r.status));}
 async function keyAct(a){var el=document.getElementById("kmsg");var key=(document.getElementById("kkey").value||"").toUpperCase();var extra={key:key};if(a==="grant_credits")extra.amount=document.getElementById("kamt").value;var r=await call(a,extra);el.textContent=r.status===200?("Klart"+(r.body.credits!=null?" — saldo nu "+r.body.credits:(" — "+(r.body.affected||0)+" nyckel"))+"."):("Fel: "+(r.body.error||r.status));if(r.status===200)setTimeout(load,700);}
+// ── Nästa steg (roadmap) ── Statusen bor i Supabase (roadmap_steps): Klar-klicket är
+// signalen agenten läser i varje framtida session, så den alltid vet var du är.
+var RM=[];
+function escT(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+async function loadRoadmap(){
+  var el=document.getElementById("rm-body"); if(!el) return;
+  var r=await call("roadmap_list");
+  if(r.status!==200){el.innerHTML='<span class="muted">Kunde inte ladda stegen.</span>';return;}
+  RM=r.body.steps||[]; renderRoadmap();
+}
+function renderRoadmap(){
+  var el=document.getElementById("rm-body"); if(!el) return;
+  var pend=RM.filter(function(s){return s.status==="pending";});
+  var done=RM.filter(function(s){return s.status!=="pending";});
+  var total=RM.length;
+  if(!total){el.innerHTML='<span class="muted">Inga steg inlagda än.</span>';return;}
+  if(!pend.length){el.innerHTML='<b>🎉 Alla '+total+' steg avklarade.</b> <span class="muted">Be agenten fylla på nästa fas.</span>';return;}
+  var cur=pend[0], p=Math.round(done.length/total*100), h='';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="pill" style="background:var(--surface);color:var(--mid)">'+escT(cur.phase)+'</span><span class="muted" style="font-size:12px">'+done.length+' av '+total+' klara · '+p+'%</span></div>';
+  h+='<div class="track" style="margin:8px 0 14px"><div class="fill" style="width:'+p+'%;background:var(--green)"></div></div>';
+  h+='<div style="font-size:19px;font-weight:800;letter-spacing:-.01em;margin-bottom:7px">'+escT(cur.title)+'</div>';
+  h+='<div class="mid" style="font-size:13.5px;line-height:1.65;margin-bottom:14px">'+escT(cur.detail)+'</div>';
+  h+='<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" onclick="stepDone('+cur.id+')">✓ Klar — visa nästa</button><button class="btn" onclick="stepSkip('+cur.id+')">Hoppa över</button></div>';
+  if(pend.length>1){
+    var up=pend.slice(1,4).map(function(s){return '<div style="display:flex;gap:9px;font-size:12.5px;padding:6px 0;border-top:1px solid var(--surface)"><span class="muted" style="white-space:nowrap">'+escT(s.phase)+'</span><span class="mid">'+escT(s.title)+'</span></div>';}).join("");
+    h+='<div style="margin-top:16px"><div class="k-lbl" style="margin-bottom:4px">Därefter</div>'+up+'</div>';
+  }
+  if(done.length){
+    var hist=done.slice().reverse().slice(0,40).map(function(s){return '<div style="font-size:12px;padding:4px 0" class="muted">'+(s.status==="done"?"✓":"↷")+' '+escT(s.title)+' <span style="opacity:.7">'+String(s.done_at||"").slice(0,10)+'</span></div>';}).join("");
+    h+='<details style="margin-top:14px"><summary class="muted" style="cursor:pointer;font-size:12px">Avklarade steg ('+done.length+')</summary>'+hist+'</details>';
+  }
+  el.innerHTML=h;
+}
+async function stepDone(id){
+  var r=await call("roadmap_done",{id:id});
+  if(r.status!==200){alert("Fel: "+(r.body.error||r.status));return;}
+  loadRoadmap();
+}
+async function stepSkip(id){
+  if(!confirm("Hoppa över detta steg? (Agenten ser det som överhoppat, inte klart.)"))return;
+  var r=await call("roadmap_skip",{id:id});
+  if(r.status===200)loadRoadmap(); else alert("Fel: "+(r.body.error||r.status));
+}
 document.getElementById("pw").addEventListener("keydown",function(e){if(e.key==="Enter")login();});
 </script>
 </body>
