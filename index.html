@@ -138,6 +138,11 @@
   .privacy-note{margin-top:16px;font-size:12.5px;color:var(--muted)}
   .privacy-note a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
   .privacy-note a:hover{color:var(--accent)}
+  .help-box{text-align:center;margin-top:8px}
+  .help-note{font-size:13px;color:var(--muted);max-width:560px;margin:14px auto 0;line-height:1.6}
+  .help-note a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
+  .help-note a:hover{color:var(--accent)}
+  .help-note a:focus-visible{outline:2px solid #CC6B2C;outline-offset:2px;border-radius:3px}
 
   .suggest-status.err{color:#DC2626}
 
@@ -177,6 +182,10 @@
   .pay-pill{font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--dark-mid);border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:3px 9px}
   .climate-row{display:flex;justify-content:center;align-items:center;gap:8px;margin-top:14px;font-size:12px;color:var(--dark-muted)}
   .climate-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block}
+  .buy-terms{text-align:center;margin-top:12px;font-size:12px;color:var(--dark-muted)}
+  .buy-terms a{color:var(--dark-mid);text-decoration:underline;text-underline-offset:2px}
+  .buy-terms a:hover{color:var(--dark-text)}
+  .buy-terms a:focus-visible{outline:2px solid #CC6B2C;outline-offset:2px;border-radius:3px}
 
   /* ---------- Pricing: single warm-dark contrast band ----------
      One deliberate dark section (not alternating dark/light throughout — that reads as
@@ -657,6 +666,7 @@
       <span class="pay-pill">Google Pay</span>
     </div>
     <div class="climate-row"><span class="climate-dot"></span><span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></div>
+    <div class="buy-terms" data-i18n-html="buyTerms">Genom att köpa godkänner du <a href="villkor.html">köpvillkoren</a> — 14 dagars ångerrätt för oanvända krediter. Priserna är totalpriser.</div>
   </div>
 </section>
 
@@ -668,10 +678,25 @@
       <div><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3><p data-i18n="q2p">Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons går svaret blixtsnabbt att hämta ur vårt prisminne — men det kostar fortfarande en kredit, precis som en ny analys. Krediterna gäller för alltid.</p></div>
       <div><h3 data-i18n="q3h">Om jag köper fler krediter senare, försvinner de gamla?</h3><p data-i18n="q3p">Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.</p></div>
       <div><h3 data-i18n="q4h">Vad är skillnaden mellan snabbkollen och fotoanalysen?</h3><p data-i18n="q4p">Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.</p></div>
-      <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n="q5p">Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.</p></div>
+      <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n-html="q5p">Testa gratis först — 5 gratiskrediter ingår utan kort. Efter köp har du 14 dagars ångerrätt: oanvända krediter återbetalas fullt ut, förbrukade räknas som använd tjänst. Mejla oss så ordnar vi det. Detaljer i <a href="villkor.html">köpvillkoren</a>.</p></div>
       <div><h3 data-i18n="q6h">Vilka webbläsare och enheter fungerar det på?</h3><p data-i18n="q6p">Fyndkollen är ett Chrome-tillägg för datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webbläsare ännu.</p></div>
       <div><h3 data-i18n="q7h">Varför behöver tillägget läsa Blocket-sidan?</h3><p data-i18n="q7p">För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.</p></div>
       <div><h3 data-i18n="q8h">Behöver jag vara uppkopplad?</h3><p data-i18n="q8p">Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.</p></div>
+      <div><h3 data-i18n="q9h">Betalningen drogs men inget mejl kom — var är min nyckel?</h3><p data-i18n-html="q9p">Kolla skräpposten och sök på <code>FS-</code> i inkorgen — nyckeln skickas normalt inom några minuter. Hittar du den ändå inte: mejla oss från e-postadressen du använde vid köpet, så skickar vi om den direkt.</p></div>
+      <div><h3 data-i18n="q10h">Jag har tappat bort min licensnyckel</h3><p data-i18n="q10p">Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.</p></div>
+      <div><h3 data-i18n="q11h">Byta dator eller installera om?</h3><p data-i18n="q11p">Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.</p></div>
+      <div><h3 data-i18n="q12h">Kan jag få ett kvitto?</h3><p data-i18n="q12p">Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="help">
+  <div class="wrap-wide">
+    <h2 data-i18n="helpH2">Behöver du hjälp?</h2>
+    <p class="lead" data-i18n="helpLead">Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.</p>
+    <div class="help-box">
+      <a class="cta sm" href="mailto:FyndKollen@protonmail.com" data-i18n="helpMailBtn">Mejla supporten</a>
+      <p class="help-note" data-i18n-html="helpNote">Skriv från e-postadressen du använde vid köpet om ärendet gäller krediter eller en licensnyckel — då kan vi hjälpa dig direkt. Villkor och ångerrätt: <a href="villkor.html">köpvillkoren</a> · Datahantering: <a href="privacy.html">integritetspolicyn</a>.</p>
     </div>
   </div>
 </section>
@@ -693,7 +718,9 @@
   <div class="wrap-wide">
     <div class="links">
       <a href="privacy.html" data-i18n="footerPrivacy">Integritet</a> ·
+      <a href="villkor.html" data-i18n="footerTerms">Köpvillkor</a> ·
       <a href="#pricing" data-i18n="footerPricing">Priser</a> ·
+      <a href="#help" data-i18n="footerHelp">Hjälp</a> ·
       <a href="#suggest" data-i18n="footerSuggest">Funktionsförslag</a> ·
       <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>
     </div>
@@ -742,19 +769,28 @@
       buyBtn: 'Köp krediter', buyBtnFeatured: 'Få Pro – bäst värde', bestValue: 'Bäst värde',
       freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
       climateNote: '0,5 % av varje köp går till koldioxidinfångning via Stripe Climate',
+      buyTerms: 'Genom att köpa godkänner du <a href="villkor.html">köpvillkoren</a> — 14 dagars ångerrätt för oanvända krediter. Priserna är totalpriser.',
       faqH2: 'Vanliga frågor',
       q1h: 'Hur aktiverar jag min licensnyckel efter köp?', q1p: 'Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka på Aktivera — krediterna laddas in direkt. Ingen ominstallation krävs.',
       q2h: 'Hur fungerar krediter och cachning?', q2p: 'Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons går svaret blixtsnabbt att hämta ur vårt prisminne — men det kostar fortfarande en kredit, precis som en ny analys. Krediterna gäller för alltid.',
       q3h: 'Om jag köper fler krediter senare, försvinner de gamla?', q3p: 'Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.',
       q4h: 'Vad är skillnaden mellan snabbkollen och fotoanalysen?', q4p: 'Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.',
-      q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis innan du bestämmer dig — du får 5 gratiskrediter direkt vid installation, utan kort. Hör av dig till oss om något krånglar efter köp, så löser vi det.',
+      q5h: 'Kan jag få pengarna tillbaka om jag inte är nöjd?', q5p: 'Testa gratis först — 5 gratiskrediter ingår utan kort. Efter köp har du 14 dagars ångerrätt: oanvända krediter återbetalas fullt ut, förbrukade räknas som använd tjänst. Mejla oss så ordnar vi det. Detaljer i <a href="villkor.html">köpvillkoren</a>.',
       q6h: 'Vilka webbläsare och enheter fungerar det på?', q6p: 'Fyndkollen är ett Chrome-tillägg för datorn (Windows, macOS, Linux, ChromeOS). Det fungerar inte i mobilappar eller andra webbläsare ännu.',
       q7h: 'Varför behöver tillägget läsa Blocket-sidan?', q7p: 'För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.',
       q8h: 'Behöver jag vara uppkopplad?', q8p: 'Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.',
+      q9h: 'Betalningen drogs men inget mejl kom — var är min nyckel?', q9p: 'Kolla skräpposten och sök på <code>FS-</code> i inkorgen — nyckeln skickas normalt inom några minuter. Hittar du den ändå inte: mejla oss från e-postadressen du använde vid köpet, så skickar vi om den direkt.',
+      q10h: 'Jag har tappat bort min licensnyckel', q10p: 'Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.',
+      q11h: 'Byta dator eller installera om?', q11p: 'Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.',
+      q12h: 'Kan jag få ett kvitto?', q12p: 'Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.',
+      helpH2: 'Behöver du hjälp?',
+      helpLead: 'Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.',
+      helpMailBtn: 'Mejla supporten',
+      helpNote: 'Skriv från e-postadressen du använde vid köpet om ärendet gäller krediter eller en licensnyckel — då kan vi hjälpa dig direkt. Villkor och ångerrätt: <a href="villkor.html">köpvillkoren</a> · Datahantering: <a href="privacy.html">integritetspolicyn</a>.',
       trustNoAccount: 'Inget konto behövs',
       trustNoStorage: 'Vi sparar inte dina sökningar',
       trustStripe: 'Betalningar hanteras av Stripe',
-      footerPrivacy: 'Integritet', footerPricing: 'Priser',
+      footerPrivacy: 'Integritet', footerTerms: 'Köpvillkor', footerHelp: 'Hjälp', footerPricing: 'Priser',
       footerCopy: 'Fyndkollen · Inte anslutet till Blocket.',
       suggestH2: 'Har du en idé?',
       suggestLead: 'Berätta vad du vill se härnäst i Fyndkollen — vi läser varje förslag.',
@@ -800,19 +836,28 @@
       buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro — best value', bestValue: 'Best value',
       freeNote: '5 free credits to start. No card required.',
       climateNote: '0.5% of every purchase funds carbon removal via Stripe Climate',
+      buyTerms: 'By purchasing you accept the <a href="villkor.html">terms of purchase</a> — 14-day right of withdrawal for unused credits. Prices are total prices.',
       faqH2: 'Questions people actually ask',
       q1h: 'How do I activate my license key after buying credits?', q1p: 'After checkout you get a license key by email. Open the Fyndkollen extension popup, paste it into the "Fyndkollen Pro" box, and click Activate — your credits are available right away, no reinstall needed.',
       q2h: 'How do credits and caching actually work?', q2p: 'The quick check costs 1 credit, the photo analysis costs 5 (it’s the more accurate option, priced for the extra work it does). If someone else already appraised that exact listing, you get the result instantly from our price memory — but it still costs a credit, same as a fresh analysis. Credits never expire.',
       q3h: 'If I buy more credits later, do they stack?', q3p: 'Yes. Buy another pack with the same email and the new credits are added to your existing license key’s balance. Nothing resets, and unused credits never expire.',
       q4h: 'What’s the difference between the quick check and the photo analysis?', q4p: 'The quick check (1 credit) asks a few multiple-choice questions about condition and is the fastest option. The photo analysis (5 credits) instead reads several of the listing\'s photos and cross-checks them against each other — our most accurate read, priced accordingly.',
-      q5h: 'What’s the refund policy on credit packs?', q5p: 'Try it free before you buy — you get 5 free credits right at install, no card needed. If something goes wrong after a purchase, contact us and we\'ll sort it out.',
+      q5h: 'What’s the refund policy on credit packs?', q5p: 'Try it free first — 5 free credits are included, no card needed. After a purchase you have a 14-day right of withdrawal: unused credits are refunded in full, consumed ones count as delivered service. Email us and we\'ll sort it out. Details in the <a href="villkor.html">terms of purchase</a>.',
       q6h: 'Which browsers and devices does it work on?', q6p: 'Fyndkollen is a Chrome extension for desktop (Windows, macOS, Linux, ChromeOS). It doesn\'t work in mobile apps or other browsers yet.',
       q7h: 'Why does the extension need to read the Blocket page?', q7p: 'To appraise the listing you\'re looking at — it only reads listing pages on blocket.se, never other sites. The content is sent to our AI service only when you click "Check this deal" yourself. See our privacy policy for details.',
       q8h: 'Do I need to be online?', q8p: 'Yes — the appraisal fetches current price data live, so an internet connection is required when you run an analysis.',
+      q9h: 'I was charged but no email arrived — where\'s my key?', q9p: 'Check your spam folder and search your inbox for <code>FS-</code> — the key is normally sent within minutes. Still can\'t find it? Email us from the address you used at purchase and we\'ll resend it right away.',
+      q10h: 'I\'ve lost my license key', q10p: 'No worries — your key is safe with us. Email us from your purchase email address and we\'ll send it again.',
+      q11h: 'Switching computers or reinstalling?', q11p: 'Credits live on the license key, not the computer. Install the extension on the new machine and paste the same key — your balance follows.',
+      q12h: 'Can I get a receipt?', q12p: 'Yes — a receipt is emailed at purchase (for some purchases it comes from Stripe, our payment partner). Missing it? Contact us and it\'ll be resent.',
+      helpH2: 'Need help?',
+      helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
+      helpMailBtn: 'Email support',
+      helpNote: 'Write from the email address you used at purchase if it concerns credits or a license key — that lets us help you right away. Terms and withdrawal: <a href="villkor.html">terms of purchase</a> · Data handling: <a href="privacy.html">privacy policy</a>.',
       trustNoAccount: 'No account needed',
       trustNoStorage: 'We don\'t store your searches',
       trustStripe: 'Payments handled by Stripe',
-      footerPrivacy: 'Privacy', footerPricing: 'Pricing',
+      footerPrivacy: 'Privacy', footerTerms: 'Terms', footerHelp: 'Help', footerPricing: 'Pricing',
       footerCopy: 'Fyndkollen · Not affiliated with Blocket.',
       suggestH2: 'Got an idea?',
       suggestLead: 'Tell us what you want to see next in Fyndkollen — we read every suggestion.',
