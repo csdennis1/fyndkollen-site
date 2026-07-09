@@ -4,166 +4,271 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title data-i18n="pageTitle">Integritetspolicy — Fyndkollen</title>
-<meta name="description" data-i18n-attr="metaDesc" content="Fyndkollens integritetspolicy — vilken data tillägget lagrar, vad som skickas till Anthropic och Stripe, och dina rättigheter."/>
+<meta name="description" data-i18n-attr="metaDesc" content="Fyndkollens integritetspolicy — vad tillägget lagrar, vad som skickas till Anthropic och Stripe, hur IP-adresser används och dina rättigheter enligt GDPR."/>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=inter:400,600,700,800" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
     --bg:#FAFAF8;--surface:#F4F0EA;--border:#EBE5DC;--text:#1A1A1A;
-    --mid:#6B5744;--muted:#A89880;--accent:#CC6B2C;
+    --mid:#6B5744;--muted:#786858;--accent:#CC6B2C;--green:#059669;
   }
-  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
   a{color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
   .wrap{max-width:680px;margin:0 auto;padding:0 22px 60px}
   header{padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:14px;color:#3D2F1F;text-decoration:none}
-  .brand svg{color:var(--accent)}
+  .brand svg{color:var(--accent);flex:none}
   .lang-tog{display:flex;gap:4px}
-  .lang-btn{font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s}
+  .lang-btn{font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit}
   .lang-btn:hover{border-color:var(--accent);color:var(--accent)}
   .lang-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
   h1{font-size:28px;letter-spacing:-.5px;margin:20px 0 4px}
-  .meta{font-size:13px;color:var(--muted);margin-bottom:20px}
-  .draft{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--mid);margin-bottom:28px}
-  h2{font-size:18px;margin:28px 0 8px;letter-spacing:-.2px}
+  .meta{font-size:13px;color:var(--muted);margin-bottom:22px}
+  .tldr{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:12px;padding:15px 17px;font-size:14.5px;color:var(--mid);margin-bottom:30px}
+  h2{font-size:18px;margin:30px 0 8px;letter-spacing:-.2px}
   p,li{font-size:15px;color:var(--mid)}
+  p+p{margin-top:8px}
   ul{padding-left:20px;margin-top:6px}
-  li{margin-bottom:4px}
+  li{margin-bottom:5px}
   strong{color:var(--text)}
-  footer{padding:30px 0;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;margin-top:20px}
+  code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1px 5px;font-size:13px}
+  footer{padding:30px 0;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;margin-top:26px}
+  footer a{color:var(--mid)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <a class="brand" href="index.html">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5.6H18L13.5 11l2 6L10 14l-5.5 3 2-6L2 7.6h5.6z" fill="currentColor"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="currentColor"/><circle cx="7.2" cy="7.2" r="1.7" fill="#FAFAF8"/><path d="M9.8 12.6l2.3 2.3 4.2-4.2" stroke="#FAFAF8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Fyndkollen
     </a>
     <div class="lang-tog">
-      <button class="lang-btn" id="lang-sv">SV</button>
-      <button class="lang-btn" id="lang-en">EN</button>
+      <button class="lang-btn" id="lang-sv" aria-pressed="true">SV</button>
+      <button class="lang-btn" id="lang-en" aria-pressed="false">EN</button>
     </div>
   </header>
 
   <h1 data-i18n="h1">Integritetspolicy</h1>
-  <div class="meta"><span data-i18n="lastUpdated">Senast uppdaterad: 2026-07-01 · Kontakt:</span> <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a></div>
+  <div class="meta"><span data-i18n="lastUpdated">Senast uppdaterad: 2026-07-09 · Kontakt:</span> <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a></div>
 
-  <div class="draft"><strong data-i18n="draftStrong">Utkast — ingen juridisk rådgivning.</strong> <span data-i18n="draftRest">Detta har kontrollerats för fullständighet men bör granskas mot GDPR och Chrome Web Store-krav, helst av en jurist, innan det används för en riktig lansering.</span></div>
+  <div class="tldr" data-i18n-html="tldr"><strong>Kort version:</strong> Fyndkollen är byggt för att veta så lite om dig som möjligt. Inget konto, inga annonsnätverk, inga kakor på webbplatsen. Det som lämnar din enhet är annonsinnehållet du själv väljer att analysera — och köper du krediter hanterar Stripe betalningen medan vi bara sparar det som krävs för att leverera dem.</div>
 
-  <h2 data-i18n="h2_1">Sammanfattning</h2>
-  <p data-i18n="p1">Fyndkollen är ett webbläsartillägg som hjälper dig bedöma andrahandsannonser på Blocket. Det körs lokalt i din webbläsare. Den enda data som någonsin lämnar din enhet är annonsinnehållet du väljer att analysera, som skickas till AI-leverantören för att skapa en bedömning.</p>
+  <h2 data-i18n="s1h">Vem som ansvarar för dina uppgifter</h2>
+  <p data-i18n-html="s1p">Fyndkollen tillhandahålls av <strong>Dennis Nilsson</strong>, enskild näringsidkare i Sverige ("vi"). Vi är personuppgiftsansvariga för den behandling som beskrivs här. Frågor och förfrågningar: <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.</p>
 
-  <h2 data-i18n="h2_2">Vad tillägget lagrar på din enhet</h2>
+  <h2 data-i18n="s2h">Vad tillägget lagrar lokalt på din enhet</h2>
   <ul>
-    <li data-i18n="li1">Dina inställningar (tillägg på/av, språk).</li>
-    <li data-i18n="li2">Din licensnyckel, om du har aktiverat en — lagras i Chromes tilläggslagring på din enhet.</li>
-    <li data-i18n="li3">En lokal prisdatabas byggd från annonser du tittat på, används för att uppskatta marknadsvärde.</li>
-    <li data-i18n="li4">En slumpmässig installations-identifierare (ett UUID). Den kopplas inte till ditt namn, e-post, Google-konto eller IP-adress av oss.</li>
+    <li data-i18n="s2l1">Dina inställningar (tillägget på/av, språk).</li>
+    <li data-i18n="s2l2">Din licensnyckel, om du har aktiverat en.</li>
+    <li data-i18n="s2l3">En lokal prishistorik byggd från annonser du tittat på, för att uppskatta marknadsvärde.</li>
+    <li data-i18n="s2l4">Ett slumpmässigt installations-ID (UUID). Det kopplas inte till ditt namn, din e-post, ditt Google-konto eller din IP-adress av oss.</li>
+    <li data-i18n="s2l5">Ditt senaste analysresultat per annons (lokal cache), så du kan öppna det igen utan ny analys.</li>
+  </ul>
+  <p data-i18n-html="s2p">Allt detta ligger i Chromes tilläggslagring på din enhet. Du raderar det när som helst med <strong>"Rensa allt"</strong> i tilläggets popup, eller genom att avinstallera tillägget.</p>
+
+  <h2 data-i18n="s3h">Vad som skickas när du analyserar en annons</h2>
+  <p data-i18n-html="s3p1">När du klickar <strong>"Kolla affären"</strong> skickas annonsens titel, beskrivning, pris och plats — och vid fotoanalys annonsens bilder — via vår backend till <strong>Anthropic</strong> (AI-leverantören) för att skapa bedömningen. Det sker bara när du själv klickar, aldrig i bakgrunden, och tillägget läser bara annonssidor på blocket.se — aldrig annan surfhistorik.</p>
+  <p data-i18n-html="s3p2">Vi lagrar <strong>inte</strong> annonstexten, bilderna eller säljarens uppgifter på våra servrar efter analysen. Det som sparas är: <strong>(a)</strong> AI:ns färdiga bedömning, kopplad till annons-ID i upp till 7 dagar — så att samma annons som redan analyserats kan besvaras blixtsnabbt (krediten dras som vanligt); <strong>(b)</strong> en prispunkt per produkt (produkttyp + pris, utan koppling till dig eller annonsen) som gör framtida värderingar träffsäkrare; <strong>(c)</strong> ditt installations-ID och antalet använda analyser, för gratisnivåns gränser och licenskrediter.</p>
+
+  <h2 data-i18n="s4h">IP-adresser och missbruksskydd</h2>
+  <p data-i18n="s4p">För att skydda gratisnivån och hålla tjänsten uppe använder våra servrar din IP-adress för frekvensbegränsning, och för en daglig räknare över hur många gratisanalyser som gjorts från samma IP. Räknaren innehåller bara IP, datum och ett antal, och raderas automatiskt efter 14 dagar. IP-adressen kopplas inte till ditt installations-ID eller någon profil. Rättslig grund: berättigat intresse (skydd mot missbruk och kostnadsangrepp).</p>
+
+  <h2 data-i18n="s5h">Marknadsdata — inga personuppgifter</h2>
+  <p data-i18n="s5p">Prisminnet som gör värderingarna träffsäkra består av produkt- och prispunkter: dels från analyser (produkttyp + begärt pris), dels från offentligt avslutade auktioner på svenska marknadsplatser (produkt + slutpris). Ingen av dessa datapunkter innehåller personuppgifter — varken dina eller säljarens.</p>
+
+  <h2 data-i18n="s6h">Köp av krediter (Stripe)</h2>
+  <p data-i18n-html="s6p">Om du köper analyskrediter sköts hela utcheckningen av <strong>Stripe</strong> — vi ser eller lagrar aldrig dina kortuppgifter. Stripe skickar oss din e-postadress och vilket paket du köpt, så att vi kan mejla dig en licensnyckel (t.ex. <code>FS-XXXX-XXXX</code>) och ladda rätt antal krediter. Vi sparar: din e-post, licensnyckeln, kreditsaldot och en orderjournal (belopp, valuta, order-ID) — dels för att förhindra dubbelleveranser, dels för att nya köp med samma e-post ska hamna på samma nyckel. Orderuppgifterna behålls så länge bokföringslagen kräver (7 år). Stripes egen hantering styrs av <a href="https://stripe.com/privacy" rel="noopener">Stripes integritetspolicy</a>.</p>
+
+  <h2 data-i18n="s7h">E-postleverans (Resend)</h2>
+  <p data-i18n-html="s7p">Licensnyckeln mejlas till dig via <strong>Resend</strong>, en e-postleverantör. Samma tjänst används för att meddela oss när en buggrapport eller ett förslag kommer in. Resend behandlar mottagaradress och meddelandeinnehåll för att leverera mejlet, enligt <a href="https://resend.com/legal/privacy-policy" rel="noopener">sin integritetspolicy</a>.</p>
+
+  <h2 data-i18n="s8h">Buggrapporter, förslag och prisrapporter</h2>
+  <p data-i18n="s8p">Om du skickar en buggrapport (från tillägget), ett förslag (från webbplatsen) eller rapporterar vad en vara faktiskt såldes för, sparar vi det du skriver, en frivillig e-postadress om du anger en (så vi kan återkoppla), och det sammanhang som behövs för felsökning (t.ex. tilläggsversion och vilken annons det gällde). Det används enbart för att åtgärda problem och förbättra produkten — aldrig för marknadsföring utan ditt uttryckliga samtycke — och sparas tills ärendet är löst och uppgifterna inte längre behövs.</p>
+
+  <h2 data-i18n="s9h">Webbplatsen fyndkollen.com</h2>
+  <ul>
+    <li data-i18n="s9l1">Inga kakor, inga annonsnätverk, inga spårningsskript.</li>
+    <li data-i18n="s9l2">Ditt språk- och temaval sparas i webbläsarens localStorage och lämnar aldrig din enhet.</li>
+    <li data-i18n="s9l3">Vi räknar besök med en anonym räknare — endast datum och antal lagras, ingen IP-adress, ingen profil.</li>
+    <li data-i18n-html="s9l4">Webbplatsen levereras via <strong>GitHub Pages</strong> och typsnittet via <strong>bunny.net</strong> (EU-baserad leverantör utan kakor eller spårning). Som alla webbservrar kan dessa tekniskt se din IP-adress när filerna hämtas.</li>
   </ul>
 
-  <h2 data-i18n="h2_3">Data som skickas när du analyserar en annons</h2>
-  <p data-i18n-html="p2">När du klickar <strong>Analysera</strong> skickas annonsens titel, beskrivning, pris, platstext och bilder till <strong>Anthropic</strong> (AI-leverantören) för att skapa en bedömning. Detta sker endast när du aktivt begär en analys. Anthropics hantering av den datan styrs av Anthropics egen integritetspolicy och API-villkor.</p>
-  <p data-i18n="p3">Vår backend håller Anthropic-nyckeln å dina vägnar, så du aldrig behöver en egen. Vi registrerar din slumpmässiga installations-identifierare och ett antal använda analyser, för att upprätthålla gränser för gratisnivån. Vi lagrar inte den ursprungliga annonstexten, säljaruppgifter eller bilder — endast AI:ns resulterande bedömning (produktnamn, skick, marknadsvärde) cachas, kopplat till annons-ID, i upp till 7 dagar, så att samma annons som analyserats av en annan användare visas gratis. Vi sparar även en rullande prishistorik per produkt (inte per annons eller användare) för att göra framtida uppskattningar mer träffsäkra över tid.</p>
-
-  <h2 data-i18n="h2_4">Köp av krediter (Stripe)</h2>
-  <p data-i18n-html="p4">Om du köper analyskrediter hanteras utcheckningen helt av <strong>Stripe</strong> — vi ser eller lagrar aldrig dina kortuppgifter. Stripe skickar din e-postadress och vilket paket du köpt så att vi kan mejla dig en licensnyckel (t.ex. <code>FS-XXXX-XXXX</code>) och ge dig rätt antal krediter. Vi lagrar: din e-post, licensnyckeln, kreditsaldot och en journal över Stripe-ordern (belopp, valuta, order-id) för att förhindra dubbla leveranser och låta upprepade köp läggas på samma nyckel. Denna data behålls så länge din licensnyckel är aktiv, plus vanliga krav på bokföringsarkivering. Stripes hantering av dina betalningsuppgifter styrs av Stripes egen integritetspolicy.</p>
-
-  <h2 data-i18n="h2_bug">Buggrapporter och funktionsförslag</h2>
-  <p data-i18n="p_bug">Om du skickar en buggrapport (från tillägget) eller ett funktionsförslag (från vår hemsida) lagrar vi meddelandet du skriver, en valfri e-postadress om du väljer att ange en (så vi kan följa upp), det kontext som behövs för att utreda en bugg (t.ex. tilläggsversion, annonsen du tittade på) samt vilken sida/språk du skickade från. Detta används enbart för att åtgärda problem och förbättra produkten — aldrig för marknadsföring utan ditt uttryckliga samtycke — och sparas så länge det är användbart för det syftet.</p>
-
-  <h2 data-i18n="h2_5">Rättslig grund (GDPR)</h2>
-  <p data-i18n="p5">Behandlingen är nödvändig för att tillhandahålla den bedömningstjänst du uttryckligen begär (Art. 6(1)(b) GDPR). Lokal bearbetning på din enhet kräver ingen överföring till oss.</p>
-
-  <h2 data-i18n="h2_6">Dina rättigheter</h2>
-  <p data-i18n-html="p6">Du kan när som helst rensa din lokala data från tilläggets popup ("Rensa allt"). För frågor eller dataförfrågningar, kontakta <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.</p>
-
-  <h2 data-i18n="h2_7">Datalagring & säkerhet</h2>
-  <p data-i18n="p7">I värdbaserat läge sparas installations-identifieraren och antalet analyser för att upprätthålla användningsgränser. Åtkomst till backend är begränsad till tilläggets egna tjänstefunktioner.</p>
-
-  <h2 data-i18n="h2_8">Ändringar</h2>
-  <p data-i18n="p8">Vi kan uppdatera denna policy; väsentliga ändringar återspeglas av datumet "Senast uppdaterad".</p>
-
-  <h2 data-i18n="h2_9">Tredje parter</h2>
+  <h2 data-i18n="s10h">Var datan lagras och överföringar utanför EU</h2>
   <ul>
-    <li data-i18n-html="li5"><strong>Anthropic</strong> — AI-analys av annonser du väljer att analysera.</li>
-    <li data-i18n-html="li6"><strong>Supabase</strong> — hosting för den valfria värdbaserade analystjänsten, dess användningsräknare och licens-/kreditregister.</li>
-    <li data-i18n-html="li7"><strong>Stripe</strong> — betalningshantering för kreditköp. Vi ser aldrig dina kortuppgifter.</li>
-    <li data-i18n-html="li8"><strong>Resend</strong> (om aktiverat) — levererar din licensnyckel via e-post efter köp.</li>
+    <li data-i18n-html="s10l1"><strong>Vår serverdata</strong> (räknare, licenser, ordrar, cache, feedback) lagras hos <strong>Supabase</strong> i region EU (Irland).</li>
+    <li data-i18n-html="s10l2"><strong>Anthropic</strong> (USA) behandlar analysinnehållet. Enligt sina kommersiella villkor tränar Anthropic inte sina modeller på API-data och raderar den normalt inom cirka 30 dagar. Överföringen skyddas av EU-kommissionens standardavtalsklausuler i Anthropics dataskyddsavtal.</li>
+    <li data-i18n-html="s10l3"><strong>Stripe</strong> och <strong>Resend</strong> (USA/globalt) skyddar överföringar med standardavtalsklausuler och/eller certifiering under EU–US Data Privacy Framework.</li>
+    <li data-i18n-html="s10l4"><strong>GitHub Pages</strong> (USA) levererar enbart webbplatsens statiska filer.</li>
+  </ul>
+
+  <h2 data-i18n="s11h">Rättsliga grunder (GDPR)</h2>
+  <ul>
+    <li data-i18n-html="s11l1"><strong>Avtal</strong> (art. 6.1 b) — att leverera analysen du begär och hantera licens- och kreditköp.</li>
+    <li data-i18n-html="s11l2"><strong>Berättigat intresse</strong> (art. 6.1 f) — missbruks- och kostnadsskydd (IP-gränser), drift, säkerhet och anonym aggregerad statistik.</li>
+    <li data-i18n-html="s11l3"><strong>Rättslig förpliktelse</strong> (art. 6.1 c) — arkivering av orderuppgifter enligt bokföringslagen.</li>
+  </ul>
+
+  <h2 data-i18n="s12h">Lagringstider</h2>
+  <ul>
+    <li data-i18n="s12l1">Analyscache per annons: 7 dagar.</li>
+    <li data-i18n="s12l2">IP-räknare för gratisnivån: 14 dagar.</li>
+    <li data-i18n="s12l3">Installations-ID och analysräknare: så länge tjänsten drivs — du kan nollställa lokalt när som helst.</li>
+    <li data-i18n="s12l4">E-post, licensnyckel och kreditsaldo: så länge nyckeln är aktiv; orderjournalen 7 år (bokföringslagen).</li>
+    <li data-i18n="s12l5">Feedback och prisrapporter: tills ärendet är löst och uppgifterna inte längre behövs.</li>
+    <li data-i18n="s12l6">Prisdatapunkter: innehåller inga personuppgifter; auktionsdata äldre än 180 dagar rensas löpande.</li>
+  </ul>
+
+  <h2 data-i18n="s13h">Dina rättigheter</h2>
+  <p data-i18n-html="s13p1">Enligt GDPR har du rätt till <strong>tillgång</strong> till dina uppgifter, <strong>rättelse</strong>, <strong>radering</strong>, <strong>begränsning</strong> av behandling, <strong>dataportabilitet</strong> och att <strong>invända</strong> mot behandling som stödjer sig på berättigat intresse. Mejla <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a> så hjälper vi dig — ange din licensnyckel eller köp-e-post om ärendet gäller ett köp.</p>
+  <p data-i18n-html="s13p2">Du har också rätt att lämna klagomål till <a href="https://www.imy.se" rel="noopener">Integritetsskyddsmyndigheten (IMY)</a>. Din lokala data raderar du själv direkt via <strong>"Rensa allt"</strong> i tilläggets popup.</p>
+
+  <h2 data-i18n="s14h">Ändringar</h2>
+  <p data-i18n="s14p">Vi kan uppdatera denna policy. Väsentliga ändringar återspeglas i datumet "Senast uppdaterad" högst upp på sidan.</p>
+
+  <h2 data-i18n="s15h">Tredje parter</h2>
+  <ul>
+    <li data-i18n-html="s15l1"><strong>Anthropic</strong> — AI-analys av annonser du väljer att analysera · <a href="https://www.anthropic.com/legal/privacy" rel="noopener">integritetspolicy</a></li>
+    <li data-i18n-html="s15l2"><strong>Supabase</strong> — serverdrift och databas (EU/Irland) · <a href="https://supabase.com/privacy" rel="noopener">integritetspolicy</a></li>
+    <li data-i18n-html="s15l3"><strong>Stripe</strong> — betalningar; vi ser aldrig kortuppgifter · <a href="https://stripe.com/privacy" rel="noopener">integritetspolicy</a></li>
+    <li data-i18n-html="s15l4"><strong>Resend</strong> — e-postleverans av licensnycklar · <a href="https://resend.com/legal/privacy-policy" rel="noopener">integritetspolicy</a></li>
+    <li data-i18n-html="s15l5"><strong>GitHub Pages</strong> — webbplatsleverans · <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">integritetspolicy</a></li>
+    <li data-i18n-html="s15l6"><strong>bunny.net</strong> — typsnittsleverans utan spårning (EU) · <a href="https://bunny.net/privacy" rel="noopener">integritetspolicy</a></li>
   </ul>
 </div>
-<footer data-i18n="footer">© 2026 Fyndkollen · Inte kopplat till Blocket.</footer>
+<footer><span data-i18n="footer">© 2026 Fyndkollen · Inte kopplat till Blocket ·</span> <a href="index.html" data-i18n="footerBack">Till startsidan</a></footer>
 
 <script>
   var DICT = {
     sv: {
       pageTitle: 'Integritetspolicy — Fyndkollen',
-      metaDesc: 'Fyndkollens integritetspolicy — vilken data tillägget lagrar, vad som skickas till Anthropic och Stripe, och dina rättigheter.',
+      metaDesc: 'Fyndkollens integritetspolicy — vad tillägget lagrar, vad som skickas till Anthropic och Stripe, hur IP-adresser används och dina rättigheter enligt GDPR.',
       h1: 'Integritetspolicy',
-      lastUpdated: 'Senast uppdaterad: 2026-07-01 · Kontakt:',
-      draftStrong: 'Utkast — ingen juridisk rådgivning.',
-      draftRest: 'Detta har kontrollerats för fullständighet men bör granskas mot GDPR och Chrome Web Store-krav, helst av en jurist, innan det används för en riktig lansering.',
-      h2_1: 'Sammanfattning',
-      p1: 'Fyndkollen är ett webbläsartillägg som hjälper dig bedöma andrahandsannonser på Blocket. Det körs lokalt i din webbläsare. Den enda data som någonsin lämnar din enhet är annonsinnehållet du väljer att analysera, som skickas till AI-leverantören för att skapa en bedömning.',
-      h2_2: 'Vad tillägget lagrar på din enhet',
-      li1: 'Dina inställningar (tillägg på/av, språk).',
-      li2: 'Din Anthropic API-nyckel, om du använder din egen — lagras i Chromes tilläggslagring på din enhet och skickas endast till Anthropic när du kör en analys. Den skickas aldrig till oss eller någon tredje part.',
-      li3: 'En lokal prisdatabas byggd från annonser du tittat på, används för att uppskatta marknadsvärde.',
-      li4: 'En slumpmässig installations-identifierare (ett UUID). Den kopplas inte till ditt namn, e-post, Google-konto eller IP-adress av oss.',
-      h2_3: 'Data som skickas när du analyserar en annons',
-      p2: 'När du klickar <strong>Analysera</strong> skickas annonsens titel, beskrivning, pris, platstext och bilder till <strong>Anthropic</strong> (AI-leverantören) för att skapa en bedömning. Detta sker endast när du aktivt begär en analys. Anthropics hantering av den datan styrs av Anthropics egen integritetspolicy och API-villkor.',
-      p3: 'Om du använder det värdbaserade läget (utan egen nyckel) skickas begäran via vår backend, som håller AI-nyckeln å dina vägnar. I det fallet registrerar vi endast din slumpmässiga installations-identifierare och ett antal använda analyser, för att upprätthålla gränser för gratisnivån. Vi lagrar inte annonsinnehåll, titlar, URL:er, säljaruppgifter eller bilder.',
-      h2_4: 'Köp av krediter (Stripe)',
-      p4: 'Om du köper analyskrediter hanteras utcheckningen helt av <strong>Stripe</strong> — vi ser eller lagrar aldrig dina kortuppgifter. Stripe skickar din e-postadress och vilket paket du köpt så att vi kan mejla dig en licensnyckel (t.ex. <code>FS-XXXX-XXXX</code>) och ge dig rätt antal krediter. Vi lagrar: din e-post, licensnyckeln, kreditsaldot och en journal över Stripe-ordern (belopp, valuta, order-id) för att förhindra dubbla leveranser och låta upprepade köp läggas på samma nyckel. Denna data behålls så länge din licensnyckel är aktiv, plus vanliga krav på bokföringsarkivering. Stripes hantering av dina betalningsuppgifter styrs av Stripes egen integritetspolicy.',
-      h2_5: 'Rättslig grund (GDPR)',
-      p5: 'Behandlingen är nödvändig för att tillhandahålla den bedömningstjänst du uttryckligen begär (Art. 6(1)(b) GDPR). Lokal bearbetning på din enhet kräver ingen överföring till oss.',
-      h2_6: 'Dina rättigheter',
-      p6: 'Du kan när som helst rensa din lokala data från tilläggets popup ("Rensa allt"). För frågor eller dataförfrågningar, kontakta <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.',
-      h2_7: 'Datalagring & säkerhet',
-      p7: 'I värdbaserat läge sparas installations-identifieraren och antalet analyser för att upprätthålla användningsgränser. Åtkomst till backend är begränsad till tilläggets egna tjänstefunktioner.',
-      h2_8: 'Ändringar',
-      p8: 'Vi kan uppdatera denna policy; väsentliga ändringar återspeglas av datumet "Senast uppdaterad".',
-      h2_9: 'Tredje parter',
-      li5: '<strong>Anthropic</strong> — AI-analys av annonser du väljer att analysera.',
-      li6: '<strong>Supabase</strong> — hosting för den valfria värdbaserade analystjänsten, dess användningsräknare och licens-/kreditregister.',
-      li7: '<strong>Stripe</strong> — betalningshantering för kreditköp. Vi ser aldrig dina kortuppgifter.',
-      li8: '<strong>Resend</strong> (om aktiverat) — levererar din licensnyckel via e-post efter köp.',
-      footer: '© 2026 Fyndkollen · Inte kopplat till Blocket.'
+      lastUpdated: 'Senast uppdaterad: 2026-07-09 · Kontakt:',
+      tldr: '<strong>Kort version:</strong> Fyndkollen är byggt för att veta så lite om dig som möjligt. Inget konto, inga annonsnätverk, inga kakor på webbplatsen. Det som lämnar din enhet är annonsinnehållet du själv väljer att analysera — och köper du krediter hanterar Stripe betalningen medan vi bara sparar det som krävs för att leverera dem.',
+      s1h: 'Vem som ansvarar för dina uppgifter',
+      s1p: 'Fyndkollen tillhandahålls av <strong>Dennis Nilsson</strong>, enskild näringsidkare i Sverige ("vi"). Vi är personuppgiftsansvariga för den behandling som beskrivs här. Frågor och förfrågningar: <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.',
+      s2h: 'Vad tillägget lagrar lokalt på din enhet',
+      s2l1: 'Dina inställningar (tillägget på/av, språk).',
+      s2l2: 'Din licensnyckel, om du har aktiverat en.',
+      s2l3: 'En lokal prishistorik byggd från annonser du tittat på, för att uppskatta marknadsvärde.',
+      s2l4: 'Ett slumpmässigt installations-ID (UUID). Det kopplas inte till ditt namn, din e-post, ditt Google-konto eller din IP-adress av oss.',
+      s2l5: 'Ditt senaste analysresultat per annons (lokal cache), så du kan öppna det igen utan ny analys.',
+      s2p: 'Allt detta ligger i Chromes tilläggslagring på din enhet. Du raderar det när som helst med <strong>"Rensa allt"</strong> i tilläggets popup, eller genom att avinstallera tillägget.',
+      s3h: 'Vad som skickas när du analyserar en annons',
+      s3p1: 'När du klickar <strong>"Kolla affären"</strong> skickas annonsens titel, beskrivning, pris och plats — och vid fotoanalys annonsens bilder — via vår backend till <strong>Anthropic</strong> (AI-leverantören) för att skapa bedömningen. Det sker bara när du själv klickar, aldrig i bakgrunden, och tillägget läser bara annonssidor på blocket.se — aldrig annan surfhistorik.',
+      s3p2: 'Vi lagrar <strong>inte</strong> annonstexten, bilderna eller säljarens uppgifter på våra servrar efter analysen. Det som sparas är: <strong>(a)</strong> AI:ns färdiga bedömning, kopplad till annons-ID i upp till 7 dagar — så att samma annons som redan analyserats kan besvaras blixtsnabbt (krediten dras som vanligt); <strong>(b)</strong> en prispunkt per produkt (produkttyp + pris, utan koppling till dig eller annonsen) som gör framtida värderingar träffsäkrare; <strong>(c)</strong> ditt installations-ID och antalet använda analyser, för gratisnivåns gränser och licenskrediter.',
+      s4h: 'IP-adresser och missbruksskydd',
+      s4p: 'För att skydda gratisnivån och hålla tjänsten uppe använder våra servrar din IP-adress för frekvensbegränsning, och för en daglig räknare över hur många gratisanalyser som gjorts från samma IP. Räknaren innehåller bara IP, datum och ett antal, och raderas automatiskt efter 14 dagar. IP-adressen kopplas inte till ditt installations-ID eller någon profil. Rättslig grund: berättigat intresse (skydd mot missbruk och kostnadsangrepp).',
+      s5h: 'Marknadsdata — inga personuppgifter',
+      s5p: 'Prisminnet som gör värderingarna träffsäkra består av produkt- och prispunkter: dels från analyser (produkttyp + begärt pris), dels från offentligt avslutade auktioner på svenska marknadsplatser (produkt + slutpris). Ingen av dessa datapunkter innehåller personuppgifter — varken dina eller säljarens.',
+      s6h: 'Köp av krediter (Stripe)',
+      s6p: 'Om du köper analyskrediter sköts hela utcheckningen av <strong>Stripe</strong> — vi ser eller lagrar aldrig dina kortuppgifter. Stripe skickar oss din e-postadress och vilket paket du köpt, så att vi kan mejla dig en licensnyckel (t.ex. <code>FS-XXXX-XXXX</code>) och ladda rätt antal krediter. Vi sparar: din e-post, licensnyckeln, kreditsaldot och en orderjournal (belopp, valuta, order-ID) — dels för att förhindra dubbelleveranser, dels för att nya köp med samma e-post ska hamna på samma nyckel. Orderuppgifterna behålls så länge bokföringslagen kräver (7 år). Stripes egen hantering styrs av <a href="https://stripe.com/privacy" rel="noopener">Stripes integritetspolicy</a>.',
+      s7h: 'E-postleverans (Resend)',
+      s7p: 'Licensnyckeln mejlas till dig via <strong>Resend</strong>, en e-postleverantör. Samma tjänst används för att meddela oss när en buggrapport eller ett förslag kommer in. Resend behandlar mottagaradress och meddelandeinnehåll för att leverera mejlet, enligt <a href="https://resend.com/legal/privacy-policy" rel="noopener">sin integritetspolicy</a>.',
+      s8h: 'Buggrapporter, förslag och prisrapporter',
+      s8p: 'Om du skickar en buggrapport (från tillägget), ett förslag (från webbplatsen) eller rapporterar vad en vara faktiskt såldes för, sparar vi det du skriver, en frivillig e-postadress om du anger en (så vi kan återkoppla), och det sammanhang som behövs för felsökning (t.ex. tilläggsversion och vilken annons det gällde). Det används enbart för att åtgärda problem och förbättra produkten — aldrig för marknadsföring utan ditt uttryckliga samtycke — och sparas tills ärendet är löst och uppgifterna inte längre behövs.',
+      s9h: 'Webbplatsen fyndkollen.com',
+      s9l1: 'Inga kakor, inga annonsnätverk, inga spårningsskript.',
+      s9l2: 'Ditt språk- och temaval sparas i webbläsarens localStorage och lämnar aldrig din enhet.',
+      s9l3: 'Vi räknar besök med en anonym räknare — endast datum och antal lagras, ingen IP-adress, ingen profil.',
+      s9l4: 'Webbplatsen levereras via <strong>GitHub Pages</strong> och typsnittet via <strong>bunny.net</strong> (EU-baserad leverantör utan kakor eller spårning). Som alla webbservrar kan dessa tekniskt se din IP-adress när filerna hämtas.',
+      s10h: 'Var datan lagras och överföringar utanför EU',
+      s10l1: '<strong>Vår serverdata</strong> (räknare, licenser, ordrar, cache, feedback) lagras hos <strong>Supabase</strong> i region EU (Irland).',
+      s10l2: '<strong>Anthropic</strong> (USA) behandlar analysinnehållet. Enligt sina kommersiella villkor tränar Anthropic inte sina modeller på API-data och raderar den normalt inom cirka 30 dagar. Överföringen skyddas av EU-kommissionens standardavtalsklausuler i Anthropics dataskyddsavtal.',
+      s10l3: '<strong>Stripe</strong> och <strong>Resend</strong> (USA/globalt) skyddar överföringar med standardavtalsklausuler och/eller certifiering under EU–US Data Privacy Framework.',
+      s10l4: '<strong>GitHub Pages</strong> (USA) levererar enbart webbplatsens statiska filer.',
+      s11h: 'Rättsliga grunder (GDPR)',
+      s11l1: '<strong>Avtal</strong> (art. 6.1 b) — att leverera analysen du begär och hantera licens- och kreditköp.',
+      s11l2: '<strong>Berättigat intresse</strong> (art. 6.1 f) — missbruks- och kostnadsskydd (IP-gränser), drift, säkerhet och anonym aggregerad statistik.',
+      s11l3: '<strong>Rättslig förpliktelse</strong> (art. 6.1 c) — arkivering av orderuppgifter enligt bokföringslagen.',
+      s12h: 'Lagringstider',
+      s12l1: 'Analyscache per annons: 7 dagar.',
+      s12l2: 'IP-räknare för gratisnivån: 14 dagar.',
+      s12l3: 'Installations-ID och analysräknare: så länge tjänsten drivs — du kan nollställa lokalt när som helst.',
+      s12l4: 'E-post, licensnyckel och kreditsaldo: så länge nyckeln är aktiv; orderjournalen 7 år (bokföringslagen).',
+      s12l5: 'Feedback och prisrapporter: tills ärendet är löst och uppgifterna inte längre behövs.',
+      s12l6: 'Prisdatapunkter: innehåller inga personuppgifter; auktionsdata äldre än 180 dagar rensas löpande.',
+      s13h: 'Dina rättigheter',
+      s13p1: 'Enligt GDPR har du rätt till <strong>tillgång</strong> till dina uppgifter, <strong>rättelse</strong>, <strong>radering</strong>, <strong>begränsning</strong> av behandling, <strong>dataportabilitet</strong> och att <strong>invända</strong> mot behandling som stödjer sig på berättigat intresse. Mejla <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a> så hjälper vi dig — ange din licensnyckel eller köp-e-post om ärendet gäller ett köp.',
+      s13p2: 'Du har också rätt att lämna klagomål till <a href="https://www.imy.se" rel="noopener">Integritetsskyddsmyndigheten (IMY)</a>. Din lokala data raderar du själv direkt via <strong>"Rensa allt"</strong> i tilläggets popup.',
+      s14h: 'Ändringar',
+      s14p: 'Vi kan uppdatera denna policy. Väsentliga ändringar återspeglas i datumet "Senast uppdaterad" högst upp på sidan.',
+      s15h: 'Tredje parter',
+      s15l1: '<strong>Anthropic</strong> — AI-analys av annonser du väljer att analysera · <a href="https://www.anthropic.com/legal/privacy" rel="noopener">integritetspolicy</a>',
+      s15l2: '<strong>Supabase</strong> — serverdrift och databas (EU/Irland) · <a href="https://supabase.com/privacy" rel="noopener">integritetspolicy</a>',
+      s15l3: '<strong>Stripe</strong> — betalningar; vi ser aldrig kortuppgifter · <a href="https://stripe.com/privacy" rel="noopener">integritetspolicy</a>',
+      s15l4: '<strong>Resend</strong> — e-postleverans av licensnycklar · <a href="https://resend.com/legal/privacy-policy" rel="noopener">integritetspolicy</a>',
+      s15l5: '<strong>GitHub Pages</strong> — webbplatsleverans · <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">integritetspolicy</a>',
+      s15l6: '<strong>bunny.net</strong> — typsnittsleverans utan spårning (EU) · <a href="https://bunny.net/privacy" rel="noopener">integritetspolicy</a>',
+      footer: '© 2026 Fyndkollen · Inte kopplat till Blocket ·',
+      footerBack: 'Till startsidan'
     },
     en: {
       pageTitle: 'Privacy Policy — Fyndkollen',
-      metaDesc: "Fyndkollen privacy policy — what data the extension stores, what's sent to Anthropic and Stripe, and your rights.",
+      metaDesc: "Fyndkollen's privacy policy — what the extension stores, what's sent to Anthropic and Stripe, how IP addresses are used, and your rights under GDPR.",
       h1: 'Privacy Policy',
-      lastUpdated: 'Last updated: 2026-07-01 · Contact:',
-      draftStrong: 'Draft — not legal advice.',
-      draftRest: 'This has been checked for completeness but should be reviewed against GDPR and Chrome Web Store requirements, ideally by a lawyer, before relying on it for a real launch.',
-      h2_1: 'Summary',
-      p1: 'Fyndkollen is a browser extension that helps you evaluate second-hand listings on Blocket. It runs locally in your browser. The only data that ever leaves your device is the listing content you choose to analyze, sent to the AI provider to produce a score.',
-      h2_2: 'What the extension stores on your device',
-      li1: 'Your settings (extension on/off, language).',
-      li2: "Your license key, if you've activated one — stored in Chrome's extension storage on your device.",
-      li3: 'A local price database built from listings you view, used to estimate market value.',
-      li4: 'A random installation identifier (a UUID). It is not linked to your name, email, Google account, or IP address by us.',
-      h2_3: 'Data sent when you analyze a listing',
-      p2: "When you click <strong>Appraise</strong>, the listing's title, description, price, location text, and photos are sent to <strong>Anthropic</strong> (the AI provider) to generate an appraisal. This happens only when you actively request an analysis. Anthropic's handling of that data is governed by Anthropic's own privacy policy and API terms.",
-      p3: "Our backend holds the Anthropic API key on your behalf, so you never need one yourself. We record your random installation identifier and a count of appraisals used, to enforce free-tier limits. We do not store the original listing text, seller details, or images — only the AI's resulting appraisal (item name, condition, market value) is cached, keyed by listing ID, for up to 7 days, so the same listing appraised by another user is served for free. We also keep a rolling market-value history per product (not per listing or per user) to make future estimates more accurate over time.",
-      h2_4: 'Buying credits (Stripe)',
-      p4: "If you purchase appraisal credits, checkout is handled entirely by <strong>Stripe</strong> — we never see or store your card details. Stripe passes us your email address and the pack you bought so we can email you a license key (e.g. <code>FS-XXXX-XXXX</code>) and grant the correct number of credits. We store: your email, the license key, the credit balance, and a record of the Stripe order (amount, currency, order id) to prevent duplicate fulfillment and to let repeat purchases stack credits onto the same key. This data is retained for as long as your license key is active, plus standard accounting/bookkeeping retention requirements. Stripe's handling of your payment data is governed by Stripe's own privacy policy.",
-      h2_bug: 'Bug reports and feature suggestions',
-      p_bug: "If you send a bug report (from the extension) or a feature suggestion (from our website), we store the message you write, an optional email address if you choose to provide one (so we can follow up), the browser/extension context needed to investigate a bug (e.g. extension version, the listing you were viewing), and the page/language you submitted from. This is used only to fix problems and improve the product — never for marketing without your explicit consent — and is retained for as long as it's useful for that purpose.",
-      h2_5: 'Legal basis (GDPR)',
-      p5: 'Processing is necessary to provide the appraisal service you explicitly request (Art. 6(1)(b) GDPR). Local processing on your device requires no transfer to us.',
-      h2_6: 'Your rights',
-      p6: 'You can clear your local data at any time from the extension popup ("Clear all"). For questions or data requests, contact <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.',
-      h2_7: 'Data retention & security',
-      p7: 'In hosted mode, the installation identifier and appraisal count are retained to enforce usage limits. Access to the backend is restricted to the extension\'s service functions.',
-      h2_8: 'Changes',
-      p8: 'We may update this policy; material changes will be reflected by the "Last updated" date.',
-      h2_9: 'Third parties',
-      li5: '<strong>Anthropic</strong> — AI analysis of listings you choose to analyze.',
-      li6: '<strong>Supabase</strong> — hosting for the optional no-key appraisal service, its usage counts, and license/credit records.',
-      li7: '<strong>Stripe</strong> — payment processing for credit purchases. We never see your card details.',
-      li8: '<strong>Resend</strong> (if enabled) — delivers your license key by email after purchase.',
-      footer: '© 2026 Fyndkollen · Not affiliated with Blocket.'
+      lastUpdated: 'Last updated: 2026-07-09 · Contact:',
+      tldr: '<strong>Short version:</strong> Fyndkollen is built to know as little about you as possible. No account, no ad networks, no cookies on the website. What leaves your device is the listing content you choose to analyze — and if you buy credits, Stripe handles the payment while we only keep what\'s needed to deliver them.',
+      s1h: 'Who is responsible for your data',
+      s1p: 'Fyndkollen is provided by <strong>Dennis Nilsson</strong>, sole trader in Sweden ("we"). We are the data controller for the processing described here. Questions and requests: <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.',
+      s2h: 'What the extension stores locally on your device',
+      s2l1: 'Your settings (extension on/off, language).',
+      s2l2: "Your license key, if you've activated one.",
+      s2l3: 'A local price history built from listings you have viewed, used to estimate market value.',
+      s2l4: 'A random installation ID (a UUID). We do not link it to your name, email, Google account, or IP address.',
+      s2l5: 'Your latest analysis result per listing (a local cache), so you can reopen it without a new analysis.',
+      s2p: 'All of this lives in Chrome\'s extension storage on your device. Delete it at any time with <strong>"Clear all"</strong> in the extension popup, or by uninstalling the extension.',
+      s3h: 'What is sent when you analyze a listing',
+      s3p1: 'When you click <strong>"Kolla affären"</strong>, the listing\'s title, description, price and location — and for photo analysis, the listing\'s photos — are sent through our backend to <strong>Anthropic</strong> (the AI provider) to produce the appraisal. This happens only when you click, never in the background, and the extension only reads listing pages on blocket.se — never your other browsing.',
+      s3p2: 'We do <strong>not</strong> store the listing text, photos or seller details on our servers after the analysis. What we keep is: <strong>(a)</strong> the AI\'s finished appraisal, keyed to the listing ID for up to 7 days — so an already-analyzed listing can be answered instantly (a credit is still charged as usual); <strong>(b)</strong> one price point per product (product type + price, with no link to you or the listing) that makes future valuations more accurate; <strong>(c)</strong> your installation ID and the number of analyses used, for free-tier limits and license credits.',
+      s4h: 'IP addresses and abuse protection',
+      s4p: 'To protect the free tier and keep the service available, our servers use your IP address for rate limiting, and for a daily counter of how many free analyses were made from the same IP. The counter holds only the IP, the date and a count, and is automatically deleted after 14 days. The IP address is not linked to your installation ID or any profile. Legal basis: legitimate interest (protection against abuse and cost attacks).',
+      s5h: 'Market data — no personal data',
+      s5p: 'The price memory behind the valuations consists of product and price points: partly from analyses (product type + asking price), partly from publicly completed auctions on Swedish marketplaces (product + final price). None of these data points contain personal data — neither yours nor the seller\'s.',
+      s6h: 'Buying credits (Stripe)',
+      s6p: 'If you buy analysis credits, the entire checkout is handled by <strong>Stripe</strong> — we never see or store your card details. Stripe sends us your email address and which pack you bought, so we can email you a license key (e.g. <code>FS-XXXX-XXXX</code>) and load the right number of credits. We store: your email, the license key, the credit balance, and an order record (amount, currency, order ID) — both to prevent duplicate fulfilment and so that repeat purchases with the same email stack onto the same key. Order records are kept as long as Swedish bookkeeping law requires (7 years). Stripe\'s own handling is governed by <a href="https://stripe.com/privacy" rel="noopener">Stripe\'s privacy policy</a>.',
+      s7h: 'Email delivery (Resend)',
+      s7p: 'Your license key is emailed to you via <strong>Resend</strong>, an email delivery provider. The same service notifies us when a bug report or suggestion comes in. Resend processes the recipient address and message content to deliver the email, per <a href="https://resend.com/legal/privacy-policy" rel="noopener">its privacy policy</a>.',
+      s8h: 'Bug reports, suggestions and price reports',
+      s8p: 'If you send a bug report (from the extension), a suggestion (from the website), or report what an item actually sold for, we store what you write, an optional email address if you provide one (so we can follow up), and the context needed to investigate (e.g. extension version and which listing it concerned). It is used solely to fix problems and improve the product — never for marketing without your explicit consent — and is kept until the matter is resolved and the data is no longer needed.',
+      s9h: 'The website fyndkollen.com',
+      s9l1: 'No cookies, no ad networks, no tracking scripts.',
+      s9l2: 'Your language and theme choice are saved in your browser\'s localStorage and never leave your device.',
+      s9l3: 'We count visits with an anonymous counter — only the date and a count are stored, no IP address, no profile.',
+      s9l4: 'The website is served via <strong>GitHub Pages</strong> and the font via <strong>bunny.net</strong> (an EU-based provider with no cookies or tracking). Like any web server, they can technically see your IP address when files are fetched.',
+      s10h: 'Where data is stored and transfers outside the EU',
+      s10l1: '<strong>Our server data</strong> (counters, licenses, orders, cache, feedback) is stored with <strong>Supabase</strong> in the EU region (Ireland).',
+      s10l2: '<strong>Anthropic</strong> (USA) processes the analysis content. Under its commercial terms, Anthropic does not train its models on API data and normally deletes it within about 30 days. The transfer is safeguarded by the EU Commission\'s Standard Contractual Clauses in Anthropic\'s data processing addendum.',
+      s10l3: '<strong>Stripe</strong> and <strong>Resend</strong> (USA/global) safeguard transfers with Standard Contractual Clauses and/or certification under the EU–US Data Privacy Framework.',
+      s10l4: '<strong>GitHub Pages</strong> (USA) only serves the website\'s static files.',
+      s11h: 'Legal bases (GDPR)',
+      s11l1: '<strong>Contract</strong> (art. 6(1)(b)) — delivering the analysis you request and handling license and credit purchases.',
+      s11l2: '<strong>Legitimate interest</strong> (art. 6(1)(f)) — abuse and cost protection (IP limits), operations, security, and anonymous aggregate statistics.',
+      s11l3: '<strong>Legal obligation</strong> (art. 6(1)(c)) — archiving order records under Swedish bookkeeping law.',
+      s12h: 'Retention periods',
+      s12l1: 'Analysis cache per listing: 7 days.',
+      s12l2: 'Free-tier IP counter: 14 days.',
+      s12l3: 'Installation ID and analysis counter: for as long as the service operates — you can reset locally at any time.',
+      s12l4: 'Email, license key and credit balance: as long as the key is active; order records 7 years (bookkeeping law).',
+      s12l5: 'Feedback and price reports: until the matter is resolved and the data is no longer needed.',
+      s12l6: 'Price data points: contain no personal data; auction data older than 180 days is purged continuously.',
+      s13h: 'Your rights',
+      s13p1: 'Under GDPR you have the right of <strong>access</strong> to your data, <strong>rectification</strong>, <strong>erasure</strong>, <strong>restriction</strong> of processing, <strong>data portability</strong>, and to <strong>object</strong> to processing based on legitimate interest. Email <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a> and we\'ll help — include your license key or purchase email if the request concerns a purchase.',
+      s13p2: 'You also have the right to lodge a complaint with the Swedish data protection authority, <a href="https://www.imy.se" rel="noopener">Integritetsskyddsmyndigheten (IMY)</a>. You delete your local data yourself, instantly, via <strong>"Clear all"</strong> in the extension popup.',
+      s14h: 'Changes',
+      s14p: 'We may update this policy. Material changes are reflected in the "Last updated" date at the top of this page.',
+      s15h: 'Third parties',
+      s15l1: '<strong>Anthropic</strong> — AI analysis of listings you choose to analyze · <a href="https://www.anthropic.com/legal/privacy" rel="noopener">privacy policy</a>',
+      s15l2: '<strong>Supabase</strong> — server hosting and database (EU/Ireland) · <a href="https://supabase.com/privacy" rel="noopener">privacy policy</a>',
+      s15l3: '<strong>Stripe</strong> — payments; we never see card details · <a href="https://stripe.com/privacy" rel="noopener">privacy policy</a>',
+      s15l4: '<strong>Resend</strong> — email delivery of license keys · <a href="https://resend.com/legal/privacy-policy" rel="noopener">privacy policy</a>',
+      s15l5: '<strong>GitHub Pages</strong> — website hosting · <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" rel="noopener">privacy policy</a>',
+      s15l6: '<strong>bunny.net</strong> — font delivery without tracking (EU) · <a href="https://bunny.net/privacy" rel="noopener">privacy policy</a>',
+      footer: '© 2026 Fyndkollen · Not affiliated with Blocket ·',
+      footerBack: 'Back to the start page'
     }
   };
 
@@ -181,6 +286,8 @@
     });
     document.getElementById('lang-sv').classList.toggle('on', lang === 'sv');
     document.getElementById('lang-en').classList.toggle('on', lang === 'en');
+    document.getElementById('lang-sv').setAttribute('aria-pressed', String(lang === 'sv'));
+    document.getElementById('lang-en').setAttribute('aria-pressed', String(lang === 'en'));
     try { localStorage.setItem('fk_site_lang', lang); } catch (e) {}
   }
 
