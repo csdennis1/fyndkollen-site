@@ -146,7 +146,7 @@ function render(s){
   h+=kpi("Intäkt ("+plabel()+")",kr(K.rev_now)+delta(K.rev_now,K.rev_prev),n(K.orders)+" ordrar · "+kr(rev.total_ore)+" totalt");
   h+=kpi("Bruttomarginal ("+plabel()+")",kr(K.margin_ore),"kostnad ~"+(K.cost_usd*11).toFixed(0)+" kr (est. AI)");
   h+=kpi("Besökare ("+plabel()+")",n(K.vis_now)+delta(K.vis_now,K.vis_prev),(K.conv!=null?K.conv+"% → köp":"—")+" konvertering");
-  h+=kpi("Analyser ("+plabel()+")",n(K.appr_now)+delta(K.appr_now,K.appr_prev),K.cache_rate+"% serverades gratis ur cache");
+  h+=kpi("Analyser ("+plabel()+")",n(K.appr_now)+delta(K.appr_now,K.appr_prev),K.cache_rate+"% ur cache (kostar oss inget extra AI-anrop, kunden betalar ändå)");
   h+=kpi("Datakvalitet",n(pd.well_grounded)+" välgrundade",groundedPct+"% av produkter har ≥2 slutpriser");
   h+=kpi("Insamlad prisdata",n(pd.total),n(pd.verified_sold)+" verifierade · +"+n(pd.added_today)+" idag");
   h+='</div>';
