@@ -97,7 +97,7 @@ async function login(){
   if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats);startAuto();}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -114,7 +114,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s,sf){
+function render(s,sf,ce){
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
   var bytesPerRow=pd.total?q.db_bytes/pd.total:0,rowsPerDay=pd.added_7d/7;
@@ -136,6 +136,7 @@ function render(s,sf){
   if(sy.ingest_paused)h+='<div class="warn"><span>⏸</span><div><b>Datainsamlingen är pausad.</b> Ingen ny prisdata hämtas. Återuppta under Kontroller.</div></div>';
   if(sy.maintenance)h+='<div class="warn"><span>⚠</span><div><b>Underhållsläge PÅ</b> — tjänsten är pausad för användarna.</div></div>';
   if((sf||0)>=10)h+='<div class="warn"><span>🩺</span><div><b>Skrap-larm: '+n(sf)+' misslyckade annonsavläsningar idag.</b> Blocket kan ha ändrat sin sida — öppna en annons med tillägget och verifiera, se drift-rutinen.</div></div>';
+  if((ce||0)>=20)h+='<div class="warn"><span>🐞</span><div><b>Felspik: '+n(ce)+' klientfel i tillägget idag.</b> Läs felmeddelandena i inkorgen (typ client_error) — något är trasigt i produktion.</div></div>';
   var revTotKr=Number((rev&&rev.total_ore)||0)/100;
   if(revTotKr>=80000)h+='<div class="warn"><span>💰</span><div><b>Momsbevakning: '+n(Math.round(revTotKr))+' kr av 120 000 kr-gränsen.</b> Momsregistrering ska ske INNAN gränsen passeras — boka redovisningskonsult och fatta moms-vägvalet (BOLAGSPLAN §3/§5).</div></div>';
   if(worst&&worst.p>=60)h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen'+(worst.extra?". "+worst.extra:"")+'.</div></div>';
