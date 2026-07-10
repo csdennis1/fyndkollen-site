@@ -912,7 +912,9 @@
   var STORE_URLS = {
     chrome: 'https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka',
     firefox: 'https://addons.mozilla.org/firefox/addon/fyndkollen/',
-    edge: '' // TODO: klistra in Edge Add-ons-URL:en (microsoftedge.microsoft.com/addons/detail/...)
+    edge: '' // NÄR Edge-listningen är LIVE (5.2.1 låg i draft 2026-07-10, CRX-id känt): sätt
+              // 'https://microsoftedge.microsoft.com/addons/detail/fyndkollen/lpijjamgenlgfamfmjcepfoimmehlljg'
+              // — INTE innan publicering (404). Tom sträng = CWS-fallback som fungerar i Edge.
   };
   var BROWSER_NAMES = { chrome: 'Chrome', firefox: 'Firefox', edge: 'Edge' };
   function detectBrowser() {
