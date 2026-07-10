@@ -97,7 +97,7 @@ async function login(){
   if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats);startAuto();}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -114,7 +114,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s){
+function render(s,sf){
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
   var bytesPerRow=pd.total?q.db_bytes/pd.total:0,rowsPerDay=pd.added_7d/7;
@@ -135,6 +135,9 @@ function render(s){
   // banners
   if(sy.ingest_paused)h+='<div class="warn"><span>⏸</span><div><b>Datainsamlingen är pausad.</b> Ingen ny prisdata hämtas. Återuppta under Kontroller.</div></div>';
   if(sy.maintenance)h+='<div class="warn"><span>⚠</span><div><b>Underhållsläge PÅ</b> — tjänsten är pausad för användarna.</div></div>';
+  if((sf||0)>=10)h+='<div class="warn"><span>🩺</span><div><b>Skrap-larm: '+n(sf)+' misslyckade annonsavläsningar idag.</b> Blocket kan ha ändrat sin sida — öppna en annons med tillägget och verifiera, se drift-rutinen.</div></div>';
+  var revTotKr=Number((rev&&rev.total_ore)||0)/100;
+  if(revTotKr>=80000)h+='<div class="warn"><span>💰</span><div><b>Momsbevakning: '+n(Math.round(revTotKr))+' kr av 120 000 kr-gränsen.</b> Momsregistrering ska ske INNAN gränsen passeras — boka redovisningskonsult och fatta moms-vägvalet (BOLAGSPLAN §3/§5).</div></div>';
   if(worst&&worst.p>=60)h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen'+(worst.extra?". "+worst.extra:"")+'.</div></div>';
   else h+='<div class="ok-note">✓ Alla tredjepartstjänster har god marginal till sina gratisgränser.</div>';
 
@@ -176,8 +179,11 @@ function render(s){
   h+='<div class="sec-h">Insamlad data & försäljning</div><div class="row">';
   var cats=(pd.by_category||[]).map(function(c){var p=pct(c.n,pd.total);return '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12.5px"><span class="mid">'+c.category+'</span><b>'+n(c.n)+'</b></div><div class="track"><div class="fill" style="width:'+p+'%;background:var(--accent);opacity:.7"></div></div></div>';}).join("")||'<div class="muted">Ingen data.</div>';
   h+='<div class="card"><h2>Prisdata per kategori</h2>'+cats+'<div class="muted" style="font-size:11.5px;margin-top:6px">'+n(pd.verified_sold)+' Tradera-sålt · '+n(pd.reported_sold)+' användarrapp. · '+n(pd.asking)+' annonspriser</div></div>';
-  var ord=(rev.recent||[]).map(function(o){return '<tr><td>'+n(o.credits)+' kr</td><td>'+kr(o.amount)+'</td><td class="muted" style="font-size:12px">'+String(o.created_at||"").slice(0,16).replace("T"," ")+'</td></tr>';}).join("")||'<tr><td colspan="3" class="muted">Inga ordrar än.</td></tr>';
-  h+='<div class="card"><h2>Senaste ordrar</h2><table><tr><th>Krediter</th><th>Belopp</th><th>Tid</th></tr>'+ord+'</table></div>';
+  // Fallback-tabell ur admin_stats (kredit-kolumnen hade dessutom fel enhet: "N kr" för
+  // KREDITER — fixat 2026-07-09); loadOrders() ersätter den med den rikare orders_list-
+  // vyn (nyckel, e-post, leveransstatus) så supportärenden kan slås upp direkt i panelen.
+  var ord=(rev.recent||[]).map(function(o){return '<tr><td>'+n(o.credits)+'</td><td>'+kr(o.amount)+'</td><td class="muted" style="font-size:12px">'+String(o.created_at||"").slice(0,16).replace("T"," ")+'</td></tr>';}).join("")||'<tr><td colspan="3" class="muted">Inga ordrar än.</td></tr>';
+  h+='<div class="card"><h2>Senaste ordrar</h2><div id="ord-body"><table><tr><th>Krediter</th><th>Belopp</th><th>Tid</th></tr>'+ord+'</table></div></div>';
   h+='</div>';
 
   // Licenses
@@ -197,6 +203,17 @@ function render(s){
 
   document.getElementById("body").innerHTML=h;
   loadRoadmap();
+  loadOrders();
+}
+// Rikare ordervy (2026-07-09): nyckel + e-post + leveransstatus per order — gör panelen
+// till supportverktyget ("kunden mejlade, hittar jag ordern?"). Faller tyst tillbaka på
+// admin_stats-tabellen om anropet misslyckas.
+async function loadOrders(){
+  var el=document.getElementById("ord-body"); if(!el) return;
+  var r=await call("orders_list");
+  if(r.status!==200) return;
+  var rows=(r.body.rows||[]).map(function(o){return '<tr><td class="mono" style="font-size:11.5px">'+escT(o.license||"—")+'</td><td class="muted" style="font-size:12px">'+escT(o.email||"—")+'</td><td>'+n(o.credits)+'</td><td>'+kr(o.amount)+'</td><td>'+(o.fulfilled?'<span class="pill" style="color:var(--green);background:rgba(14,159,110,.12)">levererad</span>':'<span class="pill" style="color:var(--red);background:rgba(220,38,38,.12)">EJ levererad</span>')+'</td><td class="muted" style="font-size:11.5px;white-space:nowrap">'+String(o.created_at||"").slice(0,16).replace("T"," ")+'</td></tr>';}).join("")||'<tr><td colspan="6" class="muted">Inga ordrar än.</td></tr>';
+  el.innerHTML='<table><tr><th>Nyckel</th><th>E-post</th><th>Krediter</th><th>Belopp</th><th>Status</th><th>Tid</th></tr>'+rows+'</table>';
 }
 var FBROWS=[];
 async function loadFb(kind){
