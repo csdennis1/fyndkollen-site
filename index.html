@@ -190,6 +190,25 @@
   .buy-terms a:hover{color:var(--dark-text)}
   .buy-terms a:focus-visible{outline:2px solid #CC6B2C;outline-offset:2px;border-radius:3px}
 
+  /* Betalvägg 2.0 (2026-07-11): prenumerationskort i fronten + early adopter + referral */
+  .early-banner{max-width:660px;margin:0 auto 26px;text-align:center;font-size:14px;font-weight:600;color:var(--dark-text);border:1.5px solid var(--accent);border-radius:14px;padding:12px 18px;background:rgba(204,107,44,.13);position:relative;z-index:1}
+  .early-banner code{background:rgba(255,255,255,.14);border-radius:6px;padding:1px 8px;font-weight:800;letter-spacing:.05em}
+  .packs.subs{max-width:660px;margin:0 auto;grid-template-columns:repeat(2,1fr)}
+  .per-mo{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}
+  .packs-one-h{text-align:center;font-size:15px;font-weight:700;color:var(--dark-mid);margin:36px 0 16px;position:relative;z-index:1}
+  .ref-box{max-width:660px;margin:36px auto 0;text-align:center;border:1.5px solid rgba(255,255,255,.14);border-radius:16px;padding:22px 20px;position:relative;z-index:1}
+  .ref-box h3{color:var(--dark-text);font-size:17px;margin-bottom:6px}
+  .ref-box p{font-size:13.5px;color:var(--dark-mid)}
+  .ref-form{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .ref-input{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.18);border-radius:10px;color:var(--dark-text);padding:10px 12px;font-size:14px;min-width:230px;text-transform:uppercase;font-family:inherit}
+  .ref-input::placeholder{color:var(--dark-muted);text-transform:none}
+  .ref-input:focus-visible{outline:2px solid #CC6B2C;outline-offset:2px}
+  .ref-result{margin-top:12px;display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .ref-result code{font-size:12.5px;color:var(--dark-text);background:rgba(255,255,255,.09);border-radius:8px;padding:8px 11px;word-break:break-all}
+  .ref-note{font-size:11.5px;color:var(--dark-muted);margin-top:10px}
+  .ref-status{font-size:12.5px;margin-top:8px;min-height:16px;color:var(--dark-mid)}
+  .ref-status.err{color:#E8837B}
+
   /* ---------- Pricing: single warm-dark contrast band ----------
      One deliberate dark section (not alternating dark/light throughout — that reads as
      overdesigned for a Swedish audience). Applies at EVERY width, not just desktop, so
@@ -577,7 +596,7 @@
         <div class="hero-trust">
           <div><b>3</b>&nbsp;<span data-i18n="heroTrust1">marknader jämförs</span></div>
           <div><b>5</b>&nbsp;<span data-i18n="heroTrust2">gratiskrediter direkt</span></div>
-          <div><b>0</b>&nbsp;<span data-i18n="heroTrust3">prenumerationer</span></div>
+          <div><b>0</b>&nbsp;<span data-i18n="heroTrust3">konton krävs</span></div>
         </div>
       </div>
     </div>
@@ -620,9 +639,28 @@
 <section id="pricing">
   <div class="band-bg" aria-hidden="true"><span class="blob blob-a"></span></div>
   <div class="wrap-wide">
-    <h2 data-i18n="pricingH2">Köp krediter, ingen prenumeration</h2>
-    <p class="lead" data-i18n="pricingLead">Krediterna gäller för alltid. Fyll på när du behöver — allt läggs på samma saldo.</p>
-    <p class="value-note" data-i18n="valueNote">En snabbkoll kostar från 50 öre. Ett förhastat Blocketköp kostar lätt hundralappar.</p>
+    <h2 data-i18n="pricingH2">Skaffa krediter — prenumerera eller köp engångs</h2>
+    <p class="lead" data-i18n="pricingLead">Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.</p>
+    <p class="value-note" data-i18n="valueNote">En snabbkoll kostar från 40 öre. Ett förhastat Blocketköp kostar lätt hundralappar.</p>
+    <div class="early-banner" data-i18n-html="earlyBanner">🎉 <b>Early adopter:</b> de 50 första prenumeranterna får första månaden gratis — ange koden <code>TIDIG50</code> i kassan.</div>
+    <div class="packs subs">
+      <div class="pack">
+        <div class="pack-name">Bas</div>
+        <div class="pack-credits">50<span data-i18n="subUnit"> krediter/mån</span></div>
+        <div class="price-tag sm">39&nbsp;kr<span class="per-mo" data-i18n="perMo">/mån</span></div>
+        <div class="pack-each"><span data-i18n="subEach1">0,78 kr per kredit · säg upp när som helst</span></div>
+        <a class="cta sm" href="https://buy.stripe.com/9B6aEY5tW5BxbM20byb3q0f" data-i18n="subBtn">Prenumerera</a>
+      </div>
+      <div class="pack featured">
+        <div class="pack-badge" data-i18n="bestValue">Bäst värde</div>
+        <div class="pack-name">Pro</div>
+        <div class="pack-credits">250<span data-i18n="subUnit"> krediter/mån</span></div>
+        <div class="price-tag sm">99&nbsp;kr<span class="per-mo" data-i18n="perMo">/mån</span></div>
+        <div class="pack-each"><span data-i18n="subEach2">0,40 kr per kredit · säg upp när som helst</span></div>
+        <a class="cta sm" href="https://buy.stripe.com/00w6oIf4wbZV2bs2jGb3q0g" data-i18n="subBtnFeatured">Prenumerera – bäst värde</a>
+      </div>
+    </div>
+    <h3 class="packs-one-h" data-i18n="packsOneH">Hellre utan prenumeration? Köp ett engångspaket</h3>
     <div class="packs">
       <div class="pack">
         <div class="pack-name">Mini</div>
@@ -645,13 +683,12 @@
         <div class="pack-each"><span data-i18n="packEach2">0,75 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/7sY9AU9KcbZV8zQcYkb3q0d" data-i18n="buyBtn">Köp krediter</a>
       </div>
-      <div class="pack featured">
-        <div class="pack-badge" data-i18n="bestValue">Bäst värde</div>
-        <div class="pack-name">Pro</div>
+      <div class="pack">
+        <div class="pack-name">Max</div>
         <div class="pack-credits">1000<span data-i18n="packUnit"> krediter</span></div>
         <div class="price-tag sm">499&nbsp;kr</div>
         <div class="pack-each"><span data-i18n="packEach3">0,50 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/cNibJ26y0e83g2i4rOb3q0e" data-i18n="buyBtnFeatured">Få Pro – bäst värde</a>
+        <a class="cta sm" href="https://buy.stripe.com/cNibJ26y0e83g2i4rOb3q0e" data-i18n="buyBtn">Köp krediter</a>
       </div>
       <div class="pack">
         <div class="pack-name">Extra</div>
@@ -670,7 +707,18 @@
       <span class="pay-pill">Google Pay</span>
     </div>
     <div class="climate-row"><span class="climate-dot"></span><span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></div>
-    <div class="buy-terms" data-i18n-html="buyTerms">Genom att köpa godkänner du <a href="villkor.html">köpvillkoren</a> — 14 dagars ångerrätt för oanvända krediter. Priserna är totalpriser.</div>
+    <div class="buy-terms" data-i18n-html="buyTerms">Genom att köpa godkänner du <a href="villkor.html">köpvillkoren</a> — 14 dagars ångerrätt för oanvända krediter. Prenumerationer förnyas månadsvis och kan sägas upp när som helst. Priserna är totalpriser.</div>
+    <div class="ref-box">
+      <h3 data-i18n="refH">Värva en vän — få 20 krediter</h3>
+      <p data-i18n="refP">Dela din personliga länk. När en vän gör sitt första köp — paket eller prenumeration — läggs 20 krediter på din nyckel, automatiskt.</p>
+      <div class="ref-form">
+        <input class="ref-input" id="ref-key" data-i18n-attr="placeholder:refPlaceholder" placeholder="Din licensnyckel (FS-XXXX-XXXX)" maxlength="12" autocomplete="off" spellcheck="false"/>
+        <button class="cta sm" id="ref-make" data-i18n="refMakeBtn">Skapa min länk</button>
+      </div>
+      <div class="ref-result" id="ref-result" hidden><code id="ref-link"></code><button class="cta sm" id="ref-copy" data-i18n="refCopy">Kopiera</button></div>
+      <div class="ref-status" id="ref-status" aria-live="polite"></div>
+      <p class="ref-note" data-i18n="refNote">Nyckeln får du vid ditt första köp. Belöningen ges när vännen köper — inte vid installation.</p>
+    </div>
   </div>
 </section>
 
@@ -690,6 +738,9 @@
       <div><h3 data-i18n="q10h">Jag har tappat bort min licensnyckel</h3><p data-i18n="q10p">Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.</p></div>
       <div><h3 data-i18n="q11h">Byta dator eller installera om?</h3><p data-i18n="q11p">Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.</p></div>
       <div><h3 data-i18n="q12h">Kan jag få ett kvitto?</h3><p data-i18n="q12p">Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.</p></div>
+      <div><h3 data-i18n="q13h">Hur fungerar prenumerationen — och hur säger jag upp den?</h3><p data-i18n="q13p">Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst: mejla oss från din köp-e-post så stängs förnyelsen direkt, eller använd hanteringslänken i ditt Stripe-kvitto. Ingen bindningstid.</p></div>
+      <div><h3 data-i18n="q14h">Vad händer med mina krediter om jag säger upp prenumerationen?</h3><p data-i18n="q14p">Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.</p></div>
+      <div><h3 data-i18n="q15h">Hur fungerar "värva en vän"?</h3><p data-i18n="q15p">Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.</p></div>
     </div>
   </div>
 </section>
@@ -764,17 +815,29 @@
       f2h: 'Snabbkoll eller fotoanalys', f2p: 'Svara på ett par korta frågor för en snabbkoll, eller låt tillägget läsa annonsens bilder för den mest träffsäkra bedömningen.',
       f3h: 'Grundat i verklig prisdata', f3p: 'Värderingen grundas i aktuella priser från Blocket, Tradera och Prisjakt — och i ett växande minne av verkliga slutpriser som gör varje analys träffsäkrare än den förra.',
       f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset och en bedömning av vinstpotentialen vid vidareförsäljning — direkt i annonsen, och som märken på annonskorten medan du bläddrar.',
-      pricingH2: 'Köp krediter, ingen prenumeration',
-      pricingLead: 'Krediterna gäller för alltid. Fyll på när du behöver — allt läggs på samma saldo.',
-      valueNote: 'En snabbkoll kostar från 50 öre. Ett förhastat Blocketköp kostar lätt hundralappar.',
+      pricingH2: 'Skaffa krediter — prenumerera eller köp engångs',
+      pricingLead: 'Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.',
+      valueNote: 'En snabbkoll kostar från 40 öre. Ett förhastat Blocketköp kostar lätt hundralappar.',
       packUnit: ' krediter', packEach1: '0,99 kr per kredit', packEach2: '0,75 kr per kredit', packEach3: '0,50 kr per kredit', packEach4: '1,50 kr per kredit',
-      heroTrust1: 'marknader jämförs', heroTrust2: 'gratiskrediter direkt', heroTrust3: 'prenumerationer',
+      earlyBanner: '🎉 <b>Early adopter:</b> de 50 första prenumeranterna får första månaden gratis — ange koden <code>TIDIG50</code> i kassan.',
+      subUnit: ' krediter/mån', perMo: '/mån',
+      subEach1: '0,78 kr per kredit · säg upp när som helst',
+      subEach2: '0,40 kr per kredit · säg upp när som helst',
+      subBtn: 'Prenumerera', subBtnFeatured: 'Prenumerera – bäst värde',
+      packsOneH: 'Hellre utan prenumeration? Köp ett engångspaket',
+      refH: 'Värva en vän — få 20 krediter',
+      refP: 'Dela din personliga länk. När en vän gör sitt första köp — paket eller prenumeration — läggs 20 krediter på din nyckel, automatiskt.',
+      refPlaceholder: 'Din licensnyckel (FS-XXXX-XXXX)',
+      refMakeBtn: 'Skapa min länk', refCopy: 'Kopiera', refCopied: 'Kopierad!',
+      refInvalid: 'Ogiltig nyckel — formatet är FS-XXXX-XXXX.',
+      refNote: 'Nyckeln får du vid ditt första köp. Belöningen ges när vännen köper — inte vid installation.',
+      heroTrust1: 'marknader jämförs', heroTrust2: 'gratiskrediter direkt', heroTrust3: 'konton krävs',
       trustSources: 'Prisdata från',
       emailInvalid: 'Ange en giltig e-postadress.',
       buyBtn: 'Köp krediter', buyBtnFeatured: 'Få Pro – bäst värde', bestValue: 'Bäst värde',
       freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
       climateNote: '0,5 % av varje köp går till koldioxidinfångning via Stripe Climate',
-      buyTerms: 'Genom att köpa godkänner du <a href="villkor.html">köpvillkoren</a> — 14 dagars ångerrätt för oanvända krediter. Priserna är totalpriser.',
+      buyTerms: 'Genom att köpa godkänner du <a href="villkor.html">köpvillkoren</a> — 14 dagars ångerrätt för oanvända krediter. Prenumerationer förnyas månadsvis och kan sägas upp när som helst. Priserna är totalpriser.',
       faqH2: 'Vanliga frågor',
       q1h: 'Hur aktiverar jag min licensnyckel efter köp?', q1p: 'Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka på Aktivera — krediterna laddas in direkt. Ingen ominstallation krävs.',
       q2h: 'Hur fungerar krediter och cachning?', q2p: 'Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons går svaret blixtsnabbt att hämta ur vårt prisminne — men det kostar fortfarande en kredit, precis som en ny analys. Krediterna gäller för alltid.',
@@ -788,6 +851,9 @@
       q10h: 'Jag har tappat bort min licensnyckel', q10p: 'Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.',
       q11h: 'Byta dator eller installera om?', q11p: 'Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.',
       q12h: 'Kan jag få ett kvitto?', q12p: 'Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.',
+      q13h: 'Hur fungerar prenumerationen — och hur säger jag upp den?', q13p: 'Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst: mejla oss från din köp-e-post så stängs förnyelsen direkt, eller använd hanteringslänken i ditt Stripe-kvitto. Ingen bindningstid.',
+      q14h: 'Vad händer med mina krediter om jag säger upp prenumerationen?', q14p: 'Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.',
+      q15h: 'Hur fungerar "värva en vän"?', q15p: 'Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.',
       helpH2: 'Behöver du hjälp?',
       helpLead: 'Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.',
       helpMailBtn: 'Mejla supporten',
@@ -832,17 +898,29 @@
       f2h: 'Quick check or photo analysis', f2p: 'Answer a few quick questions for a fast check, or let the extension read several of the listing photos for the most accurate read.',
       f3h: 'Grounded market pricing', f3p: 'Estimates real market value from live Blocket, Tradera, and Prisjakt data plus a price memory that sharpens with every appraisal run.',
       f4h: 'A straight price verdict, even in search results', f4p: 'You get a clear price verdict and an estimated resale margin — both inside the listing itself and as badges on listing cards while you browse.',
-      pricingH2: 'Buy credits, no subscription',
-      pricingLead: 'Credits never expire. Top up whenever you need — it just adds to your balance.',
-      valueNote: 'A quick check costs from 0.50 kr. One hasty Blocket purchase easily costs hundreds.',
+      pricingH2: 'Get credits — subscribe or buy one-time',
+      pricingLead: 'The subscription refills your balance every month at a lower per-credit price — and credits never expire, even if you cancel. Prefer topping up yourself? The one-time packs are right below.',
+      valueNote: 'A quick check costs from 0.40 kr. One hasty Blocket purchase easily costs hundreds.',
       packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit', packEach4: '1.50 kr per credit',
-      heroTrust1: 'markets compared', heroTrust2: 'free credits included', heroTrust3: 'subscriptions',
+      earlyBanner: '🎉 <b>Early adopter:</b> the first 50 subscribers get their first month free — enter code <code>TIDIG50</code> at checkout.',
+      subUnit: ' credits/mo', perMo: '/mo',
+      subEach1: '0.78 kr per credit · cancel anytime',
+      subEach2: '0.40 kr per credit · cancel anytime',
+      subBtn: 'Subscribe', subBtnFeatured: 'Subscribe — best value',
+      packsOneH: 'Rather skip the subscription? Buy a one-time pack',
+      refH: 'Refer a friend — get 20 credits',
+      refP: 'Share your personal link. When a friend makes their first purchase — pack or subscription — 20 credits land on your key, automatically.',
+      refPlaceholder: 'Your license key (FS-XXXX-XXXX)',
+      refMakeBtn: 'Create my link', refCopy: 'Copy', refCopied: 'Copied!',
+      refInvalid: 'Invalid key — the format is FS-XXXX-XXXX.',
+      refNote: 'You get your key with your first purchase. The reward is granted when your friend buys — not on install.',
+      heroTrust1: 'markets compared', heroTrust2: 'free credits included', heroTrust3: 'accounts required',
       trustSources: 'Price data from',
       emailInvalid: 'Enter a valid email address.',
       buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro — best value', bestValue: 'Best value',
       freeNote: '5 free credits to start. No card required.',
       climateNote: '0.5% of every purchase funds carbon removal via Stripe Climate',
-      buyTerms: 'By purchasing you accept the <a href="villkor.html">terms of purchase</a> — 14-day right of withdrawal for unused credits. Prices are total prices.',
+      buyTerms: 'By purchasing you accept the <a href="villkor.html">terms of purchase</a> — 14-day right of withdrawal for unused credits. Subscriptions renew monthly and can be cancelled anytime. Prices are total prices.',
       faqH2: 'Questions people actually ask',
       q1h: 'How do I activate my license key after buying credits?', q1p: 'After checkout you get a license key by email. Open the Fyndkollen extension popup, paste it into the "Fyndkollen Pro" box, and click Activate — your credits are available right away, no reinstall needed.',
       q2h: 'How do credits and caching actually work?', q2p: 'The quick check costs 1 credit, the photo analysis costs 5 (it’s the more accurate option, priced for the extra work it does). If someone else already appraised that exact listing, you get the result instantly from our price memory — but it still costs a credit, same as a fresh analysis. Credits never expire.',
@@ -856,6 +934,9 @@
       q10h: 'I\'ve lost my license key', q10p: 'No worries — your key is safe with us. Email us from your purchase email address and we\'ll send it again.',
       q11h: 'Switching computers or reinstalling?', q11p: 'Credits live on the license key, not the computer. Install the extension on the new machine and paste the same key — your balance follows.',
       q12h: 'Can I get a receipt?', q12p: 'Yes — a receipt is emailed at purchase (for some purchases it comes from Stripe, our payment partner). Missing it? Contact us and it\'ll be resent.',
+      q13h: 'How does the subscription work — and how do I cancel?', q13p: 'The subscription adds fresh credits to your license key every month (Bas 50, Pro 250). Cancel anytime: email us from your purchase email and renewal stops right away, or use the manage link in your Stripe receipt. No lock-in.',
+      q14h: 'What happens to my credits if I cancel the subscription?', q14p: 'Nothing — credits already added are yours forever, just like one-time credits. Cancelling only stops future refills and payments.',
+      q15h: 'How does "refer a friend" work?', q15p: 'Create your link in the pricing section above (you need the license key from your first purchase). When someone who clicked your link makes their first purchase, 20 credits are added to your key automatically. No limit on friends — but the reward is granted on purchase, not on install.',
       helpH2: 'Need help?',
       helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
       helpMailBtn: 'Email support',
@@ -933,6 +1014,69 @@
       if (a.textContent.indexOf('Chrome') !== -1) a.textContent = a.textContent.split('Chrome').join(BROWSER_NAMES[b]);
     });
   }
+
+  // ── Värva en vän (Betalvägg 2.0, 2026-07-11) ─────────────────────────────────
+  // Besök via ?ref=FS-XXXX-XXXX sparas 30 dagar och hängs på alla buy.stripe.com-
+  // länkar som client_reference_id — webhooken krediterar värvaren med 20 krediter
+  // när köpet går igenom. Endast formatvalidering här; okänd nyckel ignoreras tyst
+  // server-side (ingen enumeration). Köplänkarna är statiska i DOM:en (applyLang rör
+  // bara texter), så en engångspatchning vid sidladdning räcker.
+  var REF_RE = /^FS-[A-HJKMNP-Z2-9]{4}-[A-HJKMNP-Z2-9]{4}$/;
+  (function () {
+    var ref = null;
+    try {
+      var qs = new URLSearchParams(location.search).get('ref');
+      if (qs) {
+        qs = qs.trim().toUpperCase();
+        if (REF_RE.test(qs)) localStorage.setItem('fk_ref', JSON.stringify({ k: qs, t: Date.now() }));
+      }
+      var st = JSON.parse(localStorage.getItem('fk_ref') || 'null');
+      if (st && st.k && REF_RE.test(st.k) && Date.now() - st.t < 30 * 864e5) ref = st.k;
+    } catch (e) {}
+    if (!ref) return;
+    document.querySelectorAll('a[href^="https://buy.stripe.com/"]').forEach(function (a) {
+      try {
+        var u = new URL(a.href);
+        u.searchParams.set('client_reference_id', ref);
+        a.href = u.toString();
+      } catch (e) {}
+    });
+  })();
+
+  // Länkbyggaren i prisavsnittet: nyckel in → personlig delningslänk + kopiera.
+  (function () {
+    var input = document.getElementById('ref-key'), make = document.getElementById('ref-make');
+    var result = document.getElementById('ref-result'), link = document.getElementById('ref-link');
+    var copy = document.getElementById('ref-copy'), status = document.getElementById('ref-status');
+    if (!input || !make) return;
+    function currentLang() { return document.documentElement.lang === 'en' ? 'en' : 'sv'; }
+    make.addEventListener('click', function () {
+      var k = input.value.trim().toUpperCase();
+      if (!REF_RE.test(k)) {
+        result.hidden = true;
+        status.textContent = DICT[currentLang()].refInvalid;
+        status.className = 'ref-status err';
+        return;
+      }
+      status.textContent = ''; status.className = 'ref-status';
+      link.textContent = 'https://fyndkollen.com/?ref=' + k;
+      result.hidden = false;
+    });
+    input.addEventListener('keydown', function (e) { if (e.key === 'Enter') make.click(); });
+    copy.addEventListener('click', function () {
+      var text = link.textContent;
+      function done() { status.textContent = DICT[currentLang()].refCopied; status.className = 'ref-status'; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () {});
+      } else {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text; document.body.appendChild(ta); ta.select();
+          document.execCommand('copy'); document.body.removeChild(ta); done();
+        } catch (e) {}
+      }
+    });
+  })();
 
   // Language resolution: explicit ?lang= in the URL wins (lets marketing/hreflang link
   // straight to a language), then the visitor's saved choice, then Swedish default.
@@ -1091,6 +1235,7 @@
     .hero h1{font-size:32px}
     .grid{grid-template-columns:1fr}
     .packs{grid-template-columns:1fr}
+    .packs.subs{grid-template-columns:1fr} /* högre specificitet än .packs — behöver egen mobilregel */
     .hdr-right{width:100%;justify-content:space-between}
     .nav a:first-child{margin-left:0}
     .band-bg,.trust-strip{display:none}
