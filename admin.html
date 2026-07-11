@@ -94,10 +94,10 @@ async function call(action, extra){
 async function login(){
   PW=document.getElementById("pw").value;
   var r=await call("data",{period:PERIOD});
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats);startAuto();}
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50);startAuto();}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -114,7 +114,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s,sf,ce){
+function render(s,sf,ce,f50){
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
   var bytesPerRow=pd.total?q.db_bytes/pd.total:0,rowsPerDay=pd.added_7d/7;
@@ -141,6 +141,12 @@ function render(s,sf,ce){
   if(revTotKr>=80000)h+='<div class="warn"><span>💰</span><div><b>Momsbevakning: '+n(Math.round(revTotKr))+' kr av 120 000 kr-gränsen.</b> Momsregistrering ska ske INNAN gränsen passeras — boka redovisningskonsult och fatta moms-vägvalet (BOLAGSPLAN §3/§5).</div></div>';
   if(worst&&worst.p>=60)h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen'+(worst.extra?". "+worst.extra:"")+'.</div></div>';
   else h+='<div class="ok-note">✓ Alla tredjepartstjänster har god marginal till sina gratisgränser.</div>';
+  // Early-adopter-larm: FORST50 slut eller nära slut → påminn om att ta bort erbjudandetexten.
+  if(f50&&typeof f50.redeemed==="number"&&typeof f50.max==="number"){
+    var f50left=f50.max-f50.redeemed;
+    if(f50left<=0)h+='<div class="warn"><span>🎁</span><div><b>FORST50 är slut ('+f50.redeemed+'/'+f50.max+' inlösta).</b> Ta bort erbjudandetexten på sajten (bannern + gröna Bas-taggen) — annars lovas något som inte längre gäller. Säg till agenten så fixas det.</div></div>';
+    else if(f50left<=5)h+='<div class="warn"><span>🎁</span><div><b>FORST50: '+f50.redeemed+'/'+f50.max+' inlösta — bara '+f50left+' gratis Bas-månader kvar.</b> Planera att ta bort erbjudandet snart.</div></div>';
+  }
 
   // Nästa steg (roadmap) — fylls i av loadRoadmap() efter render
   h+='<div class="sec-h" style="margin-top:4px">Nästa steg</div><div id="rm-body" class="card"><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
@@ -153,6 +159,10 @@ function render(s,sf,ce){
   h+=kpi("Analyser ("+plabel()+")",n(K.appr_now)+delta(K.appr_now,K.appr_prev),K.cache_rate+"% ur cache (kostar oss inget extra AI-anrop, kunden betalar ändå)");
   h+=kpi("Datakvalitet",n(pd.well_grounded)+" välgrundade",groundedPct+"% av produkter har ≥2 slutpriser");
   h+=kpi("Insamlad prisdata",n(pd.total),n(pd.verified_sold)+" verifierade · +"+n(pd.added_today)+" idag");
+  if(f50&&typeof f50.redeemed==="number"&&typeof f50.max==="number"){
+    var f50kvar=Math.max(0,f50.max-f50.redeemed);
+    h+=kpi("Early adopter (FORST50)",n(f50.redeemed)+"/"+n(f50.max),f50kvar>0?(n(f50kvar)+" gratis Bas-månader kvar"):"slut — ta bort erbjudandet");
+  }
   h+='</div>';
 
   // Unit economics
