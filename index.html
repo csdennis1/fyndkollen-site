@@ -195,6 +195,7 @@
   .early-banner code{background:rgba(255,255,255,.14);border-radius:6px;padding:1px 8px;font-weight:800;letter-spacing:.05em}
   .packs.subs{max-width:660px;margin:0 auto;grid-template-columns:repeat(2,1fr)}
   .per-mo{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}
+  .early-tag{font-size:11.5px;font-weight:700;color:#2E7D46;margin-top:9px;line-height:1.35}
   .packs-one-h{text-align:center;font-size:15px;font-weight:700;color:var(--dark-mid);margin:36px 0 16px;position:relative;z-index:1}
   .ref-box{max-width:660px;margin:36px auto 0;text-align:center;border:1.5px solid rgba(255,255,255,.14);border-radius:16px;padding:22px 20px;position:relative;z-index:1}
   .ref-box h3{color:var(--dark-text);font-size:17px;margin-bottom:6px}
@@ -208,6 +209,8 @@
   .ref-note{font-size:11.5px;color:var(--dark-muted);margin-top:10px}
   .ref-status{font-size:12.5px;margin-top:8px;min-height:16px;color:var(--dark-mid)}
   .ref-status.err{color:#E8837B}
+  .pick-note{font-size:13px;color:var(--dark-muted);text-align:center;margin-top:8px;position:relative;z-index:1}
+  .fair-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;margin-top:16px;font-size:12.5px;color:var(--dark-mid);position:relative;z-index:1}
 
   /* ---------- Pricing: single warm-dark contrast band ----------
      One deliberate dark section (not alternating dark/light throughout — that reads as
@@ -546,7 +549,7 @@
       <div class="hero-copy">
         <span class="eyebrow"><span class="dot"></span><span data-i18n="eyebrow">Webbläsartillägg för Blocket</span></span>
         <h1 data-i18n-html="heroTitle">Se om Blocket-annonsen är ett fynd <span class="hl">innan du slår till</span></h1>
-        <p data-i18n="heroP">Fyndkollen läser annonsen du tittar på, bedömer skicket och jämför priset mot verklig marknadsdata från Blocket, Tradera och Prisjakt. Du får ett rakt besked — fynd, rimligt pris eller för dyrt — och ser vad du kan tjäna på att sälja vidare.</p>
+        <p data-i18n="heroP">Fyndkollen läser annonsen du tittar på, bedömer skicket och jämför priset mot verklig marknadsdata från Blocket, Tradera och Prisjakt. Du får ett rakt besked — fynd, rimligt pris eller för dyrt — och när det är läge att pruta får du ett färdigt öppningsbud.</p>
         <div class="hero-actions">
           <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
           <div class="cta-sub" data-i18n="installSub">Gratis att installera, med 5 krediter direkt på köpet — nog för 5 snabbkollar eller en fotoanalys. Inget kort behövs.</div>
@@ -594,7 +597,7 @@
           </div>
         </div>
         <div class="hero-trust">
-          <div><b>3</b>&nbsp;<span data-i18n="heroTrust1">marknader jämförs</span></div>
+          <div><b>5&nbsp;500+</b>&nbsp;<span data-i18n="heroTrust1">verifierade slutpriser</span></div>
           <div><b>5</b>&nbsp;<span data-i18n="heroTrust2">gratiskrediter direkt</span></div>
           <div><b>0</b>&nbsp;<span data-i18n="heroTrust3">konton krävs</span></div>
         </div>
@@ -618,7 +621,7 @@
 <section id="features">
   <div class="wrap-wide">
     <h2 data-i18n="featuresH2">Vad tillägget faktiskt gör</h2>
-    <p class="lead" data-i18n="featuresLead">Tillägget gör grovjobbet åt dig — identifierar varan, bedömer skicket och räknar på priset medan du är kvar i annonsen.</p>
+    <p class="lead" data-i18n="featuresLead">Tillägget gör grovjobbet åt dig — identifierar varan, bedömer skicket och räknar på priset medan du är kvar i annonsen. Att välja begagnat är redan en miljögärning; Fyndkollen gör den tryggare.</p>
     <div class="feature-layout">
       <div class="feature-visual">
         <div class="fv-row hit"><div class="fv-ic">🔍</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
@@ -630,7 +633,7 @@
         <div class="card"><div class="ic">🔍</div><div><h3 data-i18n="f1h">Identifierar och prissätter direkt i annonsen</h3><p data-i18n="f1p">Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.</p></div></div>
         <div class="card"><div class="ic">📸</div><div><h3 data-i18n="f2h">Snabbkoll eller fotoanalys</h3><p data-i18n="f2p">Svara på ett par korta frågor för en snabbkoll, eller låt tillägget läsa annonsens bilder för den mest träffsäkra bedömningen.</p></div></div>
         <div class="card"><div class="ic">💰</div><div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">Värderingen grundas i aktuella priser från Blocket, Tradera och Prisjakt — och i ett växande minne av verkliga slutpriser som gör varje analys träffsäkrare än den förra.</p></div></div>
-        <div class="card"><div class="ic">🏷️</div><div><h3 data-i18n="f4h">Rakt prisomdöme, även i sökresultatet</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset och en bedömning av vinstpotentialen vid vidareförsäljning — direkt i annonsen, och som märken på annonskorten medan du bläddrar.</p></div></div>
+        <div class="card"><div class="ic">🏷️</div><div><h3 data-i18n="f4h">Rakt prisomdöme, även i sökresultatet</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset, en bedömning av vinstpotentialen — och ett föreslaget öppningsbud med ett färdigt meddelande till säljaren, så du slipper pruta på magkänsla. Dessutom märken på annonskorten medan du bläddrar.</p></div></div>
       </div>
     </div>
   </div>
@@ -642,7 +645,7 @@
     <h2 data-i18n="pricingH2">Skaffa krediter — prenumerera eller köp engångs</h2>
     <p class="lead" data-i18n="pricingLead">Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.</p>
     <p class="value-note" data-i18n="valueNote">En snabbkoll kostar från 40 öre. Ett förhastat Blocketköp kostar lätt hundralappar.</p>
-    <div class="early-banner" data-i18n-html="earlyBanner">🎉 <b>Early adopter:</b> de 50 första prenumeranterna får första månaden gratis — ange koden <code>TIDIG50</code> i kassan.</div>
+    <div class="early-banner" data-i18n-html="earlyBanner">🎉 <b>Först ut?</b> De 50 första får <b>Bas-prenumerationen gratis första månaden</b> med koden <code>FORST50</code> — därefter 39 kr/mån, säg upp när som helst.</div>
     <div class="packs subs">
       <div class="pack">
         <div class="pack-name">Bas</div>
@@ -650,6 +653,7 @@
         <div class="price-tag sm">39&nbsp;kr<span class="per-mo" data-i18n="perMo">/mån</span></div>
         <div class="pack-each"><span data-i18n="subEach1">0,78 kr per kredit · säg upp när som helst</span></div>
         <a class="cta sm" href="https://buy.stripe.com/9B6aEY5tW5BxbM20byb3q0f" data-i18n="subBtn">Prenumerera</a>
+        <div class="early-tag" data-i18n="earlyTag">🎁 Gratis första månaden för de 50 första (FORST50)</div>
       </div>
       <div class="pack featured">
         <div class="pack-badge" data-i18n="bestValue">Bäst värde</div>
@@ -683,22 +687,9 @@
         <div class="pack-each"><span data-i18n="packEach2">0,75 kr per kredit</span></div>
         <a class="cta sm" href="https://buy.stripe.com/7sY9AU9KcbZV8zQcYkb3q0d" data-i18n="buyBtn">Köp krediter</a>
       </div>
-      <div class="pack">
-        <div class="pack-name">Max</div>
-        <div class="pack-credits">1000<span data-i18n="packUnit"> krediter</span></div>
-        <div class="price-tag sm">499&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach3">0,50 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/cNibJ26y0e83g2i4rOb3q0e" data-i18n="buyBtn">Köp krediter</a>
-      </div>
-      <div class="pack">
-        <div class="pack-name">Extra</div>
-        <div class="pack-credits">50<span data-i18n="packUnit"> krediter</span></div>
-        <div class="price-tag sm">75&nbsp;kr</div>
-        <div class="pack-each"><span data-i18n="packEach4">1,50 kr per kredit</span></div>
-        <a class="cta sm" href="https://buy.stripe.com/8x200ke0s8NJ7vM1fCb3q0b" data-i18n="buyBtn">Köp krediter</a>
-      </div>
     </div>
     <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratiskrediter vid start. Inget kort krävs.</div>
+    <div class="pick-note" data-i18n="pickNote">Osäker? Börja gratis — 5 krediter ingår utan kort. Prenumerera när du märker att du använder det ofta, eller köp ett kreditpaket när gratiskrediterna tar slut.</div>
     <div class="pay-row" aria-hidden="true">
       <span class="pay-pill">VISA</span>
       <span class="pay-pill">Mastercard</span>
@@ -707,6 +698,12 @@
       <span class="pay-pill">Google Pay</span>
     </div>
     <div class="climate-row"><span class="climate-dot"></span><span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></div>
+    <div class="fair-row">
+      <span>✓ <span data-i18n="fair1">Inga dolda avgifter — priserna är totalpriser</span></span>
+      <span>✓ <span data-i18n="fair2">Uppsägning = ett mejl. Inga knep.</span></span>
+      <span>✓ <span data-i18n="fair3">Krediterna gäller för alltid</span></span>
+      <span>✓ <span data-i18n="fair4">Inget konto, ingen spårning</span></span>
+    </div>
     <div class="buy-terms" data-i18n-html="buyTerms">Genom att köpa godkänner du <a href="villkor.html">köpvillkoren</a> — 14 dagars ångerrätt för oanvända krediter. Prenumerationer förnyas månadsvis och kan sägas upp när som helst. Priserna är totalpriser.</div>
     <div class="ref-box">
       <h3 data-i18n="refH">Värva en vän — få 20 krediter</h3>
@@ -741,6 +738,7 @@
       <div><h3 data-i18n="q13h">Hur fungerar prenumerationen — och hur säger jag upp den?</h3><p data-i18n="q13p">Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst: mejla oss från din köp-e-post så stängs förnyelsen direkt, eller använd hanteringslänken i ditt Stripe-kvitto. Ingen bindningstid.</p></div>
       <div><h3 data-i18n="q14h">Vad händer med mina krediter om jag säger upp prenumerationen?</h3><p data-i18n="q14p">Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.</p></div>
       <div><h3 data-i18n="q15h">Hur fungerar "värva en vän"?</h3><p data-i18n="q15p">Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.</p></div>
+      <div><h3 data-i18n="q16h">Skyddar Fyndkollen mot bluffannonser?</h3><p data-i18n="q16p">Nej — Fyndkollen värderar pris och skick, den kan inte avgöra om en säljare är ärlig. Men ett orealistiskt lågt pris jämfört med marknadsvärdet syns direkt i analysen, och det är en av de vanligaste bluffsignalerna. Följ alltid Blockets egna säkerhetsråd, och betala aldrig i förskott till någon du inte litar på.</p></div>
     </div>
   </div>
 </section>
@@ -783,6 +781,7 @@
       <span>✓ <span data-i18n="trustNoAccount">Inget konto behövs</span></span>
       <span>✓ <span data-i18n="trustNoStorage">Vi sparar inte dina sökningar</span></span>
       <span>✓ <span data-i18n="trustStripe">Betalningar hanteras av Stripe</span></span>
+      <span>✓ <span data-i18n="trustSwedish">Svensk tjänst — byggd och supportad i Sverige</span></span>
       <span>🌱 <span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></span>
     </div>
     <div>© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen · Inte anslutet till Blocket.</span></div>
@@ -799,7 +798,7 @@
       themeToggle: 'Byt tema',
       eyebrow: 'Webbläsartillägg för Blocket',
       heroTitle: 'Se om Blocket-annonsen är ett fynd <span class="hl">innan du slår till</span>',
-      heroP: 'Fyndkollen läser annonsen du tittar på, bedömer skicket och jämför priset mot verklig marknadsdata från Blocket, Tradera och Prisjakt. Du får ett rakt besked — fynd, rimligt pris eller för dyrt — och ser vad du kan tjäna på att sälja vidare.',
+      heroP: 'Fyndkollen läser annonsen du tittar på, bedömer skicket och jämför priset mot verklig marknadsdata från Blocket, Tradera och Prisjakt. Du får ett rakt besked — fynd, rimligt pris eller för dyrt — och när det är läge att pruta får du ett färdigt öppningsbud.',
       installBtn: 'Lägg till i Chrome, gratis',
       installSub: 'Gratis att installera, med 5 krediter direkt på köpet — nog för 5 snabbkollar eller en fotoanalys. Inget kort behövs.',
       secondaryCta: 'Vad kostar det?',
@@ -810,16 +809,17 @@
       how2h: 'AI:n läser allt', how2p: 'Text, pris och varje bild i annonsen. Skicket bedöms visuellt — repor, slitage och defekter som säljaren inte nämner.',
       how3h: 'Få ett rakt svar', how3p: 'Fynd, rimligt eller för dyrt — plus marknadsvärde och vad du kan tjäna på att sälja vidare.',
       featuresH2: 'Vad tillägget faktiskt gör',
-      featuresLead: 'Tillägget gör grovjobbet åt dig — identifierar varan, bedömer skicket och räknar på priset medan du är kvar i annonsen.',
+      featuresLead: 'Tillägget gör grovjobbet åt dig — identifierar varan, bedömer skicket och räknar på priset medan du är kvar i annonsen. Att välja begagnat är redan en miljögärning; Fyndkollen gör den tryggare.',
       f1h: 'Identifierar och prissätter direkt i annonsen', f1p: 'Fyndkollen läser annonsen du tittar på, känner igen produkten och räknar ut marknadsvärdet utan att du behöver lämna sidan.',
       f2h: 'Snabbkoll eller fotoanalys', f2p: 'Svara på ett par korta frågor för en snabbkoll, eller låt tillägget läsa annonsens bilder för den mest träffsäkra bedömningen.',
       f3h: 'Grundat i verklig prisdata', f3p: 'Värderingen grundas i aktuella priser från Blocket, Tradera och Prisjakt — och i ett växande minne av verkliga slutpriser som gör varje analys träffsäkrare än den förra.',
-      f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset och en bedömning av vinstpotentialen vid vidareförsäljning — direkt i annonsen, och som märken på annonskorten medan du bläddrar.',
+      f4h: 'Rakt prisomdöme, även i sökresultatet', f4p: 'Du får ett tydligt omdöme om priset, en bedömning av vinstpotentialen — och ett föreslaget öppningsbud med ett färdigt meddelande till säljaren, så du slipper pruta på magkänsla. Dessutom märken på annonskorten medan du bläddrar.',
       pricingH2: 'Skaffa krediter — prenumerera eller köp engångs',
       pricingLead: 'Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.',
       valueNote: 'En snabbkoll kostar från 40 öre. Ett förhastat Blocketköp kostar lätt hundralappar.',
-      packUnit: ' krediter', packEach1: '0,99 kr per kredit', packEach2: '0,75 kr per kredit', packEach3: '0,50 kr per kredit', packEach4: '1,50 kr per kredit',
-      earlyBanner: '🎉 <b>Early adopter:</b> de 50 första prenumeranterna får första månaden gratis — ange koden <code>TIDIG50</code> i kassan.',
+      packUnit: ' krediter', packEach1: '0,99 kr per kredit', packEach2: '0,75 kr per kredit', packEach4: '1,50 kr per kredit',
+      earlyBanner: '🎉 <b>Först ut?</b> De 50 första får <b>Bas-prenumerationen gratis första månaden</b> med koden <code>FORST50</code> — därefter 39 kr/mån, säg upp när som helst.',
+      earlyTag: '🎁 Gratis första månaden för de 50 första (FORST50)',
       subUnit: ' krediter/mån', perMo: '/mån',
       subEach1: '0,78 kr per kredit · säg upp när som helst',
       subEach2: '0,40 kr per kredit · säg upp när som helst',
@@ -831,8 +831,14 @@
       refMakeBtn: 'Skapa min länk', refCopy: 'Kopiera', refCopied: 'Kopierad!',
       refInvalid: 'Ogiltig nyckel — formatet är FS-XXXX-XXXX.',
       refNote: 'Nyckeln får du vid ditt första köp. Belöningen ges när vännen köper — inte vid installation.',
-      heroTrust1: 'marknader jämförs', heroTrust2: 'gratiskrediter direkt', heroTrust3: 'konton krävs',
+      heroTrust1: 'verifierade slutpriser', heroTrust2: 'gratiskrediter direkt', heroTrust3: 'konton krävs',
       trustSources: 'Prisdata från',
+      fair1: 'Inga dolda avgifter — priserna är totalpriser',
+      fair2: 'Uppsägning = ett mejl. Inga knep.',
+      fair3: 'Krediterna gäller för alltid',
+      fair4: 'Inget konto, ingen spårning',
+      pickNote: 'Osäker? Börja gratis — 5 krediter ingår utan kort. Prenumerera när du märker att du använder det ofta, eller köp ett kreditpaket när gratiskrediterna tar slut.',
+      trustSwedish: 'Svensk tjänst — byggd och supportad i Sverige',
       emailInvalid: 'Ange en giltig e-postadress.',
       buyBtn: 'Köp krediter', buyBtnFeatured: 'Få Pro – bäst värde', bestValue: 'Bäst värde',
       freeNote: '5 gratiskrediter vid start. Inget kort krävs.',
@@ -854,6 +860,7 @@
       q13h: 'Hur fungerar prenumerationen — och hur säger jag upp den?', q13p: 'Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst: mejla oss från din köp-e-post så stängs förnyelsen direkt, eller använd hanteringslänken i ditt Stripe-kvitto. Ingen bindningstid.',
       q14h: 'Vad händer med mina krediter om jag säger upp prenumerationen?', q14p: 'Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.',
       q15h: 'Hur fungerar "värva en vän"?', q15p: 'Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.',
+      q16h: 'Skyddar Fyndkollen mot bluffannonser?', q16p: 'Nej — Fyndkollen värderar pris och skick, den kan inte avgöra om en säljare är ärlig. Men ett orealistiskt lågt pris jämfört med marknadsvärdet syns direkt i analysen, och det är en av de vanligaste bluffsignalerna. Följ alltid Blockets egna säkerhetsråd, och betala aldrig i förskott till någon du inte litar på.',
       helpH2: 'Behöver du hjälp?',
       helpLead: 'Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.',
       helpMailBtn: 'Mejla supporten',
@@ -882,7 +889,7 @@
       themeToggle: 'Toggle theme',
       eyebrow: 'Browser extension for Blocket',
       heroTitle: 'Know if it’s a deal <span class="hl">before you click buy</span>',
-      heroP: 'Fyndkollen reads the Blocket listing you’re on, checks the item’s condition, and estimates real market value from live Blocket, Tradera, and Prisjakt data. You get a straight verdict: good deal, fair, or overpriced, plus your resale margin.',
+      heroP: 'Fyndkollen reads the Blocket listing you’re on, checks the item’s condition, and estimates real market value from live Blocket, Tradera, and Prisjakt data. You get a straight verdict: good deal, fair, or overpriced — and when it’s time to haggle, a ready-made opening offer.',
       installBtn: 'Add to Chrome',
       installSub: 'Free to add. 5 free credits included — enough for 5 quick checks or 1 photo analysis. No card required.',
       secondaryCta: 'What does it cost?',
@@ -893,16 +900,17 @@
       how2h: 'The AI reads everything', how2p: 'Text, price, and every photo in the listing. Condition is assessed visually — scratches, wear, and defects the seller doesn\'t mention.',
       how3h: 'Get a straight answer', how3p: 'Good deal, fair, or overpriced — plus market value and potential resale profit.',
       featuresH2: 'What it actually does',
-      featuresLead: 'Fyndkollen reads the listing, appraises the item, and tells you straight: good deal, fair price, or overpriced.',
+      featuresLead: 'Fyndkollen reads the listing, appraises the item, and tells you straight: good deal, fair price, or overpriced. Buying secondhand is already the sustainable choice — Fyndkollen makes it a safer one.',
       f1h: 'Reads the listing for you', f1p: 'Opens on any Blocket listing page, identifies the item, and skips the manual research.',
       f2h: 'Quick check or photo analysis', f2p: 'Answer a few quick questions for a fast check, or let the extension read several of the listing photos for the most accurate read.',
       f3h: 'Grounded market pricing', f3p: 'Estimates real market value from live Blocket, Tradera, and Prisjakt data plus a price memory that sharpens with every appraisal run.',
-      f4h: 'A straight price verdict, even in search results', f4p: 'You get a clear price verdict and an estimated resale margin — both inside the listing itself and as badges on listing cards while you browse.',
+      f4h: 'A straight price verdict, even in search results', f4p: 'You get a clear price verdict, an estimated resale margin — and a suggested opening offer with a ready-made message to the seller, so you never haggle on gut feeling. Plus badges on listing cards while you browse.',
       pricingH2: 'Get credits — subscribe or buy one-time',
       pricingLead: 'The subscription refills your balance every month at a lower per-credit price — and credits never expire, even if you cancel. Prefer topping up yourself? The one-time packs are right below.',
       valueNote: 'A quick check costs from 0.40 kr. One hasty Blocket purchase easily costs hundreds.',
-      packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach3: '0.50 kr per credit', packEach4: '1.50 kr per credit',
-      earlyBanner: '🎉 <b>Early adopter:</b> the first 50 subscribers get their first month free — enter code <code>TIDIG50</code> at checkout.',
+      packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach4: '1.50 kr per credit',
+      earlyBanner: '🎉 <b>Early bird?</b> The first 50 get the <b>Bas plan free for the first month</b> with code <code>FORST50</code> — then 39 kr/mo, cancel anytime.',
+      earlyTag: '🎁 Free first month for the first 50 (FORST50)',
       subUnit: ' credits/mo', perMo: '/mo',
       subEach1: '0.78 kr per credit · cancel anytime',
       subEach2: '0.40 kr per credit · cancel anytime',
@@ -914,8 +922,14 @@
       refMakeBtn: 'Create my link', refCopy: 'Copy', refCopied: 'Copied!',
       refInvalid: 'Invalid key — the format is FS-XXXX-XXXX.',
       refNote: 'You get your key with your first purchase. The reward is granted when your friend buys — not on install.',
-      heroTrust1: 'markets compared', heroTrust2: 'free credits included', heroTrust3: 'accounts required',
+      heroTrust1: 'verified sold prices', heroTrust2: 'free credits included', heroTrust3: 'accounts required',
       trustSources: 'Price data from',
+      fair1: 'No hidden fees — prices are total prices',
+      fair2: 'Cancelling = one email. No tricks.',
+      fair3: 'Credits never expire',
+      fair4: 'No account, no tracking',
+      pickNote: 'Not sure? Start free — 5 credits included, no card. Subscribe once you notice you use it often, or buy a credit pack when your free credits run out.',
+      trustSwedish: 'Swedish service — built and supported in Sweden',
       emailInvalid: 'Enter a valid email address.',
       buyBtn: 'Get credits', buyBtnFeatured: 'Get Pro — best value', bestValue: 'Best value',
       freeNote: '5 free credits to start. No card required.',
@@ -937,6 +951,7 @@
       q13h: 'How does the subscription work — and how do I cancel?', q13p: 'The subscription adds fresh credits to your license key every month (Bas 50, Pro 250). Cancel anytime: email us from your purchase email and renewal stops right away, or use the manage link in your Stripe receipt. No lock-in.',
       q14h: 'What happens to my credits if I cancel the subscription?', q14p: 'Nothing — credits already added are yours forever, just like one-time credits. Cancelling only stops future refills and payments.',
       q15h: 'How does "refer a friend" work?', q15p: 'Create your link in the pricing section above (you need the license key from your first purchase). When someone who clicked your link makes their first purchase, 20 credits are added to your key automatically. No limit on friends — but the reward is granted on purchase, not on install.',
+      q16h: 'Does Fyndkollen protect against scam listings?', q16p: 'No — Fyndkollen appraises price and condition; it cannot tell whether a seller is honest. But an unrealistically low price versus market value shows up immediately in the analysis, and that is one of the most common scam signals. Always follow Blocket\'s own safety advice, and never pay in advance to someone you don\'t trust.',
       helpH2: 'Need help?',
       helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
       helpMailBtn: 'Email support',
@@ -1226,11 +1241,9 @@
        above, so without this they'd show as unstyled raw text on narrower screens. */
     .hero-visual,.feature-visual,.trust-strip{display:none}
   }
-  /* 5 credit packs: 3-per-row (wrapping 3+2) by default, one single row of 5 only
-     when the viewport is wide enough that each card stays readable. */
-  @media(min-width:1100px){
-    .packs{grid-template-columns:repeat(5,1fr)}
-  }
+  /* 3 engångspaket (Mini/Starter/Standard) → default .packs repeat(3,1fr) räcker vid
+     alla bredder ≥640px; .packs.subs behåller sina 2 kolumner via egen högre-specifik
+     regel. (Extra + Max togs bort 2026-07-11, Mini kvar — 5-kolumnsregeln utgick då.) */
   @media(max-width:640px){
     .hero h1{font-size:32px}
     .grid{grid-template-columns:1fr}
