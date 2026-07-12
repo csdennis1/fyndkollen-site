@@ -209,6 +209,13 @@
   .ref-note{font-size:11.5px;color:var(--dark-muted);margin-top:10px}
   .ref-status{font-size:12.5px;margin-top:8px;min-height:16px;color:var(--dark-mid)}
   .ref-status.err{color:#E8837B}
+  .cancel-note{max-width:640px;margin:14px auto 0;text-align:center;font-size:13.5px;color:var(--dark-mid);position:relative;z-index:1;line-height:1.55}
+  .cancel-note b{color:var(--dark-text)}
+  .cancel-note a{color:var(--dark-text);text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
+  .cancel-note a:focus-visible{outline:2px solid #CC6B2C;outline-offset:2px;border-radius:3px}
+  .cancel-box{text-align:center;max-width:600px;margin:24px auto 0;padding-top:22px;border-top:1px solid var(--border)}
+  .cancel-box h3{font-size:16px;margin-bottom:7px}
+  .cancel-box p{font-size:13.5px;color:var(--mid);max-width:560px;margin:0 auto 14px;line-height:1.6}
   .pick-note{font-size:13px;color:var(--dark-muted);text-align:center;margin-top:8px;position:relative;z-index:1}
   .fair-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;margin-top:16px;font-size:12.5px;color:var(--dark-mid);position:relative;z-index:1}
 
@@ -664,6 +671,7 @@
         <a class="cta sm" href="https://buy.stripe.com/00w6oIf4wbZV2bs2jGb3q0g" data-i18n="subBtnFeatured">Prenumerera – bäst värde</a>
       </div>
     </div>
+    <div class="cancel-note" data-i18n-html="cancelNote">🔓 <b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a></div>
     <h3 class="packs-one-h" data-i18n="packsOneH">Hellre utan prenumeration? Köp ett engångspaket</h3>
     <div class="packs">
       <div class="pack">
@@ -751,6 +759,14 @@
       <a class="cta sm" href="mailto:FyndKollen@protonmail.com" data-i18n="helpMailBtn">Mejla supporten</a>
       <p class="help-note" data-i18n-html="helpNote">Skriv från e-postadressen du använde vid köpet om ärendet gäller krediter eller en licensnyckel — då kan vi hjälpa dig direkt. Villkor och ångerrätt: <a href="villkor.html">köpvillkoren</a> · Datahantering: <a href="privacy.html">integritetspolicyn</a>.</p>
     </div>
+    <div class="cancel-box">
+      <h3 data-i18n="cancelH">Säg upp din prenumeration</h3>
+      <p data-i18n="cancelP">Mejla oss från e-postadressen du använde vid köpet, så avslutar vi prenumerationen — normalt inom 24 timmar på vardagar, och alltid i god tid före nästa månadsdragning. Ingen bindningstid, ingen uppsägningstid, inga frågor. Krediter du redan fått behåller du för alltid.</p>
+      <a class="cta sm" href="mailto:FyndKollen@protonmail.com?subject=S%C3%A4g%20upp%20prenumeration" data-i18n="cancelBtn">Säg upp via mejl</a>
+      <!-- PORTAL: när Stripe Customer Portal aktiverats (Dennis), lägg självbetjäningsknappen här som PRIMÄR:
+           <a class="cta sm pri" href="STRIPE-PORTAL-LÄNK" data-i18n="cancelPortalBtn">Hantera prenumeration direkt</a>
+           och nedgradera mejlknappen ovan till sekundär. i18n-nyckel cancelPortalBtn finns redan. -->
+    </div>
   </div>
 </section>
 
@@ -774,6 +790,7 @@
       <a href="villkor.html" data-i18n="footerTerms">Köpvillkor</a> ·
       <a href="#pricing" data-i18n="footerPricing">Priser</a> ·
       <a href="#help" data-i18n="footerHelp">Hjälp</a> ·
+      <a href="#help" data-i18n="footerCancel">Säg upp prenumeration</a> ·
       <a href="#suggest" data-i18n="footerSuggest">Funktionsförslag</a> ·
       <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>
     </div>
@@ -864,6 +881,12 @@
       helpH2: 'Behöver du hjälp?',
       helpLead: 'Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.',
       helpMailBtn: 'Mejla supporten',
+      cancelNote: '🔓 <b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a>',
+      cancelH: 'Säg upp din prenumeration',
+      cancelP: 'Mejla oss från e-postadressen du använde vid köpet, så avslutar vi prenumerationen — normalt inom 24 timmar på vardagar, och alltid i god tid före nästa månadsdragning. Ingen bindningstid, ingen uppsägningstid, inga frågor. Krediter du redan fått behåller du för alltid.',
+      cancelBtn: 'Säg upp via mejl',
+      cancelPortalBtn: 'Hantera prenumeration direkt',
+      footerCancel: 'Säg upp prenumeration',
       helpNote: 'Skriv från e-postadressen du använde vid köpet om ärendet gäller krediter eller en licensnyckel — då kan vi hjälpa dig direkt. Villkor och ångerrätt: <a href="villkor.html">köpvillkoren</a> · Datahantering: <a href="privacy.html">integritetspolicyn</a>.',
       trustNoAccount: 'Inget konto behövs',
       trustNoStorage: 'Vi sparar inte dina sökningar',
@@ -955,6 +978,12 @@
       helpH2: 'Need help?',
       helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
       helpMailBtn: 'Email support',
+      cancelNote: '🔓 <b>Cancel anytime</b> — no lock-in, no notice period. Credits you\'ve already received are yours to keep. <a href="#help">How to cancel ›</a>',
+      cancelH: 'Cancel your subscription',
+      cancelP: 'Email us from the address you used at checkout and we\'ll cancel the subscription — normally within 24 hours on weekdays, and always well before your next monthly charge. No lock-in, no notice period, no questions. Credits you\'ve already received are yours forever.',
+      cancelBtn: 'Cancel by email',
+      cancelPortalBtn: 'Manage subscription directly',
+      footerCancel: 'Cancel subscription',
       helpNote: 'Write from the email address you used at purchase if it concerns credits or a license key — that lets us help you right away. Terms and withdrawal: <a href="villkor.html">terms of purchase</a> · Data handling: <a href="privacy.html">privacy policy</a>.',
       trustNoAccount: 'No account needed',
       trustNoStorage: 'We don\'t store your searches',
