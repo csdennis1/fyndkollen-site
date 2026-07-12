@@ -216,6 +216,8 @@
   .cancel-box{text-align:center;max-width:600px;margin:24px auto 0;padding-top:22px;border-top:1px solid var(--border)}
   .cancel-box h3{font-size:16px;margin-bottom:7px}
   .cancel-box p{font-size:13.5px;color:var(--mid);max-width:560px;margin:0 auto 14px;line-height:1.6}
+  .cancel-alt{font-size:12.5px;color:var(--muted);margin:12px auto 0}
+  .cancel-alt a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
   .pick-note{font-size:13px;color:var(--dark-muted);text-align:center;margin-top:8px;position:relative;z-index:1}
   .fair-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;margin-top:16px;font-size:12.5px;color:var(--dark-mid);position:relative;z-index:1}
 
@@ -743,7 +745,7 @@
       <div><h3 data-i18n="q10h">Jag har tappat bort min licensnyckel</h3><p data-i18n="q10p">Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.</p></div>
       <div><h3 data-i18n="q11h">Byta dator eller installera om?</h3><p data-i18n="q11p">Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.</p></div>
       <div><h3 data-i18n="q12h">Kan jag få ett kvitto?</h3><p data-i18n="q12p">Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.</p></div>
-      <div><h3 data-i18n="q13h">Hur fungerar prenumerationen — och hur säger jag upp den?</h3><p data-i18n="q13p">Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst: mejla oss från din köp-e-post så stängs förnyelsen direkt, eller använd hanteringslänken i ditt Stripe-kvitto. Ingen bindningstid.</p></div>
+      <div><h3 data-i18n="q13h">Hur fungerar prenumerationen — och hur säger jag upp den?</h3><p data-i18n="q13p">Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst i kundportalen (knappen finns i hjälpavsnittet nedan och i ditt Stripe-kvitto) — eller mejla oss från din köp-e-post. Prenumerationen löper då ut vid periodens slut, inga fler dragningar. Ingen bindningstid.</p></div>
       <div><h3 data-i18n="q14h">Vad händer med mina krediter om jag säger upp prenumerationen?</h3><p data-i18n="q14p">Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.</p></div>
       <div><h3 data-i18n="q15h">Hur fungerar "värva en vän"?</h3><p data-i18n="q15p">Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.</p></div>
       <div><h3 data-i18n="q16h">Skyddar Fyndkollen mot bluffannonser?</h3><p data-i18n="q16p">Nej — Fyndkollen värderar pris och skick, den kan inte avgöra om en säljare är ärlig. Men ett orealistiskt lågt pris jämfört med marknadsvärdet syns direkt i analysen, och det är en av de vanligaste bluffsignalerna. Följ alltid Blockets egna säkerhetsråd, och betala aldrig i förskott till någon du inte litar på.</p></div>
@@ -761,11 +763,9 @@
     </div>
     <div class="cancel-box">
       <h3 data-i18n="cancelH">Säg upp din prenumeration</h3>
-      <p data-i18n="cancelP">Mejla oss från e-postadressen du använde vid köpet, så avslutar vi prenumerationen — normalt inom 24 timmar på vardagar, och alltid i god tid före nästa månadsdragning. Ingen bindningstid, ingen uppsägningstid, inga frågor. Krediter du redan fått behåller du för alltid.</p>
-      <a class="cta sm" href="mailto:FyndKollen@protonmail.com?subject=S%C3%A4g%20upp%20prenumeration" data-i18n="cancelBtn">Säg upp via mejl</a>
-      <!-- PORTAL: när Stripe Customer Portal aktiverats (Dennis), lägg självbetjäningsknappen här som PRIMÄR:
-           <a class="cta sm pri" href="STRIPE-PORTAL-LÄNK" data-i18n="cancelPortalBtn">Hantera prenumeration direkt</a>
-           och nedgradera mejlknappen ovan till sekundär. i18n-nyckel cancelPortalBtn finns redan. -->
+      <p data-i18n="cancelP">Öppna kundportalen, logga in med e-postadressen du använde vid köpet och avsluta med ett klick. Prenumerationen löper då ut vid periodens slut — inga fler dragningar. Ingen bindningstid, ingen uppsägningstid, inga frågor. Krediter du redan fått behåller du för alltid.</p>
+      <a class="cta sm" href="https://billing.stripe.com/p/login/bJeaEYe0sfc7aHY3nKb3q00" target="_blank" rel="noopener" data-i18n="cancelPortalBtn">Hantera prenumeration direkt</a>
+      <p class="cancel-alt" data-i18n-html="cancelAlt">Föredrar du att vi gör det? <a href="mailto:FyndKollen@protonmail.com?subject=S%C3%A4g%20upp%20prenumeration">Mejla oss</a> så säger vi upp den åt dig.</p>
     </div>
   </div>
 </section>
@@ -874,7 +874,7 @@
       q10h: 'Jag har tappat bort min licensnyckel', q10p: 'Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.',
       q11h: 'Byta dator eller installera om?', q11p: 'Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.',
       q12h: 'Kan jag få ett kvitto?', q12p: 'Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.',
-      q13h: 'Hur fungerar prenumerationen — och hur säger jag upp den?', q13p: 'Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst: mejla oss från din köp-e-post så stängs förnyelsen direkt, eller använd hanteringslänken i ditt Stripe-kvitto. Ingen bindningstid.',
+      q13h: 'Hur fungerar prenumerationen — och hur säger jag upp den?', q13p: 'Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst i kundportalen (knappen finns i hjälpavsnittet nedan och i ditt Stripe-kvitto) — eller mejla oss från din köp-e-post. Prenumerationen löper då ut vid periodens slut, inga fler dragningar. Ingen bindningstid.',
       q14h: 'Vad händer med mina krediter om jag säger upp prenumerationen?', q14p: 'Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.',
       q15h: 'Hur fungerar "värva en vän"?', q15p: 'Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.',
       q16h: 'Skyddar Fyndkollen mot bluffannonser?', q16p: 'Nej — Fyndkollen värderar pris och skick, den kan inte avgöra om en säljare är ärlig. Men ett orealistiskt lågt pris jämfört med marknadsvärdet syns direkt i analysen, och det är en av de vanligaste bluffsignalerna. Följ alltid Blockets egna säkerhetsråd, och betala aldrig i förskott till någon du inte litar på.',
@@ -883,8 +883,8 @@
       helpMailBtn: 'Mejla supporten',
       cancelNote: '🔓 <b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a>',
       cancelH: 'Säg upp din prenumeration',
-      cancelP: 'Mejla oss från e-postadressen du använde vid köpet, så avslutar vi prenumerationen — normalt inom 24 timmar på vardagar, och alltid i god tid före nästa månadsdragning. Ingen bindningstid, ingen uppsägningstid, inga frågor. Krediter du redan fått behåller du för alltid.',
-      cancelBtn: 'Säg upp via mejl',
+      cancelP: 'Öppna kundportalen, logga in med e-postadressen du använde vid köpet och avsluta med ett klick. Prenumerationen löper då ut vid periodens slut — inga fler dragningar. Ingen bindningstid, ingen uppsägningstid, inga frågor. Krediter du redan fått behåller du för alltid.',
+      cancelAlt: 'Föredrar du att vi gör det? <a href="mailto:FyndKollen@protonmail.com?subject=S%C3%A4g%20upp%20prenumeration">Mejla oss</a> så säger vi upp den åt dig.',
       cancelPortalBtn: 'Hantera prenumeration direkt',
       footerCancel: 'Säg upp prenumeration',
       helpNote: 'Skriv från e-postadressen du använde vid köpet om ärendet gäller krediter eller en licensnyckel — då kan vi hjälpa dig direkt. Villkor och ångerrätt: <a href="villkor.html">köpvillkoren</a> · Datahantering: <a href="privacy.html">integritetspolicyn</a>.',
@@ -971,7 +971,7 @@
       q10h: 'I\'ve lost my license key', q10p: 'No worries — your key is safe with us. Email us from your purchase email address and we\'ll send it again.',
       q11h: 'Switching computers or reinstalling?', q11p: 'Credits live on the license key, not the computer. Install the extension on the new machine and paste the same key — your balance follows.',
       q12h: 'Can I get a receipt?', q12p: 'Yes — a receipt is emailed at purchase (for some purchases it comes from Stripe, our payment partner). Missing it? Contact us and it\'ll be resent.',
-      q13h: 'How does the subscription work — and how do I cancel?', q13p: 'The subscription adds fresh credits to your license key every month (Bas 50, Pro 250). Cancel anytime: email us from your purchase email and renewal stops right away, or use the manage link in your Stripe receipt. No lock-in.',
+      q13h: 'How does the subscription work — and how do I cancel?', q13p: 'The subscription adds fresh credits to your license key every month (Bas 50, Pro 250). Cancel anytime in the customer portal (the button is in the help section below and in your Stripe receipt) — or email us from your purchase email. The subscription then runs to the end of the period, no further charges. No lock-in.',
       q14h: 'What happens to my credits if I cancel the subscription?', q14p: 'Nothing — credits already added are yours forever, just like one-time credits. Cancelling only stops future refills and payments.',
       q15h: 'How does "refer a friend" work?', q15p: 'Create your link in the pricing section above (you need the license key from your first purchase). When someone who clicked your link makes their first purchase, 20 credits are added to your key automatically. No limit on friends — but the reward is granted on purchase, not on install.',
       q16h: 'Does Fyndkollen protect against scam listings?', q16p: 'No — Fyndkollen appraises price and condition; it cannot tell whether a seller is honest. But an unrealistically low price versus market value shows up immediately in the analysis, and that is one of the most common scam signals. Always follow Blocket\'s own safety advice, and never pay in advance to someone you don\'t trust.',
@@ -980,8 +980,8 @@
       helpMailBtn: 'Email support',
       cancelNote: '🔓 <b>Cancel anytime</b> — no lock-in, no notice period. Credits you\'ve already received are yours to keep. <a href="#help">How to cancel ›</a>',
       cancelH: 'Cancel your subscription',
-      cancelP: 'Email us from the address you used at checkout and we\'ll cancel the subscription — normally within 24 hours on weekdays, and always well before your next monthly charge. No lock-in, no notice period, no questions. Credits you\'ve already received are yours forever.',
-      cancelBtn: 'Cancel by email',
+      cancelP: 'Open the customer portal, log in with the email you used at checkout and cancel in one click. The subscription then runs to the end of the current period — no further charges. No lock-in, no notice period, no questions. Credits you\'ve already received are yours forever.',
+      cancelAlt: 'Prefer we do it? <a href="mailto:FyndKollen@protonmail.com?subject=Cancel%20subscription">Email us</a> and we\'ll cancel it for you.',
       cancelPortalBtn: 'Manage subscription directly',
       footerCancel: 'Cancel subscription',
       helpNote: 'Write from the email address you used at purchase if it concerns credits or a license key — that lets us help you right away. Terms and withdrawal: <a href="villkor.html">terms of purchase</a> · Data handling: <a href="privacy.html">privacy policy</a>.',
