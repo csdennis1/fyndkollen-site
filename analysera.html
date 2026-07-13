@@ -445,5 +445,9 @@ function applyLang(){
 document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){lang=b.getAttribute('data-lang');applyLang();});});
 try{if((navigator.language||'').slice(0,2)==='en')lang='en';}catch(e){}
 applyLang();initTurnstile();
+// ── Besöksräknare för webbanalysen (page:'web' → egen mätare pv_web, skild från säljsidan).
+// Fire-and-forget, en gång per flik, ingen PII/cookie/tredjepart.
+try{if(!sessionStorage.getItem('fk_pv_web')){sessionStorage.setItem('fk_pv_web','1');
+  fetch('https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'pageview',page:'web'}),keepalive:true}).catch(function(){});}}catch(e){}
 })();
 </script>
