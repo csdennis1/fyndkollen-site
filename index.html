@@ -135,6 +135,9 @@
   }
   .cta:hover{filter:brightness(1.05);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 4px 12px rgba(204,107,44,.28),0 12px 28px rgba(204,107,44,.24)}
   .cta:active{transform:scale(.98)}
+  .cta.ghost{background:transparent;color:var(--accent);border:1.5px solid var(--accent);box-shadow:none;margin-top:12px}
+  .cta.ghost:hover{filter:none;background:rgba(204,107,44,.08);box-shadow:none}
+  .web-cta-sub{font-size:12.5px;color:var(--muted);margin-top:7px}
   .cta-sub{font-size:13px;color:var(--muted);margin-top:12px}
   .secondary-cta{margin-top:14px;font-size:13.5px}
   .secondary-cta a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
@@ -564,8 +567,9 @@
         <div class="hero-actions">
           <a class="cta" href="https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
           <div class="cta-sub" data-i18n="installSub">Gratis att installera, med 5 krediter direkt på köpet — nog för 5 snabbkollar eller en fotoanalys. Inget kort behövs.</div>
+          <a class="cta ghost" href="analysera.html" data-i18n="webCta">📱 Eller analysera direkt på webben</a>
+          <div class="web-cta-sub" data-i18n="webCtaSub">På mobilen, iPhone eller Facebook Marketplace? Klistra in annonsen — ingen installation.</div>
           <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Vad kostar det?</a></div>
-          <div class="secondary-cta"><a href="analysera.html" data-i18n="webCta">📱 Ingen dator? Analysera en annons direkt på webben →</a></div>
           <div class="privacy-note" data-i18n-html="privacyNote">🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a></div>
         </div>
         <div class="trust-strip" aria-hidden="true">
@@ -823,7 +827,8 @@
       installBtn: 'Lägg till i Chrome, gratis',
       installSub: 'Gratis att installera, med 5 krediter direkt på köpet — nog för 5 snabbkollar eller en fotoanalys. Inget kort behövs.',
       secondaryCta: 'Vad kostar det?',
-      webCta: '📱 Ingen dator? Analysera en annons direkt på webben →',
+      webCta: '📱 Eller analysera direkt på webben',
+      webCtaSub: 'På mobilen, iPhone eller Facebook Marketplace? Klistra in annonsen — ingen installation.',
       privacyNote: '🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a>',
       howH2: 'Så fungerar det',
       howLead: 'Tre steg. Inga formulär, inga konton — bara ett svar du kan lita på.',
@@ -922,7 +927,8 @@
       installBtn: 'Add to Chrome',
       installSub: 'Free to add. 5 free credits included — enough for 5 quick checks or 1 photo analysis. No card required.',
       secondaryCta: 'What does it cost?',
-      webCta: '📱 No computer? Analyze a listing right in your browser →',
+      webCta: '📱 Or analyze right on the web',
+      webCtaSub: 'On mobile, iPhone or Facebook Marketplace? Paste the listing — no install.',
       privacyNote: '🔒 We don\'t store your searches — read our <a href="privacy.html">policy</a>',
       howH2: 'How it works',
       howLead: 'Three steps. No forms, no accounts — just an answer you can trust.',
