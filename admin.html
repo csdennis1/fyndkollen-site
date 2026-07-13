@@ -94,10 +94,10 @@ async function call(action, extra){
 async function login(){
   PW=document.getElementById("pw").value;
   var r=await call("data",{period:PERIOD});
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50);startAuto();}
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile);startAuto();}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -114,7 +114,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s,sf,ce,f50){
+function render(s,sf,ce,f50,ts){
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
   var bytesPerRow=pd.total?q.db_bytes/pd.total:0,rowsPerDay=pd.added_7d/7;
@@ -209,6 +209,20 @@ function render(s,sf,ce,f50){
   h+='<div class="card"><h2>Underhållsläge</h2><div class="k-sub" style="margin-bottom:9px">Just nu: <b>'+(sy.maintenance?"PÅ – pausad":"AV – körs")+'</b></div><input id="mmsg" placeholder="Meddelande till användare" style="margin-bottom:9px" value="'+String(sy.maintenance_msg||"").replace(/"/g,"&quot;")+'"><div style="display:flex;gap:8px"><button class="btn danger" onclick="maint(true)">Pausa</button><button class="btn" onclick="maint(false)">Återuppta</button></div></div>';
   h+='<div class="card"><h2>Datainsamling</h2><div class="k-sub" style="margin-bottom:9px">Just nu: <b>'+(sy.ingest_paused?"PAUSAD":"AKTIV")+'</b> · senast: '+(sy.latest_tradera_at?String(sy.latest_tradera_at).slice(0,16).replace("T"," "):"—")+'</div><div style="display:flex;gap:8px"><button class="btn danger" onclick="ingest(true)">Pausa insamling</button><button class="btn" onclick="ingest(false)">Återuppta</button></div></div>';
   h+='<div class="card"><h2>Anthropic-saldo</h2><div class="k-sub" style="margin-bottom:9px">Senast satt: '+(q.anthropic_balance_at?String(q.anthropic_balance_at).slice(0,10):"aldrig")+' · burn ~'+burn+' USD/30 d</div><input id="abal" type="number" step="0.01" placeholder="Aktuellt saldo (USD)" style="margin-bottom:9px"><button class="btn pri" onclick="setBal()">Spara saldo</button></div>';
+  // Cloudflare Turnstile-översikt (webbanalysens botskydd). Verifieringar räknas bara när
+  // TURNSTILE_SECRET är satt → pass+fail>0 = aktivt. Många "avvisade" = möjlig bot-attack.
+  var tt=(ts&&ts.today)||{},tw=(ts&&ts.week)||{};
+  var tpass=Number(tt.pass||0),tfail=Number(tt.fail||0),tmiss=Number(tt.missing||0),tactive=(tpass+tfail)>0;
+  h+='<div class="card"><h2>🛡️ Cloudflare Turnstile</h2>'+
+     '<div class="k-sub" style="margin-bottom:11px">Botskydd för webbanalysen · '+(tactive?'<b style="color:#0E9F6E">aktivt</b>':'inte aktivt än — sätt TURNSTILE_SECRET')+'</div>'+
+     '<div style="display:flex;gap:12px;text-align:center;margin-bottom:10px">'+
+       '<div style="flex:1"><div class="k-val">'+n(tpass)+'</div><div class="k-lbl">godkända idag</div></div>'+
+       '<div style="flex:1"><div class="k-val"'+(tfail>0?' style="color:#E02424"':'')+'>'+n(tfail)+'</div><div class="k-lbl">avvisade idag</div></div>'+
+       '<div style="flex:1"><div class="k-val">'+n(tmiss)+'</div><div class="k-lbl">utan token</div></div>'+
+     '</div>'+
+     (tfail>=20?'<div class="warn" style="margin:0 0 9px"><span>🤖</span><div><b>'+n(tfail)+' avvisade tokens idag</b> — möjlig bot-attack. Per-IP-taket binder ändå kostnaden.</div></div>':'')+
+     '<div class="k-sub">7 dagar: '+n(tw.pass||0)+' ✓ · '+n(tw.fail||0)+' ✗ · '+n(tw.missing||0)+' utan token · <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank" rel="noopener">Cloudflare-analys →</a></div>'+
+     '</div>';
   h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><input id="kamt" type="number" placeholder="Antal krediter att ge" style="margin-bottom:9px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="keyAct(\'grant_credits\')">Ge krediter</button><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
   h+='</div>';
 
