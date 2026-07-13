@@ -193,7 +193,7 @@ footer a{color:var(--mid)}
 var APPRAISE_URL='https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/appraise';
 // ── Cloudflare Turnstile ── klistra in din SITE-nyckel här när widgeten är skapad i
 // Cloudflare (och sätt TURNSTILE_SECRET som Supabase-secret). Tom = av (sidan funkar ändå).
-var TURNSTILE_SITEKEY='';
+var TURNSTILE_SITEKEY='0x4AAAAAAD1K3XqeXuFrGoC2';
 var RESALE_FEE={watches:0.08,cars:0.07,boats:0.07,mc:0.07,bikes:0.10,clothing:0.15};
 var LICENSE_RE=/^FS-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{4}-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{4}$/i;
 var lang='sv';
@@ -206,7 +206,7 @@ var T={
    lTitle:'Vad är det för vara?',lDesc:'Klistra in annonstexten',lDescS:'— skick, specs, vad som ingår, ålder, mil…',
    lPrice:'Begärt pris (kr)',lPriceS:'— valfritt',lPhotos:'Foton från annonsen',lPhotosS:'— valfritt, ger skickbedömning',
    drop:'<b>📷 Välj foton</b> eller släpp dem här',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
-   lLic:'Licensnyckel',lLicS:'— om du har en',btn:'Analysera annonsen',
+   lLic:'Licensnyckel',lLicS:'— om du har en',btn:'Analysera annonsen',verifying:'Verifierar…',
    disc:'Fyndkollen ger en uppskattning som stöd för ditt eget beslut — inte en garanti. Vinst/förlust visas kvalitativt, inte som exakt krona.',
    cross:'Se vad tusentals prylar faktiskt sålt för →',
    s1:'Identifierar varan',s2:'Kollar marknadspriser',s3:'Uppskattar andrahandsvärde',
@@ -229,7 +229,7 @@ var T={
    lTitle:'What is the item?',lDesc:'Paste the listing text',lDescS:'— condition, specs, what’s included, age, mileage…',
    lPrice:'Asking price (SEK)',lPriceS:'— optional',lPhotos:'Photos from the listing',lPhotosS:'— optional, adds a condition read',
    drop:'<b>📷 Choose photos</b> or drop them here',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
-   lLic:'License key',lLicS:'— if you have one',btn:'Analyze listing',
+   lLic:'License key',lLicS:'— if you have one',btn:'Analyze listing',verifying:'Verifying…',
    disc:'Fyndkollen gives an estimate to support your own decision — not a guarantee. Profit/loss is shown qualitatively, not as an exact figure.',
    cross:'See what thousands of items actually sold for →',
    s1:'Identifying the item',s2:'Checking market prices',s3:'Estimating resale value',
@@ -360,16 +360,33 @@ function catName(c){var m={sv:{watches:'Klockor',electronics:'Elektronik',clothi
 function condName(c){var m={sv:{Mint:'Toppskick',Excellent:'Mycket bra',Good:'Bra',Fair:'Okej',Poor:'Dåligt'},en:{Mint:'Mint',Excellent:'Excellent',Good:'Good',Fair:'Fair',Poor:'Poor'}};return (m[lang]&&m[lang][c])||c;}
 function copy(text,btn){navigator.clipboard.writeText(text).then(function(){var o=btn.textContent;btn.textContent=t('copied');setTimeout(function(){btn.textContent=o;},1600);}).catch(function(){});}
 
-// ── Turnstile (graceful) ──
-var cfWidgetId=null,cfLoaded=false;
+// ── Turnstile (robust, callback-baserad) ── Rekommenderat mönster: ?render=explicit&onload=,
+// synlig widget, token fångas via callback (ingen polling-race). cfState: 'loading' → 'ready'
+// (token finns) eller 'failed' (script/widget-fel → fail-open, blockera aldrig användaren).
+var cfWidgetId=null,cfTokenValue='',cfState='loading';
 function initTurnstile(){
-  if(!TURNSTILE_SITEKEY)return;
-  var sc=document.createElement('script');sc.src='https://challenges.cloudflare.com/turnstile/v0/api.js';sc.async=true;sc.defer=true;
-  sc.onload=function(){cfLoaded=true;try{cfWidgetId=window.turnstile.render('#cf-holder',{sitekey:TURNSTILE_SITEKEY,theme:'auto'});}catch(e){}};
+  if(!TURNSTILE_SITEKEY){cfState='failed';return;}
+  window.__cfOnload=function(){
+    try{
+      cfWidgetId=window.turnstile.render('#cf-holder',{
+        sitekey:TURNSTILE_SITEKEY,
+        theme:'auto',
+        callback:function(tok){cfTokenValue=tok||'';cfState=cfTokenValue?'ready':'failed';},
+        'error-callback':function(){cfState='failed';return true;},        // widget-fel → fail-open
+        'expired-callback':function(){cfTokenValue='';cfState='loading';try{window.turnstile.reset(cfWidgetId);}catch(e){}},
+        'timeout-callback':function(){try{window.turnstile.reset(cfWidgetId);}catch(e){}}
+      });
+    }catch(e){cfState='failed';}
+  };
+  var sc=document.createElement('script');
+  sc.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__cfOnload';
+  sc.async=true;sc.defer=true;
+  sc.onerror=function(){cfState='failed';};   // script blockerat/offline → fail-open
   document.head.appendChild(sc);
+  // Yttersta skyddsnät: laddar scriptet aldrig alls inom 8s → fail-open.
+  setTimeout(function(){if(cfState==='loading'&&typeof window.turnstile==='undefined')cfState='failed';},8000);
 }
-function cfToken(){try{return (TURNSTILE_SITEKEY&&window.turnstile&&cfWidgetId!=null)?window.turnstile.getResponse(cfWidgetId):'';}catch(e){return '';}}
-function cfReset(){try{if(TURNSTILE_SITEKEY&&window.turnstile&&cfWidgetId!=null)window.turnstile.reset(cfWidgetId);}catch(e){}}
+function cfReset(){cfTokenValue='';cfState='loading';try{if(window.turnstile&&cfWidgetId!=null)window.turnstile.reset(cfWidgetId);}catch(e){}}
 
 // ── submit ──
 $('form').addEventListener('submit',async function(e){
@@ -379,22 +396,16 @@ $('form').addEventListener('submit',async function(e){
   var price=parseInt($('f-price').value,10);if(!(price>0))price=0;
   var licRaw=$('f-lic').value.trim();
   if(licRaw&&!LICENSE_RE.test(licRaw)){showMsg(t('badLic'),'err');return;}
-  // Turnstile only for free-tier (no license). Managed-läget löser oftast innan användaren
-  // hunnit fylla i formuläret — men vänta in token upp till ~3s så en långsam widget inte
-  // blockerar en äkta människa som klickar snabbt.
+  // Turnstile only for free-tier (no license). Vänta in att widgeten löst (cfState='ready')
+  // eller gett upp (cfState='failed') — max ~10s. FAIL-OPEN: får vi ingen token skickar vi
+  // ändå (tom token) och låter servern + per-IP-taket avgöra. Blockerar ALDRIG användaren.
   var tsToken='';
   if(TURNSTILE_SITEKEY&&!licRaw){
-    // Vänta in att CF-scriptet laddat (upp till ~3s).
-    for(var wl=0;wl<7&&typeof window.turnstile==='undefined';wl++){await new Promise(function(r){setTimeout(r,450);});}
-    if(typeof window.turnstile!=='undefined'){
-      // Widgeten finns → vänta in dess token (Managed-läget löser oftast direkt).
-      tsToken=cfToken();
-      for(var w=0;w<6&&!tsToken;w++){await new Promise(function(r){setTimeout(r,500);});tsToken=cfToken();}
-      if(!tsToken){showMsg(t('turnstile'),'err');return;}
-    }
-    // Laddade CF-scriptet ALDRIG (blockerat/offline) → fortsätt utan token (fail-open på
-    // infrastruktur; blockera aldrig en äkta användare vars webbläsare inte når Cloudflare).
-    // Per-IP-dagstaket binder ändå kostnaden; servern verifierar närhelst en token finns.
+    var btn0=$('btn');btn0.disabled=true;btn0.textContent=t('verifying');
+    for(var w=0;w<20&&cfState==='loading';w++){await new Promise(function(r){setTimeout(r,500);});}
+    btn0.textContent=t('btn');btn0.disabled=false;
+    if(cfState==='ready')tsToken=cfTokenValue;
+    // cfState==='failed' → tom token, fortsätt (fail-open).
   }
   var btn=$('btn');btn.disabled=true;
   var timer=showLoader();
