@@ -193,7 +193,7 @@ footer a{color:var(--mid)}
 var APPRAISE_URL='https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/appraise';
 // ── Cloudflare Turnstile ── klistra in din SITE-nyckel här när widgeten är skapad i
 // Cloudflare (och sätt TURNSTILE_SECRET som Supabase-secret). Tom = av (sidan funkar ändå).
-var TURNSTILE_SITEKEY='';
+var TURNSTILE_SITEKEY='0x4AAAAAAD1K3XqeXuFrGoC2';
 var RESALE_FEE={watches:0.08,cars:0.07,boats:0.07,mc:0.07,bikes:0.10,clothing:0.15};
 var LICENSE_RE=/^FS-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{4}-[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{4}$/i;
 var lang='sv';
@@ -221,7 +221,7 @@ var T={
    creditsWall:'Dina krediter är slut. <a href="/#pricing">Fyll på →</a> — de staplas på samma nyckel.',
    maint:'Tjänsten är pausad tillfälligt för underhåll. Försök snart igen — ingen kredit drogs.',
    unavail:'AI:n är tillfälligt otillgänglig. Ingen kredit drogs — försök igen om en stund.',
-   turnstile:'Kunde inte verifiera att du är en människa. Ladda om sidan och försök igen.',
+   turnstile:'Säkerhetskontrollen är inte klar än — vänta ett ögonblick och försök igen.',
    generic:'Något gick fel. Försök igen.',freeLeft:'<b>{n}</b> gratiskollar kvar · inget konto',licActive:'Licens aktiv · <b>{n}</b> krediter kvar'},
  en:{navback:'← Home',eyebrow:'Right in your browser · no account',h1:'Is the listing a bargain?',
    lead:'Paste a listing from <b>Blocket, Facebook Marketplace or Tradera</b> — and get a straight answer: bargain, fair or overpriced, plus a suggested opening offer.',
@@ -244,7 +244,7 @@ var T={
    creditsWall:'Your credits are used up. <a href="/#pricing">Top up →</a> — they stack on the same key.',
    maint:'Service paused for maintenance. Try again soon — no credit was charged.',
    unavail:'The AI is temporarily unavailable. No credit was charged — try again shortly.',
-   turnstile:"Couldn't verify you're human. Reload the page and try again.",
+   turnstile:'Security check not ready yet — wait a moment and try again.',
    generic:'Something went wrong. Please try again.',freeLeft:'<b>{n}</b> free checks left · no account',licActive:'License active · <b>{n}</b> credits left'}
 };
 function t(k,v){var s=(T[lang]&&T[lang][k])||k;if(v)for(var p in v)s=s.split('{'+p+'}').join(v[p]);return s;}
@@ -379,9 +379,15 @@ $('form').addEventListener('submit',async function(e){
   var price=parseInt($('f-price').value,10);if(!(price>0))price=0;
   var licRaw=$('f-lic').value.trim();
   if(licRaw&&!LICENSE_RE.test(licRaw)){showMsg(t('badLic'),'err');return;}
-  // Turnstile only for free-tier (no license)
+  // Turnstile only for free-tier (no license). Managed-läget löser oftast innan användaren
+  // hunnit fylla i formuläret — men vänta in token upp till ~3s så en långsam widget inte
+  // blockerar en äkta människa som klickar snabbt.
   var tsToken='';
-  if(TURNSTILE_SITEKEY&&!licRaw){tsToken=cfToken();if(!tsToken){showMsg(t('turnstile'),'err');return;}}
+  if(TURNSTILE_SITEKEY&&!licRaw){
+    tsToken=cfToken();
+    for(var w=0;w<6&&!tsToken;w++){await new Promise(function(r){setTimeout(r,500);});tsToken=cfToken();}
+    if(!tsToken){showMsg(t('turnstile'),'err');return;}
+  }
   var btn=$('btn');btn.disabled=true;
   var timer=showLoader();
   try{
