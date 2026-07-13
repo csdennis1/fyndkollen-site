@@ -180,10 +180,9 @@ footer a{color:var(--mid)}
   <div id="result" aria-live="polite"></div>
 
   <p class="disc" id="t-disc">Fyndkollen ger en uppskattning som stöd för ditt eget beslut — inte en garanti. Vinst/förlust visas kvalitativt, inte som exakt krona.</p>
-  <div class="crosslink"><a href="/vardering/" id="t-cross">Se vad tusentals prylar faktiskt sålt för →</a></div>
 
   <footer>
-    <a href="/">Fyndkollen</a> · <a href="/vardering/">Vad är det värt?</a> · <a href="/privacy.html">Integritet</a> · <a href="/villkor.html">Villkor</a>
+    <a href="/">Fyndkollen</a> · <a href="/privacy.html">Integritet</a> · <a href="/villkor.html">Villkor</a>
   </footer>
 </div>
 
@@ -208,7 +207,6 @@ var T={
    drop:'<b>📷 Välj foton</b> eller släpp dem här',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
    lLic:'Licensnyckel',lLicS:'— om du har en',btn:'Analysera annonsen',verifying:'Verifierar…',
    disc:'Fyndkollen ger en uppskattning som stöd för ditt eget beslut — inte en garanti. Vinst/förlust visas kvalitativt, inte som exakt krona.',
-   cross:'Se vad tusentals prylar faktiskt sålt för →',
    s1:'Identifierar varan',s2:'Kollar marknadspriser',s3:'Uppskattar andrahandsvärde',
    recGood:'Bra fynd',recFair:'Rimligt pris',recOver:'Överprissatt',recNoPrice:'Marknadsvärde',
    below:'{p}% under marknadsvärdet',above:'{p}% över marknadsvärdet',at:'Ungefär marknadspris',
@@ -231,7 +229,6 @@ var T={
    drop:'<b>📷 Choose photos</b> or drop them here',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
    lLic:'License key',lLicS:'— if you have one',btn:'Analyze listing',verifying:'Verifying…',
    disc:'Fyndkollen gives an estimate to support your own decision — not a guarantee. Profit/loss is shown qualitatively, not as an exact figure.',
-   cross:'See what thousands of items actually sold for →',
    s1:'Identifying the item',s2:'Checking market prices',s3:'Estimating resale value',
    recGood:'Good deal',recFair:'Fair price',recOver:'Overpriced',recNoPrice:'Market value',
    below:'{p}% below market',above:'{p}% above market',at:'About market price',
@@ -436,7 +433,7 @@ function updateQuota(pj){var q=$('quota');if(pj&&typeof pj.credits_remaining==='
 // ── language ──
 function applyLang(){
   document.documentElement.lang=lang;
-  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn','t-disc':'disc','t-cross':'cross'};
+  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn'};
   for(var id in ids)$(id).textContent=t(ids[id]);
   $('t-lead').innerHTML=t('lead');$('t-drop').innerHTML=t('drop');$('t-tier').innerHTML=t('tier');
   $('t-l-desc-s').textContent=t('lDescS');$('t-l-price-s').textContent=t('lPriceS');$('t-l-photos-s').textContent=t('lPhotosS');$('t-l-lic-s').textContent=t('lLicS');
