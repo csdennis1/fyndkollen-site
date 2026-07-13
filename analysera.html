@@ -384,9 +384,17 @@ $('form').addEventListener('submit',async function(e){
   // blockerar en äkta människa som klickar snabbt.
   var tsToken='';
   if(TURNSTILE_SITEKEY&&!licRaw){
-    tsToken=cfToken();
-    for(var w=0;w<6&&!tsToken;w++){await new Promise(function(r){setTimeout(r,500);});tsToken=cfToken();}
-    if(!tsToken){showMsg(t('turnstile'),'err');return;}
+    // Vänta in att CF-scriptet laddat (upp till ~3s).
+    for(var wl=0;wl<7&&typeof window.turnstile==='undefined';wl++){await new Promise(function(r){setTimeout(r,450);});}
+    if(typeof window.turnstile!=='undefined'){
+      // Widgeten finns → vänta in dess token (Managed-läget löser oftast direkt).
+      tsToken=cfToken();
+      for(var w=0;w<6&&!tsToken;w++){await new Promise(function(r){setTimeout(r,500);});tsToken=cfToken();}
+      if(!tsToken){showMsg(t('turnstile'),'err');return;}
+    }
+    // Laddade CF-scriptet ALDRIG (blockerat/offline) → fortsätt utan token (fail-open på
+    // infrastruktur; blockera aldrig en äkta användare vars webbläsare inte når Cloudflare).
+    // Per-IP-dagstaket binder ändå kostnaden; servern verifierar närhelst en token finns.
   }
   var btn=$('btn');btn.disabled=true;
   var timer=showLoader();
