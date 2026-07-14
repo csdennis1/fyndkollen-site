@@ -7,7 +7,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Analysera en annons – är det ett fynd? | Fyndkollen</title>
-<meta name="description" content="Klistra in en begagnatannons från Blocket, Facebook Marketplace eller Tradera och få direkt besked: fynd, rimligt eller överprissatt — grundat i tusentals verkliga slutpriser. Gratis, inget konto."/>
+<meta name="description" content="Klistra in en begagnatannons från Blocket, Facebook Marketplace eller Tradera och få direkt besked: fynd, rimligt eller överprissatt — grundat i 17 000+ verifierade slutpriser. Gratis, inget konto."/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Fyndkollen Webbanalys","url":"https://fyndkollen.com/analysera.html","applicationCategory":"ShoppingApplication","operatingSystem":"Web","description":"Klistra in en begagnatannons och få direkt besked: fynd, rimligt eller överprissatt — grundat i verifierade slutpriser.","offers":{"@type":"Offer","price":"0","priceCurrency":"SEK","description":"5 gratisanalyser, inget konto krävs"},"inLanguage":["sv","en"]}</script>
 <link rel="canonical" href="https://fyndkollen.com/analysera.html"/>
 <meta property="og:title" content="Analysera en annons – är det ett fynd?"/>
 <meta property="og:description" content="Klistra in vilken begagnatannons som helst och få ett rakt besked, grundat i verkliga slutpriser."/>
@@ -48,6 +49,8 @@ label{display:block;font-size:13px;font-weight:700;color:var(--text);margin:18px
 label:first-child{margin-top:0}
 .sub{font-weight:500;color:var(--muted);font-size:12px}
 input[type=text],input[type=number],textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;font:inherit;font-size:16px;color:var(--text);transition:border-color .15s,box-shadow .15s} /* 16px: under 16 auto-zoomar iOS Safari in vid fokus */
+.exlink{display:block;margin:0 0 14px auto;background:none;border:none;padding:4px 0;font:inherit;font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.exlink:hover{opacity:.8}
 textarea{min-height:130px;resize:vertical;line-height:1.55}
 input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(204,107,44,.13)}
 .dropzone{border:1.6px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;color:var(--muted);font-size:14px}
@@ -145,13 +148,14 @@ footer a{color:var(--mid)}
     <h1 id="t-h1">Är annonsen ett fynd?</h1>
     <p class="lead" id="t-lead">Klistra in en annons från <b>Blocket, Facebook Marketplace eller Tradera</b> — så får du ett rakt besked: fynd, rimligt eller överprissatt, plus ett förslag på öppningsbud.</p>
     <div class="badges">
-      <span class="badge"><span class="dot"></span><span id="t-b1">Grundat i verkliga slutpriser</span></span>
+      <span class="badge"><span class="dot"></span><span id="t-b1">17 000+ verifierade slutpriser</span></span>
       <span class="badge"><span class="dot"></span><span id="t-b2">5 gratiskollar</span></span>
       <span class="badge"><span class="dot"></span><span id="t-b3">Funkar på mobilen</span></span>
     </div>
   </section>
 
   <form class="panel" id="form" autocomplete="off">
+    <button type="button" class="exlink" id="ex-btn">✨ Ingen annons till hands? Testa med ett exempel</button>
     <label for="f-title" id="t-l-title">Vad är det för vara?</label>
     <input type="text" id="f-title" placeholder="t.ex. iPhone 13 128GB · Volvo V70 2012 · Omega Seamaster" required/>
 
@@ -201,7 +205,8 @@ var $=function(id){return document.getElementById(id);};
 var T={
  sv:{navback:'← Startsidan',eyebrow:'Direkt i webbläsaren · inget konto',h1:'Är annonsen ett fynd?',
    lead:'Klistra in en annons från <b>Blocket, Facebook Marketplace eller Tradera</b> — så får du ett rakt besked: fynd, rimligt eller överprissatt, plus ett förslag på öppningsbud.',
-   b1:'Grundat i verkliga slutpriser',b2:'5 gratiskollar',b3:'Funkar på mobilen',
+   b1:'17 000+ verifierade slutpriser',b2:'5 gratiskollar',b3:'Funkar på mobilen',
+   exBtn:'✨ Ingen annons till hands? Testa med ett exempel',
    lTitle:'Vad är det för vara?',lDesc:'Klistra in annonstexten',lDescS:'— skick, specs, vad som ingår, ålder, mil…',
    lPrice:'Begärt pris (kr)',lPriceS:'— valfritt',lPhotos:'Foton från annonsen',lPhotosS:'— valfritt, ger skickbedömning',
    drop:'<b>📷 Välj foton</b> eller släpp dem här',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
@@ -223,7 +228,8 @@ var T={
    generic:'Något gick fel. Försök igen.',freeLeft:'<b>{n}</b> gratiskollar kvar · inget konto',licActive:'Licens aktiv · <b>{n}</b> krediter kvar'},
  en:{navback:'← Home',eyebrow:'Right in your browser · no account',h1:'Is the listing a bargain?',
    lead:'Paste a listing from <b>Blocket, Facebook Marketplace or Tradera</b> — and get a straight answer: bargain, fair or overpriced, plus a suggested opening offer.',
-   b1:'Grounded in real sold prices',b2:'5 free checks',b3:'Works on mobile',
+   b1:'17,000+ verified sold prices',b2:'5 free checks',b3:'Works on mobile',
+   exBtn:'✨ No listing at hand? Try an example',
    lTitle:'What is the item?',lDesc:'Paste the listing text',lDescS:'— condition, specs, what’s included, age, mileage…',
    lPrice:'Asking price (SEK)',lPriceS:'— optional',lPhotos:'Photos from the listing',lPhotosS:'— optional, adds a condition read',
    drop:'<b>📷 Choose photos</b> or drop them here',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
@@ -433,13 +439,21 @@ function updateQuota(pj){var q=$('quota');if(pj&&typeof pj.credits_remaining==='
 // ── language ──
 function applyLang(){
   document.documentElement.lang=lang;
-  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn'};
+  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn','ex-btn':'exBtn'};
   for(var id in ids)$(id).textContent=t(ids[id]);
   $('t-lead').innerHTML=t('lead');$('t-drop').innerHTML=t('drop');$('t-tier').innerHTML=t('tier');
   $('t-l-desc-s').textContent=t('lDescS');$('t-l-price-s').textContent=t('lPriceS');$('t-l-photos-s').textContent=t('lPhotosS');$('t-l-lic-s').textContent=t('lLicS');
   document.querySelectorAll('.lang-btn').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===lang?'true':'false');});
 }
 document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){lang=b.getAttribute('data-lang');applyLang();});});
+// Exempel-knappen: förifyller ett realistiskt exempel så besökare utan annons (t.ex. från ett
+// klipp) direkt kan se vad verktyget gör. Analysen körs på riktigt (1 kredit av gratiskvoten).
+$('ex-btn').onclick=function(){
+  $('f-title').value='iPhone 13 128GB Midnight';
+  $('f-desc').value='Säljer min iPhone 13 128GB i midnight. Köpt ny 2022, fungerar felfritt. Batterihälsa 87%. Normalt bruksslitage, en liten repa på ramen som knappt syns. Alltid haft skal och skärmskydd. Laddkabel och originalkartong ingår. Kan skickas eller hämtas.';
+  $('f-price').value='4200';
+  $('btn').scrollIntoView({behavior:'smooth',block:'center'});
+};
 try{if((navigator.language||'').slice(0,2)==='en')lang='en';}catch(e){}
 // ── Besöksräknare för webbanalysen (page:'web' → egen mätare pv_web, skild från säljsidan).
 // Fyras FÖRST (fire-and-forget, oberoende av UI-init nedan), ingen PII/cookie/tredjepart.
