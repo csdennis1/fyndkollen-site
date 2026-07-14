@@ -51,7 +51,40 @@ svg.chart{width:100%;height:104px;display:block}
 .ok-note{color:var(--green);font-size:12.5px;margin-bottom:16px}
 .mono{font-family:ui-monospace,'SF Mono',Menlo,monospace;font-size:12px}
 .fb-msg{font-size:12.5px;color:var(--mid);white-space:pre-wrap;word-break:break-word}
-@media(max-width:640px){.wrap{padding:16px 14px 60px}.bar{padding:12px 14px}.k-val{font-size:22px}}
+/* ── Smart schema ── */
+.sched-add{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:18px}
+.sched-add input,.sched-add select{background:var(--card);width:auto}
+.sched-add .sc-title{flex:1 1 180px;min-width:150px}
+.sched-add select{font-family:inherit;font-size:13px;padding:9px 10px;border:1px solid var(--border);border-radius:9px;color:var(--text);cursor:pointer}
+.sched-add .crit-lbl{font-size:12px;color:var(--mid);display:flex;align-items:center;gap:5px;cursor:pointer;user-select:none;white-space:nowrap}
+.sched-add .crit-lbl input{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
+.day-h{display:flex;align-items:baseline;gap:9px;margin:20px 0 9px;padding-bottom:7px;border-bottom:1.5px solid var(--border)}
+.day-h:first-of-type{margin-top:2px}
+.day-h .d-main{font-size:14px;font-weight:800;letter-spacing:-.01em}
+.day-h .d-sub{font-size:11.5px;color:var(--muted);font-weight:600}
+.day-h.today .d-main{color:var(--accent)}
+.day-h.overdue .d-main{color:var(--red)}
+.si{display:flex;gap:12px;align-items:stretch;padding:11px 13px;border-radius:12px;border:1px solid var(--border);background:var(--card);margin-bottom:8px;transition:border-color .12s,box-shadow .12s}
+.si:hover{border-color:var(--muted);box-shadow:0 1px 5px rgba(0,0,0,.04)}
+.si.prop{background:rgba(204,107,44,.05);border-color:rgba(204,107,44,.32)}
+.si.done{opacity:.6}
+.si-stripe{width:3px;border-radius:3px;flex-shrink:0}
+.si-body{flex:1;min-width:0}
+.si-title{font-size:13.5px;font-weight:600;line-height:1.35;word-break:break-word}
+.si.done .si-title{text-decoration:line-through;color:var(--muted)}
+.si-note{font-size:11.5px;color:var(--accent);margin-top:3px;line-height:1.45}
+.si-meta{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.si-badge{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.si-det{margin-top:6px}
+.si-det summary{font-size:11px;color:var(--muted);cursor:pointer;font-weight:600}
+.si-det p{font-size:12px;color:var(--mid);line-height:1.55;margin-top:5px}
+.si-acts{display:flex;gap:5px;flex-shrink:0;align-items:flex-start}
+.si-btn{width:31px;height:31px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--mid);cursor:pointer;font-size:14px;transition:.12s;padding:0}
+.si-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--card)}
+.si-btn.ok:hover{border-color:var(--green);color:var(--green)}
+.si-btn.no:hover{border-color:var(--red);color:var(--red)}
+.sched-empty{text-align:center;padding:26px 16px;color:var(--muted);font-size:13px}
+@media(max-width:640px){.wrap{padding:16px 14px 60px}.bar{padding:12px 14px}.k-val{font-size:22px}.si-acts{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -328,30 +361,52 @@ async function loadSchedule(){
   if(r.status!==200){el.innerHTML='<span class="muted">Kunde inte ladda schemat.</span>';return;}
   SCHED=r.body.items||[]; renderSchedule();
 }
+// Färg per typ (kant-streck + badge) — snabb visuell kod: deadline=bärnsten, rutin=grön,
+// privat=blå, uppgift=neutral; förslag=accent; försenat=rött (vinner över allt).
+var KINDCOL={deadline:"var(--amber)",routine:"var(--green)",private:"#3B82F6",task:"var(--muted)"};
+var WD=["söndag","måndag","tisdag","onsdag","torsdag","fredag","lördag"];
+var MON=["jan","feb","mars","apr","maj","juni","juli","aug","sep","okt","nov","dec"];
+function fmtDate(d){var t=new Date(d+"T12:00:00");return t.getDate()+" "+MON[t.getMonth()];}
+function dayHead(d,today){
+  var dt=new Date(d+"T12:00:00"),t=new Date(today+"T12:00:00");
+  var diff=Math.round((dt-t)/86400000),wd=WD[dt.getDay()],pretty=wd.charAt(0).toUpperCase()+wd.slice(1)+" "+fmtDate(d);
+  if(diff===0)return {main:"Idag",sub:pretty,cls:"today"};
+  if(diff===1)return {main:"Imorgon",sub:pretty,cls:""};
+  if(diff<=6)return {main:"Om "+diff+" dagar",sub:pretty,cls:""};
+  return {main:pretty,sub:"om "+diff+" dagar",cls:""};
+}
 function schedRow(it,today){
-  var b='';
-  if(it.proposed)b+='<span class="pill" style="background:rgba(204,107,44,.14);color:var(--accent)">🤖 förslag</span> ';
-  if(it.critical)b+='<span class="pill" style="background:rgba(224,36,36,.12);color:#E02424">kritisk</span> ';
-  if(it.kind!=="task")b+='<span class="pill" style="background:var(--surface);color:var(--mid)">'+(KINDLBL[it.kind]||it.kind)+'</span> ';
-  if(it.recurrence)b+='<span class="pill" style="background:var(--surface);color:var(--mid)">↻</span> ';
   var overdue=it.due_date&&it.due_date<today&&it.status==="pending";
-  var h='<div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--surface)">';
-  h+='<div style="min-width:0"><div style="font-size:13.5px;font-weight:600'+(overdue?';color:#E02424':'')+'">'+escT(it.title)+'</div>';
-  if(it.ai_note&&it.proposed)h+='<div class="muted" style="font-size:11.5px">🤖 '+escT(it.ai_note)+'</div>';
-  if(it.detail)h+='<details style="margin-top:2px"><summary class="muted" style="font-size:11.5px;cursor:pointer">detaljer</summary><div class="mid" style="font-size:12px;line-height:1.55">'+escT(it.detail)+'</div></details>';
-  h+='<div style="margin-top:3px">'+b+'</div></div>';
-  h+='<div style="display:flex;gap:5px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end">';
+  var done=it.status!=="pending";
+  var stripe=done?"var(--border)":it.proposed?"var(--accent)":overdue?"var(--red)":(KINDCOL[it.kind]||"var(--muted)");
+  var h='<div class="si'+(it.proposed?" prop":"")+(done?" done":"")+'">';
+  h+='<div class="si-stripe" style="background:'+stripe+'"></div>';
+  h+='<div class="si-body">';
+  h+='<div class="si-title">'+escT(it.title)+'</div>';
+  if(it.ai_note&&it.proposed)h+='<div class="si-note">🤖 '+escT(it.ai_note)+'</div>';
+  // Badges
+  var b='';
+  if(it.proposed)b+='<span class="si-badge" style="background:rgba(204,107,44,.16);color:var(--accent)">🤖 Förslag</span>';
+  if(it.critical)b+='<span class="si-badge" style="background:rgba(220,38,38,.13);color:var(--red)">Kritisk</span>';
+  if(it.kind&&it.kind!=="task")b+='<span class="si-badge" style="background:var(--surface);color:var(--mid)">'+(KINDLBL[it.kind]||it.kind)+'</span>';
+  if(it.recurrence)b+='<span class="si-badge" style="background:var(--surface);color:var(--mid)">↻ '+(it.recurrence==="monthly"?"Månad":"Vecka")+'</span>';
+  if(overdue)b+='<span class="si-badge" style="background:rgba(220,38,38,.13);color:var(--red)">Förföll '+fmtDate(it.due_date)+'</span>';
+  if(b)h+='<div class="si-meta">'+b+'</div>';
+  if(it.detail)h+='<details class="si-det"><summary>Visa detaljer</summary><p>'+escT(it.detail)+'</p></details>';
+  h+='</div>';
+  // Actions
+  h+='<div class="si-acts">';
   if(it.status==="pending"){
     if(it.proposed){
-      h+='<button class="btn" style="padding:4px 9px;font-size:12px" onclick="schedAccept('+it.id+')">✓ Ok</button>';
-      h+='<button class="btn" style="padding:4px 9px;font-size:12px" onclick="schedMove('+it.id+')">Flytta</button>';
-      h+='<button class="btn" style="padding:4px 9px;font-size:12px" onclick="schedReject('+it.id+')">✕</button>';
+      h+='<button class="si-btn ok" title="Acceptera förslaget" onclick="schedAccept('+it.id+')">✓</button>';
+      h+='<button class="si-btn" title="Flytta till annat datum" onclick="schedMove('+it.id+')">📅</button>';
+      h+='<button class="si-btn no" title="Avvisa förslaget" onclick="schedReject('+it.id+')">✕</button>';
     } else {
-      h+='<button class="btn" style="padding:4px 9px;font-size:12px" onclick="schedDone('+it.id+')">✓ Klar</button>';
-      h+='<button class="btn" style="padding:4px 9px;font-size:12px" onclick="schedMove('+it.id+')">Flytta</button>';
-      h+='<button class="btn" style="padding:4px 9px;font-size:12px" onclick="schedSkip('+it.id+')">✕</button>';
+      h+='<button class="si-btn ok" title="Markera som klar" onclick="schedDone('+it.id+')">✓</button>';
+      h+='<button class="si-btn" title="Flytta datum" onclick="schedMove('+it.id+')">📅</button>';
+      h+='<button class="si-btn no" title="Ta bort" onclick="schedSkip('+it.id+')">✕</button>';
     }
-  } else { h+='<span class="muted" style="font-size:12px">'+(it.status==="done"?"✓ klar":"överhoppad")+'</span>'; }
+  }
   h+='</div></div>';
   return h;
 }
@@ -363,26 +418,39 @@ function renderSchedule(){
   var dated=pend.filter(function(i){return i.due_date&&i.due_date>=today;});
   var undated=pend.filter(function(i){return !i.due_date;});
   var doneRecent=SCHED.filter(function(i){return i.status==="done";});
+  var props=pend.filter(function(i){return i.proposed;}).length;
   var h='';
-  h+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center">';
-  h+='<input id="sc-title" placeholder="Ny uppgift…" style="flex:2;min-width:160px">';
-  h+='<input id="sc-date" type="date" style="flex:1;min-width:120px">';
+  // Snabbtillägg
+  h+='<div class="sched-add">';
+  h+='<input id="sc-title" class="sc-title" placeholder="Lägg till en uppgift…">';
+  h+='<input id="sc-date" type="date" title="Datum (valfritt)">';
   h+='<select id="sc-kind"><option value="task">Uppgift</option><option value="deadline">Deadline</option><option value="routine">Rutin</option><option value="private">Privat</option></select>';
-  h+='<label style="font-size:12px;display:flex;align-items:center;gap:4px"><input id="sc-crit" type="checkbox">kritisk (mejlas)</label>';
+  h+='<label class="crit-lbl"><input id="sc-crit" type="checkbox"> kritisk (mejlas)</label>';
   h+='<button class="btn pri" onclick="schedAdd()">Lägg till</button>';
-  h+='<button class="btn" id="sc-suggest" onclick="schedSuggest()">🤖 Föreslå schema</button></div>';
-  if(overdue.length){h+='<div class="k-lbl" style="color:#E02424;margin-bottom:2px">Förfallna</div>';overdue.forEach(function(i){h+=schedRow(i,today);});}
+  h+='<button class="btn" id="sc-suggest" onclick="schedSuggest()">🤖 Föreslå</button></div>';
+  // Förslags-notis
+  if(props)h+='<div class="ok-note" style="color:var(--accent);margin-bottom:14px">🤖 '+props+' AI-förslag väntar på ditt beslut — ✓ acceptera, 📅 flytta eller ✕ avvisa (motivera gärna, så lär den sig).</div>';
+  // Försenat (en samlad grupp överst)
+  if(overdue.length){
+    h+='<div class="day-h overdue"><span class="d-main">⚠ Försenat</span><span class="d-sub">'+overdue.length+' st</span></div>';
+    overdue.sort(function(a,b){return a.due_date<b.due_date?-1:1;}).forEach(function(i){h+=schedRow(i,today);});
+  }
+  // Daterat, grupperat per dag
   if(dated.length){
     var byDate={};dated.forEach(function(i){(byDate[i.due_date]=byDate[i.due_date]||[]).push(i);});
-    Object.keys(byDate).sort().slice(0,20).forEach(function(d){
-      var wd=["sön","mån","tis","ons","tor","fre","lör"][new Date(d+"T12:00:00").getDay()];
-      h+='<div class="k-lbl" style="margin:10px 0 2px">'+(d===today?"Idag":wd+" "+d)+'</div>';
+    Object.keys(byDate).sort().slice(0,30).forEach(function(d){
+      var dh=dayHead(d,today);
+      h+='<div class="day-h '+dh.cls+'"><span class="d-main">'+dh.main+'</span><span class="d-sub">'+dh.sub+'</span></div>';
       byDate[d].forEach(function(i){h+=schedRow(i,today);});
     });
   }
-  if(undated.length){h+='<div class="k-lbl" style="margin:10px 0 2px">Utan datum</div>';undated.forEach(function(i){h+=schedRow(i,today);});}
-  if(!pend.length)h+='<span class="muted">Inget planerat — lägg till något eller klicka 🤖 Föreslå schema.</span>';
-  if(doneRecent.length)h+='<details style="margin-top:10px"><summary class="muted" style="font-size:12px;cursor:pointer">Nyligen klara ('+doneRecent.length+')</summary>'+doneRecent.map(function(i){return schedRow(i,today);}).join("")+'</details>';
+  // Utan datum
+  if(undated.length){
+    h+='<div class="day-h"><span class="d-main">Utan datum</span><span class="d-sub">'+undated.length+' st · schemaläggs av 🤖</span></div>';
+    undated.forEach(function(i){h+=schedRow(i,today);});
+  }
+  if(!pend.length)h+='<div class="sched-empty">Inget planerat än.<br>Lägg till något ovan eller klicka <b>🤖 Föreslå</b>.</div>';
+  if(doneRecent.length)h+='<details style="margin-top:16px"><summary class="muted" style="font-size:12px;cursor:pointer;font-weight:600">Nyligen klara ('+doneRecent.length+')</summary><div style="margin-top:8px">'+doneRecent.map(function(i){return schedRow(i,today);}).join("")+'</div></details>';
   el.innerHTML=h;
 }
 async function schedAdd(){
