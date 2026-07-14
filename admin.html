@@ -84,7 +84,10 @@ svg.chart{width:100%;height:104px;display:block}
 .si-btn.ok:hover{border-color:var(--green);color:var(--green)}
 .si-btn.no:hover{border-color:var(--red);color:var(--red)}
 .sched-empty{text-align:center;padding:26px 16px;color:var(--muted);font-size:13px}
-@media(max-width:640px){.wrap{padding:16px 14px 60px}.bar{padding:12px 14px}.k-val{font-size:22px}.si-acts{flex-direction:column}}
+@media(max-width:640px){.wrap{padding:16px 14px 60px}.bar{padding:12px 14px}.k-val{font-size:22px}.si-acts{flex-direction:column}
+  input,select{font-size:16px} /* under 16px auto-zoomar iOS Safari in vid fokus */
+  .si-btn{width:38px;height:38px;font-size:16px} /* större touch-ytor */
+  .sched-add .sc-title{flex-basis:100%}}
 </style>
 </head>
 <body>
