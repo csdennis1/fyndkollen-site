@@ -162,12 +162,12 @@ footer a{color:var(--mid)}
   </section>
 
   <div class="mode-tog" role="tablist" aria-label="Läge">
-    <button type="button" id="mode-buy" class="on" role="tab" aria-selected="true">🛒 <span id="t-modeBuy">Köpa — är priset rätt?</span></button>
-    <button type="button" id="mode-sell" role="tab" aria-selected="false">💰 <span id="t-modeSell">Sälja — vad ska jag begära?</span></button>
+    <button type="button" id="mode-buy" class="on" role="tab" aria-selected="true"><span id="t-modeBuy">Köpa — är priset rätt?</span></button>
+    <button type="button" id="mode-sell" role="tab" aria-selected="false"><span id="t-modeSell">Sälja — vad ska jag begära?</span></button>
   </div>
 
   <form class="panel" id="form" autocomplete="off">
-    <button type="button" class="exlink" id="ex-btn">✨ Ingen annons till hands? Testa med ett exempel</button>
+    <button type="button" class="exlink" id="ex-btn">Ingen annons till hands? Testa med ett exempel</button>
     <label for="f-title" id="t-l-title">Vad är det för vara?</label>
     <input type="text" id="f-title" placeholder="t.ex. iPhone 13 128GB · Volvo V70 2012 · Omega Seamaster" required/>
 
@@ -179,7 +179,7 @@ footer a{color:var(--mid)}
 
     <label id="t-l-photos">Foton från annonsen <span class="sub" id="t-l-photos-s">— valfritt, ger skickbedömning</span></label>
     <div class="dropzone" id="drop" tabindex="0" role="button" aria-label="Lägg till foton">
-      <span id="t-drop"><b>📷 Välj foton</b> eller släpp dem här</span>
+      <span id="t-drop"><b>Välj foton</b> eller släpp dem här</span>
     </div>
     <input type="file" id="f-imgs" accept="image/*" multiple hidden/>
     <div class="imgs" id="imgprev"></div>
@@ -218,19 +218,19 @@ var T={
  sv:{navback:'← Startsidan',eyebrow:'Direkt i webbläsaren · inget konto',h1:'Är annonsen ett fynd?',
    lead:'Klistra in en annons från <b>Blocket, Facebook Marketplace eller Tradera</b> — så får du ett rakt besked: fynd, rimligt eller överprissatt, plus ett förslag på öppningsbud.',
    b1:'17 000+ verifierade slutpriser',b2:'5 gratiskollar',b3:'Funkar på mobilen',
-   exBtn:'✨ Ingen annons till hands? Testa med ett exempel',
+   exBtn:'Ingen annons till hands? Testa med ett exempel',
    modeBuy:'Köpa — är priset rätt?',modeSell:'Sälja — vad ska jag begära?',
    sellH1:'Vad ska du begära?',
    sellLead:'Beskriv det du ska sälja — så får du <b>värdering, prisförslag och en färdig annonstext</b> att klistra in på Blocket eller Marketplace.',
    sellBtn:'Värdera & skriv min annons',lPriceSell:'Vad tänkte du begära? (kr)',lPriceSellS:'— valfritt, vi jämför med marknaden',
-   sellAskH:'Begär',sellRange:'Spann',sellAdH:'📝 Din färdiga annons',copyAd:'Kopiera annonstexten',copyTitleBtn:'Kopiera rubriken',
+   sellAskH:'Begär',sellRange:'Spann',sellAdH:'Din färdiga annons',copyAd:'Kopiera annonstexten',copyTitleBtn:'Kopiera rubriken',
    sellTipsH:'Innan du publicerar',sellOn:'Bäst att sälja på',
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
    lTitle:'Vad är det för vara?',lDesc:'Klistra in annonstexten',lDescS:'— skick, specs, vad som ingår, ålder, mil…',
    lPrice:'Begärt pris (kr)',lPriceS:'— valfritt',lPhotos:'Foton från annonsen',lPhotosS:'— valfritt, ger skickbedömning',
-   drop:'<b>📷 Välj foton</b> eller släpp dem här',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
+   drop:'<b>Välj foton</b> eller släpp dem här',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
    lLic:'Licensnyckel',lLicS:'— om du har en',btn:'Analysera annonsen',verifying:'Verifierar…',
    disc:'Fyndkollen ger en uppskattning som stöd för ditt eget beslut — inte en garanti. Vinst/förlust visas kvalitativt, inte som exakt krona.',
    s1:'Identifierar varan',s2:'Kollar marknadspriser',s3:'Uppskattar andrahandsvärde',
@@ -250,19 +250,19 @@ var T={
  en:{navback:'← Home',eyebrow:'Right in your browser · no account',h1:'Is the listing a bargain?',
    lead:'Paste a listing from <b>Blocket, Facebook Marketplace or Tradera</b> — and get a straight answer: bargain, fair or overpriced, plus a suggested opening offer.',
    b1:'17,000+ verified sold prices',b2:'5 free checks',b3:'Works on mobile',
-   exBtn:'✨ No listing at hand? Try an example',
+   exBtn:'No listing at hand? Try an example',
    modeBuy:'Buying — is the price right?',modeSell:'Selling — what should I ask?',
    sellH1:'What should you ask for it?',
    sellLead:'Describe what you\'re selling — and get a <b>valuation, price suggestion and a ready-to-paste listing text</b> for Blocket or Marketplace.',
    sellBtn:'Value it & write my listing',lPriceSell:'What were you thinking of asking? (SEK)',lPriceSellS:'— optional, we compare with the market',
-   sellAskH:'Ask',sellRange:'Range',sellAdH:'📝 Your ready-made listing',copyAd:'Copy listing text',copyTitleBtn:'Copy title',
+   sellAskH:'Ask',sellRange:'Range',sellAdH:'Your ready-made listing',copyAd:'Copy listing text',copyTitleBtn:'Copy title',
    sellTipsH:'Before you publish',sellOn:'Best place to sell',
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
    lTitle:'What is the item?',lDesc:'Paste the listing text',lDescS:'— condition, specs, what’s included, age, mileage…',
    lPrice:'Asking price (SEK)',lPriceS:'— optional',lPhotos:'Photos from the listing',lPhotosS:'— optional, adds a condition read',
-   drop:'<b>📷 Choose photos</b> or drop them here',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
+   drop:'<b>Choose photos</b> or drop them here',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
    lLic:'License key',lLicS:'— if you have one',btn:'Analyze listing',verifying:'Verifying…',
    disc:'Fyndkollen gives an estimate to support your own decision — not a guarantee. Profit/loss is shown qualitatively, not as an exact figure.',
    s1:'Identifying the item',s2:'Checking market prices',s3:'Estimating resale value',
@@ -393,7 +393,7 @@ function render(r,price){
   var pos=r.pricePosition;var tier=(pos==='Significantly underpriced'||pos==='Underpriced')?'good':(pos==='Fair'||!pos)?'fair':'over';
   var noPrice=!(price>0);
   var color=noPrice?'var(--muted)':tier==='good'?'var(--green)':tier==='fair'?'var(--amber)':'var(--red)';
-  var icon=noPrice?'📊':tier==='good'?'✓':tier==='fair'?'≈':'!';
+  var icon=noPrice?'≈':tier==='good'?'✓':tier==='fair'?'≈':'!';
   var label=noPrice?t('recNoPrice'):t(tier==='good'?'recGood':tier==='fair'?'recFair':'recOver');
   var sub='';if(r.marketValue&&price){var diff=Math.round((1-price/r.marketValue)*100);sub=diff>=3?t('below',{p:diff}):diff<=-3?t('above',{p:-diff}):t('at');}
   var profitPos=(r.profit||0)>0,profitNeg=(r.profit||0)<0;
@@ -417,10 +417,10 @@ function render(r,price){
   if(r.suggestedOffer&&price>0)h+='<div class="offer"><div><div class="k">'+t('offer')+'</div><div class="o">'+fmt(r.suggestedOffer)+' kr</div></div><button class="copybtn" id="copyoffer" data-v="'+r.suggestedOffer+'">'+t('copy')+'</button></div>';
   var pts=(Array.isArray(r.negotiationPoints)?r.negotiationPoints:[]).filter(function(p){return p&&p.trim();}).slice(0,3);
   var smsg=null;if(typeof r.sellerMessage==='string'&&r.sellerMessage.indexOf('{OFFER}')>=0&&r.suggestedOffer&&price>0)smsg=r.sellerMessage.split('{OFFER}').join(fmt(r.suggestedOffer)+' kr').slice(0,500);
-  if(pts.length){h+='<div class="coach"><div class="coach-h">💬 '+t('coach')+'</div><ul>';pts.forEach(function(p){h+='<li>'+esc(p)+'</li>';});h+='</ul>';if(smsg)h+='<div style="font-size:12.5px;color:var(--muted);margin-top:9px">'+t('sellerLabel')+'</div><div class="smsg" id="smsg">'+esc(smsg)+'</div><button class="copybtn" id="copymsg" style="margin-top:10px">'+t('copymsg')+'</button>';h+='</div>';}
-  else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">💬 '+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
+  if(pts.length){h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><ul>';pts.forEach(function(p){h+='<li>'+esc(p)+'</li>';});h+='</ul>';if(smsg)h+='<div style="font-size:12.5px;color:var(--muted);margin-top:9px">'+t('sellerLabel')+'</div><div class="smsg" id="smsg">'+esc(smsg)+'</div><button class="copybtn" id="copymsg" style="margin-top:10px">'+t('copymsg')+'</button>';h+='</div>';}
+  else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
-  h+='</div><button class="again share" id="share">📤 '+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
+  h+='</div><button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
   var co=$('copyoffer');if(co)co.onclick=function(){copy(String(co.getAttribute('data-v')),co);};
   var cm=$('copymsg');if(cm)cm.onclick=function(){copy(smsg,cm);};
@@ -446,7 +446,7 @@ function renderSell(r,priceIdea){
     var ratio=priceIdea/r.marketValue;
     ideaLine=ratio<0.9?t('sellIdeaLow',{p:fmt(priceIdea)}):ratio<=1.15?t('sellIdeaOk',{p:fmt(priceIdea)}):t('sellIdeaHigh',{p:fmt(priceIdea)});
   }
-  var h='<div class="panel verdict reveal"><div class="vicon" style="background:var(--accent);color:#fff">💰</div>'+
+  var h='<div class="panel verdict reveal"><div class="vicon" style="background:var(--accent);color:#fff"><span style="font-size:16px;font-weight:800">kr</span></div>'+
     '<div class="vlabel" style="color:var(--accent)">'+t('sellAskH')+' '+(r.suggestedPrice?fmt(r.suggestedPrice)+' kr':'—')+'</div>'+
     (r.marketValue?'<div class="vsub">'+t('market')+' ~'+fmt(r.marketValue)+' kr'+(range?' · '+t('sellRange')+' '+range:'')+'</div>':'')+
     (ideaLine?'<div class="vsub" style="margin-top:4px">'+esc(ideaLine)+'</div>':'')+'</div>';
@@ -462,7 +462,7 @@ function renderSell(r,priceIdea){
   if(r.adText)h+='<div class="ad-box" id="ad-text-box">'+esc(r.adText)+'</div><button class="copybtn" id="copyadtext" style="margin-top:8px">'+t('copyAd')+'</button>';
   if(r.bestPlatform)h+='<div class="k-sub" style="margin-top:10px">'+t('sellOn')+': <b>'+esc(r.bestPlatform)+'</b></div>';
   var tips=(Array.isArray(r.sellingTips)?r.sellingTips:[]).filter(function(x){return x&&x.trim();}).slice(0,3);
-  if(tips.length){h+='<div class="coach" style="margin-top:12px"><div class="coach-h">💡 '+t('sellTipsH')+'</div><ul>';tips.forEach(function(x){h+='<li>'+esc(x)+'</li>';});h+='</ul></div>';}
+  if(tips.length){h+='<div class="coach" style="margin-top:12px"><div class="coach-h">'+t('sellTipsH')+'</div><ul>';tips.forEach(function(x){h+='<li>'+esc(x)+'</li>';});h+='</ul></div>';}
   h+='</div><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
   var ct=$('copyadtitle');if(ct)ct.onclick=function(){copy(r.adTitle,ct);};

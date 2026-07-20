@@ -198,11 +198,11 @@ svg.chart{width:100%;height:104px;display:block}
     <div class="tabpane" id="tab-content" style="display:none"><div class="wrap" id="content-body"></div></div>
   </div>
   <nav class="tabbar">
-    <button id="tb-overview" class="on" onclick="setTab('overview')"><span class="ti">🏠</span>Översikt</button>
-    <button id="tb-fk" onclick="setTab('fk')"><span class="ti">🏷️</span>Fyndkollen</button>
-    <button id="tb-money" onclick="setTab('money')"><span class="ti">💰</span>Money</button>
-    <button id="tb-skills" onclick="setTab('skills')"><span class="ti">🧗</span>Skills</button>
-    <button id="tb-content" onclick="setTab('content')"><span class="ti">📣</span>Content</button>
+    <button id="tb-overview" class="on" onclick="setTab('overview')"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Översikt</button>
+    <button id="tb-fk" onclick="setTab('fk')"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.6" cy="7.6" r="1.2" fill="currentColor" stroke="none"/></svg>Fyndkollen</button>
+    <button id="tb-money" onclick="setTab('money')"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg>Money</button>
+    <button id="tb-skills" onclick="setTab('skills')"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 17 6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>Skills</button>
+    <button id="tb-content" onclick="setTab('content')"><svg class="ti" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 10 13-6v16L4 14z"/><path d="M20 9a4 4 0 0 1 0 6"/></svg>Content</button>
   </nav>
 </div>
 
@@ -258,23 +258,23 @@ function render(s,sf,ce,f50,ts,wpv,wap){
   // banners
   if(sy.ingest_paused)h+='<div class="warn"><span>⏸</span><div><b>Datainsamlingen är pausad.</b> Ingen ny prisdata hämtas. Återuppta under Kontroller.</div></div>';
   if(sy.maintenance)h+='<div class="warn"><span>⚠</span><div><b>Underhållsläge PÅ</b> — tjänsten är pausad för användarna.</div></div>';
-  if((sf||0)>=10)h+='<div class="warn"><span>🩺</span><div><b>Skrap-larm: '+n(sf)+' misslyckade annonsavläsningar idag.</b> Blocket kan ha ändrat sin sida — öppna en annons med tillägget och verifiera, se drift-rutinen.</div></div>';
-  if((ce||0)>=20)h+='<div class="warn"><span>🐞</span><div><b>Felspik: '+n(ce)+' klientfel i tillägget idag.</b> Läs felmeddelandena i inkorgen (typ client_error) — något är trasigt i produktion.</div></div>';
+  if((sf||0)>=10)h+='<div class="warn"><span>▲</span><div><b>Skrap-larm: '+n(sf)+' misslyckade annonsavläsningar idag.</b> Blocket kan ha ändrat sin sida — öppna en annons med tillägget och verifiera, se drift-rutinen.</div></div>';
+  if((ce||0)>=20)h+='<div class="warn"><span>▲</span><div><b>Felspik: '+n(ce)+' klientfel i tillägget idag.</b> Läs felmeddelandena i inkorgen (typ client_error) — något är trasigt i produktion.</div></div>';
   var revTotKr=Number((rev&&rev.total_ore)||0)/100;
-  if(revTotKr>=80000)h+='<div class="warn"><span>💰</span><div><b>Momsbevakning: '+n(Math.round(revTotKr))+' kr av 120 000 kr-gränsen.</b> Momsregistrering ska ske INNAN gränsen passeras — boka redovisningskonsult och fatta moms-vägvalet (BOLAGSPLAN §3/§5).</div></div>';
+  if(revTotKr>=80000)h+='<div class="warn"><span>▲</span><div><b>Momsbevakning: '+n(Math.round(revTotKr))+' kr av 120 000 kr-gränsen.</b> Momsregistrering ska ske INNAN gränsen passeras — boka redovisningskonsult och fatta moms-vägvalet (BOLAGSPLAN §3/§5).</div></div>';
   if(worst&&worst.p>=60)h+='<div class="warn"><span>⚠</span><div><b>Närmast flaskhals: '+worst.name+'</b> — '+worst.p+'% av gratisgränsen'+(worst.extra?". "+worst.extra:"")+'.</div></div>';
   else h+='<div class="ok-note">✓ Alla tredjepartstjänster har god marginal till sina gratisgränser.</div>';
   // Early-adopter-larm: FORST50 slut eller nära slut → påminn om att ta bort erbjudandetexten.
   if(f50&&typeof f50.redeemed==="number"&&typeof f50.max==="number"){
     var f50left=f50.max-f50.redeemed;
-    if(f50left<=0)h+='<div class="warn"><span>🎁</span><div><b>FORST50 är slut ('+f50.redeemed+'/'+f50.max+' inlösta).</b> Ta bort erbjudandetexten på sajten (bannern + gröna Bas-taggen) — annars lovas något som inte längre gäller. Säg till agenten så fixas det.</div></div>';
-    else if(f50left<=5)h+='<div class="warn"><span>🎁</span><div><b>FORST50: '+f50.redeemed+'/'+f50.max+' inlösta — bara '+f50left+' gratis Bas-månader kvar.</b> Planera att ta bort erbjudandet snart.</div></div>';
+    if(f50left<=0)h+='<div class="warn"><span>▲</span><div><b>FORST50 är slut ('+f50.redeemed+'/'+f50.max+' inlösta).</b> Ta bort erbjudandetexten på sajten (bannern + gröna Bas-taggen) — annars lovas något som inte längre gäller. Säg till agenten så fixas det.</div></div>';
+    else if(f50left<=5)h+='<div class="warn"><span>▲</span><div><b>FORST50: '+f50.redeemed+'/'+f50.max+' inlösta — bara '+f50left+' gratis Bas-månader kvar.</b> Planera att ta bort erbjudandet snart.</div></div>';
   }
 
   // Nästa steg (roadmap) — fylls i av loadRoadmap() efter render
   h+='<div class="sec-h" style="margin-top:4px">Nästa steg</div><div id="rm-body" class="card"><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
-  // 📅 Smart schema — fylls i av loadSchedule() efter render
-  h+='<div class="sec-h">📅 Schema & deadlines</div><div id="sched-body" class="card"><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
+  // Smart schema — fylls i av loadSchedule() efter render
+  h+='<div class="sec-h">Schema & deadlines</div><div id="sched-body" class="card"><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
 
   // KPIs (period-scoped, with deltas)
   h+='<div class="grid">';
@@ -337,7 +337,7 @@ function render(s,sf,ce,f50,ts,wpv,wap){
   // Webbanalys (fyndkollen.com/analysera) — besök (pv_web) + faktiska analyser (web_appraise),
   // skilt från tilläggets appraise-siffror och säljsidans page_views. Konvertering = analyser/besök.
   var wpvN=Number(wpv||0),wapN=Number(wap||0);
-  h+='<div class="card"><h2>🌐 Webbanalys (idag)</h2>'+
+  h+='<div class="card"><h2>Webbanalys (idag)</h2>'+
      '<div class="k-sub" style="margin-bottom:11px">fyndkollen.com/analysera · skilt från tilläggets siffror</div>'+
      '<div style="display:flex;gap:12px;text-align:center">'+
        '<div style="flex:1"><div class="k-val">'+n(wpvN)+'</div><div class="k-lbl">besök</div></div>'+
@@ -348,17 +348,17 @@ function render(s,sf,ce,f50,ts,wpv,wap){
   // TURNSTILE_SECRET är satt → pass+fail>0 = aktivt. Många "avvisade" = möjlig bot-attack.
   var tt=(ts&&ts.today)||{},tw=(ts&&ts.week)||{};
   var tpass=Number(tt.pass||0),tfail=Number(tt.fail||0),tmiss=Number(tt.missing||0),tactive=(tpass+tfail)>0;
-  h+='<div class="card"><h2>🛡️ Cloudflare Turnstile</h2>'+
+  h+='<div class="card"><h2>Cloudflare Turnstile</h2>'+
      '<div class="k-sub" style="margin-bottom:11px">Botskydd för webbanalysen · '+(tactive?'<b style="color:#0E9F6E">aktivt</b>':'inte aktivt än — sätt TURNSTILE_SECRET')+'</div>'+
      '<div style="display:flex;gap:12px;text-align:center;margin-bottom:10px">'+
        '<div style="flex:1"><div class="k-val">'+n(tpass)+'</div><div class="k-lbl">godkända idag</div></div>'+
        '<div style="flex:1"><div class="k-val"'+(tfail>0?' style="color:#E02424"':'')+'>'+n(tfail)+'</div><div class="k-lbl">avvisade idag</div></div>'+
        '<div style="flex:1"><div class="k-val">'+n(tmiss)+'</div><div class="k-lbl">utan token</div></div>'+
      '</div>'+
-     (tfail>=20?'<div class="warn" style="margin:0 0 9px"><span>🤖</span><div><b>'+n(tfail)+' avvisade tokens idag</b> — möjlig bot-attack. Per-IP-taket binder ändå kostnaden.</div></div>':'')+
+     (tfail>=20?'<div class="warn" style="margin:0 0 9px"><span>▲</span><div><b>'+n(tfail)+' avvisade tokens idag</b> — möjlig bot-attack. Per-IP-taket binder ändå kostnaden.</div></div>':'')+
      '<div class="k-sub">7 dagar: '+n(tw.pass||0)+' ✓ · '+n(tw.fail||0)+' ✗ · '+n(tw.missing||0)+' utan token · <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank" rel="noopener">Cloudflare-analys →</a></div>'+
      '</div>';
-  h+='<div class="card" id="kvd-card"><h2>🚗 KVD-hämtaren (bilpriser)</h2><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
+  h+='<div class="card" id="kvd-card"><h2>KVD-hämtaren (bilpriser)</h2><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
   h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><input id="kamt" type="number" placeholder="Antal krediter att ge" style="margin-bottom:9px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="keyAct(\'grant_credits\')">Ge krediter</button><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
   h+='</div>';
 
@@ -414,7 +414,7 @@ function renderRoadmap(){
   var done=RM.filter(function(s){return s.status!=="pending";});
   var total=RM.length;
   if(!total){el.innerHTML='<span class="muted">Inga steg inlagda än.</span>';return;}
-  if(!pend.length){el.innerHTML='<b>🎉 Alla '+total+' steg avklarade.</b> <span class="muted">Be agenten fylla på nästa fas.</span>';return;}
+  if(!pend.length){el.innerHTML='<b>Alla '+total+' steg avklarade.</b> <span class="muted">Be agenten fylla på nästa fas.</span>';return;}
   var cur=pend[0], p=Math.round(done.length/total*100), h='';
   h+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span class="pill" style="background:var(--surface);color:var(--mid)">'+escT(cur.phase)+'</span><span class="muted" style="font-size:12px">'+done.length+' av '+total+' klara · '+p+'%</span></div>';
   h+='<div class="track" style="margin:8px 0 14px"><div class="fill" style="width:'+p+'%;background:var(--green)"></div></div>';
@@ -441,7 +441,7 @@ async function stepSkip(id){
   var r=await call("roadmap_skip",{id:id});
   if(r.status===200)loadRoadmap(); else alert("Fel: "+(r.body.error||r.status));
 }
-// ── 📅 Smart schema ── AI föreslår tider (schedule_suggest, Haiku ~ören/klick); dina
+// ── Smart schema ── AI föreslår tider (schedule_suggest, Haiku ~ören/klick); dina
 // flyttar/avvisningar MED MOTIVERING loggas i schedule_feedback och matas in i nästa
 // förslagsomgång — det är så den lär känna dig. Kritiska deadlines mejlas 7d+1d före (cron).
 var SCHED=[];
@@ -474,10 +474,10 @@ function schedRow(it,today){
   h+='<div class="si-stripe" style="background:'+stripe+'"></div>';
   h+='<div class="si-body">';
   h+='<div class="si-title">'+escT(it.title)+'</div>';
-  if(it.ai_note&&it.proposed)h+='<div class="si-note">🤖 '+escT(it.ai_note)+'</div>';
+  if(it.ai_note&&it.proposed)h+='<div class="si-note">AI: '+escT(it.ai_note)+'</div>';
   // Badges
   var b='';
-  if(it.proposed)b+='<span class="si-badge" style="background:rgba(204,107,44,.16);color:var(--accent)">🤖 Förslag</span>';
+  if(it.proposed)b+='<span class="si-badge" style="background:rgba(204,107,44,.16);color:var(--accent)">AI-förslag</span>';
   if(it.critical)b+='<span class="si-badge" style="background:rgba(220,38,38,.13);color:var(--red)">Kritisk</span>';
   if(it.kind&&it.kind!=="task")b+='<span class="si-badge" style="background:var(--surface);color:var(--mid)">'+(KINDLBL[it.kind]||it.kind)+'</span>';
   if(it.recurrence)b+='<span class="si-badge" style="background:var(--surface);color:var(--mid)">↻ '+(it.recurrence==="monthly"?"Månad":"Vecka")+'</span>';
@@ -490,11 +490,11 @@ function schedRow(it,today){
   if(it.status==="pending"){
     if(it.proposed){
       h+='<button class="si-btn ok" title="Acceptera förslaget" onclick="schedAccept('+it.id+')">✓</button>';
-      h+='<button class="si-btn" title="Flytta till annat datum" onclick="schedMove('+it.id+')">📅</button>';
+      h+='<button class="si-btn" title="Flytta till annat datum" onclick="schedMove('+it.id+')">⇄</button>';
       h+='<button class="si-btn no" title="Avvisa förslaget" onclick="schedReject('+it.id+')">✕</button>';
     } else {
       h+='<button class="si-btn ok" title="Markera som klar" onclick="schedDone('+it.id+')">✓</button>';
-      h+='<button class="si-btn" title="Flytta datum" onclick="schedMove('+it.id+')">📅</button>';
+      h+='<button class="si-btn" title="Flytta datum" onclick="schedMove('+it.id+')">⇄</button>';
       h+='<button class="si-btn no" title="Ta bort" onclick="schedSkip('+it.id+')">✕</button>';
     }
   }
@@ -518,9 +518,9 @@ function renderSchedule(){
   h+='<select id="sc-kind"><option value="task">Uppgift</option><option value="deadline">Deadline</option><option value="routine">Rutin</option><option value="private">Privat</option></select>';
   h+='<label class="crit-lbl"><input id="sc-crit" type="checkbox"> kritisk (mejlas)</label>';
   h+='<button class="btn pri" onclick="schedAdd()">Lägg till</button>';
-  h+='<button class="btn" id="sc-suggest" onclick="schedSuggest()">🤖 Föreslå</button></div>';
+  h+='<button class="btn" id="sc-suggest" onclick="schedSuggest()">Föreslå med AI</button></div>';
   // Förslags-notis
-  if(props)h+='<div class="ok-note" style="color:var(--accent);margin-bottom:14px">🤖 '+props+' AI-förslag väntar på ditt beslut — ✓ acceptera, 📅 flytta eller ✕ avvisa (motivera gärna, så lär den sig).</div>';
+  if(props)h+='<div class="ok-note" style="color:var(--accent);margin-bottom:14px">'+props+' AI-förslag väntar på ditt beslut — acceptera, flytta eller avvisa (motivera gärna, så lär den sig).</div>';
   // Försenat (en samlad grupp överst)
   if(overdue.length){
     h+='<div class="day-h overdue"><span class="d-main">⚠ Försenat</span><span class="d-sub">'+overdue.length+' st</span></div>';
@@ -537,10 +537,10 @@ function renderSchedule(){
   }
   // Utan datum
   if(undated.length){
-    h+='<div class="day-h"><span class="d-main">Utan datum</span><span class="d-sub">'+undated.length+' st · schemaläggs av 🤖</span></div>';
+    h+='<div class="day-h"><span class="d-main">Utan datum</span><span class="d-sub">'+undated.length+' st · schemaläggs av AI</span></div>';
     undated.forEach(function(i){h+=schedRow(i,today);});
   }
-  if(!pend.length)h+='<div class="sched-empty">Inget planerat än.<br>Lägg till något ovan eller klicka <b>🤖 Föreslå</b>.</div>';
+  if(!pend.length)h+='<div class="sched-empty">Inget planerat än.<br>Lägg till något ovan eller klicka <b>Föreslå med AI</b>.</div>';
   if(doneRecent.length)h+='<details style="margin-top:16px"><summary class="muted" style="font-size:12px;cursor:pointer;font-weight:600">Nyligen klara ('+doneRecent.length+')</summary><div style="margin-top:8px">'+doneRecent.map(function(i){return schedRow(i,today);}).join("")+'</div></details>';
   el.innerHTML=h;
 }
@@ -570,18 +570,18 @@ async function schedSkip(id){
   if(r.status===200)loadSchedule(); else alert("Fel: "+(r.body.error||r.status));
 }
 async function schedSuggest(){
-  var b=document.getElementById("sc-suggest"); b.disabled=true; b.textContent="🤖 Tänker…";
+  var b=document.getElementById("sc-suggest"); b.disabled=true; b.textContent="Tänker…";
   var r=await call("schedule_suggest",{});
-  b.disabled=false; b.textContent="🤖 Föreslå schema";
+  b.disabled=false; b.textContent="Föreslå med AI";
   if(r.status===200){loadSchedule();} else alert("Fel: "+(r.body.error||r.status));
 }
-// ── 🚗 KVD-hämtaren ──
+// ── KVD-hämtaren ──
 async function loadKvd(){
   var el=document.getElementById("kvd-card"); if(!el) return;
   var r=await call("kvd_status");
-  if(r.status!==200){el.innerHTML='<h2>🚗 KVD-hämtaren (bilpriser)</h2><span class="muted">Kunde inte läsa status.</span>';return;}
+  if(r.status!==200){el.innerHTML='<h2>KVD-hämtaren (bilpriser)</h2><span class="muted">Kunde inte läsa status.</span>';return;}
   var q=r.body;
-  var h='<h2>🚗 KVD-hämtaren (bilpriser)</h2>';
+  var h='<h2>KVD-hämtaren (bilpriser)</h2>';
   h+='<div class="k-sub" style="margin-bottom:9px">Sålda personbilar från kvd.se → verifierade slutpriser (dagligt svep 04:23) · Just nu: <b>'+(q.paused?"PAUSAD":"AKTIV")+'</b></div>';
   h+='<div style="display:flex;gap:12px;text-align:center;margin-bottom:10px">';
   h+='<div style="flex:1"><div class="k-val">'+n(q.tracking)+'</div><div class="k-lbl">spåras</div></div>';
@@ -620,7 +620,7 @@ function renderOverview(){
   var now=new Date(),h=now.getHours();
   var hi=h<5?'God natt':h<10?'God morgon':h<18?'Hej':'God kväll';
   var ds=now.toLocaleDateString('sv-SE',{weekday:'long',day:'numeric',month:'long'});
-  var html='<div class="ov-hi">'+hi+' Dennis 👋</div><div class="ov-date">'+ds.charAt(0).toUpperCase()+ds.slice(1)+'</div>';
+  var html='<div class="ov-hi">'+hi+' Dennis</div><div class="ov-date">'+ds.charAt(0).toUpperCase()+ds.slice(1)+'</div>';
   var wk=mondayOf(new Date());
   var cards='';
   cards+='<div class="card"><div class="k-lbl">Fyndkollen intäkt</div><div class="k-val">'+(LAST_STATS?kr(LAST_STATS.kpi.rev_now):'—')+'</div><div class="k-sub">'+plabel()+'</div></div>';
@@ -666,7 +666,7 @@ function renderMoney(){
   html+='<div class="m-hero"><div class="h-lbl">Kvar när allt är betalt</div>'+
     '<div class="h-num '+(bal>=0?'pos':'neg')+'">'+(bal<0?'−':'')+fmtKr(Math.abs(bal))+'</div>'+
     '<div class="h-note">'+(bal>=0?'Av <b>'+fmtKr(inc)+'</b> går <b>'+fmtKr(fx+vr)+'</b> åt.':'Underskott — sänk en post eller lägg till inkomst.')+'</div>'+
-    '<div class="h-note" style="margin-top:5px">💚 Sparande denna månad: <b style="color:var(--green)">'+fmtKr(Math.max(0,bal))+'</b></div>'+
+    '<div class="h-note" style="margin-top:5px">Sparande denna månad: <b style="color:var(--green)">'+fmtKr(Math.max(0,bal))+'</b></div>'+
     '<div class="m-bar"><span style="width:'+(100*fx/base)+'%;background:#3B82F6"></span><span style="width:'+(100*vr/base)+'%;background:var(--amber)"></span><span style="width:'+Math.max(0,100-100*fx/base-100*vr/base)+'%;background:var(--green)"></span></div>'+
     '<div class="m-leg"><span><i style="background:#3B82F6"></i>Fast</span><span><i style="background:var(--amber)"></i>Rörligt</span><span><i style="background:var(--green)"></i>Sparande</span></div></div>';
   if(!LIFE.d.budget.length)html+='<div class="card" style="text-align:center;margin-top:12px"><div class="mid" style="font-size:13.5px;margin-bottom:10px">Ingen budget för denna månad än.</div><button class="btn pri" onclick="mCopyPrev()">Kopiera från senaste månaden</button></div>';
@@ -717,7 +717,7 @@ function renderSkills(){
   LIFE.d.skills.forEach(function(s){
     var on=LIFE.d.weeks.some(function(w){return w.skill_id===s.id&&w.week===wk;});
     var st=skStreak(s.id);
-    html+='<div class="sk"><div class="sk-h"><span class="sk-name">'+escT(s.name)+'</span><span style="display:flex;gap:6px;align-items:center">'+(st?'<span class="sk-streak">🔥 '+st+' v</span>':'')+'<button class="si-btn" style="width:26px;height:26px;font-size:12px" onclick="skDel('+s.id+')" title="Ta bort">✕</button></span></div>';
+    html+='<div class="sk"><div class="sk-h"><span class="sk-name">'+escT(s.name)+'</span><span style="display:flex;gap:6px;align-items:center">'+(st?'<span class="sk-streak">'+st+' v i rad</span>':'')+'<button class="si-btn" style="width:26px;height:26px;font-size:12px" onclick="skDel('+s.id+')" title="Ta bort">✕</button></span></div>';
     html+='<button class="sk-week'+(on?' on':'')+'" onclick="skWeek('+s.id+')">'+(on?'✓ Tränat denna vecka':'Tränat/framsteg denna vecka?')+'</button>';
     LIFE.d.milestones.filter(function(m){return m.skill_id===s.id;}).forEach(function(m){
       html+='<button class="ms'+(m.done?' done':'')+'" onclick="skMs('+m.id+','+(m.done?'false':'true')+')"><span class="box">'+(m.done?'✓':'')+'</span><span class="t">'+escT(m.label)+'</span></button>';
@@ -775,9 +775,9 @@ function renderContent(){
   LIFE.d.ideas.forEach(function(i2){html+='<div class="idea"><span>'+escT(i2.txt)+'</span><button class="m-del" onclick="ideaArch('+i2.id+')" title="Arkivera">✓</button></div>';});
   html+='</div>';
   html+='<div class="sec-h">Playbook</div><div class="card">'+
-    '<details><summary style="cursor:pointer;font-weight:700;font-size:13.5px">📅 Veckorutin</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">Mån — build-in-public (LinkedIn, svenska)<br>Ons — perspektiv-inlägg<br>Tor — TikTok/Shorts-klipp (engelska)<br>Fre — win/fail<br>Varje dag — 10 min kommentering</div></details>'+
-    '<details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700;font-size:13.5px">🚀 Growth-checklista (Fyndkollen)</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">• Svenska FB-grupper/forum med deklaration ("jag har byggt")<br>• 5 kalla DM/dag till aktiva flippare<br>• Free beta-framing<br>• Gratis värderingsverktyg som krok (analysera.html ✓)<br>• Referral-belöningar (finns: ?ref=NYCKEL ger 20 kr)</div></details>'+
-    '<details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700;font-size:13.5px">🧱 Brand-pelare</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">Disciplin & transformation · Bygga underskattad · Learning obsession · Flytten till Stockholm</div></details></div>';
+    '<details><summary style="cursor:pointer;font-weight:700;font-size:13.5px">Veckorutin</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">Mån — build-in-public (LinkedIn, svenska)<br>Ons — perspektiv-inlägg<br>Tor — TikTok/Shorts-klipp (engelska)<br>Fre — win/fail<br>Varje dag — 10 min kommentering</div></details>'+
+    '<details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700;font-size:13.5px">Growth-checklista (Fyndkollen)</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">• Svenska FB-grupper/forum med deklaration ("jag har byggt")<br>• 5 kalla DM/dag till aktiva flippare<br>• Free beta-framing<br>• Gratis värderingsverktyg som krok (analysera.html ✓)<br>• Referral-belöningar (finns: ?ref=NYCKEL ger 20 kr)</div></details>'+
+    '<details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700;font-size:13.5px">Brand-pelare</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">Disciplin & transformation · Bygga underskattad · Learning obsession · Flytten till Stockholm</div></details></div>';
   el.innerHTML=html;
 }
 async function cpAdd(){

@@ -418,7 +418,7 @@
       margin-bottom:12px;position:relative;overflow:hidden;
     }
     .listing-mock .ph::after{
-      content:'📦';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;opacity:.5;
+      content:'';position:absolute;inset:0;
     }
     .listing-mock .ttl{height:12px;width:78%;background:var(--border);border-radius:4px;margin-bottom:8px}
     .listing-mock .sub{height:9px;width:46%;background:var(--border);border-radius:4px;margin-bottom:14px}
@@ -570,7 +570,7 @@
           <a class="cta ghost" href="https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
           <div class="web-cta-sub" data-i18n="installSub">Föredrar du ett tillägg? Fyndkollen auto-läser Blocket-annonsen du är på — Chrome, Edge, Firefox.</div>
           <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Vad kostar det?</a></div>
-          <div class="privacy-note" data-i18n-html="privacyNote">🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a></div>
+          <div class="privacy-note" data-i18n-html="privacyNote">Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a></div>
         </div>
         <div class="trust-strip" aria-hidden="true">
           <span data-i18n="trustSources">Prisdata från</span>
@@ -640,16 +640,16 @@
     <p class="lead" data-i18n="featuresLead">Fyndkollen gör grovjobbet åt dig — identifierar varan, bedömer skicket och räknar på priset, oavsett var du hittade annonsen. Att välja begagnat är redan en miljögärning; Fyndkollen gör den tryggare.</p>
     <div class="feature-layout">
       <div class="feature-visual">
-        <div class="fv-row hit"><div class="fv-ic">🔍</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
-        <div class="fv-row"><div class="fv-ic">📸</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
-        <div class="fv-row"><div class="fv-ic">💰</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
-        <div class="fv-row"><div class="fv-ic">🏷️</div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row hit"><div class="fv-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="m8.5 7 1.8-3h3.4l1.8 3"/><circle cx="12" cy="13" r="3.2"/></svg></div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg></div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
+        <div class="fv-row"><div class="fv-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.6" cy="7.6" r="1.3" fill="currentColor" stroke="none"/></svg></div><div style="flex:1"><div class="fv-bar w1"></div><div class="fv-bar w2"></div></div></div>
       </div>
       <div class="grid">
-        <div class="card"><div class="ic">🔍</div><div><h3 data-i18n="f1h">För köpare OCH säljare</h3><p data-i18n="f1p">Köpa? Klistra in annonsen och se om priset är rätt. Sälja? Få en värdering, ett prisförslag och en färdig annonstext att klistra in på Blocket eller Marketplace — plus tips på vad du bör skriva och fota.</p></div></div>
-        <div class="card"><div class="ic">📸</div><div><h3 data-i18n="f2h">Snabbkoll eller fotoanalys</h3><p data-i18n="f2p">Svara på ett par korta frågor för en snabbkoll, eller låt tillägget läsa annonsens bilder för den mest träffsäkra bedömningen.</p></div></div>
-        <div class="card"><div class="ic">💰</div><div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">Värderingen grundas i aktuella priser från Blocket, Tradera och Prisjakt — och i ett växande minne av verkliga slutpriser som gör varje analys träffsäkrare än den förra.</p></div></div>
-        <div class="card"><div class="ic">🏷️</div><div><h3 data-i18n="f4h">Rakt prisomdöme + öppningsbud</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset, en bedömning av vinstpotentialen — och ett föreslaget öppningsbud med ett färdigt meddelande till säljaren, så du slipper pruta på magkänsla. I tillägget får du dessutom prismärken på annonskorten medan du bläddrar på Blocket.</p></div></div>
+        <div class="card"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div><div><h3 data-i18n="f1h">För köpare OCH säljare</h3><p data-i18n="f1p">Köpa? Klistra in annonsen och se om priset är rätt. Sälja? Få en värdering, ett prisförslag och en färdig annonstext att klistra in på Blocket eller Marketplace — plus tips på vad du bör skriva och fota.</p></div></div>
+        <div class="card"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="m8.5 7 1.8-3h3.4l1.8 3"/><circle cx="12" cy="13" r="3.2"/></svg></div><div><h3 data-i18n="f2h">Snabbkoll eller fotoanalys</h3><p data-i18n="f2p">Svara på ett par korta frågor för en snabbkoll, eller låt tillägget läsa annonsens bilder för den mest träffsäkra bedömningen.</p></div></div>
+        <div class="card"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><circle cx="12" cy="12" r="2.6"/></svg></div><div><h3 data-i18n="f3h">Grundat i verklig prisdata</h3><p data-i18n="f3p">Värderingen grundas i aktuella priser från Blocket, Tradera och Prisjakt — och i ett växande minne av verkliga slutpriser som gör varje analys träffsäkrare än den förra.</p></div></div>
+        <div class="card"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.6" cy="7.6" r="1.3" fill="currentColor" stroke="none"/></svg></div><div><h3 data-i18n="f4h">Rakt prisomdöme + öppningsbud</h3><p data-i18n="f4p">Du får ett tydligt omdöme om priset, en bedömning av vinstpotentialen — och ett föreslaget öppningsbud med ett färdigt meddelande till säljaren, så du slipper pruta på magkänsla. I tillägget får du dessutom prismärken på annonskorten medan du bläddrar på Blocket.</p></div></div>
       </div>
     </div>
   </div>
@@ -661,7 +661,7 @@
     <h2 data-i18n="pricingH2">Skaffa krediter — prenumerera eller köp engångs</h2>
     <p class="lead" data-i18n="pricingLead">Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.</p>
     <p class="value-note" data-i18n="valueNote">En snabbkoll kostar från 40 öre. Ett förhastat Blocketköp kostar lätt hundralappar.</p>
-    <div class="early-banner" data-i18n-html="earlyBanner">🎉 <b>Först ut?</b> De 50 första får <b>Bas-prenumerationen gratis första månaden</b> med koden <code>FORST50</code> — därefter 39 kr/mån, säg upp när som helst.</div>
+    <div class="early-banner" data-i18n-html="earlyBanner"><b>Först ut?</b> De 50 första får <b>Bas-prenumerationen gratis första månaden</b> med koden <code>FORST50</code> — därefter 39 kr/mån, säg upp när som helst.</div>
     <div class="packs subs">
       <div class="pack">
         <div class="pack-name">Bas</div>
@@ -669,7 +669,7 @@
         <div class="price-tag sm">39&nbsp;kr<span class="per-mo" data-i18n="perMo">/mån</span></div>
         <div class="pack-each"><span data-i18n="subEach1">0,78 kr per kredit · säg upp när som helst</span></div>
         <a class="cta sm" href="https://buy.stripe.com/9B6aEY5tW5BxbM20byb3q0f" data-i18n="subBtn">Prenumerera</a>
-        <div class="early-tag" data-i18n="earlyTag">🎁 Gratis första månaden för de 50 första (FORST50)</div>
+        <div class="early-tag" data-i18n="earlyTag">Gratis första månaden för de 50 första (FORST50)</div>
       </div>
       <div class="pack featured">
         <div class="pack-badge" data-i18n="bestValue">Bäst värde</div>
@@ -680,7 +680,7 @@
         <a class="cta sm" href="https://buy.stripe.com/00w6oIf4wbZV2bs2jGb3q0g" data-i18n="subBtnFeatured">Prenumerera – bäst värde</a>
       </div>
     </div>
-    <div class="cancel-note" data-i18n-html="cancelNote">🔓 <b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a></div>
+    <div class="cancel-note" data-i18n-html="cancelNote"><b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a></div>
     <h3 class="packs-one-h" data-i18n="packsOneH">Hellre utan prenumeration? Köp ett engångspaket</h3>
     <div class="packs">
       <div class="pack">
@@ -806,7 +806,7 @@
       <span>✓ <span data-i18n="trustNoStorage">Vi sparar inte dina sökningar</span></span>
       <span>✓ <span data-i18n="trustStripe">Betalningar hanteras av Stripe</span></span>
       <span>✓ <span data-i18n="trustSwedish">Svensk tjänst — byggd och supportad i Sverige</span></span>
-      <span>🌱 <span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></span>
+      <span><span data-i18n="climateNote">0,5 % av varje köp går till koldioxidinfångning via Stripe Climate</span></span>
     </div>
     <div>© <span id="yr"></span> <span data-i18n="footerCopy">Fyndkollen · Inte anslutet till Blocket.</span></div>
   </div>
@@ -828,7 +828,7 @@
       secondaryCta: 'Vad kostar det?',
       webCta: 'Analysera eller värdera – gratis',
       webCtaSub: 'Klistra in en annons du funderar på — eller beskriv det du ska sälja. Blocket, Facebook Marketplace, Tradera · mobil eller dator · inget konto, 5 gratisanalyser.',
-      privacyNote: '🔒 Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a>',
+      privacyNote: 'Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a>',
       howH2: 'Så fungerar det',
       howLead: 'Tre steg. Inga formulär, inga konton — bara ett svar du kan lita på.',
       how1h: 'Klistra in — eller beskriv', how1p: 'Köpa? Klistra in annonsen från vilken sajt som helst — Blocket, Marketplace, Tradera. Sälja? Beskriv din pryl. Eller låt tillägget läsa Blocket-annonsen automatiskt.',
@@ -844,8 +844,8 @@
       pricingLead: 'Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.',
       valueNote: 'En snabbkoll kostar från 40 öre. Ett förhastat begagnatköp kostar lätt hundralappar.',
       packUnit: ' krediter', packEach1: '0,99 kr per kredit', packEach2: '0,75 kr per kredit', packEach4: '1,50 kr per kredit',
-      earlyBanner: '🎉 <b>Först ut?</b> De 50 första får <b>Bas-prenumerationen gratis första månaden</b> med koden <code>FORST50</code> — därefter 39 kr/mån, säg upp när som helst.',
-      earlyTag: '🎁 Gratis första månaden för de 50 första (FORST50)',
+      earlyBanner: '<b>Först ut?</b> De 50 första får <b>Bas-prenumerationen gratis första månaden</b> med koden <code>FORST50</code> — därefter 39 kr/mån, säg upp när som helst.',
+      earlyTag: 'Gratis första månaden för de 50 första (FORST50)',
       subUnit: ' krediter/mån', perMo: '/mån',
       subEach1: '0,78 kr per kredit · säg upp när som helst',
       subEach2: '0,40 kr per kredit · säg upp när som helst',
@@ -890,7 +890,7 @@
       helpH2: 'Behöver du hjälp?',
       helpLead: 'Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.',
       helpMailBtn: 'Mejla supporten',
-      cancelNote: '🔓 <b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a>',
+      cancelNote: '<b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a>',
       cancelH: 'Säg upp din prenumeration',
       cancelP: 'Öppna kundportalen, logga in med e-postadressen du använde vid köpet och avsluta med ett klick. Prenumerationen löper då ut vid periodens slut — inga fler dragningar. Ingen bindningstid, ingen uppsägningstid, inga frågor. Krediter du redan fått behåller du för alltid.',
       cancelAlt: 'Föredrar du att vi gör det? <a href="mailto:FyndKollen@protonmail.com?subject=S%C3%A4g%20upp%20prenumeration">Mejla oss</a> så säger vi upp den åt dig.',
@@ -927,7 +927,7 @@
       secondaryCta: 'What does it cost?',
       webCta: 'Analyze or value – free',
       webCtaSub: 'Paste a listing you’re eyeing — or describe what you’re selling. Blocket, Facebook Marketplace, Tradera · mobile or desktop · no account, 5 free analyses.',
-      privacyNote: '🔒 We don\'t store your searches — read our <a href="privacy.html">policy</a>',
+      privacyNote: 'We don\'t store your searches — read our <a href="privacy.html">policy</a>',
       howH2: 'How it works',
       howLead: 'Three steps. No forms, no accounts — just an answer you can trust.',
       how1h: 'Paste — or describe', how1p: 'Buying? Paste the listing from any site — Blocket, Marketplace, Tradera. Selling? Describe your item. Or let the extension read the Blocket listing automatically.',
@@ -943,8 +943,8 @@
       pricingLead: 'The subscription refills your balance every month at a lower per-credit price — and credits never expire, even if you cancel. Prefer topping up yourself? The one-time packs are right below.',
       valueNote: 'A quick check costs from 0.40 kr. One hasty secondhand purchase easily costs hundreds.',
       packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach4: '1.50 kr per credit',
-      earlyBanner: '🎉 <b>Early bird?</b> The first 50 get the <b>Bas plan free for the first month</b> with code <code>FORST50</code> — then 39 kr/mo, cancel anytime.',
-      earlyTag: '🎁 Free first month for the first 50 (FORST50)',
+      earlyBanner: '<b>Early bird?</b> The first 50 get the <b>Bas plan free for the first month</b> with code <code>FORST50</code> — then 39 kr/mo, cancel anytime.',
+      earlyTag: 'Free first month for the first 50 (FORST50)',
       subUnit: ' credits/mo', perMo: '/mo',
       subEach1: '0.78 kr per credit · cancel anytime',
       subEach2: '0.40 kr per credit · cancel anytime',
@@ -989,7 +989,7 @@
       helpH2: 'Need help?',
       helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
       helpMailBtn: 'Email support',
-      cancelNote: '🔓 <b>Cancel anytime</b> — no lock-in, no notice period. Credits you\'ve already received are yours to keep. <a href="#help">How to cancel ›</a>',
+      cancelNote: '<b>Cancel anytime</b> — no lock-in, no notice period. Credits you\'ve already received are yours to keep. <a href="#help">How to cancel ›</a>',
       cancelH: 'Cancel your subscription',
       cancelP: 'Open the customer portal, log in with the email you used at checkout and cancel in one click. The subscription then runs to the end of the current period — no further charges. No lock-in, no notice period, no questions. Credits you\'ve already received are yours forever.',
       cancelAlt: 'Prefer we do it? <a href="mailto:FyndKollen@protonmail.com?subject=Cancel%20subscription">Email us</a> and we\'ll cancel it for you.',
