@@ -734,7 +734,7 @@ async function skAdd(){var nn=prompt('Skill-namn:');if(!nn||!nn.trim())return;aw
 async function skDel(id){if(!confirm('Ta bort denna skill (inkl. milstolpar + streak)?'))return;await call('life_del',{table:'skills',id:id});lifeLoad();}
 
 // ── Content (veckologg + följare + backlog + playbook) ──
-var PLATS=['LinkedIn','X','TikTok','YT'];
+var PLATS=['LinkedIn','X','TikTok','YT','Instagram'];
 function renderContent(){
   var el=document.getElementById('content-body');if(!el)return;
   if(!LIFE.d){el.innerHTML='<span class="muted">Laddar…</span>';return;}
