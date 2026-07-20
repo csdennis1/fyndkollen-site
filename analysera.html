@@ -60,6 +60,13 @@ input[type=text],input[type=number],textarea{width:100%;background:var(--bg);bor
 .mode-tog button.on{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(204,107,44,.3)}
 .ad-box{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-top:10px;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .ad-title{font-weight:800;font-size:15px}
+/* Tier-märke: gratis = uppskattning + uppsäljning; betald = live-marknadskoll (2026-07-20) */
+.tier-note{margin-top:14px;padding:11px 13px;border-radius:12px;font-size:12.5px;line-height:1.5}
+.tier-note.paid{background:rgba(14,159,110,.08);border:1px solid rgba(14,159,110,.28);color:var(--mid)}
+.tier-note.paid b{color:var(--green)}
+.tier-note.free{background:var(--surface);border:1px solid var(--border);color:var(--mid)}
+.tier-note.free .up{display:inline-block;margin-top:6px;font-weight:800;color:var(--accent);text-decoration:none}
+.tier-note.free .up:hover{text-decoration:underline}
 textarea{min-height:130px;resize:vertical;line-height:1.55}
 input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(204,107,44,.13)}
 .dropzone{border:1.6px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;color:var(--muted);font-size:14px}
@@ -228,6 +235,9 @@ var T={
    sellBtn:'Värdera & skriv min annons',lPriceSell:'Vad tänkte du begära? (kr)',lPriceSellS:'— valfritt, vi jämför med marknaden',
    sellAskH:'Begär',sellRange:'Spann',sellAdH:'Din färdiga annons',copyAd:'Kopiera annonstexten',copyTitleBtn:'Kopiera rubriken',
    sellTipsH:'Innan du publicerar',sellOn:'Bäst att sälja på',
+   tierPaidSearched:'Pro-analys · live-marknadskoll',tierPaidGrounded:'Pro-analys · grundad i verifierade slutpriser',
+   tierFree:'Gratis-analys — snabb uppskattning ur vår slutprisdatabas.',
+   tierUpsell:'Vill du ha den mest träffsäkra analysen? Pro-analysen kollar även live-marknaden — särskilt värdefullt för ovanliga varor.',tierUpsellCta:'Skaffa krediter →',
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
@@ -260,6 +270,9 @@ var T={
    sellBtn:'Value it & write my listing',lPriceSell:'What were you thinking of asking? (SEK)',lPriceSellS:'— optional, we compare with the market',
    sellAskH:'Ask',sellRange:'Range',sellAdH:'Your ready-made listing',copyAd:'Copy listing text',copyTitleBtn:'Copy title',
    sellTipsH:'Before you publish',sellOn:'Best place to sell',
+   tierPaidSearched:'Pro analysis · live market check',tierPaidGrounded:'Pro analysis · grounded in verified sold prices',
+   tierFree:'Free analysis — a quick estimate from our sold-price database.',
+   tierUpsell:'Want the most accurate analysis? Pro also checks the live market — especially valuable for uncommon items.',tierUpsellCta:'Get credits →',
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
@@ -392,6 +405,17 @@ function showLoader(){
   return setInterval(function(){if(i>=seq.length)return;var d=$(seq[i][0]),a=$(seq[i][1]);if(d){d.classList.remove('active');d.classList.add('done');d.querySelector('.ic').textContent='✓';}if(a)a.classList.add('active');i++;},2600);
 }
 
+var LAST_TIER=null;
+// Tier-rutan: betald = "Pro · live-marknadskoll" (grön, bekräftar värdet); gratis = uppskattning
+// + ärlig uppsäljning till Pro. Den syns under varje resultat (både köp- och säljläget).
+function tierHtml(){
+  var tr=LAST_TIER||{};
+  if(tr.tier==='paid'){
+    return '<div class="tier-note paid"><b>✓</b> '+esc(tr.searched?t('tierPaidSearched'):t('tierPaidGrounded'))+'</div>';
+  }
+  return '<div class="tier-note free">'+esc(t('tierFree'))+'<br>'+esc(t('tierUpsell'))+
+    ' <a class="up" href="/#pricing">'+esc(t('tierUpsellCta'))+'</a></div>';
+}
 function render(r,price){
   var pos=r.pricePosition;var tier=(pos==='Significantly underpriced'||pos==='Underpriced')?'good':(pos==='Fair'||!pos)?'fair':'over';
   var noPrice=!(price>0);
@@ -423,7 +447,7 @@ function render(r,price){
   if(pts.length){h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><ul>';pts.forEach(function(p){h+='<li>'+esc(p)+'</li>';});h+='</ul>';if(smsg)h+='<div style="font-size:12.5px;color:var(--muted);margin-top:9px">'+t('sellerLabel')+'</div><div class="smsg" id="smsg">'+esc(smsg)+'</div><button class="copybtn" id="copymsg" style="margin-top:10px">'+t('copymsg')+'</button>';h+='</div>';}
   else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
-  h+='</div><button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
+  h+='</div>'+tierHtml()+'<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
   var co=$('copyoffer');if(co)co.onclick=function(){copy(String(co.getAttribute('data-v')),co);};
   var cm=$('copymsg');if(cm)cm.onclick=function(){copy(smsg,cm);};
@@ -466,7 +490,7 @@ function renderSell(r,priceIdea){
   if(r.bestPlatform)h+='<div class="k-sub" style="margin-top:10px">'+t('sellOn')+': <b>'+esc(r.bestPlatform)+'</b></div>';
   var tips=(Array.isArray(r.sellingTips)?r.sellingTips:[]).filter(function(x){return x&&x.trim();}).slice(0,3);
   if(tips.length){h+='<div class="coach" style="margin-top:12px"><div class="coach-h">'+t('sellTipsH')+'</div><ul>';tips.forEach(function(x){h+='<li>'+esc(x)+'</li>';});h+='</ul></div>';}
-  h+='</div><button class="again" id="again">'+t('again')+'</button>';
+  h+='</div>'+tierHtml()+'<button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
   var ct=$('copyadtitle');if(ct)ct.onclick=function(){copy(r.adTitle,ct);};
   var ca=$('copyadtext');if(ca)ca.onclick=function(){copy(r.adText,ca);};
@@ -544,6 +568,7 @@ $('form').addEventListener('submit',async function(e){
     var txt=(data.content||[]).map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
     var s=txt.indexOf('{'),e2=txt.lastIndexOf('}');if(s>=0&&e2>s)txt=txt.slice(s,e2+1);
     var parsed=JSON.parse(txt);
+    LAST_TIER={tier:pj.tier,searched:pj.web_searched}; // tier-märke + gratis-uppsäljning
     if(MODE==='sell'){renderSell(parsed,price);}
     else{derive(parsed,price);render(parsed,price);}
     updateQuota(pj);cfReset();
