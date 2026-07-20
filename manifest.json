@@ -1,0 +1,11 @@
+{
+  "name": "Fyndkollen Panel",
+  "short_name": "Panel",
+  "start_url": "/admin.html",
+  "display": "standalone",
+  "background_color": "#F7F4EF",
+  "theme_color": "#CC6B2C",
+  "icons": [
+    { "src": "/icon128.png", "sizes": "128x128", "type": "image/png" }
+  ]
+}

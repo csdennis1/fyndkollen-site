@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Fyndkollen Admin</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#CC6B2C">
+<link rel="apple-touch-icon" href="/icon128.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <script>(function(){try{if(localStorage.getItem('fk_admin_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800">
@@ -88,6 +93,72 @@ svg.chart{width:100%;height:104px;display:block}
   input,select{font-size:16px} /* under 16px auto-zoomar iOS Safari in vid fokus */
   .si-btn{width:38px;height:38px;font-size:16px} /* större touch-ytor */
   .sched-add .sc-title{flex-basis:100%}}
+/* ── Life Admin Panel: skal (2026-07-20, phone-first 390px) ── */
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:10;display:flex;background:var(--card);border-top:1px solid var(--border);padding-bottom:env(safe-area-inset-bottom)}
+.tabbar button{flex:1;background:none;border:none;font-family:inherit;padding:9px 0 7px;cursor:pointer;color:var(--muted);font-size:10px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:3px}
+.tabbar button .ti{font-size:19px;line-height:1}
+.tabbar button.on{color:var(--accent)}
+.tabwrap{padding-bottom:78px}
+@media(min-width:900px){
+  .tabbar{top:58px;bottom:auto;right:auto;width:184px;flex-direction:column;height:calc(100vh - 58px);border-top:none;border-right:1px solid var(--border);padding:16px 0;justify-content:flex-start}
+  .tabbar button{flex:0 0 auto;flex-direction:row;gap:11px;justify-content:flex-start;padding:12px 24px;font-size:13.5px}
+  .tabwrap{margin-left:184px;padding-bottom:30px}
+}
+/* moduler */
+.ov-hi{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.ov-date{font-size:13px;color:var(--muted);margin-bottom:16px}
+.ov-grid{display:grid;gap:10px;grid-template-columns:1fr 1fr;margin-bottom:20px}
+.proj{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;padding:13px 15px;border:1px solid var(--border);border-radius:13px;background:var(--card);margin-bottom:9px}
+.proj .p-name{font-size:14.5px;font-weight:800}
+.proj .p-line{font-size:12.5px;color:var(--mid);margin-top:2px}
+.proj .p-next{font-size:12.5px;margin-top:6px}.proj .p-next b{color:var(--accent)}
+.proj .p-upd{font-size:10.5px;color:var(--muted);margin-top:5px}
+/* money (kassaboken, portad till panelens tema) */
+.m-hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px}
+.m-hero .h-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.m-hero .h-num{font-size:clamp(34px,9vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.1;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.m-hero .h-num.pos{color:var(--green)}.m-hero .h-num.neg{color:var(--red)}
+.m-hero .h-note{font-size:12.5px;color:var(--mid)}
+.m-bar{display:flex;height:9px;border-radius:6px;overflow:hidden;margin-top:14px;background:var(--surface)}
+.m-bar span{height:100%;transition:width .3s}
+.m-leg{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;font-size:11px;color:var(--muted)}
+.m-leg i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:5px}
+.m-group{background:var(--card);border:1px solid var(--border);border-radius:16px;margin-top:11px;overflow:hidden}
+.m-gh{display:flex;justify-content:space-between;align-items:baseline;padding:13px 16px 10px;border-bottom:1px solid var(--border)}
+.m-gt{font-size:14px;font-weight:700}.m-gs{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums}.m-gs.inc{color:var(--green)}
+.m-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 16px;border-bottom:1px solid var(--surface)}
+.m-row:last-child{border-bottom:none}
+.m-lbl{font-size:13.5px;min-width:0}.m-hint{display:block;font-size:10.5px;color:var(--muted);margin-top:1px}
+.m-in{display:flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px 8px;flex-shrink:0}
+.m-in input{width:72px;text-align:right;background:none;border:none;padding:2px;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums}
+.m-in .u{font-size:11px;color:var(--muted);margin-left:4px}
+.m-add{display:block;width:100%;text-align:left;background:none;border:none;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--accent);padding:10px 16px;cursor:pointer}
+.m-del{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:2px 4px}.m-del:hover{color:var(--red)}
+.m-months{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:12px}
+.m-months b{font-size:15px;font-variant-numeric:tabular-nums}
+/* skills */
+.sk{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:15px 16px;margin-bottom:11px}
+.sk-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sk-name{font-size:15.5px;font-weight:800}
+.sk-streak{font-size:12px;font-weight:700;color:var(--amber);white-space:nowrap}
+.sk-week{margin:10px 0 6px;width:100%;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:var(--surface);font-family:inherit;font-size:13.5px;font-weight:700;color:var(--mid);cursor:pointer}
+.sk-week.on{background:rgba(14,159,110,.12);border-color:var(--green);color:var(--green)}
+.ms{display:flex;align-items:center;gap:10px;padding:7px 2px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.ms .box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border);flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+.ms.done .box{background:var(--green);border-color:var(--green)}
+.ms .t{font-size:13.5px}.ms.done .t{text-decoration:line-through;color:var(--muted)}
+/* content */
+.c-form{display:grid;gap:8px;grid-template-columns:1fr 1fr;background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:11px;margin-bottom:14px}
+.c-form .full{grid-column:1/-1}
+.c-post{padding:10px 2px;border-top:1px solid var(--surface);font-size:13px}
+.c-post .cp-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.c-post .cp-meta{color:var(--muted);font-size:11.5px;margin-top:2px}
+.plat-pill{font-size:10px;font-weight:800;padding:2px 7px;border-radius:5px;background:var(--surface);color:var(--mid)}
+.fo-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--surface)}
+.fo-row .fo-name{font-size:13px;font-weight:700;width:64px}
+.fo-row input{width:84px}
+.fo-row svg{flex:1;height:30px}
+.idea{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:8px 2px;border-top:1px solid var(--surface);font-size:13.5px}
 </style>
 </head>
 <body>
@@ -110,14 +181,29 @@ svg.chart{width:100%;height:104px;display:block}
       Fyndkollen <span class="tag">Admin</span>
     </div>
     <div class="tools">
-      <button class="chip" id="c-today" onclick="setP('today')">Idag</button>
-      <button class="chip on" id="c-7d" onclick="setP('7d')">7 dagar</button>
-      <button class="chip" id="c-30d" onclick="setP('30d')">30 dagar</button>
+      <span id="fk-chips" style="display:none">
+        <button class="chip" id="c-today" onclick="setP('today')">Idag</button>
+        <button class="chip on" id="c-7d" onclick="setP('7d')">7 dagar</button>
+        <button class="chip" id="c-30d" onclick="setP('30d')">30 dagar</button>
+      </span>
       <button class="chip" onclick="toggleTheme()" title="Tema" style="padding:6px 10px">◐</button>
-      <button class="chip" onclick="load()">↻</button>
+      <button class="chip" onclick="load();lifeLoad()">↻</button>
     </div>
   </div>
-  <div class="wrap" id="body"></div>
+  <div class="tabwrap">
+    <div class="tabpane" id="tab-overview"><div class="wrap" id="ov-body"></div></div>
+    <div class="tabpane" id="tab-fk" style="display:none"><div class="wrap" id="body"></div></div>
+    <div class="tabpane" id="tab-money" style="display:none"><div class="wrap" id="money-body"></div></div>
+    <div class="tabpane" id="tab-skills" style="display:none"><div class="wrap" id="skills-body"></div></div>
+    <div class="tabpane" id="tab-content" style="display:none"><div class="wrap" id="content-body"></div></div>
+  </div>
+  <nav class="tabbar">
+    <button id="tb-overview" class="on" onclick="setTab('overview')"><span class="ti">🏠</span>Översikt</button>
+    <button id="tb-fk" onclick="setTab('fk')"><span class="ti">🏷️</span>Fyndkollen</button>
+    <button id="tb-money" onclick="setTab('money')"><span class="ti">💰</span>Money</button>
+    <button id="tb-skills" onclick="setTab('skills')"><span class="ti">🧗</span>Skills</button>
+    <button id="tb-content" onclick="setTab('content')"><span class="ti">📣</span>Content</button>
+  </nav>
 </div>
 
 <script>
@@ -130,7 +216,7 @@ async function call(action, extra){
 async function login(){
   PW=document.getElementById("pw").value;
   var r=await call("data",{period:PERIOD});
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today);startAuto();}
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today);startAuto();lifeLoad();setTab('overview');}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
 async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today);}
@@ -151,6 +237,7 @@ function spark(arr,key){
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
 function render(s,sf,ce,f50,ts,wpv,wap){
+  LAST_STATS=s; // Life-panelens Översikt läser intäkts-KPI:n härifrån
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
   var bytesPerRow=pd.total?q.db_bytes/pd.total:0,rowsPerDay=pd.added_7d/7;
@@ -280,6 +367,7 @@ function render(s,sf,ce,f50,ts,wpv,wap){
   loadSchedule();
   loadKvd();
   loadOrders();
+  renderOverview(); // uppdatera Översiktens FK-kort när färsk statistik kommit
 }
 // Rikare ordervy (2026-07-09): nyckel + e-post + leveransstatus per order — gör panelen
 // till supportverktyget ("kunden mejlade, hittar jag ordern?"). Faller tyst tillbaka på
@@ -504,6 +592,213 @@ async function loadKvd(){
   el.innerHTML=h;
 }
 async function kvdPause(on){var r=await call("set_kvd_paused",{on:on});if(r.status===200)loadKvd();else alert("Fel: "+(r.body.error||r.status));}
+// ═══════════ Life Admin Panel (2026-07-20, life-admin-panel-spec) ═══════════
+// Fem flikar: Översikt / Fyndkollen (befintliga panelen orörd) / Money / Skills / Content.
+// All data i Supabase via admin-fn:s life_*-actions (samma lösenordsauth) → funkar
+// identiskt på mobil och desktop. Phone-first: bottom-tabs <900px, sidebar ≥900px.
+var TAB='overview', LAST_STATS=null;
+function setTab(t){
+  TAB=t;
+  ['overview','fk','money','skills','content'].forEach(function(x){
+    var p=document.getElementById('tab-'+x);if(p)p.style.display=x===t?'':'none';
+    var b=document.getElementById('tb-'+x);if(b)b.classList.toggle('on',x===t);
+  });
+  var fc=document.getElementById('fk-chips');if(fc)fc.style.display=t==='fk'?'':'none';
+  window.scrollTo(0,0);
+}
+var LIFE={month:new Date().toISOString().slice(0,7),d:null};
+async function lifeLoad(){
+  var r=await call('life_get',{month:LIFE.month});
+  if(r.status===200){LIFE.d=r.body;renderOverview();renderMoney();renderSkills();renderContent();}
+}
+function mondayOf(d){var t=new Date(d);var day=(t.getDay()+6)%7;t.setDate(t.getDate()-day);return t.toISOString().slice(0,10);}
+function fmtKr(x){return Math.round(x).toLocaleString('sv-SE')+' kr';}
+
+// ── Översikt ──
+function renderOverview(){
+  var el=document.getElementById('ov-body');if(!el)return;
+  var now=new Date(),h=now.getHours();
+  var hi=h<5?'God natt':h<10?'God morgon':h<18?'Hej':'God kväll';
+  var ds=now.toLocaleDateString('sv-SE',{weekday:'long',day:'numeric',month:'long'});
+  var html='<div class="ov-hi">'+hi+' Dennis 👋</div><div class="ov-date">'+ds.charAt(0).toUpperCase()+ds.slice(1)+'</div>';
+  var wk=mondayOf(new Date());
+  var cards='';
+  cards+='<div class="card"><div class="k-lbl">Fyndkollen intäkt</div><div class="k-val">'+(LAST_STATS?kr(LAST_STATS.kpi.rev_now):'—')+'</div><div class="k-sub">'+plabel()+'</div></div>';
+  var posts=LIFE.d?LIFE.d.posts.filter(function(p){return mondayOf(p.posted_on)===wk;}).length:0;
+  cards+='<div class="card"><div class="k-lbl">Content v.'+isoWeek(now)+'</div><div class="k-val">'+posts+'<span style="font-size:14px;color:var(--muted)">/3</span></div><div class="k-sub">inlägg postade</div></div>';
+  var streaks=0;if(LIFE.d)LIFE.d.skills.forEach(function(s){if(LIFE.d.weeks.some(function(w){return w.skill_id===s.id&&w.week===wk;}))streaks++;});
+  cards+='<div class="card"><div class="k-lbl">Skills denna vecka</div><div class="k-val">'+streaks+'<span style="font-size:14px;color:var(--muted)">/'+(LIFE.d?LIFE.d.skills.length:0)+'</span></div><div class="k-sub">tränade/framsteg</div></div>';
+  var bal=null;
+  if(LIFE.d&&LIFE.d.budget.length){var inc=0,ut=0;LIFE.d.budget.forEach(function(b){if(b.cat==='income')inc+=b.val;else ut+=b.val;});bal=inc-ut;}
+  cards+='<div class="card"><div class="k-lbl">Budget '+LIFE.month+'</div><div class="k-val" style="color:'+(bal===null?'var(--muted)':bal>=0?'var(--green)':'var(--red)')+'">'+(bal===null?'—':(bal<0?'−':'')+fmtKr(Math.abs(bal)))+'</div><div class="k-sub">'+(bal===null?'ingen budget':bal>=0?'kvar denna månad':'ÖVER budget')+'</div></div>';
+  html+='<div class="ov-grid">'+cards+'</div>';
+  html+='<div class="sec-h" style="margin-top:2px">Projekt</div>';
+  if(LIFE.d)LIFE.d.projects.forEach(function(p){
+    html+='<div class="proj"><div style="min-width:0"><div class="p-name">'+escT(p.name)+'</div>'+
+      (p.status_line?'<div class="p-line">'+escT(p.status_line)+'</div>':'')+
+      (p.next_action?'<div class="p-next"><b>Nästa:</b> '+escT(p.next_action)+'</div>':'')+
+      '<div class="p-upd">uppdaterad '+String(p.updated_at||'').slice(0,10)+'</div></div>'+
+      '<button class="si-btn" onclick="projEdit('+p.id+')" title="Redigera">✎</button></div>';
+  });
+  else html+='<span class="muted" style="font-size:12.5px">Laddar…</span>';
+  el.innerHTML=html;
+}
+function isoWeek(d){var t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var day=(t.getUTCDay()+6)%7;t.setUTCDate(t.getUTCDate()-day+3);var y1=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil(((t-y1)/86400000+1)/7);}
+async function projEdit(id){
+  var p=LIFE.d.projects.find(function(x){return x.id===id;});if(!p)return;
+  var s=prompt('Status (en rad):',p.status_line||'');if(s===null)return;
+  var nx=prompt('Nästa handling:',p.next_action||'');if(nx===null)return;
+  await call('life_save',{table:'projects',row:{id:id,status_line:s,next_action:nx}});lifeLoad();
+}
+
+// ── Money (Kassaboken — portad från budget_kth.html, panelens tema) ──
+var mT={};
+function renderMoney(){
+  var el=document.getElementById('money-body');if(!el)return;
+  if(!LIFE.d){el.innerHTML='<span class="muted">Laddar…</span>';return;}
+  var cats={income:[],fixed:[],variable:[]};
+  LIFE.d.budget.forEach(function(it){(cats[it.cat]||[]).push(it);});
+  var inc=cats.income.reduce(function(a,x){return a+x.val;},0);
+  var fx=cats.fixed.reduce(function(a,x){return a+x.val;},0);
+  var vr=cats.variable.reduce(function(a,x){return a+x.val;},0);
+  var bal=inc-fx-vr,base=Math.max(inc,fx+vr,1);
+  var html='<div class="m-months"><button class="si-btn" onclick="mShift(-1)">‹</button><b>'+LIFE.month+'</b><button class="si-btn" onclick="mShift(1)">›</button></div>';
+  html+='<div class="m-hero"><div class="h-lbl">Kvar när allt är betalt</div>'+
+    '<div class="h-num '+(bal>=0?'pos':'neg')+'">'+(bal<0?'−':'')+fmtKr(Math.abs(bal))+'</div>'+
+    '<div class="h-note">'+(bal>=0?'Av <b>'+fmtKr(inc)+'</b> går <b>'+fmtKr(fx+vr)+'</b> åt.':'Underskott — sänk en post eller lägg till inkomst.')+'</div>'+
+    '<div class="h-note" style="margin-top:5px">💚 Sparande denna månad: <b style="color:var(--green)">'+fmtKr(Math.max(0,bal))+'</b></div>'+
+    '<div class="m-bar"><span style="width:'+(100*fx/base)+'%;background:#3B82F6"></span><span style="width:'+(100*vr/base)+'%;background:var(--amber)"></span><span style="width:'+Math.max(0,100-100*fx/base-100*vr/base)+'%;background:var(--green)"></span></div>'+
+    '<div class="m-leg"><span><i style="background:#3B82F6"></i>Fast</span><span><i style="background:var(--amber)"></i>Rörligt</span><span><i style="background:var(--green)"></i>Sparande</span></div></div>';
+  if(!LIFE.d.budget.length)html+='<div class="card" style="text-align:center;margin-top:12px"><div class="mid" style="font-size:13.5px;margin-bottom:10px">Ingen budget för denna månad än.</div><button class="btn pri" onclick="mCopyPrev()">Kopiera från senaste månaden</button></div>';
+  [['income','Inkomst'],['fixed','Fasta kostnader'],['variable','Rörliga kostnader']].forEach(function(g){
+    var items=cats[g[0]],sum=items.reduce(function(a,x){return a+x.val;},0);
+    html+='<div class="m-group"><div class="m-gh"><span class="m-gt">'+g[1]+'</span><span class="m-gs'+(g[0]==='income'?' inc':'')+'">'+(g[0]==='income'?'':'−')+fmtKr(sum)+'</span></div>';
+    items.forEach(function(it){
+      html+='<div class="m-row"><div class="m-lbl" ondblclick="mRename('+it.id+')">'+escT(it.label)+(it.hint?'<span class="m-hint">'+escT(it.hint)+'</span>':'')+'</div>'+
+        '<div style="display:flex;align-items:center;gap:2px"><span class="m-in"><input type="number" inputmode="numeric" value="'+it.val+'" oninput="mVal('+it.id+',this.value)"><span class="u">kr</span></span>'+
+        '<button class="m-del" onclick="mDel('+it.id+')">×</button></div></div>';
+    });
+    html+='<button class="m-add" onclick="mAdd(\''+g[0]+'\')">+ lägg till</button></div>';
+  });
+  html+='<div class="k-sub" style="margin-top:12px">Dubbelklicka en post för att byta namn. Allt sparas automatiskt.</div>';
+  el.innerHTML=html;
+}
+function mVal(id,v){
+  var it=LIFE.d.budget.find(function(x){return x.id===id;});if(!it)return;
+  it.val=parseInt(v)||0;
+  clearTimeout(mT[id]);mT[id]=setTimeout(function(){call('life_save',{table:'budget_items',row:{id:id,val:it.val}});},450);
+  clearTimeout(mT._r);mT._r=setTimeout(function(){if(document.activeElement&&document.activeElement.tagName==='INPUT')return;renderMoney();renderOverview();},900);
+}
+async function mRename(id){var it=LIFE.d.budget.find(function(x){return x.id===id;});var nn=prompt('Namn på posten:',it.label);if(nn===null||!nn.trim())return;await call('life_save',{table:'budget_items',row:{id:id,label:nn.trim()}});lifeLoad();}
+async function mDel(id){if(!confirm('Ta bort posten?'))return;await call('life_del',{table:'budget_items',id:id});lifeLoad();}
+async function mAdd(cat){var nn=prompt('Namn på posten:');if(nn===null||!nn.trim())return;var v=parseInt(prompt('Belopp (kr):','0'))||0;await call('life_save',{table:'budget_items',row:{month:LIFE.month,cat:cat,label:nn.trim(),val:v,sort:99}});lifeLoad();}
+function mShift(dir){var p=LIFE.month.split('-');var d=new Date(+p[0],+p[1]-1+dir,1);LIFE.month=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');lifeLoad();}
+async function mCopyPrev(){
+  var ms=LIFE.d.budget_months.filter(function(m){return m<LIFE.month;}).sort();
+  var src=ms[ms.length-1];if(!src){alert('Ingen tidigare månad att kopiera från.');return;}
+  var r=await call('life_get',{month:src});if(r.status!==200)return;
+  for(var i=0;i<r.body.budget.length;i++){var it=r.body.budget[i];
+    await call('life_save',{table:'budget_items',row:{month:LIFE.month,cat:it.cat,label:it.label,hint:it.hint,val:it.val,sort:it.sort}});}
+  lifeLoad();
+}
+
+// ── Skills (milstolpe-stegar + veckostreaks — noll daglig loggning) ──
+function skStreak(id){
+  var set={};LIFE.d.weeks.forEach(function(w){if(w.skill_id===id)set[w.week]=1;});
+  var cur=mondayOf(new Date()),n2=0;
+  if(!set[cur]){var t=new Date(cur);t.setDate(t.getDate()-7);cur=t.toISOString().slice(0,10);}
+  while(set[cur]){n2++;var t2=new Date(cur);t2.setDate(t2.getDate()-7);cur=t2.toISOString().slice(0,10);}
+  return n2;
+}
+function renderSkills(){
+  var el=document.getElementById('skills-body');if(!el)return;
+  if(!LIFE.d){el.innerHTML='<span class="muted">Laddar…</span>';return;}
+  var wk=mondayOf(new Date()),html='';
+  LIFE.d.skills.forEach(function(s){
+    var on=LIFE.d.weeks.some(function(w){return w.skill_id===s.id&&w.week===wk;});
+    var st=skStreak(s.id);
+    html+='<div class="sk"><div class="sk-h"><span class="sk-name">'+escT(s.name)+'</span><span style="display:flex;gap:6px;align-items:center">'+(st?'<span class="sk-streak">🔥 '+st+' v</span>':'')+'<button class="si-btn" style="width:26px;height:26px;font-size:12px" onclick="skDel('+s.id+')" title="Ta bort">✕</button></span></div>';
+    html+='<button class="sk-week'+(on?' on':'')+'" onclick="skWeek('+s.id+')">'+(on?'✓ Tränat denna vecka':'Tränat/framsteg denna vecka?')+'</button>';
+    LIFE.d.milestones.filter(function(m){return m.skill_id===s.id;}).forEach(function(m){
+      html+='<button class="ms'+(m.done?' done':'')+'" onclick="skMs('+m.id+','+(m.done?'false':'true')+')"><span class="box">'+(m.done?'✓':'')+'</span><span class="t">'+escT(m.label)+'</span></button>';
+    });
+    html+='<button class="m-add" style="padding:8px 2px" onclick="skAddMs('+s.id+')">+ milstolpe</button></div>';
+  });
+  html+='<button class="btn" style="width:100%" onclick="skAdd()">+ Ny skill</button>';
+  el.innerHTML=html;
+}
+async function skWeek(id){await call('life_week_toggle',{skill_id:id,week:mondayOf(new Date())});lifeLoad();}
+async function skMs(id,done){await call('life_save',{table:'skill_milestones',row:{id:id,done:done}});lifeLoad();}
+async function skAddMs(sid){var l=prompt('Milstolpe:');if(!l||!l.trim())return;await call('life_save',{table:'skill_milestones',row:{skill_id:sid,label:l.trim(),sort:99}});lifeLoad();}
+async function skAdd(){var nn=prompt('Skill-namn:');if(!nn||!nn.trim())return;await call('life_save',{table:'skills',row:{name:nn.trim(),sort:99}});lifeLoad();}
+async function skDel(id){if(!confirm('Ta bort denna skill (inkl. milstolpar + streak)?'))return;await call('life_del',{table:'skills',id:id});lifeLoad();}
+
+// ── Content (veckologg + följare + backlog + playbook) ──
+var PLATS=['LinkedIn','X','TikTok','YT'];
+function renderContent(){
+  var el=document.getElementById('content-body');if(!el)return;
+  if(!LIFE.d){el.innerHTML='<span class="muted">Laddar…</span>';return;}
+  var today=new Date().toISOString().slice(0,10),wk=mondayOf(new Date());
+  var html='<div class="sec-h" style="margin-top:2px">Veckologg</div>';
+  html+='<div class="c-form">'+
+    '<input id="cp-date" type="date" value="'+today+'">'+
+    '<select id="cp-plat">'+PLATS.map(function(p){return '<option>'+p+'</option>';}).join('')+'</select>'+
+    '<input id="cp-type" placeholder="Typ (klipp/inlägg…)">'+
+    '<input id="cp-views" type="number" inputmode="numeric" placeholder="Views (valfri)">'+
+    '<input id="cp-link" class="full" placeholder="Länk (valfri)">'+
+    '<input id="cp-notes" class="full" placeholder="Anteckning (valfri)">'+
+    '<button class="btn pri full" onclick="cpAdd()">Logga inlägg</button></div>';
+  var tw=LIFE.d.posts.filter(function(p){return mondayOf(p.posted_on)===wk;}).length;
+  html+='<div class="k-sub" style="margin-bottom:6px">Denna vecka: <b>'+tw+'/3</b></div>';
+  LIFE.d.posts.slice(0,30).forEach(function(p){
+    html+='<div class="c-post"><div class="cp-top"><span><span class="plat-pill">'+escT(p.platform)+'</span> '+escT(p.type||'')+'</span>'+
+      '<span style="display:flex;gap:2px;align-items:center"><span class="muted" style="font-size:11px">'+p.posted_on+'</span>'+
+      '<button class="m-del" onclick="cpEdit('+p.id+')" title="Uppdatera siffror">✎</button><button class="m-del" onclick="cpDel('+p.id+')">×</button></span></div>'+
+      '<div class="cp-meta">'+(p.views!=null?n(p.views)+' views':'—')+(p.likes!=null?' · '+n(p.likes)+' likes':'')+(p.comments!=null?' · '+n(p.comments)+' komm.':'')+
+      (p.link?' · <a href="'+escT(p.link)+'" target="_blank" rel="noopener">länk</a>':'')+(p.notes?'<br>'+escT(p.notes):'')+'</div></div>';
+  });
+  html+='<div class="sec-h">Följare (en siffra/vecka)</div><div class="card">';
+  PLATS.forEach(function(p){
+    var sn=LIFE.d.followers.filter(function(f){return f.platform===p;});
+    var cur=sn.length?sn[sn.length-1].count:'';
+    var pts='';
+    if(sn.length>1){var vals=sn.map(function(x){return x.count;});var mx=Math.max.apply(null,vals),mn=Math.min.apply(null,vals);
+      pts=vals.map(function(v,i){return (i/(vals.length-1)*100).toFixed(1)+','+(28-((v-mn)/Math.max(1,mx-mn))*24).toFixed(1);}).join(' ');}
+    html+='<div class="fo-row"><span class="fo-name">'+p+'</span>'+
+      '<span class="m-in"><input type="number" inputmode="numeric" id="fo-'+p+'" value="'+cur+'" placeholder="antal"></span>'+
+      '<button class="si-btn" onclick="foSave(\''+p+'\')" title="Spara veckans siffra">✓</button>'+
+      (pts?'<svg viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="'+pts+'" fill="none" stroke="var(--accent)" stroke-width="2"/></svg>':'<span style="flex:1"></span>')+'</div>';
+  });
+  html+='</div>';
+  html+='<div class="sec-h">Idé-backlog</div><div class="card">'+
+    '<div style="display:flex;gap:8px"><input id="idea-txt" placeholder="Ny idé…"><button class="btn pri" onclick="ideaAdd()">+</button></div>';
+  LIFE.d.ideas.forEach(function(i2){html+='<div class="idea"><span>'+escT(i2.txt)+'</span><button class="m-del" onclick="ideaArch('+i2.id+')" title="Arkivera">✓</button></div>';});
+  html+='</div>';
+  html+='<div class="sec-h">Playbook</div><div class="card">'+
+    '<details><summary style="cursor:pointer;font-weight:700;font-size:13.5px">📅 Veckorutin</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">Mån — build-in-public (LinkedIn, svenska)<br>Ons — perspektiv-inlägg<br>Tor — TikTok/Shorts-klipp (engelska)<br>Fre — win/fail<br>Varje dag — 10 min kommentering</div></details>'+
+    '<details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700;font-size:13.5px">🚀 Growth-checklista (Fyndkollen)</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">• Svenska FB-grupper/forum med deklaration ("jag har byggt")<br>• 5 kalla DM/dag till aktiva flippare<br>• Free beta-framing<br>• Gratis värderingsverktyg som krok (analysera.html ✓)<br>• Referral-belöningar (finns: ?ref=NYCKEL ger 20 kr)</div></details>'+
+    '<details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700;font-size:13.5px">🧱 Brand-pelare</summary><div class="mid" style="font-size:13px;line-height:1.7;margin-top:8px">Disciplin & transformation · Bygga underskattad · Learning obsession · Flytten till Stockholm</div></details></div>';
+  el.innerHTML=html;
+}
+async function cpAdd(){
+  var d=document.getElementById('cp-date').value;if(!d){alert('Datum saknas');return;}
+  var row={posted_on:d,platform:document.getElementById('cp-plat').value,type:document.getElementById('cp-type').value||null,
+    link:document.getElementById('cp-link').value||null,notes:document.getElementById('cp-notes').value||null};
+  var v=document.getElementById('cp-views').value;if(v!=='')row.views=parseInt(v)||0;
+  await call('life_save',{table:'content_posts',row:row});lifeLoad();
+}
+async function cpEdit(id){
+  var p=LIFE.d.posts.find(function(x){return x.id===id;});if(!p)return;
+  var v=prompt('Views:',p.views==null?'':p.views);if(v===null)return;
+  var l=prompt('Likes:',p.likes==null?'':p.likes);if(l===null)return;
+  var c=prompt('Kommentarer:',p.comments==null?'':p.comments);if(c===null)return;
+  await call('life_save',{table:'content_posts',row:{id:id,views:parseInt(v)||0,likes:parseInt(l)||0,comments:parseInt(c)||0}});lifeLoad();
+}
+async function cpDel(id){if(!confirm('Ta bort inlägget ur loggen?'))return;await call('life_del',{table:'content_posts',id:id});lifeLoad();}
+async function foSave(p){var v=parseInt(document.getElementById('fo-'+p).value);if(isNaN(v))return;await call('life_save',{table:'follower_snapshots',row:{platform:p,week:mondayOf(new Date()),count:v}});lifeLoad();}
+async function ideaAdd(){var t2=document.getElementById('idea-txt').value.trim();if(!t2)return;await call('life_save',{table:'content_ideas',row:{txt:t2}});lifeLoad();}
+async function ideaArch(id){await call('life_save',{table:'content_ideas',row:{id:id,archived:true}});lifeLoad();}
+
 document.getElementById("pw").addEventListener("keydown",function(e){if(e.key==="Enter")login();});
 </script>
 </body>
