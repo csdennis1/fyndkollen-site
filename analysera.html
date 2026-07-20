@@ -6,6 +6,7 @@
      Verdict/vinst/bud beräknas här, identiskt med extension/main.js 936–975. -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<script>(function(){try{if(localStorage.getItem('fk_site_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Analysera en annons – är det ett fynd? | Fyndkollen</title>
 <meta name="description" content="Klistra in en begagnatannons från Blocket, Facebook Marketplace eller Tradera och få direkt besked: fynd, rimligt eller överprissatt — grundat i 17 000+ verifierade slutpriser. Gratis, inget konto."/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Fyndkollen Webbanalys","url":"https://fyndkollen.com/analysera.html","applicationCategory":"ShoppingApplication","operatingSystem":"Web","description":"Klistra in en begagnatannons och få direkt besked: fynd, rimligt eller överprissatt — grundat i verifierade slutpriser.","offers":{"@type":"Offer","price":"0","priceCurrency":"SEK","description":"5 gratisanalyser, inget konto krävs"},"inLanguage":["sv","en"]}</script>
@@ -21,7 +22,9 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#FAF8F4;--surface:#F2ECE3;--card:#fff;--border:#E8E0D4;--text:#1A1712;--mid:#6B5744;--muted:#8A7A63;--accent:#CC6B2C;--accent-h:#B65C22;--green:#0E9F6E;--amber:#D97706;--red:#E02424;--shadow:0 1px 2px rgba(60,40,20,.04),0 8px 28px rgba(60,40,20,.07)}
 :root[data-theme=dark]{--bg:#1C1814;--surface:#252019;--card:#252019;--border:#382f27;--text:#F4EFE7;--mid:#D4Cabb;--muted:#A2937E;--shadow:0 1px 2px rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.35)}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#1C1814;--surface:#252019;--card:#252019;--border:#382f27;--text:#F4EFE7;--mid:#D4Cabb;--muted:#A2937E;--shadow:0 1px 2px rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.35)}}
+/* Ljust som standard (konsekvent med startsidan) — mörkt läge appliceras BARA via
+   [data-theme=dark] om användaren valt det. Följer MEDVETET inte systemets prefers-color-
+   scheme: startsidan gör det inte heller, och auto-mörkt på mobil såg inkonsekvent ut (fix 2026-07-20). */
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none}
@@ -587,7 +590,7 @@ function syncModeTexts(){
 }
 $('mode-buy').addEventListener('click',function(){setMode('buy');applyLang();});
 $('mode-sell').addEventListener('click',function(){setMode('sell');});
-document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){lang=b.getAttribute('data-lang');applyLang();});});
+document.querySelectorAll('.lang-btn').forEach(function(b){b.addEventListener('click',function(){lang=b.getAttribute('data-lang');try{localStorage.setItem('fk_site_lang',lang);}catch(e){}applyLang();});});
 // Exempel-knappen: förifyller ett realistiskt exempel så besökare utan annons (t.ex. från ett
 // klipp) direkt kan se vad verktyget gör. Analysen körs på riktigt (1 kredit av gratiskvoten).
 $('ex-btn').onclick=function(){
@@ -596,7 +599,11 @@ $('ex-btn').onclick=function(){
   $('f-price').value='4200';
   $('btn').scrollIntoView({behavior:'smooth',block:'center'});
 };
-try{if((navigator.language||'').slice(0,2)==='en')lang='en';}catch(e){}
+// Språk: ?lang → tidigare val (delad nyckel fk_site_lang med startsidan) → svenska standard.
+// Byter ALDRIG till engelska bara för att telefonens systemspråk är engelskt — det är en
+// svensk tjänst för svensk publik (buggfix 2026-07-20; matchar sales.html:s logik).
+try{var _ul=new URLSearchParams(location.search).get('lang');var _sv=localStorage.getItem('fk_site_lang');
+  if(_ul==='en'||_ul==='sv')lang=_ul;else if(_sv==='en'||_sv==='sv')lang=_sv;}catch(e){}
 // ── Besöksräknare för webbanalysen (page:'web' → egen mätare pv_web, skild från säljsidan).
 // Fyras FÖRST (fire-and-forget, oberoende av UI-init nedan), ingen PII/cookie/tredjepart.
 // Tidsfönster-guard i localStorage (max en per 30 min) — den gamla sessionStorage-guarden
