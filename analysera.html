@@ -72,6 +72,8 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 
 .dropzone{border:1.6px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;color:var(--muted);font-size:14px}
 .dropzone:hover,.dropzone.drag{border-color:var(--accent);background:rgba(204,107,44,.05);color:var(--accent)}
 .dropzone b{color:var(--accent)}
+.cambtn{display:block;width:100%;margin-top:8px;padding:11px;border:1.4px solid var(--border);border-radius:12px;background:var(--card);color:var(--accent);font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.cambtn:hover{border-color:var(--accent)}
 .imgs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .thumb{position:relative}
 .thumb img{width:60px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block}
@@ -105,6 +107,11 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 
 .vicon{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px}
 .vlabel{font-size:27px;font-weight:900;letter-spacing:-.5px}
 .vsub{font-size:14.5px;color:var(--mid);margin-top:4px}
+.dealscore{text-align:center;margin:10px 0 2px}
+.dealscore .ds-n{font-size:46px;font-weight:800;line-height:1}
+.dealscore .ds-d{font-size:20px;color:var(--muted);font-weight:700}
+.dealscore .ds-l{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
+.warnlist{margin:6px 0 0;padding-left:18px}.warnlist li{margin:2px 0}
 .tiles{display:flex;gap:12px;margin-top:20px}
 .tile{flex:1;text-align:center;background:var(--surface);border-radius:14px;padding:15px 8px}
 .tile .k{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
@@ -192,6 +199,8 @@ footer a{color:var(--mid)}
       <span id="t-drop"><b>Välj foton</b> eller släpp dem här</span>
     </div>
     <input type="file" id="f-imgs" accept="image/*" multiple hidden/>
+    <input type="file" id="f-cam" accept="image/*" capture="environment" hidden/>
+    <button type="button" class="cambtn" id="t-cam" hidden>Ta foto med kameran</button>
     <div class="imgs" id="imgprev"></div>
     <div class="tierline"><span id="t-tier">Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)</span></div>
 
@@ -243,7 +252,7 @@ var T={
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
    lTitle:'Vad är det för vara?',lDesc:'Klistra in annonstexten',lDescS:'— skick, specs, vad som ingår, ålder, mil…',
    lPrice:'Begärt pris (kr)',lPriceS:'— valfritt',lPhotos:'Foton från annonsen',lPhotosS:'— valfritt, ger skickbedömning',
-   drop:'<b>Välj foton</b> eller släpp dem här',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
+   drop:'<b>Välj foton</b> eller släpp dem här',takePhoto:'Ta foto med kameran',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
    lLic:'Licensnyckel',lLicS:'— om du har en',btn:'Analysera annonsen',verifying:'Verifierar…',
    disc:'Fyndkollen ger en uppskattning som stöd för ditt eget beslut — inte en garanti. Vinst/förlust visas kvalitativt, inte som exakt krona.',
    s1:'Identifierar varan',s2:'Kollar marknadspriser',s3:'Uppskattar andrahandsvärde',
@@ -251,7 +260,7 @@ var T={
    below:'{p}% under marknadsvärdet',above:'{p}% över marknadsvärdet',at:'Ungefär marknadspris',
    market:'Marknadsvärde',asking:'Begärt pris',profit:'Vinst',loss:'Förlust',even:'±0',
    condition:'Skick',offer:'Föreslaget öppningsbud',copy:'Kopiera',copied:'Kopierat!',
-   redflag:'Varning',coach:'Förhandlingshjälp',sellerLabel:'Färdigt meddelande till säljaren:',copymsg:'Kopiera meddelande',again:'Analysera en annan annons',shareBtn:'Dela resultatet',
+   redflag:'Varning',warnings:'Varningar',scamRisk:'Ovanligt lågt pris mot marknaden — var vaksam på bluff. Möt lokalt och betala vid hämtning, aldrig i förskott.',dealScoreLbl:'Fynd-poäng',coach:'Förhandlingshjälp',sellerLabel:'Färdigt meddelande till säljaren:',copymsg:'Kopiera meddelande',again:'Analysera en annan annons',shareBtn:'Dela resultatet',
    confHigh:'Hög säkerhet',confMed:'Medel säkerhet',confLow:'Låg säkerhet',basedWeb:'Grundat i marknadsdata + websökning',
    needTitle:'Fyll i vad det är för vara.',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
    quotaWall:'Dina 5 gratiskollar är slut. Köp krediter eller starta en prenumeration för att fortsätta — <a href="/#pricing">se paketen →</a>',
@@ -278,7 +287,7 @@ var T={
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
    lTitle:'What is the item?',lDesc:'Paste the listing text',lDescS:'— condition, specs, what’s included, age, mileage…',
    lPrice:'Asking price (SEK)',lPriceS:'— optional',lPhotos:'Photos from the listing',lPhotosS:'— optional, adds a condition read',
-   drop:'<b>Choose photos</b> or drop them here',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
+   drop:'<b>Choose photos</b> or drop them here',takePhoto:'Take a photo',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
    lLic:'License key',lLicS:'— if you have one',btn:'Analyze listing',verifying:'Verifying…',
    disc:'Fyndkollen gives an estimate to support your own decision — not a guarantee. Profit/loss is shown qualitatively, not as an exact figure.',
    s1:'Identifying the item',s2:'Checking market prices',s3:'Estimating resale value',
@@ -286,7 +295,7 @@ var T={
    below:'{p}% below market',above:'{p}% above market',at:'About market price',
    market:'Market value',asking:'Asking price',profit:'Profit',loss:'Loss',even:'±0',
    condition:'Condition',offer:'Suggested opening offer',copy:'Copy',copied:'Copied!',
-   redflag:'Warning',coach:'Negotiation help',sellerLabel:'Ready message to the seller:',copymsg:'Copy message',again:'Analyze another listing',shareBtn:'Share result',
+   redflag:'Warning',warnings:'Warnings',scamRisk:'Unusually low price vs the market — be cautious of scams. Meet locally and pay on pickup, never in advance.',dealScoreLbl:'Deal score',coach:'Negotiation help',sellerLabel:'Ready message to the seller:',copymsg:'Copy message',again:'Analyze another listing',shareBtn:'Share result',
    confHigh:'High confidence',confMed:'Medium confidence',confLow:'Low confidence',basedWeb:'Grounded in market data + web search',
    needTitle:'Fill in what the item is.',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
    quotaWall:'Your 5 free checks are used up. Buy credits or start a subscription to keep going — <a href="/#pricing">see the packs →</a>',
@@ -303,10 +312,12 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 var CATGUIDE={
  cars:'- Bil: väg samman flera faktorer, inte bara en: MILTAL relativt ÅLDER och biltyp (störst vikt — bruksbil ~1300 mil/år, sport-/veteranbil betydligt mindre; ett miltal nära det förväntade är NORMALT och ska inte sänka värdet); DRIVNING (fyrhjulsdrift ger premie i Sverige); MOTOR (effekt/variant/drivmedel, kända modellfel); VÄXELLÅDA; UTRUSTNING (dragkrok, extra hjulsats, skinn, värmare); servicehistorik + svensksåld = plus. Nämn kamrem/kamkedja BARA om annonsen tar upp det eller modellen har känt problem.\n',
  mc:'- MC/moped/snöskoter/ATV: MILTAL relativt ålder väger tyngst men skalan är lägre än bil (hoj ~300–600 mil/år). Väg in vält/krock, vinterförvaring, service, kedja/däck, om trimmat/ombyggt. Nämn aldrig kamrem.\n',
- boats:'- Båtar: MOTORTIMMAR är största värdefaktorn. Motortyp (utombordare/inombordare/segel), effekt, om TRAILER ingår (höjer värdet), skrovets skick, vinterförvaring.\n',
+ boats:'- Båtar: MOTORTIMMAR är största värdefaktorn (bedöm mot motorns ålder/typ). Motortyp (utombordare/inombordare/segel), effekt, om TRAILER ingår (höjer värdet), skrovmaterial + osmos/sprickor, gelcoat, utrustning (ekolod/plotter/kapell), vinterförvaring/service. Höga timmar, saknad trailer eller fukt/röta sänker.\n',
  watches:'- Klockor: referens-/serienummer om det syns → exakt modell/äkthet. FULLT SET (box+papper/kvitto) höjer värdet 15–30%. Urverk (automatic/quartz), service, eftermarknadsdelar (byte av urtavla/glas/länk) sänker värdet.\n',
- electronics:'- Elektronik: lagring/RAM/generation exakt (styr priset hårt), batterihälsa om angiven, sprickor/repor, om laddare/box/kvitto ingår.\n',
- bikes:'- Cyklar: ELCYKEL → batterihälsa/räckvidd/laddcykler tyngst, sedan motortyp (mittmotor>navmotor; Bosch/Shimano/Yamaha bäst). Vanlig cykel: drivlinans slitage, ramstorlek/material, broms-/växeltyp, märke. Kvitto/stöldmärkning höjer tryggheten.\n'
+ electronics:'- Elektronik: värdet faller snabbt med nyare generationer — väg MODELLGENERATION mot dagens år. Lagring/RAM/generation exakt (styr priset hårt), batterihälsa om angiven, sprickor/repor, om laddare/box/kvitto ingår. Låst operatör/iCloud-/aktiveringslås är en STOR varningsflagga.\n',
+ bikes:'- Cyklar: ELCYKEL → batterihälsa/räckvidd/laddcykler tyngst, sedan motortyp (mittmotor>navmotor; Bosch/Shimano/Yamaha bäst). Vanlig cykel: drivlinans slitage, ramstorlek/material, broms-/växeltyp, märke. Kvitto/stöldmärkning höjer tryggheten.\n',
+ clothing:'- Kläder/skor/väskor: MÄRKESNIVÅ styr mest (premium/lyx håller värde långt bättre än fast fashion). ÄKTHET avgörande på lyx (sömnad, logga, serie-/datumkod, kvitto) — misstänkt kopia sänker kraftigt. SKICK: nyskick/med prislapp ger premie, slitage (nopprighet, fläckar, slitna sulor/klackar) sänker. Vanliga storlekar säljer lättare; säsong och material (skinn/ull/GORE-TEX) påverkar.\n',
+ furniture:'- Möbler/inredning: FORMGIVARE/TILLVERKARE + ÄKTHET styr på designmöbler (märkning/stämpel/modellnamn höjer, repro sänker kraftigt). MATERIAL (massivt trä/teak/ek/skinn > faner/spån) och kvalitet väger tungt. SKICK: repor, fläckar, vattenmärken, nött klädsel sänker; nyrenoverat kan höja. Kompletta set och ovanliga utföranden höjer.\n'
 };
 function buildPrompt(title,desc,price,imgCount){
   var year=new Date().getFullYear();
@@ -391,6 +402,10 @@ function addFiles(list){for(var i=0;i<list.length&&files.length<4;i++){if(list[i
 $('drop').addEventListener('click',function(){$('f-imgs').click();});
 $('drop').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();$('f-imgs').click();}});
 $('f-imgs').addEventListener('change',function(e){addFiles(e.target.files);});
+// Kamera-capture på touch-enheter: öppnar bakkameran direkt (capture ignoreras på desktop → dölj där).
+if('ontouchstart' in window||navigator.maxTouchPoints>0){$('t-cam').hidden=false;}
+$('t-cam').addEventListener('click',function(){$('f-cam').click();});
+$('f-cam').addEventListener('change',function(e){addFiles(e.target.files);});
 ['dragover','dragenter'].forEach(function(ev){$('drop').addEventListener(ev,function(e){e.preventDefault();$('drop').classList.add('drag');});});
 ['dragleave','drop'].forEach(function(ev){$('drop').addEventListener(ev,function(e){e.preventDefault();$('drop').classList.remove('drag');});});
 $('drop').addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.files)addFiles(e.dataTransfer.files);});
@@ -428,9 +443,13 @@ function render(r,price){
   var pLabel=noPrice?'—':profitPos?t('profit'):profitNeg?t('loss'):t('even');
   var range=(r.marketValueLow&&r.marketValueHigh)?fmt(r.marketValueLow)+'–'+fmt(r.marketValueHigh)+' kr':'';
   var cs=r.conditionScore||0;var cColor=cs>=7?'var(--green)':cs>=5?'var(--amber)':'var(--red)';
+  // Fynd-poäng 0–100 (klient-only, ingen AI-kostnad): 0.70×marknad→100, marknad→50, 1.30×→0.
+  var ds=(r.marketValue>0&&price>0)?Math.max(0,Math.min(100,Math.round((1.30-price/r.marketValue)/0.60*100))):null;
+  var dsColor=ds===null?'':ds>=70?'var(--green)':ds>=45?'var(--amber)':'var(--red)';
+  var dsHtml=ds!==null?'<div class="dealscore"><span class="ds-n" style="color:'+dsColor+'">'+ds+'</span><span class="ds-d">/100</span><div class="ds-l">'+t('dealScoreLbl')+'</div></div>':'';
 
   var h='<div class="panel verdict reveal"><div class="vicon" style="background:'+color+';color:#fff">'+icon+'</div>'+
-    '<div class="vlabel" style="color:'+color+'">'+esc(label)+'</div>'+(sub?'<div class="vsub">'+esc(sub)+'</div>':'')+
+    '<div class="vlabel" style="color:'+color+'">'+esc(label)+'</div>'+(sub?'<div class="vsub">'+esc(sub)+'</div>':'')+dsHtml+
     '<div class="tiles"><div class="tile"><div class="k">'+t('market')+'</div><div class="v">'+(r.marketValue?fmt(r.marketValue)+' kr':'—')+'</div>'+(range?'<div class="r">'+range+'</div>':'')+'</div>';
   if(price>0)h+='<div class="tile"><div class="k">'+t('asking')+'</div><div class="v">'+fmt(price)+' kr</div><div class="r" style="color:'+pColor+';font-weight:800">'+pLabel+'</div></div>';
   h+='</div></div>';
@@ -440,7 +459,10 @@ function render(r,price){
   if(cs>0){h+='<div class="meter"><i style="width:'+(cs*10)+'%;background:'+cColor+'"></i></div><div class="meter-lbl"><span>'+t('condition')+(r.conditionLabel?': '+esc(condName(r.conditionLabel)):'')+'</span><span>'+cs+'/10</span></div>';}
   if(r.conditionNotes)h+='<div class="cnotes">'+esc(r.conditionNotes)+'</div>';
   if(r.reasoning)h+='<div class="reason">'+esc(r.reasoning)+'</div>';
-  if(r.redFlag)h+='<div class="flag"><span>⚠</span><div><b>'+t('redflag')+':</b> '+esc(r.redFlag)+'</div></div>';
+  var warns=[];
+  if(r.redFlag)warns.push(esc(r.redFlag));
+  if(price>0&&r.marketValue&&price<r.marketValue*0.55)warns.push(t('scamRisk'));
+  if(warns.length)h+='<div class="flag"><span>⚠</span><div><b>'+t('warnings')+':</b>'+(warns.length===1?' '+warns[0]:'<ul class="warnlist">'+warns.map(function(w){return '<li>'+w+'</li>';}).join('')+'</ul>')+'</div></div>';
   if(r.suggestedOffer&&price>0)h+='<div class="offer"><div><div class="k">'+t('offer')+'</div><div class="o">'+fmt(r.suggestedOffer)+' kr</div></div><button class="copybtn" id="copyoffer" data-v="'+r.suggestedOffer+'">'+t('copy')+'</button></div>';
   var pts=(Array.isArray(r.negotiationPoints)?r.negotiationPoints:[]).filter(function(p){return p&&p.trim();}).slice(0,3);
   var smsg=null;if(typeof r.sellerMessage==='string'&&r.sellerMessage.indexOf('{OFFER}')>=0&&r.suggestedOffer&&price>0)smsg=r.sellerMessage.split('{OFFER}').join(fmt(r.suggestedOffer)+' kr').slice(0,500);
@@ -581,7 +603,7 @@ function updateQuota(pj){var q=$('quota');if(pj&&typeof pj.credits_remaining==='
 // ── language ──
 function applyLang(){
   document.documentElement.lang=lang;
-  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn','ex-btn':'exBtn','t-modeBuy':'modeBuy','t-modeSell':'modeSell'};
+  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn','ex-btn':'exBtn','t-modeBuy':'modeBuy','t-modeSell':'modeSell','t-cam':'takePhoto'};
   // BUGGFIX 2026-07-20: textContent på en label RADERADE dess under-<span> → nästa rad
   // kastade på null och DÖDADE allt efter applyLang() i bootstrap (bl.a. initTurnstile —
   // widgeten har aldrig renderats; ts_pass=0 var symtomet). Nu: byt bara första textnoden
