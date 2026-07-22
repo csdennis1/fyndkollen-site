@@ -215,6 +215,9 @@
   .packs.subs{max-width:660px;margin:0 auto;grid-template-columns:repeat(2,1fr)}
   .per-mo{font-size:13px;font-weight:600;color:var(--muted);letter-spacing:0}
   .early-tag{font-size:11.5px;font-weight:700;color:#2E7D46;margin-top:9px;line-height:1.35}
+  /* Värde-kontrast-ankaret (premium-framing 2026-07-22): misstaget stort, priset mikroskopiskt */
+  #pricing .value-anchor{text-align:center;font-size:16.5px;line-height:1.55;color:var(--dark-mid);max-width:560px;margin:14px auto 6px}
+  #pricing .value-anchor b{color:var(--dark-text)}
   .packs-one-h{text-align:center;font-size:15px;font-weight:700;color:var(--dark-mid);margin:36px 0 16px;position:relative;z-index:1}
   .ref-box{max-width:660px;margin:36px auto 0;text-align:center;border:1.5px solid rgba(255,255,255,.14);border-radius:16px;padding:22px 20px;position:relative;z-index:1}
   .ref-box h3{color:var(--dark-text);font-size:17px;margin-bottom:6px}
@@ -640,7 +643,7 @@
           </div>
         </div>
         <div class="hero-trust">
-          <div><b>17&nbsp;000+</b>&nbsp;<span data-i18n="heroTrust1">verifierade slutpriser</span></div>
+          <div><b>26&nbsp;000+</b>&nbsp;<span data-i18n="heroTrust1">verifierade slutpriser</span></div>
           <div><b>5</b>&nbsp;<span data-i18n="heroTrust2">gratiskrediter direkt</span></div>
           <div><b>0</b>&nbsp;<span data-i18n="heroTrust3">konton krävs</span></div>
         </div>
@@ -699,6 +702,7 @@
   <div class="band-bg" aria-hidden="true"><span class="blob blob-a"></span></div>
   <div class="wrap-wide">
     <h2 data-i18n="pricingH2">Skaffa krediter — prenumerera eller köp engångs</h2>
+    <p class="value-anchor" data-i18n-html="valueAnchor">En felköpt pryl kostar dig lätt <b>en tusenlapp</b>. En värdering kostar <b>från 40 öre</b> — en enda undviken felaffär betalar åratal av kollar.</p>
     <p class="lead" data-i18n="pricingLead">Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.</p>
     <p class="value-note" data-i18n="valueNote">Gratis ger en snabb uppskattning ur vår slutprisdatabas. Krediter och Pro lägger till live-marknadskoll — den mest träffsäkra analysen, särskilt på ovanliga varor. Och en snabbkoll kostar från 40 öre; ett förhastat köp kostar lätt hundralappar.</p>
     <div class="early-banner" data-i18n-html="earlyBanner"><b>Först ut?</b> De 50 första får <b>Bas-prenumerationen gratis första månaden</b> med koden <code>FORST50</code> — därefter 39 kr/mån, säg upp när som helst.</div>
@@ -836,7 +840,7 @@
     <h2 data-i18n="metodH2">Så räknar vi — inga gissningar</h2>
     <p class="lead" data-i18n="metodLead">Värdet bygger på vad saker faktiskt sålts för — inte på utropspriser.</p>
     <ul class="metod-list">
-      <li><b data-i18n="metod1h">Verkliga slutpriser.</b> <span data-i18n="metod1p">Vi grundar värderingen i tusentals verifierade försäljningar — avslutade auktioner — inte i vad säljare begär.</span></li>
+      <li><b data-i18n="metod1h">Verkliga slutpriser.</b> <span data-i18n="metod1p">Vi grundar värderingen i en av Sveriges största databaser av verifierade begagnat-slutpriser — 26 000+ avslutade försäljningar, och den växer varje dag. Aldrig i vad säljare begär.</span></li>
       <li><b data-i18n="metod2h">Vi trimmar extremvärden.</b> <span data-i18n="metod2p">Enstaka skämtbud eller lyxvarianter får inte dra snittet; vi använder ett robust mittvärde.</span></li>
       <li><b data-i18n="metod3h">Vi påverkar aldrig priset.</b> <span data-i18n="metod3p">Vår värdering läser marknaden — den sätter aldrig priset åt en säljare eller köpare.</span></li>
       <li><b data-i18n="metod4h">Du ser bevisen.</b> <span data-i18n="metod4p">Resultatet visar de faktiska försäljningarna bakom siffran — klicka och kontrollera själv.</span></li>
@@ -907,6 +911,7 @@
       f3h: 'Grundat i verklig prisdata', f3p: 'Värderingen grundas i aktuella priser från Blocket, Tradera och Prisjakt — och i ett växande minne av verkliga slutpriser som gör varje analys träffsäkrare än den förra.',
       f4h: 'Rakt prisomdöme + öppningsbud', f4p: 'Du får ett tydligt omdöme om priset, en bedömning av vinstpotentialen — och ett föreslaget öppningsbud med ett färdigt meddelande till säljaren, så du slipper pruta på magkänsla. I tillägget får du dessutom prismärken på annonskorten medan du bläddrar på Blocket.',
       pricingH2: 'Skaffa krediter — prenumerera eller köp engångs',
+      valueAnchor: 'En felköpt pryl kostar dig lätt <b>en tusenlapp</b>. En värdering kostar <b>från 40 öre</b> — en enda undviken felaffär betalar åratal av kollar.',
       pricingLead: 'Prenumerationen fyller på ditt saldo varje månad till lägre kreditpris — och krediterna gäller för alltid, även om du säger upp dig. Vill du hellre fylla på själv? Engångspaketen finns kvar nedanför.',
       valueNote: 'Gratis ger en snabb uppskattning ur vår slutprisdatabas. Krediter och Pro lägger till live-marknadskoll — den mest träffsäkra analysen, särskilt på ovanliga varor. Och en snabbkoll kostar från 40 öre; ett förhastat köp kostar lätt hundralappar.',
       packUnit: ' krediter', packEach1: '0,99 kr per kredit', packEach2: '0,75 kr per kredit', packEach4: '1,50 kr per kredit',
@@ -958,7 +963,7 @@
       helpLead: 'Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.',
       metodH2: 'Så räknar vi — inga gissningar',
       metodLead: 'Värdet bygger på vad saker faktiskt sålts för — inte på utropspriser.',
-      metod1h: 'Verkliga slutpriser.', metod1p: 'Vi grundar värderingen i tusentals verifierade försäljningar — avslutade auktioner — inte i vad säljare begär.',
+      metod1h: 'Verkliga slutpriser.', metod1p: 'Vi grundar värderingen i en av Sveriges största databaser av verifierade begagnat-slutpriser — 26 000+ avslutade försäljningar, och den växer varje dag. Aldrig i vad säljare begär.',
       metod2h: 'Vi trimmar extremvärden.', metod2p: 'Enstaka skämtbud eller lyxvarianter får inte dra snittet; vi använder ett robust mittvärde.',
       metod3h: 'Vi påverkar aldrig priset.', metod3p: 'Vår värdering läser marknaden — den sätter aldrig priset åt en säljare eller köpare.',
       metod4h: 'Du ser bevisen.', metod4p: 'Resultatet visar de faktiska försäljningarna bakom siffran — klicka och kontrollera själv.',
@@ -1019,6 +1024,7 @@
       f3h: 'Grounded market pricing', f3p: 'Estimates real market value from live Blocket, Tradera, and Prisjakt data plus a price memory that sharpens with every appraisal run.',
       f4h: 'A straight price verdict + opening offer', f4p: 'You get a clear price verdict, an estimated resale margin — and a suggested opening offer with a ready-made message to the seller, so you never haggle on gut feeling. In the extension you also get price badges on listing cards as you browse Blocket.',
       pricingH2: 'Get credits — subscribe or buy one-time',
+      valueAnchor: 'One bad purchase easily costs you <b>a thousand kronor</b>. A valuation costs <b>from 0.40 kr</b> — a single avoided mistake pays for years of checks.',
       pricingLead: 'The subscription refills your balance every month at a lower per-credit price — and credits never expire, even if you cancel. Prefer topping up yourself? The one-time packs are right below.',
       valueNote: 'Free gives a quick estimate from our sold-price database. Credits and Pro add a live market check — the most accurate analysis, especially for uncommon items. And a quick check costs from 0.40 kr; one hasty purchase easily costs hundreds.',
       packUnit: ' credits', packEach1: '0.99 kr per credit', packEach2: '0.75 kr per credit', packEach4: '1.50 kr per credit',
@@ -1070,7 +1076,7 @@
       helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
       metodH2: 'How we work it out — no guessing',
       metodLead: 'Value is based on what things actually sold for — not on asking prices.',
-      metod1h: 'Real sold prices.', metod1p: 'We ground the valuation in thousands of verified sales — completed auctions — not in what sellers ask.',
+      metod1h: 'Real sold prices.', metod1p: 'We ground the valuation in one of Sweden's largest databases of verified secondhand sold prices — 26,000+ completed sales, growing daily. Never in what sellers ask.',
       metod2h: 'We trim the extremes.', metod2p: 'A stray joke bid or luxury variant can\'t skew the average; we use a robust median.',
       metod3h: 'We never set the price.', metod3p: 'Our valuation reads the market — it never sets a price for a seller or buyer.',
       metod4h: 'You see the proof.', metod4p: 'The result shows the actual sales behind the number — click and check for yourself.',

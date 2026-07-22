@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <script>(function(){try{if(localStorage.getItem('fk_site_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
 <title>Analysera en annons – är det ett fynd? | Fyndkollen</title>
-<meta name="description" content="Klistra in en begagnatannons från Blocket, Facebook Marketplace eller Tradera och få direkt besked: fynd, rimligt eller överprissatt — grundat i 17 000+ verifierade slutpriser. Gratis, inget konto."/>
+<meta name="description" content="Klistra in en begagnatannons från Blocket, Facebook Marketplace eller Tradera och få direkt besked: fynd, rimligt eller överprissatt — grundat i 26 000+ verifierade slutpriser. Gratis, inget konto."/>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Fyndkollen Webbanalys","url":"https://fyndkollen.com/analysera.html","applicationCategory":"ShoppingApplication","operatingSystem":"Web","description":"Klistra in en begagnatannons och få direkt besked: fynd, rimligt eller överprissatt — grundat i verifierade slutpriser.","offers":{"@type":"Offer","price":"0","priceCurrency":"SEK","description":"5 gratisanalyser, inget konto krävs"},"inLanguage":["sv","en"]}</script>
 <link rel="canonical" href="https://fyndkollen.com/analysera.html"/>
 <meta property="og:title" content="Analysera en annons – är det ett fynd?"/>
@@ -187,7 +187,7 @@ footer a{color:var(--mid)}
     <h1 id="t-h1">Är annonsen ett fynd?</h1>
     <p class="lead" id="t-lead">Klistra in en annons från <b>Blocket, Facebook Marketplace eller Tradera</b> — så får du ett rakt besked: fynd, rimligt eller överprissatt, plus ett förslag på öppningsbud.</p>
     <div class="badges">
-      <span class="badge"><span class="dot"></span><span id="t-b1">17 000+ verifierade slutpriser</span></span>
+      <span class="badge"><span class="dot"></span><span id="t-b1">26 000+ verifierade slutpriser</span></span>
       <span class="badge"><span class="dot"></span><span id="t-b2">5 gratiskollar</span></span>
       <span class="badge"><span class="dot"></span><span id="t-b3">Funkar på mobilen</span></span>
     </div>
@@ -252,7 +252,7 @@ var $=function(id){return document.getElementById(id);};
 var T={
  sv:{navback:'← Startsidan',eyebrow:'Direkt i webbläsaren · inget konto',h1:'Är annonsen ett fynd?',
    lead:'Klistra in en annons — <b>Blocket, Facebook Marketplace eller Tradera</b> — och få ett <b>oberoende</b> besked: fynd, rimligt eller överprissatt, plus ett förslag på öppningsbud. På din sida, inte säljarens.',
-   b1:'17 000+ verifierade slutpriser',b2:'5 gratiskollar',b3:'Funkar på mobilen',
+   b1:'26 000+ verifierade slutpriser',b2:'5 gratiskollar',b3:'Funkar på mobilen',
    exBtn:'Ingen annons till hands? Testa med ett exempel',
    modeBuy:'Köpa — är priset rätt?',modeSell:'Sälja — vad ska jag begära?',
    sellH1:'Vad ska du begära?',
@@ -283,6 +283,7 @@ var T={
    market:'Marknadsvärde',asking:'Begärt pris',profit:'Vinst',loss:'Förlust',even:'±0',
    condition:'Skick',offer:'Föreslaget öppningsbud',copy:'Kopiera',copied:'Kopierat!',
    redflag:'Varning',warnings:'Varningar',scamRisk:'Ovanligt lågt pris mot marknaden — var vaksam på bluff. Möt lokalt och betala vid hämtning, aldrig i förskott.',dealScoreLbl:'Fynd-poäng',coach:'Förhandlingshjälp',sellerLabel:'Färdigt meddelande till säljaren:',copymsg:'Kopiera meddelande',again:'Analysera en annan annons',shareBtn:'Dela resultatet',
+   certBtn:'📄 Spara värderingsintyg',certTitle:'VÄRDERINGSRAPPORT',certVerdictGood:'BRA FYND',certVerdictFair:'RIMLIGT PRIS',certVerdictOver:'ÖVERPRISSATT',certMarket:'Marknadsvärde',certAsking:'Begärt pris',certGrounded:'Grundad i {n} verifierade slutpriser',certScore:'Fynd-poäng',certDisclaimer:'Uppskattning grundad i marknadsdata — inte ett officiellt intyg.',
    confHigh:'Hög säkerhet',confMed:'Medel säkerhet',confLow:'Låg säkerhet',basedWeb:'Grundat i marknadsdata + websökning',
    needTitle:'Fyll i vad det är för vara.',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
    quotaWall:'Dina 5 gratiskollar är slut. Köp krediter eller starta en prenumeration för att fortsätta — <a href="/#pricing">se paketen →</a>',
@@ -324,6 +325,7 @@ var T={
    market:'Market value',asking:'Asking price',profit:'Profit',loss:'Loss',even:'±0',
    condition:'Condition',offer:'Suggested opening offer',copy:'Copy',copied:'Copied!',
    redflag:'Warning',warnings:'Warnings',scamRisk:'Unusually low price vs the market — be cautious of scams. Meet locally and pay on pickup, never in advance.',dealScoreLbl:'Deal score',coach:'Negotiation help',sellerLabel:'Ready message to the seller:',copymsg:'Copy message',again:'Analyze another listing',shareBtn:'Share result',
+   certBtn:'📄 Save valuation report',certTitle:'VALUATION REPORT',certVerdictGood:'GOOD DEAL',certVerdictFair:'FAIR PRICE',certVerdictOver:'OVERPRICED',certMarket:'Market value',certAsking:'Asking price',certGrounded:'Grounded in {n} verified sold prices',certScore:'Deal score',certDisclaimer:'Estimate based on market data — not an official certificate.',
    confHigh:'High confidence',confMed:'Medium confidence',confLow:'Low confidence',basedWeb:'Grounded in market data + web search',
    needTitle:'Fill in what the item is.',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
    quotaWall:'Your 5 free checks are used up. Buy credits or start a subscription to keep going — <a href="/#pricing">see the packs →</a>',
@@ -510,6 +512,56 @@ function sellMktHtml(r){
          '<div class="comps-h">'+t('compsTitle')+'</div>'+
          '<div class="comps-sub">'+t('compsSub')+'</div><div class="comps-row">'+chips+'</div></div>';
 }
+// VÄRDERINGSINTYG (premium-artefakt 2026-07-22): delbart intygskort (1080×1350 PNG) med verdikt-
+// stämpel, marknadsvärde, datagrund och datum. Bevis-light-look. MFL: tydlig disclaimer att det
+// är en uppskattning, aldrig "officiellt". Mobil: native share-sheet; desktop: nedladdning.
+function makeCert(r,price,tier,ds){
+  var W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');
+  var F=function(w,s){return w+' '+s+'px Inter,-apple-system,"Segoe UI",sans-serif';};
+  var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#FAFAF8');g.addColorStop(1,'#F2ECE3');x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.strokeStyle='#E8E0D4';x.lineWidth=2;x.strokeRect(44,44,W-88,H-88);
+  // Header: logga + rapportetikett + datum
+  x.fillStyle='#CC6B2C';x.beginPath();if(x.roundRect)x.roundRect(84,84,36,36,9);else x.rect(84,84,36,36);x.fill();
+  x.fillStyle='#1A1712';x.font=F(800,42);x.textAlign='left';x.fillText('Fyndkollen',136,116);
+  x.fillStyle='#A9521C';x.font=F(700,25);x.textAlign='right';x.fillText(t('certTitle'),W-84,102);
+  x.fillStyle='#786858';x.font=F(600,22);x.fillText(new Date().toLocaleDateString(lang==='sv'?'sv-SE':'en-GB',{year:'numeric',month:'long',day:'numeric'}),W-84,134);
+  // Vara
+  x.textAlign='left';x.fillStyle='#1A1712';x.font=F(800,56);
+  var name=(r.itemName||'').slice(0,34);x.fillText(name,84,230);
+  x.fillStyle='#786858';x.font=F(600,26);x.fillText(catName(r.category||'other'),84,272);
+  x.strokeStyle='#E8E0D4';x.lineWidth=1.5;x.beginPath();x.moveTo(84,308);x.lineTo(W-84,308);x.stroke();
+  // Siffror
+  x.fillStyle='#786858';x.font=F(600,26);x.fillText(t('certMarket'),84,376);
+  x.fillStyle='#1A1712';x.font=F(800,84);x.fillText(fmt(r.marketValue)+' kr',84,462);
+  if(r.marketValueLow&&r.marketValueHigh){x.fillStyle='#786858';x.font=F(600,26);x.fillText(fmt(r.marketValueLow)+'–'+fmt(r.marketValueHigh)+' kr',84,502);}
+  x.fillStyle='#786858';x.font=F(600,26);x.textAlign='right';x.fillText(t('certAsking'),W-84,376);
+  x.fillStyle=tier==='over'?'#D62D2D':'#1A1712';x.font=F(800,84);x.fillText(fmt(price)+' kr',W-84,462);
+  // Datagrund
+  var gnd=LAST_GROUNDING;x.textAlign='left';
+  if(gnd&&gnd.kind==='verified_sold'&&gnd.n>=2){x.fillStyle='#059669';x.font=F(700,26);x.fillText('✓ '+t('certGrounded',{n:gnd.n}),84,580);}
+  // Fynd-poäng
+  if(ds!==null){x.fillStyle='#786858';x.font=F(600,26);x.fillText(t('certScore'),84,690);
+    x.fillStyle=ds>=70?'#059669':ds>=45?'#D97706':'#D62D2D';x.font=F(800,120);x.fillText(ds+'',84,800);
+    var dsw=x.measureText(ds+'').width;
+    x.fillStyle='#C9BDAC';x.font=F(800,54);x.fillText('/100',84+dsw+14,800);}
+  // Stämpel
+  var stampTxt=t(tier==='good'?'certVerdictGood':tier==='over'?'certVerdictOver':'certVerdictFair');
+  var stampCol=tier==='good'?'#047857':tier==='over'?'#D62D2D':'#D97706';
+  x.save();x.translate(W/2+130,960);x.rotate(-0.10);
+  x.font=F(800,86);var tw=x.measureText(stampTxt).width;
+  x.fillStyle=stampCol;x.beginPath();if(x.roundRect)x.roundRect(-tw/2-46,-78,tw+92,150,18);else x.rect(-tw/2-46,-78,tw+92,150);x.fill();
+  x.strokeStyle='rgba(255,255,255,.35)';x.lineWidth=5;x.beginPath();if(x.roundRect)x.roundRect(-tw/2-36,-68,tw+72,130,13);else x.rect(-tw/2-36,-68,tw+72,130);x.stroke();
+  x.fillStyle='#fff';x.textAlign='center';x.fillText(stampTxt,0,32);x.restore();
+  // Footer
+  x.textAlign='center';x.fillStyle='#786858';x.font=F(600,23);x.fillText(t('certDisclaimer'),W/2,H-150);
+  x.fillStyle='#1A1712';x.font=F(800,34);x.fillText('fyndkollen.com',W/2,H-100);
+  c.toBlob(function(b){
+    if(!b)return;
+    var file=new File([b],'fyndkollen-vardering.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){navigator.share({files:[file]}).catch(function(){});}
+    else{var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fyndkollen-vardering.png';a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},5000);}
+  },'image/png');
+}
 // Tier-rutan: betald = "Pro · live-marknadskoll" (grön, bekräftar värdet); gratis = uppskattning
 // + ärlig uppsäljning till Pro. Den syns under varje resultat (både köp- och säljläget).
 function tierHtml(){
@@ -526,7 +578,9 @@ function render(r,price){
   var color=noPrice?'var(--muted)':tier==='good'?'var(--green)':tier==='fair'?'var(--amber)':'var(--red)';
   var icon=noPrice?'≈':tier==='good'?'✓':tier==='fair'?'≈':'!';
   var label=noPrice?t('recNoPrice'):t(tier==='good'?'recGood':tier==='fair'?'recFair':'recOver');
-  var sub='';if(r.marketValue&&price){var diff=Math.round((1-price/r.marketValue)*100);sub=diff>=3?t('below',{p:diff}):diff<=-3?t('above',{p:-diff}):t('at');}
+  // Kronor-gapet i klartext (premium-framing: siffran ÄR värdet av kollen). Prisposition,
+  // inte vinstprognos — den kvalitativa vinst-principen är orörd.
+  var sub='';if(r.marketValue&&price){var diff=Math.round((1-price/r.marketValue)*100);var gap=Math.abs(price-r.marketValue);sub=diff>=3?t('below',{p:diff}):diff<=-3?t('above',{p:-diff}):t('at');if(Math.abs(diff)>=3&&gap>=100)sub+=' · ~'+fmt(gap)+' kr';}
   var profitPos=(r.profit||0)>0,profitNeg=(r.profit||0)<0;
   var pColor=profitPos?'var(--green)':profitNeg?'var(--red)':'var(--muted)';
   var pLabel=noPrice?'—':profitPos?t('profit'):profitNeg?t('loss'):t('even');
@@ -558,9 +612,12 @@ function render(r,price){
   if(pts.length){h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><ul>';pts.forEach(function(p){h+='<li>'+esc(p)+'</li>';});h+='</ul>';if(smsg)h+='<div style="font-size:12.5px;color:var(--muted);margin-top:9px">'+t('sellerLabel')+'</div><div class="smsg" id="smsg">'+esc(smsg)+'</div><button class="copybtn" id="copymsg" style="margin-top:10px">'+t('copymsg')+'</button>';h+='</div>';}
   else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
-  h+='</div>'+compsHtml(r,price)+tierHtml()+'<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
+  h+='</div>'+compsHtml(r,price)+tierHtml()+
+    ((r.marketValue>0&&price>0)?'<button class="again share" id="certbtn">'+t('certBtn')+'</button>':'')+
+    '<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
   var co=$('copyoffer');if(co)co.onclick=function(){copy(String(co.getAttribute('data-v')),co);};
+  var cb=$('certbtn');if(cb)cb.onclick=function(){makeCert(r,price,tier,ds);};
   var cm=$('copymsg');if(cm)cm.onclick=function(){copy(smsg,cm);};
   // Delbart resultat: mobilens native share-sheet (perfekt för gruppchattar), clipboard-fallback
   // på desktop. Endast fakta som redan visas (verdikt/marknadsvärde/begärt) — aldrig exakt vinst.
