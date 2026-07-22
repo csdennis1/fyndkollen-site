@@ -160,6 +160,8 @@
   /* Sections */
   section{padding:40px 0;border-top:1px solid var(--border);position:relative}
   h2{font-size:26px;letter-spacing:-.5px;margin-bottom:8px;text-align:center}
+  .promo-frame{max-width:336px;margin:26px auto 0;border-radius:30px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 12px rgba(60,40,20,.06),0 34px 70px -24px rgba(60,40,20,.22);aspect-ratio:9/16;background:var(--surface)}
+  .promo-vid{width:100%;height:100%;display:block;object-fit:cover}
   .lead{text-align:center;color:var(--mid);max-width:540px;margin:0 auto 30px}
 
   /* Features */
@@ -629,6 +631,16 @@
   </div>
 </div>
 
+<section id="promo">
+  <div class="wrap-wide">
+    <h2 data-i18n="promoH">Se domen på 20 sekunder</h2>
+    <p class="lead" data-i18n="promoSub">Riktiga slutpriser avgör — inte säljarens förhoppning.</p>
+    <div class="promo-frame">
+      <video class="promo-vid" src="promo.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Demonstration: Fyndkollen bedömer en begagnatannons och visar marknadsvärde, verdikt och öppningsbud"></video>
+    </div>
+  </div>
+</section>
+
 <section id="how">
   <div class="wrap-wide">
     <h2 data-i18n="howH2">Så fungerar det</h2>
@@ -832,6 +844,8 @@
       eyebrow: 'Oberoende priskoll för begagnat',
       heroTitle: 'Se om en begagnatannons är ett fynd <span class="hl">innan du slår till</span>',
       heroP: 'Fyndkollen står på köparens sida. Klistra in en annons — Blocket, Facebook Marketplace eller Tradera — och få ett oberoende besked: fynd, rimligt eller för dyrt, plus ett färdigt öppningsbud när det är läge att pruta. Grundat i verkliga slutpriser, inte i säljarens önskepris. Ska du sälja? Då hjälper vi dig där också.',
+      promoH: 'Se domen på 20 sekunder',
+      promoSub: 'Riktiga slutpriser avgör — inte säljarens förhoppning.',
       installBtn: 'Lägg till i Chrome, gratis',
       installSub: 'Föredrar du ett tillägg? Fyndkollen auto-läser Blocket-annonsen du är på — Chrome, Edge, Firefox.',
       secondaryCta: 'Vad kostar det?',
@@ -932,6 +946,8 @@
       eyebrow: 'Independent price check for secondhand',
       heroTitle: 'Know if a listing’s a deal <span class="hl">before you click buy</span>',
       heroP: 'Fyndkollen is on the buyer’s side. Paste a listing — Blocket, Facebook Marketplace or Tradera — and get an independent verdict: good deal, fair, or overpriced, plus a ready-made opening offer when it’s time to haggle. Grounded in real sold prices, not the seller’s wishful price. Selling? We help you there too.',
+      promoH: 'See the verdict in 20 seconds',
+      promoSub: 'Real sold prices decide — not the seller’s wishful thinking.',
       installBtn: 'Add to Chrome',
       installSub: 'Prefer an extension? Fyndkollen auto-reads the Blocket listing you’re on — Chrome, Edge, Firefox.',
       secondaryCta: 'What does it cost?',
