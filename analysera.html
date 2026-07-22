@@ -21,8 +21,8 @@
 <script src="pricedb-web.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#FAF8F4;--surface:#F2ECE3;--card:#fff;--border:#E8E0D4;--text:#1A1712;--mid:#6B5744;--muted:#786858;--accent:#CC6B2C;--accent-h:#B65C22;--green:#0E9F6E;--amber:#D97706;--red:#E02424;--shadow:0 1px 2px rgba(60,40,20,.04),0 8px 28px rgba(60,40,20,.07)}
-:root[data-theme=dark]{--bg:#1C1814;--surface:#252019;--card:#252019;--border:#382f27;--text:#F4EFE7;--mid:#D4Cabb;--muted:#A2937E;--shadow:0 1px 2px rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.35)}
+:root{--bg:#FAF8F4;--surface:#F2ECE3;--card:#fff;--border:#E8E0D4;--text:#1A1712;--mid:#6B5744;--muted:#786858;--accent:#CC6B2C;--accent-text:#B0561B;--accent-h:#B65C22;--green:#0E9F6E;--amber:#D97706;--red:#E02424;--shadow:0 1px 2px rgba(60,40,20,.04),0 8px 28px rgba(60,40,20,.07)}
+:root[data-theme=dark]{--bg:#1C1814;--surface:#252019;--card:#252019;--border:#382f27;--text:#F4EFE7;--mid:#D4Cabb;--muted:#A2937E;--accent-text:#E8935A;--shadow:0 1px 2px rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.35)}
 /* Ljust som standard (konsekvent med startsidan) — mörkt läge appliceras BARA via
    [data-theme=dark] om användaren valt det. Följer MEDVETET inte systemets prefers-color-
    scheme: startsidan gör det inte heller, och auto-mörkt på mobil såg inkonsekvent ut (fix 2026-07-20). */
@@ -37,10 +37,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:22p
 .top-right a{font-size:13px;color:var(--mid)}
 .lang{display:flex;gap:4px}
 .lang-btn{background:none;border:1px solid var(--border);border-radius:8px;padding:5px 10px;font:inherit;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer}
-.lang-btn[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}
+.lang-btn[aria-pressed=true]{background:var(--accent-text);color:#fff;border-color:var(--accent-text)}
 /* hero */
 .hero{text-align:center;padding:16px 0 8px}
-.eyebrow{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);background:rgba(204,107,44,.1);padding:5px 13px;border-radius:20px;margin-bottom:16px}
+.eyebrow{display:inline-block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-text);background:rgba(204,107,44,.1);padding:5px 13px;border-radius:20px;margin-bottom:16px}
 h1{font-size:34px;line-height:1.12;letter-spacing:-.9px;font-weight:900;margin-bottom:12px}
 .hero .lead{font-size:16.5px;color:var(--mid);max-width:520px;margin:0 auto}
 .hero .lead b{color:var(--text);font-weight:700}
@@ -59,7 +59,7 @@ input[type=text],input[type=number],textarea{width:100%;background:var(--bg);bor
 /* Köp/Sälj-växeln (2026-07-20: säljhjälpen — värdering + färdig annonstext) */
 .mode-tog{display:flex;gap:0;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:4px;margin:0 auto 18px;max-width:420px}
 .mode-tog button{flex:1;background:none;border:none;border-radius:10px;padding:11px 8px;font:inherit;font-size:14.5px;font-weight:700;color:var(--mid);cursor:pointer;transition:.15s}
-.mode-tog button.on{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(204,107,44,.3)}
+.mode-tog button.on{background:var(--accent-text);color:#fff;box-shadow:0 2px 8px rgba(204,107,44,.3)}
 .ad-box{background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-top:10px;font-size:14px;line-height:1.6;white-space:pre-wrap;word-break:break-word}
 .ad-title{font-weight:800;font-size:15px}
 /* Tier-märke: gratis = uppskattning + uppsäljning; betald = live-marknadskoll (2026-07-20) */
@@ -73,15 +73,15 @@ textarea{min-height:130px;resize:vertical;line-height:1.55}
 input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(204,107,44,.13)}
 .dropzone{border:1.6px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;color:var(--muted);font-size:14px}
 .dropzone:hover,.dropzone.drag{border-color:var(--accent);background:rgba(204,107,44,.05);color:var(--accent)}
-.dropzone b{color:var(--accent)}
-.cambtn{display:block;width:100%;margin-top:8px;padding:11px;border:1.4px solid var(--border);border-radius:12px;background:var(--card);color:var(--accent);font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.dropzone b{color:var(--accent-text)}
+.cambtn{display:block;width:100%;margin-top:8px;padding:11px;border:1.4px solid var(--border);border-radius:12px;background:var(--card);color:var(--accent-text);font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
 .cambtn:hover{border-color:var(--accent)}
 .imgs{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .thumb{position:relative}
 .thumb img{width:60px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block}
 .thumb button{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;border:2px solid var(--card);font-size:11px;line-height:1;cursor:pointer;padding:0}
 .tierline{font-size:12.5px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:6px}
-.pill{font-weight:700;color:var(--accent)}
+.pill{font-weight:700;color:var(--accent-text)}
 .comps .comps-h{font-weight:800;font-size:15px;color:var(--ink)}
 .comps .comps-sub{font-size:12.5px;color:var(--muted);margin:3px 0 12px}
 .comps-row{display:flex;flex-wrap:wrap;gap:8px}
