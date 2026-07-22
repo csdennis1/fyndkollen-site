@@ -302,6 +302,7 @@ var T={
    disc:'Fyndkollen ger en uppskattning som stöd för ditt eget beslut — inte en garanti. Vinst/förlust visas kvalitativt, inte som exakt krona.',
    s1:'Identifierar varan',s2:'Kollar marknadspriser',s3:'Uppskattar andrahandsvärde',
    recGood:'Bra fynd',recFair:'Rimligt pris',recOver:'Överprissatt',recNoPrice:'Marknadsvärde',
+   recSuspect:'Priset verkar för lågt',suspectSub:'Långt under marknaden — troligen felläst pris, ofullständig annons eller bluff. Dubbelkolla priset (och lägg in det manuellt under "Justera själv") och kör igen.',verify:'Verifiera',
    below:'{p}% under marknadsvärdet',above:'{p}% över marknadsvärdet',at:'Ungefär marknadspris',
    market:'Marknadsvärde',asking:'Begärt pris',profit:'Vinst',loss:'Förlust',even:'±0',
    condition:'Skick',offer:'Föreslaget öppningsbud',copy:'Kopiera',copied:'Kopierat!',
@@ -344,6 +345,7 @@ var T={
    disc:'Fyndkollen gives an estimate to support your own decision — not a guarantee. Profit/loss is shown qualitatively, not as an exact figure.',
    s1:'Identifying the item',s2:'Checking market prices',s3:'Estimating resale value',
    recGood:'Good deal',recFair:'Fair price',recOver:'Overpriced',recNoPrice:'Market value',
+   recSuspect:'This price looks too low',suspectSub:'Far below market — likely a misread price, an incomplete listing, or a scam. Double-check the price (add it manually under "Adjust yourself") and try again.',verify:'Verify',
    below:'{p}% below market',above:'{p}% above market',at:'About market price',
    market:'Market value',asking:'Asking price',profit:'Profit',loss:'Loss',even:'±0',
    condition:'Condition',offer:'Suggested opening offer',copy:'Copy',copied:'Copied!',
@@ -598,19 +600,26 @@ function tierHtml(){
 function render(r,price){
   var pos=r.pricePosition;var tier=(pos==='Significantly underpriced'||pos==='Underpriced')?'good':(pos==='Fair'||!pos)?'fair':'over';
   var noPrice=!(price>0);
-  var color=noPrice?'var(--muted)':tier==='good'?'var(--green)':tier==='fair'?'var(--amber)':'var(--red)';
-  var icon=noPrice?'≈':tier==='good'?'✓':tier==='fair'?'≈':'!';
-  var label=noPrice?t('recNoPrice'):t(tier==='good'?'recGood':tier==='fair'?'recFair':'recOver');
+  // SANITY-GATE (2026-07-22, kritisk): ett pris >65% UNDER marknaden är nästan aldrig ett
+  // riktigt fynd — det är ett felläst/ofullständigt pris eller en bluff. Fira ALDRIG då; flagga
+  // för verifiering. Krävde denna fix efter en bil (84 900 kr felparsat → "Bra fynd 100/100").
+  var suspect=(price>0&&r.marketValue>0&&price<r.marketValue*0.35);
+  if(suspect)tier='suspect';
+  var color=noPrice?'var(--muted)':tier==='good'?'var(--green)':tier==='fair'?'var(--amber)':tier==='suspect'?'var(--amber)':'var(--red)';
+  var icon=noPrice?'≈':tier==='good'?'✓':tier==='fair'?'≈':tier==='suspect'?'?':'!';
+  var label=noPrice?t('recNoPrice'):tier==='suspect'?t('recSuspect'):t(tier==='good'?'recGood':tier==='fair'?'recFair':'recOver');
   // Kronor-gapet i klartext (premium-framing: siffran ÄR värdet av kollen). Prisposition,
   // inte vinstprognos — den kvalitativa vinst-principen är orörd.
-  var sub='';if(r.marketValue&&price){var diff=Math.round((1-price/r.marketValue)*100);var gap=Math.abs(price-r.marketValue);sub=diff>=3?t('below',{p:diff}):diff<=-3?t('above',{p:-diff}):t('at');if(Math.abs(diff)>=3&&gap>=100)sub+=' · ~'+fmt(gap)+' kr';}
+  var sub='';
+  if(suspect){sub=t('suspectSub');}
+  else if(r.marketValue&&price){var diff=Math.round((1-price/r.marketValue)*100);var gap=Math.abs(price-r.marketValue);sub=diff>=3?t('below',{p:diff}):diff<=-3?t('above',{p:-diff}):t('at');if(Math.abs(diff)>=3&&gap>=100)sub+=' · ~'+fmt(gap)+' kr';}
   var profitPos=(r.profit||0)>0,profitNeg=(r.profit||0)<0;
-  var pColor=profitPos?'var(--green)':profitNeg?'var(--red)':'var(--muted)';
-  var pLabel=noPrice?'—':profitPos?t('profit'):profitNeg?t('loss'):t('even');
+  var pColor=suspect?'var(--amber)':profitPos?'var(--green)':profitNeg?'var(--red)':'var(--muted)';
+  var pLabel=noPrice?'—':suspect?t('verify'):profitPos?t('profit'):profitNeg?t('loss'):t('even');
   var range=(r.marketValueLow&&r.marketValueHigh)?fmt(r.marketValueLow)+'–'+fmt(r.marketValueHigh)+' kr':'';
   var cs=r.conditionScore||0;var cColor=cs>=7?'var(--green)':cs>=5?'var(--amber)':'var(--red)';
   // Fynd-poäng 0–100 (klient-only, ingen AI-kostnad): 0.70×marknad→100, marknad→50, 1.30×→0.
-  var ds=(r.marketValue>0&&price>0)?Math.max(0,Math.min(100,Math.round((1.30-price/r.marketValue)/0.60*100))):null;
+  var ds=(!suspect&&r.marketValue>0&&price>0)?Math.max(0,Math.min(100,Math.round((1.30-price/r.marketValue)/0.60*100))):null;
   var dsColor=ds===null?'':ds>=70?'var(--green)':ds>=45?'var(--amber)':'var(--red)';
   var dsHtml=ds!==null?'<div class="dealscore"><span class="ds-n" style="color:'+dsColor+'">'+ds+'</span><span class="ds-d">/100</span><div class="ds-l">'+t('dealScoreLbl')+'</div></div>':'';
 
@@ -632,7 +641,7 @@ function render(r,price){
   if(r.redFlag)warns.push(esc(r.redFlag));
   if(price>0&&r.marketValue&&price<r.marketValue*0.55)warns.push(t('scamRisk'));
   if(warns.length)h+='<div class="flag"><span>⚠</span><div><b>'+t('warnings')+':</b>'+(warns.length===1?' '+warns[0]:'<ul class="warnlist">'+warns.map(function(w){return '<li>'+w+'</li>';}).join('')+'</ul>')+'</div></div>';
-  if(r.suggestedOffer&&price>0)h+='<div class="offer"><div><div class="k">'+t('offer')+'</div><div class="o">'+fmt(r.suggestedOffer)+' kr</div></div><button class="copybtn" id="copyoffer" data-v="'+r.suggestedOffer+'">'+t('copy')+'</button></div>';
+  if(r.suggestedOffer&&price>0&&!suspect)h+='<div class="offer"><div><div class="k">'+t('offer')+'</div><div class="o">'+fmt(r.suggestedOffer)+' kr</div></div><button class="copybtn" id="copyoffer" data-v="'+r.suggestedOffer+'">'+t('copy')+'</button></div>';
   var pts=(Array.isArray(r.negotiationPoints)?r.negotiationPoints:[]).filter(function(p){return p&&p.trim();}).slice(0,3);
   var smsg=null;if(typeof r.sellerMessage==='string'&&r.sellerMessage.indexOf('{OFFER}')>=0&&r.suggestedOffer&&price>0)smsg=r.sellerMessage.split('{OFFER}').join(fmt(r.suggestedOffer)+' kr').slice(0,500);
   if(pts.length){h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><ul>';pts.forEach(function(p){h+='<li>'+esc(p)+'</li>';});h+='</ul>';if(smsg)h+='<div style="font-size:12.5px;color:var(--muted);margin-top:9px">'+t('sellerLabel')+'</div><div class="smsg" id="smsg">'+esc(smsg)+'</div><button class="copybtn" id="copymsg" style="margin-top:10px">'+t('copymsg')+'</button>';h+='</div>';}
@@ -640,7 +649,7 @@ function render(r,price){
   if(moreHtml)h+='<details class="rdetails"><summary>'+t('rMore')+'</summary>'+moreHtml+'</details>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
   h+='</div>'+compsHtml(r,price)+tierHtml()+
-    ((r.marketValue>0&&price>0)?'<button class="again share" id="certbtn">'+t('certBtn')+'</button>':'')+
+    ((r.marketValue>0&&price>0&&!suspect)?'<button class="again share" id="certbtn">'+t('certBtn')+'</button>':'')+
     '<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
   var co=$('copyoffer');if(co)co.onclick=function(){copy(String(co.getAttribute('data-v')),co);};
@@ -735,7 +744,15 @@ $('form').addEventListener('submit',async function(e){
   if(!title&&desc){var _ln=desc.split('\n').map(function(s){return s.trim();}).filter(Boolean);title=(_ln[0]||'').slice(0,80);}
   if(!title){showMsg(t('needTitle'),'err');return;}
   var price=parseInt($('f-price').value,10);if(!(price>0))price=0;
-  if(!price&&desc){var _pm=desc.match(/(\d[\d\s .,]{0,9}\d|\d)\s*(?:kr\b|sek\b|:-)/i);if(_pm){var _pv=parseInt(_pm[1].replace(/[^\d]/g,''),10);if(_pv>0&&_pv<10000000)price=_pv;}}
+  if(!price&&desc){
+    var _pv=0;
+    // Foredra ETIKETTMARKT pris (Totalt pris/Pris:/Begart/Saljes for).  hindrar att "pris"
+    // i "nypris" traffar (fel ankare). Fixat 2026-07-22 efter bil-annons 84900->1834 falsk fynd.
+    var _lab=desc.match(/(?:totalts+pris|utropspris|begärts+pris|(?:säljes|säljs)s+för|pris)s*[:-–]?s*(d[ds.,]{0,9}d|d)s*(?:kr|sek|:-)?/i);
+    if(_lab)_pv=parseInt(_lab[1].replace(/[^d]/g,""),10);
+    if(!(_pv>0)){var _pm=desc.match(/(d[ds.,]{0,9}d|d)s*(?:kr|sek|:-)/i);if(_pm)_pv=parseInt(_pm[1].replace(/[^d]/g,""),10);}
+    if(_pv>0&&_pv<100000000)price=_pv;
+  }
   var licRaw=$('f-lic').value.trim();
   if(licRaw&&!LICENSE_RE.test(licRaw)){showMsg(t('badLic'),'err');return;}
   // Turnstile only for free-tier (no license). Vänta in att widgeten löst (cfState='ready')
