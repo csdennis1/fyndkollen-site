@@ -89,7 +89,9 @@ a.comp:hover{border-color:var(--accent);transform:translateY(-1px)}
 .comp-nolink{color:var(--mid);cursor:default}
 .mkt{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14.5px;color:var(--ink)}
 .mkt-i{font-size:17px;line-height:1}
-.mkt-lev{font-size:13px;color:var(--mid);line-height:1.5;margin:6px 0 14px;padding-left:25px}
+.mkt-lev{font-size:13px;color:var(--mid);line-height:1.5;margin:6px 0 10px;padding-left:25px}
+.mkt-trend{font-size:13px;font-weight:700;line-height:1.5;margin:0 0 14px;padding-left:25px;display:flex;gap:6px;align-items:baseline}
+.mkt-trend.td{color:var(--green)}.mkt-trend.tu{color:var(--accent)}
 .cta{display:block;width:100%;background:var(--accent);color:#fff;font-weight:800;font-size:16.5px;padding:16px;border:none;border-radius:14px;margin-top:22px;cursor:pointer;transition:background .15s,transform .08s;letter-spacing:.01em}
 .cta:hover{background:var(--accent-h)}
 .cta:active{transform:translateY(1px)}
@@ -260,6 +262,9 @@ var T={
    compsTitle:'Vad liknande faktiskt gick för',compsSub:'Verkliga slutpriser bakom värderingen — klicka för att se auktionen.',
    liqHigh:'Säljs ofta — {n} verifierade försäljningar senaste ~4 mån',liqMed:'Säljs regelbundet — {n} verifierade försäljningar senaste ~4 mån',liqLow:'Ovanlig vara — {n} verifierade försäljningar senaste ~4 mån',
    levStrong:'Bra förhandlingsläge: varan säljs ofta och den här ligger över typiskt slutpris — pruta med stöd i siffrorna.',levFair:'Priset ligger nära det typiska slutpriset — men testa gärna ett lägre bud ändå.',levRare:'Färre jämförelser gör priset svårare att pressa — men varan är också svårare att hitta någon annanstans.',
+   trendDown:'Priset har fallit ~{p}% de senaste månaderna — läge att bjuda under.',trendUp:'Priset har stigit ~{p}% de senaste månaderna — vänta inte för länge om du vill ha den.',
+   sellLiqHigh:'Säljs ofta ({n} sålda senaste ~4 mån) — lätt att sälja, prissätt självsäkert nära marknaden.',sellLiqMed:'Säljs regelbundet ({n} sålda senaste ~4 mån) — sätt ett marknadsmässigt pris så går det undan.',sellLiqLow:'Ovanlig vara ({n} sålda senaste ~4 mån) — färre köpare, men rätt köpare kan betala bra. Ha tålamod.',
+   sellTrendDown:'Priset faller (~{p}% senaste månaderna) — sälj hellre förr än senare.',sellTrendUp:'Priset stiger (~{p}% senaste månaderna) — du har medvind.',
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
@@ -298,6 +303,9 @@ var T={
    compsTitle:'What similar ones actually sold for',compsSub:'Real sold prices behind the valuation — click to see the auction.',
    liqHigh:'Sells often — {n} verified sales in the last ~4 months',liqMed:'Sells regularly — {n} verified sales in the last ~4 months',liqLow:'Uncommon item — {n} verified sales in the last ~4 months',
    levStrong:'Good bargaining position: it sells often and this one is above the typical sold price — haggle with the numbers on your side.',levFair:'The price is close to the typical sold price — but it never hurts to offer a bit less.',levRare:'Fewer comparisons make the price harder to push down — but the item is also harder to find elsewhere.',
+   trendDown:'Price has fallen ~{p}% over recent months — room to offer below asking.',trendUp:'Price has risen ~{p}% over recent months — don\'t wait too long if you want it.',
+   sellLiqHigh:'Sells often ({n} sold in the last ~4 months) — easy to sell, price confidently near market.',sellLiqMed:'Sells regularly ({n} sold in the last ~4 months) — set a market price and it\'ll move.',sellLiqLow:'Uncommon item ({n} sold in the last ~4 months) — fewer buyers, but the right one may pay well. Be patient.',
+   sellTrendDown:'Price is falling (~{p}% in recent months) — sell sooner rather than later.',sellTrendUp:'Price is rising (~{p}% in recent months) — the wind is at your back.',
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
@@ -458,6 +466,12 @@ function compsHtml(r,price){
     else if(price>r.marketValue*1.05)lev=t('levStrong');
     else lev=t('levFair');
   } else if(n<6){lev=t('levRare');}
+  // Prisutveckling (köpar-hävstång): fallande pris = starkt argument att bjuda under.
+  var trendHtml='';
+  if(g.trend&&g.trend.pct){
+    var down=g.trend.dir==='down';
+    trendHtml='<div class="mkt-trend '+(down?'td':'tu')+'"><span>'+(down?'↘':'↗')+'</span> '+esc(t(down?'trendDown':'trendUp',{p:g.trend.pct}))+'</div>';
+  }
   var chips=g.samples.map(function(s){
     var lbl=fmt(s.price)+' kr';
     return s.url?'<a class="comp" href="'+esc(s.url)+'" target="_blank" rel="noopener nofollow">'+lbl+' <span class="ext">↗</span></a>'
@@ -465,7 +479,30 @@ function compsHtml(r,price){
   }).join('');
   return '<div class="panel comps reveal">'+
          '<div class="mkt"><span class="mkt-i">'+liqIcon+'</span><span class="mkt-t">'+t(liqKey,{n:n})+'</span></div>'+
-         (lev?'<div class="mkt-lev">'+esc(lev)+'</div>':'')+
+         (lev?'<div class="mkt-lev">'+esc(lev)+'</div>':'')+trendHtml+
+         '<div class="comps-h">'+t('compsTitle')+'</div>'+
+         '<div class="comps-sub">'+t('compsSub')+'</div><div class="comps-row">'+chips+'</div></div>';
+}
+// Säljlägets marknadspanel: samma äkta data, men vinklad för SÄLJAREN (hur snabbt det säljs +
+// prisstrategi + trend). Likviditeten säger säljaren hur lätt/svårt varan går att sälja.
+function sellMktHtml(r){
+  var g=LAST_GROUNDING;
+  if(!g||g.kind!=='verified_sold'||!Array.isArray(g.samples)||g.samples.length<2)return '';
+  var n=g.n||g.samples.length;
+  var liqKey=n>=15?'sellLiqHigh':n>=6?'sellLiqMed':'sellLiqLow';
+  var liqIcon=n>=15?'🔁':n>=6?'📊':'💎';
+  var trendHtml='';
+  if(g.trend&&g.trend.pct){
+    var down=g.trend.dir==='down';
+    trendHtml='<div class="mkt-trend '+(down?'tu':'td')+'"><span>'+(down?'↘':'↗')+'</span> '+esc(t(down?'sellTrendDown':'sellTrendUp',{p:g.trend.pct}))+'</div>';
+  }
+  var chips=g.samples.map(function(s){
+    var lbl=fmt(s.price)+' kr';
+    return s.url?'<a class="comp" href="'+esc(s.url)+'" target="_blank" rel="noopener nofollow">'+lbl+' <span class="ext">↗</span></a>'
+                :'<span class="comp comp-nolink">'+lbl+'</span>';
+  }).join('');
+  return '<div class="panel comps reveal">'+
+         '<div class="mkt"><span class="mkt-i">'+liqIcon+'</span><span class="mkt-t">'+t(liqKey,{n:n})+'</span></div>'+trendHtml+
          '<div class="comps-h">'+t('compsTitle')+'</div>'+
          '<div class="comps-sub">'+t('compsSub')+'</div><div class="comps-row">'+chips+'</div></div>';
 }
@@ -553,6 +590,7 @@ function renderSell(r,priceIdea){
   if(r.reasoning)h+='<div class="reason">'+esc(r.reasoning)+'</div>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
   h+='</div>';
+  h+=sellMktHtml(r);
   // Den färdiga annonsen
   h+='<div class="panel reveal"><div class="coach-h" style="font-weight:800;font-size:15px;margin-bottom:8px">'+t('sellAdH')+'</div>';
   if(r.adTitle)h+='<div class="ad-box ad-title" id="ad-title-box">'+esc(r.adTitle)+'</div><button class="copybtn" id="copyadtitle" style="margin-top:8px">'+t('copyTitleBtn')+'</button>';
