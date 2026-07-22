@@ -162,6 +162,8 @@
   h2{font-size:26px;letter-spacing:-.5px;margin-bottom:8px;text-align:center}
   .promo-frame{max-width:336px;margin:26px auto 0;border-radius:30px;overflow:hidden;border:1px solid var(--border);box-shadow:0 4px 12px rgba(60,40,20,.06),0 34px 70px -24px rgba(60,40,20,.22);aspect-ratio:9/16;background:var(--surface)}
   .promo-vid{width:100%;height:100%;display:block;object-fit:cover}
+  .promo-cta{display:inline-flex;align-items:center;gap:7px;margin-top:22px;font-weight:700;font-size:15px;color:var(--accent-text);text-decoration:none;border:1.5px solid var(--border);border-radius:100px;padding:11px 24px;transition:border-color .15s,background .15s}
+  .promo-cta:hover{border-color:var(--accent);background:rgba(204,107,44,.06)}
   .lead{text-align:center;color:var(--mid);max-width:540px;margin:0 auto 30px}
 
   /* Features */
@@ -250,11 +252,21 @@
   #pricing .wrap-wide{position:relative;z-index:1}
 
   /* FAQ */
-  .faq{max-width:580px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
-  .faq h3{font-size:15px;margin-bottom:3px}
-  .faq p{font-size:14px;color:var(--mid)}
-  .faq p a{color:#A9521C;text-decoration:underline;text-underline-offset:2px}
-  :root[data-theme=dark] .faq p a{color:var(--accent)}
+  /* Minimalistisk FAQ-accordion: klicka på frågan för att fälla ut svaret (native <details>) */
+  .faq{max-width:600px;margin:0 auto;display:flex;flex-direction:column;gap:0}
+  .faq-item{border-bottom:1px solid var(--border)}
+  .faq-item summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 2px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary h3{font-size:15.5px;margin:0;font-weight:700;line-height:1.4}
+  .faq-item summary::after{content:'+';font-size:26px;line-height:1;font-weight:400;color:var(--accent-text);flex-shrink:0;transition:transform .2s ease}
+  .faq-item[open] summary::after{content:'−'}
+  .faq-item summary:hover h3{color:var(--accent-text)}
+  .faq-a{padding:0 2px 20px}
+  .faq-a p{font-size:14px;color:var(--mid);margin:0}
+  .faq-item[open] .faq-a{animation:faqReveal .24s ease}
+  @keyframes faqReveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+  .faq-a p a{color:#A9521C;text-decoration:underline;text-underline-offset:2px}
+  :root[data-theme=dark] .faq-a p a{color:var(--accent)}
 
   /* Suggest-a-feature */
   .suggest-form{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
@@ -521,9 +533,9 @@
 
     /* ---------- FAQ: two-column layout to use the width ---------- */
     #faq h2, #faq .lead{text-align:center;margin-left:auto;margin-right:auto}
-    .faq{max-width:900px;display:grid;grid-template-columns:1fr 1fr;gap:28px 40px;position:relative;z-index:1}
-    .faq > div{padding-bottom:4px}
-    .faq h3{font-size:16.5px}
+    .faq{max-width:680px;position:relative;z-index:1}
+    .faq-item summary{padding:20px 2px}
+    .faq-item summary h3{font-size:16.5px}
 
     /* ---------- Card hover feedback (features + pricing) ---------- */
     .card{transition:background .15s}
@@ -638,6 +650,7 @@
     <div class="promo-frame">
       <video class="promo-vid" src="promo.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Demonstration: Fyndkollen bedömer en begagnatannons och visar marknadsvärde, verdikt och öppningsbud"></video>
     </div>
+    <div style="text-align:center"><a class="promo-cta" href="analysera.html" data-i18n="promoCta">Analysera din annons – gratis →</a></div>
   </div>
 </section>
 
@@ -759,23 +772,23 @@
   <div class="wrap-wide">
     <h2 data-i18n="faqH2">Vanliga frågor</h2>
     <div class="faq">
-      <div><h3 data-i18n="q1h">Hur aktiverar jag min licensnyckel efter köp?</h3><p data-i18n-html="q1p">Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka på Aktivera — krediterna laddas in direkt. Ingen ominstallation krävs.</p></div>
-      <div><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3><p data-i18n="q2p">Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons går svaret blixtsnabbt att hämta ur vårt prisminne — men det kostar fortfarande en kredit, precis som en ny analys. Krediterna gäller för alltid.</p></div>
-      <div><h3 data-i18n="q3h">Om jag köper fler krediter senare, försvinner de gamla?</h3><p data-i18n="q3p">Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.</p></div>
-      <div><h3 data-i18n="q4h">Vad är skillnaden mellan snabbkollen och fotoanalysen?</h3><p data-i18n="q4p">Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.</p></div>
-      <div><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3><p data-i18n-html="q5p">Testa gratis först — 5 gratiskrediter ingår utan kort. Efter köp har du 14 dagars ångerrätt: oanvända krediter återbetalas fullt ut, förbrukade räknas som använd tjänst. Mejla oss så ordnar vi det. Detaljer i <a href="villkor.html">köpvillkoren</a>.</p></div>
-      <div><h3 data-i18n="q6h">Vilka webbläsare och enheter fungerar det på?</h3><p data-i18n="q6p">Fyndkollen finns för Chrome, Edge och Firefox på datorn — och för Firefox på Android i mobilen. Installationsknapparna här på sidan tar dig automatiskt till rätt butik för din webbläsare.</p></div>
-      <div><h3 data-i18n="q7h">Varför behöver tillägget läsa Blocket-sidan?</h3><p data-i18n="q7p">För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.</p></div>
-      <div><h3 data-i18n="q8h">Behöver jag vara uppkopplad?</h3><p data-i18n="q8p">Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.</p></div>
-      <div><h3 data-i18n="q9h">Betalningen drogs men inget mejl kom — var är min nyckel?</h3><p data-i18n-html="q9p">Kolla skräpposten och sök på <code>FS-</code> i inkorgen — nyckeln skickas normalt inom några minuter. Hittar du den ändå inte: mejla oss från e-postadressen du använde vid köpet, så skickar vi om den direkt.</p></div>
-      <div><h3 data-i18n="q10h">Jag har tappat bort min licensnyckel</h3><p data-i18n="q10p">Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.</p></div>
-      <div><h3 data-i18n="q11h">Byta dator eller installera om?</h3><p data-i18n="q11p">Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.</p></div>
-      <div><h3 data-i18n="q12h">Kan jag få ett kvitto?</h3><p data-i18n="q12p">Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.</p></div>
-      <div><h3 data-i18n="q13h">Hur fungerar prenumerationen — och hur säger jag upp den?</h3><p data-i18n="q13p">Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst i kundportalen (knappen finns i hjälpavsnittet nedan och i ditt Stripe-kvitto) — eller mejla oss från din köp-e-post. Prenumerationen löper då ut vid periodens slut, inga fler dragningar. Ingen bindningstid.</p></div>
-      <div><h3 data-i18n="q14h">Vad händer med mina krediter om jag säger upp prenumerationen?</h3><p data-i18n="q14p">Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.</p></div>
-      <div><h3 data-i18n="q15h">Hur fungerar "värva en vän"?</h3><p data-i18n="q15p">Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.</p></div>
-      <div><h3 data-i18n="q16h">Skyddar Fyndkollen mot bluffannonser?</h3><p data-i18n="q16p">Nej — Fyndkollen värderar pris och skick, den kan inte avgöra om en säljare är ärlig. Men ett orealistiskt lågt pris jämfört med marknadsvärdet syns direkt i analysen, och det är en av de vanligaste bluffsignalerna. Följ alltid Blockets egna säkerhetsråd, och betala aldrig i förskott till någon du inte litar på.</p></div>
-      <div><h3 data-i18n="q17h">Blocket har ju en egen AI nu — varför Fyndkollen?</h3><p data-i18n="q17p">Blockets AI hjälper säljaren att skriva sin annons och sätta ett pris — och marknadsplatsen tjänar på att fler affärer blir av. Fyndkollen står i stället på köparens sida: ett oberoende besked om annonsen är rimlig, grundat i verkliga slutpriser, inte i säljarens önskepris. Vi funkar dessutom på vilken sajt som helst — Marketplace och Tradera lika väl som Blocket — och hjälper dig även när du själv säljer.</p></div>
+      <details class="faq-item"><summary><h3 data-i18n="q1h">Hur aktiverar jag min licensnyckel efter köp?</h3></summary><div class="faq-a"><p data-i18n-html="q1p">Efter köpet får du en licensnyckel via e-post. Öppna Fyndkollen-tilläggets popup, klistra in nyckeln i rutan "Fyndkollen Pro" och klicka på Aktivera — krediterna laddas in direkt. Ingen ominstallation krävs.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q2h">Hur fungerar krediter och cachning?</h3></summary><div class="faq-a"><p data-i18n="q2p">Snabbkollen kostar 1 kredit, fotoanalysen 5 krediter (den är mer träffsäker och kostar mer att köra). Har någon annan redan analyserat exakt samma annons går svaret blixtsnabbt att hämta ur vårt prisminne — men det kostar fortfarande en kredit, precis som en ny analys. Krediterna gäller för alltid.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q3h">Om jag köper fler krediter senare, försvinner de gamla?</h3></summary><div class="faq-a"><p data-i18n="q3p">Nej. Köper du en ny kreditpack med samma e-post läggs krediterna på ditt befintliga saldo, på samma licensnyckel. Inget nollställs och inget behöver flyttas manuellt.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q4h">Vad är skillnaden mellan snabbkollen och fotoanalysen?</h3></summary><div class="faq-a"><p data-i18n="q4p">Snabbkollen (1 kredit) ställer några flervalsfrågor om skicket och är snabbast. Fotoanalysen (5 krediter) läser istället flera av annonsens bilder och korsrefererar dem mot varandra — vår mest träffsäkra analys, prissatt därefter.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q5h">Kan jag få pengarna tillbaka om jag inte är nöjd?</h3></summary><div class="faq-a"><p data-i18n-html="q5p">Testa gratis först — 5 gratiskrediter ingår utan kort. Efter köp har du 14 dagars ångerrätt: oanvända krediter återbetalas fullt ut, förbrukade räknas som använd tjänst. Mejla oss så ordnar vi det. Detaljer i <a href="villkor.html">köpvillkoren</a>.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q6h">Vilka webbläsare och enheter fungerar det på?</h3></summary><div class="faq-a"><p data-i18n="q6p">Fyndkollen finns för Chrome, Edge och Firefox på datorn — och för Firefox på Android i mobilen. Installationsknapparna här på sidan tar dig automatiskt till rätt butik för din webbläsare.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q7h">Varför behöver tillägget läsa Blocket-sidan?</h3></summary><div class="faq-a"><p data-i18n="q7p">För att kunna värdera annonsen du tittar på — tillägget läser bara annonssidor på blocket.se, aldrig andra sajter. Innehållet skickas till vår AI-tjänst först när du själv klickar på "Kolla affären". Se vår integritetspolicy för detaljer.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q8h">Behöver jag vara uppkopplad?</h3></summary><div class="faq-a"><p data-i18n="q8p">Ja — värderingen hämtar aktuell prisdata live, så en internetanslutning krävs när du kör en analys.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q9h">Betalningen drogs men inget mejl kom — var är min nyckel?</h3></summary><div class="faq-a"><p data-i18n-html="q9p">Kolla skräpposten och sök på <code>FS-</code> i inkorgen — nyckeln skickas normalt inom några minuter. Hittar du den ändå inte: mejla oss från e-postadressen du använde vid köpet, så skickar vi om den direkt.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q10h">Jag har tappat bort min licensnyckel</h3></summary><div class="faq-a"><p data-i18n="q10p">Ingen fara — nyckeln finns kvar hos oss. Mejla från din köp-e-postadress så skickar vi den igen.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q11h">Byta dator eller installera om?</h3></summary><div class="faq-a"><p data-i18n="q11p">Krediterna ligger på licensnyckeln, inte på datorn. Installera tillägget på den nya datorn och klistra in samma nyckel — saldot följer med.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q12h">Kan jag få ett kvitto?</h3></summary><div class="faq-a"><p data-i18n="q12p">Ja — kvittot mejlas i samband med köpet (för vissa köp kommer det från Stripe, vår betalpartner). Saknar du det: hör av dig så skickas det om.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q13h">Hur fungerar prenumerationen — och hur säger jag upp den?</h3></summary><div class="faq-a"><p data-i18n="q13p">Prenumerationen fyller på din licensnyckel med nya krediter varje månad (Bas 50, Pro 250). Säg upp när som helst i kundportalen (knappen finns i hjälpavsnittet nedan och i ditt Stripe-kvitto) — eller mejla oss från din köp-e-post. Prenumerationen löper då ut vid periodens slut, inga fler dragningar. Ingen bindningstid.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q14h">Vad händer med mina krediter om jag säger upp prenumerationen?</h3></summary><div class="faq-a"><p data-i18n="q14p">Ingenting — krediter som redan fyllts på är dina för alltid, precis som köpta engångskrediter. Uppsägningen stoppar bara framtida påfyllningar och betalningar.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q15h">Hur fungerar "värva en vän"?</h3></summary><div class="faq-a"><p data-i18n="q15p">Skapa din länk i prisavsnittet ovan (du behöver licensnyckeln från ditt första köp). När någon som klickat på din länk gör sitt första köp läggs 20 krediter på din nyckel automatiskt. Ingen gräns för antal vänner — men belöningen ges vid köp, inte vid installation.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q16h">Skyddar Fyndkollen mot bluffannonser?</h3></summary><div class="faq-a"><p data-i18n="q16p">Nej — Fyndkollen värderar pris och skick, den kan inte avgöra om en säljare är ärlig. Men ett orealistiskt lågt pris jämfört med marknadsvärdet syns direkt i analysen, och det är en av de vanligaste bluffsignalerna. Följ alltid Blockets egna säkerhetsråd, och betala aldrig i förskott till någon du inte litar på.</p></div></details>
+      <details class="faq-item"><summary><h3 data-i18n="q17h">Blocket har ju en egen AI nu — varför Fyndkollen?</h3></summary><div class="faq-a"><p data-i18n="q17p">Blockets AI hjälper säljaren att skriva sin annons och sätta ett pris — och marknadsplatsen tjänar på att fler affärer blir av. Fyndkollen står i stället på köparens sida: ett oberoende besked om annonsen är rimlig, grundat i verkliga slutpriser, inte i säljarens önskepris. Vi funkar dessutom på vilken sajt som helst — Marketplace och Tradera lika väl som Blocket — och hjälper dig även när du själv säljer.</p></div></details>
     </div>
   </div>
 </section>
@@ -846,6 +859,7 @@
       heroP: 'Fyndkollen står på köparens sida. Klistra in en annons — Blocket, Facebook Marketplace eller Tradera — och få ett oberoende besked: fynd, rimligt eller för dyrt, plus ett färdigt öppningsbud när det är läge att pruta. Grundat i verkliga slutpriser, inte i säljarens önskepris. Ska du sälja? Då hjälper vi dig där också.',
       promoH: 'Se domen på 20 sekunder',
       promoSub: 'Riktiga slutpriser avgör — inte säljarens förhoppning.',
+      promoCta: 'Analysera din annons – gratis →',
       installBtn: 'Lägg till i Chrome, gratis',
       installSub: 'Föredrar du ett tillägg? Fyndkollen auto-läser Blocket-annonsen du är på — Chrome, Edge, Firefox.',
       secondaryCta: 'Vad kostar det?',
@@ -948,6 +962,7 @@
       heroP: 'Fyndkollen is on the buyer’s side. Paste a listing — Blocket, Facebook Marketplace or Tradera — and get an independent verdict: good deal, fair, or overpriced, plus a ready-made opening offer when it’s time to haggle. Grounded in real sold prices, not the seller’s wishful price. Selling? We help you there too.',
       promoH: 'See the verdict in 20 seconds',
       promoSub: 'Real sold prices decide — not the seller’s wishful thinking.',
+      promoCta: 'Analyze your listing – free →',
       installBtn: 'Add to Chrome',
       installSub: 'Prefer an extension? Fyndkollen auto-reads the Blocket listing you’re on — Chrome, Edge, Firefox.',
       secondaryCta: 'What does it cost?',
