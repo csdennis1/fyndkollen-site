@@ -164,6 +164,12 @@
   .promo-vid{width:100%;height:100%;display:block;object-fit:cover}
   .promo-cta{display:inline-flex;align-items:center;gap:7px;margin-top:22px;font-weight:700;font-size:15px;color:var(--accent-text);text-decoration:none;border:1.5px solid var(--border);border-radius:100px;padding:11px 24px;transition:border-color .15s,background .15s}
   .promo-cta:hover{border-color:var(--accent);background:rgba(204,107,44,.06)}
+  .metod-list{max-width:620px;margin:22px auto 0;list-style:none;display:flex;flex-direction:column;gap:15px;text-align:left}
+  .metod-list li{font-size:14.5px;color:var(--mid);line-height:1.6;padding-left:28px;position:relative}
+  .metod-list li::before{content:'✓';position:absolute;left:0;top:0;color:var(--green);font-weight:800;font-size:16px}
+  .metod-list b{color:var(--text)}
+  .om-wrap{max-width:620px;margin:0 auto;text-align:center}
+  .om-p{font-size:15.5px;color:var(--mid);line-height:1.7;max-width:600px;margin:14px auto 0}
   .lead{text-align:center;color:var(--mid);max-width:540px;margin:0 auto 30px}
 
   /* Features */
@@ -824,6 +830,27 @@
     </div>
   </div>
 </section>
+
+<section id="metod">
+  <div class="wrap-wide">
+    <h2 data-i18n="metodH2">Så räknar vi — inga gissningar</h2>
+    <p class="lead" data-i18n="metodLead">Värdet bygger på vad saker faktiskt sålts för — inte på utropspriser.</p>
+    <ul class="metod-list">
+      <li><b data-i18n="metod1h">Verkliga slutpriser.</b> <span data-i18n="metod1p">Vi grundar värderingen i tusentals verifierade försäljningar — avslutade auktioner — inte i vad säljare begär.</span></li>
+      <li><b data-i18n="metod2h">Vi trimmar extremvärden.</b> <span data-i18n="metod2p">Enstaka skämtbud eller lyxvarianter får inte dra snittet; vi använder ett robust mittvärde.</span></li>
+      <li><b data-i18n="metod3h">Vi påverkar aldrig priset.</b> <span data-i18n="metod3p">Vår värdering läser marknaden — den sätter aldrig priset åt en säljare eller köpare.</span></li>
+      <li><b data-i18n="metod4h">Du ser bevisen.</b> <span data-i18n="metod4p">Resultatet visar de faktiska försäljningarna bakom siffran — klicka och kontrollera själv.</span></li>
+      <li><b data-i18n="metod5h">Ovanliga varor.</b> <span data-i18n="metod5p">Saknas slutprisdata kollar Pro-analysen live-marknaden i stället för att gissa.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="om">
+  <div class="wrap-wide om-wrap">
+    <h2 data-i18n="omH2">Byggd av en person — på köparens sida</h2>
+    <p class="om-p" data-i18n="omP">Jag heter Dennis och byggde Fyndkollen själv, här i Sverige. Jag var trött på att gissa om ett Blocket-pris var rimligt — och på att verktygen verkade byggda för att hjälpa säljaren ta mer betalt. Fyndkollen står på köparens sida. Det är hela poängen. Har du feedback? Hör av dig — jag läser allt.</p>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -929,6 +956,15 @@
       q17h: 'Blocket har ju en egen AI nu — varför Fyndkollen?', q17p: 'Blockets AI hjälper säljaren att skriva sin annons och sätta ett pris — och marknadsplatsen tjänar på att fler affärer blir av. Fyndkollen står i stället på köparens sida: ett oberoende besked om annonsen är rimlig, grundat i verkliga slutpriser, inte i säljarens önskepris. Vi funkar dessutom på vilken sajt som helst — Marketplace och Tradera lika väl som Blocket — och hjälper dig även när du själv säljer.',
       helpH2: 'Behöver du hjälp?',
       helpLead: 'Snabbast svar får du via mejl — vi svarar inom 24 timmar på vardagar.',
+      metodH2: 'Så räknar vi — inga gissningar',
+      metodLead: 'Värdet bygger på vad saker faktiskt sålts för — inte på utropspriser.',
+      metod1h: 'Verkliga slutpriser.', metod1p: 'Vi grundar värderingen i tusentals verifierade försäljningar — avslutade auktioner — inte i vad säljare begär.',
+      metod2h: 'Vi trimmar extremvärden.', metod2p: 'Enstaka skämtbud eller lyxvarianter får inte dra snittet; vi använder ett robust mittvärde.',
+      metod3h: 'Vi påverkar aldrig priset.', metod3p: 'Vår värdering läser marknaden — den sätter aldrig priset åt en säljare eller köpare.',
+      metod4h: 'Du ser bevisen.', metod4p: 'Resultatet visar de faktiska försäljningarna bakom siffran — klicka och kontrollera själv.',
+      metod5h: 'Ovanliga varor.', metod5p: 'Saknas slutprisdata kollar Pro-analysen live-marknaden i stället för att gissa.',
+      omH2: 'Byggd av en person — på köparens sida',
+      omP: 'Jag heter Dennis och byggde Fyndkollen själv, här i Sverige. Jag var trött på att gissa om ett Blocket-pris var rimligt — och på att verktygen verkade byggda för att hjälpa säljaren ta mer betalt. Fyndkollen står på köparens sida. Det är hela poängen. Har du feedback? Hör av dig — jag läser allt.',
       helpMailBtn: 'Mejla supporten',
       cancelNote: '<b>Säg upp när du vill</b> — ingen bindningstid, ingen uppsägningstid. Krediter du redan fått behåller du. <a href="#help">Så säger du upp ›</a>',
       cancelH: 'Säg upp din prenumeration',
@@ -1032,6 +1068,15 @@
       q17h: 'Blocket has its own AI now — why Fyndkollen?', q17p: 'Blocket\'s AI helps the seller write their listing and set a price — and the marketplace profits when more deals happen. Fyndkollen is on the buyer\'s side instead: an independent verdict on whether a listing is fair, grounded in real sold prices, not the seller\'s wishful price. And we work on any site — Marketplace and Tradera as well as Blocket — and help you when you sell, too.',
       helpH2: 'Need help?',
       helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
+      metodH2: 'How we work it out — no guessing',
+      metodLead: 'Value is based on what things actually sold for — not on asking prices.',
+      metod1h: 'Real sold prices.', metod1p: 'We ground the valuation in thousands of verified sales — completed auctions — not in what sellers ask.',
+      metod2h: 'We trim the extremes.', metod2p: 'A stray joke bid or luxury variant can\'t skew the average; we use a robust median.',
+      metod3h: 'We never set the price.', metod3p: 'Our valuation reads the market — it never sets a price for a seller or buyer.',
+      metod4h: 'You see the proof.', metod4p: 'The result shows the actual sales behind the number — click and check for yourself.',
+      metod5h: 'Uncommon items.', metod5p: 'When sold-price data is missing, the Pro analysis checks the live market instead of guessing.',
+      omH2: 'Built by one person — on the buyer’s side',
+      omP: 'I\'m Dennis, and I built Fyndkollen myself, here in Sweden. I was tired of guessing whether a listing price was fair — and of tools that seemed built to help the seller charge more. Fyndkollen is on the buyer\'s side. That\'s the whole point. Got feedback? Reach out — I read everything.',
       helpMailBtn: 'Email support',
       cancelNote: '<b>Cancel anytime</b> — no lock-in, no notice period. Credits you\'ve already received are yours to keep. <a href="#help">How to cancel ›</a>',
       cancelH: 'Cancel your subscription',
