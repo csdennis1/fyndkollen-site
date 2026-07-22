@@ -735,7 +735,7 @@ $('form').addEventListener('submit',async function(e){
   if(!title&&desc){var _ln=desc.split('\n').map(function(s){return s.trim();}).filter(Boolean);title=(_ln[0]||'').slice(0,80);}
   if(!title){showMsg(t('needTitle'),'err');return;}
   var price=parseInt($('f-price').value,10);if(!(price>0))price=0;
-  if(!price&&desc){var _pm=desc.match(/(\d[\d\s .,]{0,9}\d|\d)\s*(?:kr|:-|sek)\b/i);if(_pm){var _pv=parseInt(_pm[1].replace(/[^\d]/g,''),10);if(_pv>0&&_pv<10000000)price=_pv;}}
+  if(!price&&desc){var _pm=desc.match(/(\d[\d\s .,]{0,9}\d|\d)\s*(?:kr\b|sek\b|:-)/i);if(_pm){var _pv=parseInt(_pm[1].replace(/[^\d]/g,''),10);if(_pv>0&&_pv<10000000)price=_pv;}}
   var licRaw=$('f-lic').value.trim();
   if(licRaw&&!LICENSE_RE.test(licRaw)){showMsg(t('badLic'),'err');return;}
   // Turnstile only for free-tier (no license). Vänta in att widgeten löst (cfState='ready')
