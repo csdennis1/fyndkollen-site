@@ -303,6 +303,7 @@ var T={
    s1:'Identifierar varan',s2:'Kollar marknadspriser',s3:'Uppskattar andrahandsvärde',
    recGood:'Bra fynd',recFair:'Rimligt pris',recOver:'Överprissatt',recNoPrice:'Marknadsvärde',
    recSuspect:'Priset verkar för lågt',suspectSub:'Långt under marknaden — troligen felläst pris, ofullständig annons eller bluff. Dubbelkolla priset (och lägg in det manuellt under "Justera själv") och kör igen.',verify:'Verifiera',
+   insufTitle:'Vi kan inte värdera den här säkert',insufSub:'Vi hittade ingen prisdata för just den här varan — varken i vår databas eller på webben. Då gissar vi hellre inte än ger dig en siffra byggd på lösan sand. Ingen kredit drogs.',insufTip:'Tips: prova ett vanligare sök­namn (märke + modell) eller lägg till fler detaljer.',
    below:'{p}% under marknadsvärdet',above:'{p}% över marknadsvärdet',at:'Ungefär marknadspris',
    market:'Marknadsvärde',asking:'Begärt pris',profit:'Vinst',loss:'Förlust',even:'±0',
    condition:'Skick',offer:'Föreslaget öppningsbud',copy:'Kopiera',copied:'Kopierat!',
@@ -346,6 +347,7 @@ var T={
    s1:'Identifying the item',s2:'Checking market prices',s3:'Estimating resale value',
    recGood:'Good deal',recFair:'Fair price',recOver:'Overpriced',recNoPrice:'Market value',
    recSuspect:'This price looks too low',suspectSub:'Far below market — likely a misread price, an incomplete listing, or a scam. Double-check the price (add it manually under "Adjust yourself") and try again.',verify:'Verify',
+   insufTitle:'We can\'t value this one reliably',insufSub:'We found no price data for this exact item — not in our database and not on the web. We\'d rather not guess than hand you a number built on nothing. No credit was charged.',insufTip:'Tip: try a more common search name (brand + model) or add more detail.',
    below:'{p}% below market',above:'{p}% above market',at:'About market price',
    market:'Market value',asking:'Asking price',profit:'Profit',loss:'Loss',even:'±0',
    condition:'Condition',offer:'Suggested opening offer',copy:'Copy',copied:'Copied!',
@@ -389,16 +391,18 @@ function buildPrompt(title,desc,price,imgCount){
     'Read the DESCRIPTION carefully and pull out the exact specs that drive value — storage/RAM/CPU/GPU, screen size, model year, edition/variant/trim, mileage, and what is included (box, charger, papers, extra parts) or any stated faults/repairs. Reflect them in itemName and the valuation.\n'+
     condLine+guide+
     'If SHARED MARKET DATA (real recent sold/asking prices) is provided above, anchor your marketValue within/near it, adjusted only for the condition you see. Otherwise use web search (Blocket, Tradera, Prisjakt) to check what this exact model in this condition sells for on the Swedish second-hand market.\n'+
-    'GROUNDING (obligatoriskt): din marketValue MÅSTE bygga på VERKLIG prisbevisning — marknadsdatan ovan eller konkreta jämförbara annonser/slutpriser via websökning. Prissätt ALDRIG enbart ur minnet. Sammanfatta bevisningen i marketValueBasis (t.ex. "3 Blocket-annonser 55–65 tkr"). Ingen data → bredda marketValueLow–High och sätt marketValueBasis till null.\n'+
-    'ACCURACY OVER PRECISION: hitta aldrig på en modell, referens, årsmodell eller spec som inte står i annonsen/syns på bild — är varianten osäker, använd ett generiskt itemName och säg vad som är osäkert. Uttryck osäkerhet via marketValueLow–High-spannet.\n'+
+    'GROUNDING (obligatoriskt): din marketValue MÅSTE bygga på VERKLIG prisbevisning — marknadsdatan ovan eller konkreta jämförbara annonser/slutpriser via websökning. Prissätt ALDRIG enbart ur minnet, och ALDRIG utifrån annonsens eget utropspris.\n'+
+    'OM DU VARKEN har marknadsdata ovan ELLER hittar användbara jämförbara priser via websökning: sätt "insufficientData":true, lämna marketValue, marketValueLow och marketValueHigh som null, och förklara kort i reasoning att du inte hittade tillräckligt underlag. Gissa i så fall INGET värde. Har du minst en trovärdig priskälla: sätt "insufficientData":false och sammanfatta bevisningen i marketValueBasis (t.ex. "3 Blocket-annonser 55–65 tkr").\n'+
+    'ACCURACY OVER PRECISION: hitta aldrig på en modell, referens, årsmodell eller spec som inte står i annonsen/syns på bild — är varianten osäker, använd ett generiskt itemName och säg vad som är osäkert. Uttryck kvarvarande osäkerhet via marketValueLow–High-spannet.\n'+
     'IMPORTANT — language: write every free-text value (conditionNotes, marketValueBasis, reasoning, redFlag, negotiationTip, negotiationPoints, sellerMessage) in '+lang+', using only real, correctly spelled, complete words. Keep the JSON keys and the fixed enum values (category, conditionLabel, resellOn) exactly in English as listed below.\n'+
     'Reply ONLY with JSON (no markdown):\n'+
     '{"itemName":<canonical "Brand Model + key spec", max 8 words>,'+
     '"category":<"watches"|"electronics"|"clothing"|"furniture"|"cars"|"boats"|"mc"|"bikes"|"other">,'+
     '"conditionScore":<1-10>,"conditionLabel":<"Mint"|"Excellent"|"Good"|"Fair"|"Poor">,'+
     '"conditionNotes":<max 18 words in '+lang+'>,'+
-    '"marketValue":<integer SEK, realistic resale value for THIS condition>,'+
-    '"marketValueLow":<integer SEK>,"marketValueHigh":<integer SEK>,'+
+    '"insufficientData":<true ONLY if you found NO real price evidence at all (no market data above AND no usable comparable prices from web search); otherwise false>,'+
+    '"marketValue":<integer SEK, realistic resale value for THIS condition — or null if insufficientData is true>,'+
+    '"marketValueLow":<integer SEK, or null if insufficientData>,"marketValueHigh":<integer SEK, or null if insufficientData>,'+
     '"marketValueBasis":<max 12 words in '+lang+' citing your price evidence, or null>,'+
     '"resellOn":<"Chrono24"|"Tradera"|"Blocket"|"Sellpy"|"Plick"|"eBay"|"Local dealer">,'+
     '"reasoning":<2-3 sentences in '+lang+': what the item is and how you reached the market value. For vehicles name the concrete value drivers (miltal relativt ålder, drivning, motor/effekt, modellspecifika för-/nackdelar). Do NOT judge whether the asking price is good/bad — the app computes that.>,'+
@@ -424,7 +428,7 @@ function buildSellPrompt(title,desc,price,imgCount){
     'Pull out the exact specs that drive value (storage/model year/variant/mileage/what is included) and reflect them.\n'+
     condLine+guide+
     'If SHARED MARKET DATA (real recent sold/asking prices) is provided above, anchor your valuation in it. Otherwise use web search (Blocket, Tradera, Prisjakt) for what this exact model in this condition sells for in Sweden.\n'+
-    'GROUNDING (obligatoriskt): prissättningen MÅSTE bygga på verklig prisbevisning — sammanfatta den i marketValueBasis. Ingen data → bredda spannet och sätt marketValueBasis till null.\n'+
+    'GROUNDING (obligatoriskt): prissättningen MÅSTE bygga på verklig prisbevisning — marknadsdatan ovan eller jämförbara priser via websökning. OM DU VARKEN har marknadsdata ovan ELLER hittar användbara jämförbara priser: sätt "insufficientData":true, lämna marketValue/marketValueLow/marketValueHigh/suggestedPrice som null och förklara i reasoning att du saknar underlag — gissa INGET. Annars: "insufficientData":false och sammanfatta bevisningen i marketValueBasis.\n'+
     'PRICING FOR A SELLER: suggestedPrice är vad säljaren bör BEGÄRA — läggs typiskt något ÖVER förväntat slutpris (prutmån ~5-10%), men aldrig så högt att annonsen blir liggande. marketValue är förväntat faktiskt försäljningspris.\n'+
     'ACCURACY: hitta aldrig på specs/modell/årtal som inte angetts — skriv annonsen på det som FINNS, och lägg saknade nyckeluppgifter som frågor i sellingTips i stället.\n'+
     'IMPORTANT — language: write every free-text value (conditionNotes, marketValueBasis, reasoning, adTitle, adText, sellingTips) in '+lang+', real complete words only. Keep JSON keys + enum values in English exactly as listed.\n'+
@@ -433,10 +437,11 @@ function buildSellPrompt(title,desc,price,imgCount){
     '"category":<"watches"|"electronics"|"clothing"|"furniture"|"cars"|"boats"|"mc"|"bikes"|"other">,'+
     '"conditionScore":<1-10>,"conditionLabel":<"Mint"|"Excellent"|"Good"|"Fair"|"Poor">,'+
     '"conditionNotes":<max 18 words in '+lang+'>,'+
-    '"marketValue":<integer SEK, expected actual sale price>,'+
-    '"marketValueLow":<integer SEK>,"marketValueHigh":<integer SEK>,'+
+    '"insufficientData":<true ONLY if you found NO real price evidence at all (no market data above AND no usable comparable prices from web search); otherwise false>,'+
+    '"marketValue":<integer SEK, expected actual sale price — or null if insufficientData is true>,'+
+    '"marketValueLow":<integer SEK, or null if insufficientData>,"marketValueHigh":<integer SEK, or null if insufficientData>,'+
     '"marketValueBasis":<max 12 words in '+lang+' citing price evidence, or null>,'+
-    '"suggestedPrice":<integer SEK to ASK (with negotiation headroom), rounded to nearest 50>,'+
+    '"suggestedPrice":<integer SEK to ASK (with negotiation headroom), rounded to nearest 50 — or null if insufficientData>,'+
     '"bestPlatform":<"Chrono24"|"Tradera"|"Blocket"|"Sellpy"|"Plick"|"eBay"|"Local dealer">,'+
     '"adTitle":<ready listing TITLE in '+lang+', max 60 chars, spec-rich (brand, model, key spec), no price, no exclamation hype>,'+
     '"adText":<EXACT ready-to-paste listing description in '+lang+', 60-110 words: what it is + key specs, honest condition, what is included, why selling optional, pickup/shipping line. NO price inside. Plain text, short paragraphs. Honest — never oversell flaws away.>,'+
@@ -598,6 +603,23 @@ function tierHtml(){
     ' <a class="up" href="/#pricing">'+esc(t('tierUpsellCta'))+'</a></div>';
 }
 function render(r,price){
+  // OTILLRÄCKLIGT UNDERLAG (2026-07-22): modellen hittade ingen prisdata (DB eller webb) och
+  // gissade INTE. Visa en ärlig icke-värdering i stället för ett falskt tal — servern drog
+  // ingen kredit (insufficient:true). Kort kort, ingen dom/bud/stämpel.
+  if(r.insufficientData===true){
+    var iz=r.reasoning?esc(r.reasoning):'';
+    var ih='<div class="panel verdict reveal"><div class="vicon" style="background:var(--muted);color:#fff">?</div>'+
+      '<div class="vlabel" style="color:var(--muted)">'+t('insufTitle')+'</div>'+
+      '<div class="vsub">'+t('insufSub')+'</div></div>'+
+      '<div class="panel reveal">'+
+      (r.itemName?'<div class="ident">'+esc(r.itemName)+(r.category?' <span class="cat">· '+esc(catName(r.category))+'</span>':'')+'</div>':'')+
+      (iz?'<div class="reason">'+iz+'</div>':'')+
+      '<div class="cnotes" style="margin-top:10px">'+t('insufTip')+'</div></div>'+
+      '<button class="again" id="again">'+t('again')+'</button>';
+    $('result').innerHTML=ih;
+    $('again').onclick=function(){$('result').innerHTML='';$('form').style.display='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
+    return;
+  }
   var pos=r.pricePosition;var tier=(pos==='Significantly underpriced'||pos==='Underpriced')?'good':(pos==='Fair'||!pos)?'fair':'over';
   var noPrice=!(price>0);
   // SANITY-GATE (2026-07-22, kritisk): ett pris >65% UNDER marknaden är nästan aldrig ett
@@ -670,6 +692,20 @@ function render(r,price){
 }
 // Säljlägets resultat: prisförslag + färdig annons (rubrik + text, kopierbara) + tips.
 function renderSell(r,priceIdea){
+  if(r.insufficientData===true){
+    var iz=r.reasoning?esc(r.reasoning):'';
+    var ih='<div class="panel verdict reveal"><div class="vicon" style="background:var(--muted);color:#fff">?</div>'+
+      '<div class="vlabel" style="color:var(--muted)">'+t('insufTitle')+'</div>'+
+      '<div class="vsub">'+t('insufSub')+'</div></div>'+
+      '<div class="panel reveal">'+
+      (r.itemName?'<div class="ident">'+esc(r.itemName)+(r.category?' <span class="cat">· '+esc(catName(r.category))+'</span>':'')+'</div>':'')+
+      (iz?'<div class="reason">'+iz+'</div>':'')+
+      '<div class="cnotes" style="margin-top:10px">'+t('insufTip')+'</div></div>'+
+      '<button class="again" id="again">'+t('again')+'</button>';
+    $('result').innerHTML=ih;
+    $('again').onclick=function(){$('result').innerHTML='';$('form').style.display='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
+    return;
+  }
   var cs=r.conditionScore||0;var cColor=cs>=7?'var(--green)':cs>=5?'var(--amber)':'var(--red)';
   var range=(r.marketValueLow&&r.marketValueHigh)?fmt(r.marketValueLow)+'–'+fmt(r.marketValueHigh)+' kr':'';
   var ideaLine='';
@@ -785,9 +821,20 @@ $('form').addEventListener('submit',async function(e){
     var data=pj.data||pj;
     var txt=(data.content||[]).map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
     var s=txt.indexOf('{'),e2=txt.lastIndexOf('}');if(s>=0&&e2>s)txt=txt.slice(s,e2+1);
-    var parsed=JSON.parse(txt);
     LAST_TIER={tier:pj.tier,searched:pj.web_searched}; // tier-märke + gratis-uppsäljning
     LAST_GROUNDING=pj.grounding||null; // verkliga jämförelse-slutpriser (Tradera-länkar)
+    // Servern är sanningskälla för "otillräckligt underlag" (pj.insufficient) — den drog INGEN
+    // kredit då. Rendera den ärliga icke-värderingen även om AI-texten inte är parsebar JSON
+    // (modellen kan ha vägrat i prosa). Behåll ändå det vi kan tyda (itemName/reasoning).
+    var parsed;
+    if(pj.insufficient===true){
+      parsed={};try{parsed=JSON.parse(txt);}catch(e){}
+      parsed.insufficientData=true;
+      if(MODE==='sell'){renderSell(parsed,price);}else{render(parsed,price);}
+      updateQuota(pj);cfReset();$('form').style.display='none';$('result').scrollIntoView({behavior:'smooth',block:'start'});
+      return;
+    }
+    parsed=JSON.parse(txt);
     if(MODE==='sell'){renderSell(parsed,price);}
     else{derive(parsed,price);render(parsed,price);}
     updateQuota(pj);cfReset();
