@@ -657,7 +657,7 @@ function render(r,price){
     if(navigator.share){navigator.share({text:txt}).catch(function(){});}
     else copy(txt,$('share'));
   };
-  $('again').onclick=function(){$('result').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
+  $('again').onclick=function(){$('result').innerHTML='';$('form').style.display='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
 }
 // Säljlägets resultat: prisförslag + färdig annons (rubrik + text, kopierbara) + tips.
 function renderSell(r,priceIdea){
@@ -690,7 +690,7 @@ function renderSell(r,priceIdea){
   $('result').innerHTML=h;
   var ct=$('copyadtitle');if(ct)ct.onclick=function(){copy(r.adTitle,ct);};
   var ca=$('copyadtext');if(ca)ca.onclick=function(){copy(r.adText,ca);};
-  $('again').onclick=function(){$('result').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
+  $('again').onclick=function(){$('result').innerHTML='';$('form').style.display='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
 }
 function catName(c){var m={sv:{watches:'Klockor',electronics:'Elektronik',clothing:'Kläder',furniture:'Möbler',cars:'Bilar',boats:'Båtar',mc:'MC',bikes:'Cyklar',other:'Övrigt'},en:{watches:'Watches',electronics:'Electronics',clothing:'Clothing',furniture:'Furniture',cars:'Cars',boats:'Boats',mc:'Motorcycles',bikes:'Bicycles',other:'Other'}};return (m[lang]&&m[lang][c])||c;}
 function condName(c){var m={sv:{Mint:'Toppskick',Excellent:'Mycket bra',Good:'Bra',Fair:'Okej',Poor:'Dåligt'},en:{Mint:'Mint',Excellent:'Excellent',Good:'Good',Fair:'Fair',Poor:'Poor'}};return (m[lang]&&m[lang][c])||c;}
@@ -775,6 +775,7 @@ $('form').addEventListener('submit',async function(e){
     if(MODE==='sell'){renderSell(parsed,price);}
     else{derive(parsed,price);render(parsed,price);}
     updateQuota(pj);cfReset();
+    $('form').style.display='none'; // oteknisk-först: domen blir sidan; 'Analysera en annan' tar tillbaka formuläret
     $('result').scrollIntoView({behavior:'smooth',block:'start'});
   }catch(err){clearInterval(timer);showMsg(t('generic'),'err');}
   finally{btn.disabled=false;}
