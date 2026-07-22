@@ -88,6 +88,11 @@ function detectCategory(title, desc) {
   }
   return bestScore > 0 ? best : 'other';
 }
+// Capacity/memory token (VRAM/RAM/storage) grafted onto the key — value-determining for
+// electronics but often past the slice(0,3) window ("RTX 5060 Ti 16GB" vs "...8GB").
+// KEEP IDENTICAL across priceDB.js, supabase-tradera-ingest-function.ts, pricedb-web.js.
+function _capTok(tl){ var m=(tl||'').match(/\b(\d{1,4})\s?(gb|tb)\b/); return m?(m[1]+m[2]):''; }
+function _withCap(key, tl){ var c=_capTok(tl); return (c && key.indexOf(c)<0)?(key+'_'+c).slice(0,30):key; }
 function bucketKey(title, cat) {
   const tl = (title||'').toLowerCase();
   if (CATS[cat]) {
@@ -102,13 +107,14 @@ function bucketKey(title, cat) {
         var brKey = br.replace(/[^a-z0-9]/g, '').slice(0, 20);
         if (brIdx >= 0) {
           var model = words.slice(brIdx + brWords.length, brIdx + brWords.length + 2).join('_');
-          if (model) return (brKey + '_' + model).replace(/[^a-z0-9_]/g, '').slice(0, 30);
+          if (model) return _withCap((brKey + '_' + model).replace(/[^a-z0-9_]/g, '').slice(0, 30), tl);
         }
-        return brKey;
+        return _withCap(brKey, tl);
       }
     }
   }
-  return tl.replace(/[^\w\s]/g,'').split(/\s+/).filter(w=>w.length>2 || /\d/.test(w)).slice(0,3).join('_').slice(0,20) || 'general';
+  var base = tl.replace(/[^\w\s]/g,'').split(/\s+/).filter(w=>w.length>2 || /\d/.test(w)).slice(0,3).join('_').slice(0,20) || 'general';
+  return _withCap(base, tl);
 }
 function productKey(title, desc, pageCategory) {
   const cat = mapPageCategory(pageCategory) || detectCategory(title, desc);
