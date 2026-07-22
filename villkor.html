@@ -11,10 +11,10 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   :root{
     --bg:#FAFAF8;--surface:#F4F0EA;--border:#EBE5DC;--text:#1A1A1A;
-    --mid:#6B5744;--muted:#786858;--accent:#CC6B2C;--green:#059669;
+    --mid:#6B5744;--muted:#786858;--accent:#CC6B2C;--accent-text:#A9521C;--green:#059669;
   }
   body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
-  a{color:var(--accent)}
+  a{color:var(--accent-text);text-decoration:underline;text-underline-offset:2px}
   a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
   .wrap{max-width:680px;margin:0 auto;padding:0 22px 60px}
   header{padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -23,7 +23,7 @@
   .lang-tog{display:flex;gap:4px}
   .lang-btn{font-size:11px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;font-family:inherit}
   .lang-btn:hover{border-color:var(--accent);color:var(--accent)}
-  .lang-btn.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .lang-btn.on{background:var(--accent-text);color:#fff;border-color:var(--accent-text)}
   h1{font-size:28px;letter-spacing:-.5px;margin:20px 0 4px}
   .meta{font-size:13px;color:var(--muted);margin-bottom:22px}
   h2{font-size:18px;margin:30px 0 8px;letter-spacing:-.2px}
@@ -52,6 +52,7 @@
     </div>
   </header>
 
+  <main>
   <h1 data-i18n="h1">Köpvillkor</h1>
   <div class="meta" data-i18n="lastUpdated">Gäller från: 2026-07-11</div>
 
@@ -103,6 +104,7 @@
 
   <p style="margin-top:26px" data-i18n-html="crossref">Hur vi hanterar personuppgifter beskrivs i <a href="privacy.html">integritetspolicyn</a>.</p>
 </div>
+  </main>
 <footer><span data-i18n="footer">© 2026 Fyndkollen · Inte kopplat till Blocket ·</span> <a href="index.html" data-i18n="footerBack">Till startsidan</a></footer>
 
 <script>

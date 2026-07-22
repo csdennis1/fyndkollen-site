@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800">
 <style>
-:root{--bg:#F7F4EF;--surface:#EFEAE1;--card:#FFF;--border:#E6DFD4;--text:#1A1611;--mid:#6B5F4E;--muted:#A2937E;--accent:#CC6B2C;--green:#0E9F6E;--red:#DC2626;--amber:#D97706}
-:root[data-theme=dark]{--bg:#161310;--surface:#211C17;--card:#221D18;--border:#322B23;--text:#F1ECE4;--mid:#C9BDAC;--muted:#8C8070;--accent:#E07E3C;--green:#34D399;--red:#F87171;--amber:#FBBF24}
+:root{--bg:#F7F4EF;--surface:#EFEAE1;--card:#FFF;--border:#E6DFD4;--text:#1A1611;--mid:#6B5F4E;--muted:#A2937E;--accent:#CC6B2C;--accent-text:#A9521C;--green:#0E9F6E;--red:#DC2626;--amber:#D97706}
+:root[data-theme=dark]{--bg:#161310;--surface:#211C17;--card:#221D18;--border:#322B23;--text:#F1ECE4;--mid:#C9BDAC;--muted:#8C8070;--accent:#E07E3C;--accent-text:#E8935A;--green:#34D399;--red:#F87171;--amber:#FBBF24}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased}
 .bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:13px 22px;background:var(--card);border-bottom:1px solid var(--border)}
@@ -24,7 +24,7 @@ body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 .tag{font-size:10.5px;font-weight:700;color:var(--mid);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
 .tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .chip{font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--mid);cursor:pointer;font-family:inherit}
-.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chip.on{background:var(--accent-text);color:#fff;border-color:var(--accent-text)}
 .wrap{max-width:1180px;margin:0 auto;padding:20px 22px 70px}
 .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:17px}
@@ -44,7 +44,7 @@ tr:last-child td{border-bottom:none}
 .pill{font-size:11px;font-weight:700;border-radius:6px;padding:2px 9px;display:inline-block}
 .btn{font-family:inherit;font-size:13px;font-weight:700;padding:9px 15px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:.12s}
 .btn:hover{border-color:var(--accent);color:var(--accent)}
-.btn.pri{background:var(--accent);color:#fff;border-color:var(--accent)}.btn.pri:hover{color:#fff;filter:brightness(.95)}
+.btn.pri{background:var(--accent-text);color:#fff;border-color:var(--accent-text)}.btn.pri:hover{color:#fff;filter:brightness(.95)}
 .btn.danger{color:var(--red);border-color:rgba(220,38,38,.3)}.btn.danger:hover{border-color:var(--red);color:var(--red)}
 input{font-family:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text);outline:none;width:100%}
 input:focus{border-color:var(--accent)}
@@ -162,7 +162,7 @@ svg.chart{width:100%;height:104px;display:block}
 </style>
 </head>
 <body>
-<div id="login">
+<div id="login" role="main">
   <div class="card">
     <div class="brand" style="justify-content:center;margin-bottom:4px">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="currentColor"/></svg>
@@ -190,7 +190,7 @@ svg.chart{width:100%;height:104px;display:block}
       <button class="chip" onclick="load();lifeLoad()">↻</button>
     </div>
   </div>
-  <div class="tabwrap">
+  <div class="tabwrap" role="main">
     <div class="tabpane" id="tab-overview"><div class="wrap" id="ov-body"></div></div>
     <div class="tabpane" id="tab-fk" style="display:none"><div class="wrap" id="body"></div></div>
     <div class="tabpane" id="tab-money" style="display:none"><div class="wrap" id="money-body"></div></div>
