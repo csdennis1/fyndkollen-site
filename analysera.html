@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!-- Fyndkollen webbanalys (C3) — HUVUDFUNKTION. Klistra in en annons från VILKEN sajt som
      helst (Blocket, Facebook Marketplace, Tradera …) → samma AI-analys som tillägget.
      Återanvänder appraise-backend EXAKT (samma billing/tier: text=1kr/Haiku, foto=5kr/Sonnet).
@@ -20,7 +21,7 @@
 <script src="pricedb-web.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#FAF8F4;--surface:#F2ECE3;--card:#fff;--border:#E8E0D4;--text:#1A1712;--mid:#6B5744;--muted:#8A7A63;--accent:#CC6B2C;--accent-h:#B65C22;--green:#0E9F6E;--amber:#D97706;--red:#E02424;--shadow:0 1px 2px rgba(60,40,20,.04),0 8px 28px rgba(60,40,20,.07)}
+:root{--bg:#FAF8F4;--surface:#F2ECE3;--card:#fff;--border:#E8E0D4;--text:#1A1712;--mid:#6B5744;--muted:#786858;--accent:#CC6B2C;--accent-h:#B65C22;--green:#0E9F6E;--amber:#D97706;--red:#E02424;--shadow:0 1px 2px rgba(60,40,20,.04),0 8px 28px rgba(60,40,20,.07)}
 :root[data-theme=dark]{--bg:#1C1814;--surface:#252019;--card:#252019;--border:#382f27;--text:#F4EFE7;--mid:#D4Cabb;--muted:#A2937E;--shadow:0 1px 2px rgba(0,0,0,.2),0 10px 30px rgba(0,0,0,.35)}
 /* Ljust som standard (konsekvent med startsidan) — mörkt läge appliceras BARA via
    [data-theme=dark] om användaren valt det. Följer MEDVETET inte systemets prefers-color-
@@ -52,7 +53,8 @@ label{display:block;font-size:13px;font-weight:700;color:var(--text);margin:18px
 label:first-child{margin-top:0}
 .sub{font-weight:500;color:var(--muted);font-size:12px}
 input[type=text],input[type=number],textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;font:inherit;font-size:16px;color:var(--text);transition:border-color .15s,box-shadow .15s} /* 16px: under 16 auto-zoomar iOS Safari in vid fokus */
-.exlink{display:block;margin:0 0 14px auto;background:none;border:none;padding:4px 0;font:inherit;font-size:13px;font-weight:600;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.exlink{display:block;margin:0 0 14px auto;background:none;border:none;padding:4px 0;font:inherit;font-size:13px;font-weight:600;color:#A9521C;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+:root[data-theme=dark] .exlink{color:var(--accent)}
 .exlink:hover{opacity:.8}
 /* Köp/Sälj-växeln (2026-07-20: säljhjälpen — värdering + färdig annonstext) */
 .mode-tog{display:flex;gap:0;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:4px;margin:0 auto 18px;max-width:420px}
@@ -179,6 +181,7 @@ footer a{color:var(--mid)}
     </div>
   </header>
 
+  <main>
   <section class="hero">
     <span class="eyebrow" id="t-eyebrow">Direkt i webbläsaren · inget konto</span>
     <h1 id="t-h1">Är annonsen ett fynd?</h1>
@@ -207,7 +210,7 @@ footer a{color:var(--mid)}
     <input type="number" id="f-price" min="0" step="1" inputmode="numeric" placeholder="t.ex. 3500"/>
 
     <label id="t-l-photos">Foton från annonsen <span class="sub" id="t-l-photos-s">— valfritt, ger skickbedömning</span></label>
-    <div class="dropzone" id="drop" tabindex="0" role="button" aria-label="Lägg till foton">
+    <div class="dropzone" id="drop" tabindex="0" role="button">
       <span id="t-drop"><b>Välj foton</b> eller släpp dem här</span>
     </div>
     <input type="file" id="f-imgs" accept="image/*" multiple hidden/>
@@ -228,6 +231,7 @@ footer a{color:var(--mid)}
 
   <p class="disc" id="t-disc">Fyndkollen ger en uppskattning som stöd för ditt eget beslut — inte en garanti. Vinst/förlust visas kvalitativt, inte som exakt krona.</p>
 
+  </main>
   <footer>
     <a href="/">Fyndkollen</a> · <a href="/privacy.html">Integritet</a> · <a href="/villkor.html">Villkor</a>
   </footer>
