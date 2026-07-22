@@ -36,13 +36,44 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Fyndkollen",
-  "operatingSystem": "Web, Chrome, Edge, Firefox",
-  "applicationCategory": "ShoppingApplication",
-  "description": "Oberoende priskoll för begagnat: analysera en annons du vill köpa (fynd/rimligt/överprissatt) grundat i verifierade slutpriser — vi står på köparens sida. Hjälper dig även när du säljer. Finns även som webbläsartillägg.",
-  "url": "https://fyndkollen.com/",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SEK", "description": "5 gratisanalyser, inget konto krävs" }
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fyndkollen.com/#org",
+      "name": "Fyndkollen",
+      "url": "https://fyndkollen.com/",
+      "logo": "https://fyndkollen.com/og-image.png",
+      "email": "FyndKollen@protonmail.com",
+      "founder": { "@type": "Person", "name": "Dennis Nilsson" },
+      "areaServed": { "@type": "Country", "name": "Sweden" },
+      "sameAs": [
+        "https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka",
+        "https://addons.mozilla.org/firefox/addon/fyndkollen/"
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://fyndkollen.com/#app",
+      "name": "Fyndkollen",
+      "operatingSystem": "Web, Chrome, Edge, Firefox",
+      "applicationCategory": "ShoppingApplication",
+      "description": "Oberoende priskoll för begagnat: analysera en annons du vill köpa (fynd/rimligt/överprissatt) grundat i verifierade slutpriser — vi står på köparens sida. Hjälper dig även när du säljer. Finns även som webbläsartillägg.",
+      "url": "https://fyndkollen.com/",
+      "publisher": { "@id": "https://fyndkollen.com/#org" },
+      "inLanguage": ["sv", "en"],
+      "isAccessibleForFree": true,
+      "image": "https://fyndkollen.com/og-image.png",
+      "featureList": [
+        "Analysera en begagnatannons: fynd, rimligt eller överprissatt",
+        "Grundat i tusentals verifierade slutpriser",
+        "Föreslaget öppningsbud och förhandlingshjälp",
+        "Marknadsläge: likviditet och prisutveckling över tid",
+        "Säljläge: värdering och färdig annonstext",
+        "Fungerar på Blocket, Facebook Marketplace och Tradera"
+      ],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "SEK", "description": "5 gratisanalyser, inget konto krävs" }
+    }
+  ]
 }
 </script>
 <!-- Inter via Bunny Fonts: GDPR-safe drop-in for Google Fonts (EU-hosted, zero logging/tracking —
