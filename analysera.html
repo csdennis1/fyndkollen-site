@@ -80,6 +80,13 @@ input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 
 .thumb button{position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;border:2px solid var(--card);font-size:11px;line-height:1;cursor:pointer;padding:0}
 .tierline{font-size:12.5px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:6px}
 .pill{font-weight:700;color:var(--accent)}
+.comps .comps-h{font-weight:800;font-size:15px;color:var(--ink)}
+.comps .comps-sub{font-size:12.5px;color:var(--muted);margin:3px 0 12px}
+.comps-row{display:flex;flex-wrap:wrap;gap:8px}
+.comp{display:inline-flex;align-items:center;gap:5px;font-weight:700;font-size:14px;padding:7px 12px;border-radius:11px;background:var(--surface);border:1px solid var(--border);color:var(--ink);text-decoration:none;transition:border-color .12s,transform .08s}
+a.comp:hover{border-color:var(--accent);transform:translateY(-1px)}
+.comp .ext{font-size:11px;color:var(--accent);font-weight:800}
+.comp-nolink{color:var(--mid);cursor:default}
 .cta{display:block;width:100%;background:var(--accent);color:#fff;font-weight:800;font-size:16.5px;padding:16px;border:none;border-radius:14px;margin-top:22px;cursor:pointer;transition:background .15s,transform .08s;letter-spacing:.01em}
 .cta:hover{background:var(--accent-h)}
 .cta:active{transform:translateY(1px)}
@@ -247,6 +254,7 @@ var T={
    tierPaidSearched:'Pro-analys · live-marknadskoll',tierPaidGrounded:'Pro-analys · grundad i verifierade slutpriser',
    tierFree:'Gratis-analys — snabb uppskattning ur vår slutprisdatabas.',
    tierUpsell:'Vill du ha den mest träffsäkra analysen? Pro-analysen kollar även live-marknaden — särskilt värdefullt för ovanliga varor.',tierUpsellCta:'Skaffa krediter →',
+   compsTitle:'Vad liknande faktiskt gick för',compsSub:'Verkliga slutpriser bakom värderingen — klicka för att se auktionen.',
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
@@ -282,6 +290,7 @@ var T={
    tierPaidSearched:'Pro analysis · live market check',tierPaidGrounded:'Pro analysis · grounded in verified sold prices',
    tierFree:'Free analysis — a quick estimate from our sold-price database.',
    tierUpsell:'Want the most accurate analysis? Pro also checks the live market — especially valuable for uncommon items.',tierUpsellCta:'Get credits →',
+   compsTitle:'What similar ones actually sold for',compsSub:'Real sold prices behind the valuation — click to see the auction.',
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
@@ -421,6 +430,21 @@ function showLoader(){
 }
 
 var LAST_TIER=null;
+var LAST_GROUNDING=null;
+// "Visa jämförelserna" (Lodisen, Sweclockers 2026-07-22): de verkliga verifierade slutpriserna
+// bakom värderingen, med Tradera-länkar. Renderas bara i köpläget, bara när ≥2 verifierade
+// prover finns. Länk endast där servern gav en URL (Tradera); annars bara priset.
+function compsHtml(){
+  var g=LAST_GROUNDING;
+  if(!g||g.kind!=='verified_sold'||!Array.isArray(g.samples)||g.samples.length<2)return '';
+  var chips=g.samples.map(function(s){
+    var lbl=fmt(s.price)+' kr';
+    return s.url?'<a class="comp" href="'+esc(s.url)+'" target="_blank" rel="noopener nofollow">'+lbl+' <span class="ext">↗</span></a>'
+                :'<span class="comp comp-nolink">'+lbl+'</span>';
+  }).join('');
+  return '<div class="panel comps reveal"><div class="comps-h">'+t('compsTitle')+'</div>'+
+         '<div class="comps-sub">'+t('compsSub')+'</div><div class="comps-row">'+chips+'</div></div>';
+}
 // Tier-rutan: betald = "Pro · live-marknadskoll" (grön, bekräftar värdet); gratis = uppskattning
 // + ärlig uppsäljning till Pro. Den syns under varje resultat (både köp- och säljläget).
 function tierHtml(){
@@ -469,7 +493,7 @@ function render(r,price){
   if(pts.length){h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><ul>';pts.forEach(function(p){h+='<li>'+esc(p)+'</li>';});h+='</ul>';if(smsg)h+='<div style="font-size:12.5px;color:var(--muted);margin-top:9px">'+t('sellerLabel')+'</div><div class="smsg" id="smsg">'+esc(smsg)+'</div><button class="copybtn" id="copymsg" style="margin-top:10px">'+t('copymsg')+'</button>';h+='</div>';}
   else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
-  h+='</div>'+tierHtml()+'<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
+  h+='</div>'+compsHtml()+tierHtml()+'<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
   var co=$('copyoffer');if(co)co.onclick=function(){copy(String(co.getAttribute('data-v')),co);};
   var cm=$('copymsg');if(cm)cm.onclick=function(){copy(smsg,cm);};
@@ -591,6 +615,7 @@ $('form').addEventListener('submit',async function(e){
     var s=txt.indexOf('{'),e2=txt.lastIndexOf('}');if(s>=0&&e2>s)txt=txt.slice(s,e2+1);
     var parsed=JSON.parse(txt);
     LAST_TIER={tier:pj.tier,searched:pj.web_searched}; // tier-märke + gratis-uppsäljning
+    LAST_GROUNDING=pj.grounding||null; // verkliga jämförelse-slutpriser (Tradera-länkar)
     if(MODE==='sell'){renderSell(parsed,price);}
     else{derive(parsed,price);render(parsed,price);}
     updateQuota(pj);cfReset();
