@@ -180,6 +180,102 @@ a.comp:hover{border-color:var(--accent);transform:translateY(-1px)}
 footer{border-top:1px solid var(--border);margin-top:34px;padding:24px 0;text-align:center;font-size:13px;color:var(--muted)}
 footer a{color:var(--mid)}
 @media(max-width:480px){h1{font-size:28px}.panel{padding:20px 16px}.tiles{gap:8px}.tile .v{font-size:18px}}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   REDESIGN 2026-07-23 (Dennis: "väldigt fult och bökigt, inga fina design­effekter,
+   smidigare — särskilt licens-inputet som nu är gömt"). Appended override-lager:
+   ambient djup, förfinat kort, riktig stepper, inbjudande klistra-fält, mjuk motion,
+   och en egen elegant Pro-nyckel-affordans (inte längre begravd i "Justera själv").
+   Rör inga ID:n/kontrakt — bara utseendet. Ljust + mörkt via variabler.
+   ═══════════════════════════════════════════════════════════════════════════ */
+/* Ambient bakgrund — mjuka varma sken bakom allt så kortet svävar (matchar startsidan). */
+body{position:relative}
+body::before,body::after{content:'';position:fixed;z-index:-1;border-radius:50%;filter:blur(70px);pointer-events:none;opacity:.5}
+body::before{width:min(60vw,520px);height:min(60vw,520px);top:-140px;left:-120px;background:radial-gradient(circle,rgba(204,107,44,.16),transparent 68%)}
+body::after{width:min(55vw,480px);height:min(55vw,480px);top:34%;right:-140px;background:radial-gradient(circle,rgba(14,159,110,.10),transparent 68%)}
+:root[data-theme=dark] body::before{background:radial-gradient(circle,rgba(232,147,90,.14),transparent 68%);opacity:.4}
+:root[data-theme=dark] body::after{background:radial-gradient(circle,rgba(14,159,110,.10),transparent 68%);opacity:.35}
+@media(prefers-reduced-motion:no-preference){body::before{animation:floatA 22s ease-in-out infinite alternate}body::after{animation:floatB 26s ease-in-out infinite alternate}}
+@keyframes floatA{to{transform:translate(30px,40px) scale(1.08)}}
+@keyframes floatB{to{transform:translate(-34px,-28px) scale(1.06)}}
+
+/* Kort — mjukare radie, djupare skugga, hårfin accent-kant upptill. */
+.panel{border-radius:24px;border-color:var(--border);box-shadow:0 2px 6px rgba(60,40,20,.05),0 18px 50px -12px rgba(60,40,20,.14);position:relative;overflow:hidden}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#E8935A 55%,rgba(232,147,90,0));opacity:.9}
+#form.panel{padding-top:30px}
+:root[data-theme=dark] .panel{box-shadow:0 2px 6px rgba(0,0,0,.3),0 18px 50px -12px rgba(0,0,0,.5)}
+
+/* Hero — mer luft, badges som förtroende-chips. */
+.hero{padding:22px 0 6px}
+h1{letter-spacing:-1.1px}
+.badge{background:var(--card);box-shadow:0 1px 2px rgba(60,40,20,.05);transition:transform .12s,box-shadow .12s}
+.badge:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(60,40,20,.09)}
+
+/* Läges-växeln — mjukare, med skugga på behållaren + fjädrande aktivläge. */
+.mode-tog{box-shadow:inset 0 1px 2px rgba(60,40,20,.05);border-radius:16px}
+.mode-tog button{transition:color .18s,background .25s cubic-bezier(.4,1.3,.5,1),box-shadow .2s;border-radius:12px}
+.mode-tog button.on{box-shadow:0 3px 12px -2px rgba(204,107,44,.45)}
+
+/* Stepper — riktig numrerad följd med kopplingslinjer (ersätter platta steps-mini). */
+.steps-mini{background:transparent;padding:4px 0 20px;gap:0;justify-content:space-between;max-width:none}
+.steps-mini span:not(.arr){display:inline-flex;align-items:center;gap:7px;flex:0 1 auto}
+.steps-mini .arr{flex:1 1 auto;height:2px;background:repeating-linear-gradient(90deg,var(--border) 0 5px,transparent 5px 10px);color:transparent;min-width:16px;margin:0 8px;align-self:center}
+.steps-mini b{width:24px;height:24px;font-size:12.5px;box-shadow:0 2px 6px -1px rgba(204,107,44,.5);margin-right:0}
+
+/* Klistra-fältet — stjärnan. Större, inbjudande, mjukt inre sken + starkare fokus-glow. */
+.bigpaste{min-height:172px;font-size:16px;line-height:1.6;padding:16px 17px;border-width:2px;border-radius:16px;background:linear-gradient(180deg,var(--surface),var(--bg));box-shadow:inset 0 1px 3px rgba(60,40,20,.04);transition:border-color .18s,box-shadow .22s,background .2s}
+.bigpaste::placeholder{color:var(--muted);opacity:.85}
+.bigpaste:focus{background:var(--card);box-shadow:0 0 0 4px rgba(204,107,44,.14),0 8px 24px -10px rgba(204,107,44,.4)}
+label[for=f-desc]{font-size:15px;margin-bottom:9px}
+
+/* Foto-zon — mjukare, tydligare hover. */
+.dropzone{border-radius:16px;border-width:2px;padding:22px;transition:border-color .18s,background .18s,transform .12s}
+.dropzone:hover,.dropzone.drag{transform:translateY(-1px)}
+
+/* ── Pro-nyckel: egen elegant affordans (INTE längre gömd i "Justera själv") ── */
+.prokey{margin-top:18px;border:1.5px solid var(--border);border-radius:14px;background:var(--surface);overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.prokey.active{border-color:rgba(14,159,110,.5);background:rgba(14,159,110,.06)}
+.prokey-toggle{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;padding:14px 16px;font:inherit;font-size:14px;font-weight:700;color:var(--mid);cursor:pointer;text-align:left}
+.prokey-toggle .pk-ic{font-size:16px;line-height:1;filter:grayscale(.15)}
+.prokey-toggle .pk-sub{font-weight:500;color:var(--muted);font-size:12.5px}
+.prokey-toggle .pk-chev{margin-left:auto;color:var(--accent-text);font-size:12px;transition:transform .2s}
+.prokey.open .prokey-toggle .pk-chev{transform:rotate(90deg)}
+.prokey.active .prokey-toggle{color:var(--green)}
+.prokey.active .pk-ic{filter:none}
+.prokey-body{max-height:0;opacity:0;overflow:hidden;transition:max-height .28s cubic-bezier(.2,.7,.3,1),opacity .2s,padding .28s;padding:0 16px}
+.prokey.open .prokey-body{max-height:110px;opacity:1;padding:0 16px 15px}
+.prokey-field{position:relative}
+.prokey-field input{padding-right:42px;letter-spacing:.08em;font-weight:600;text-transform:uppercase}
+.prokey-field input::placeholder{letter-spacing:.06em;text-transform:none;font-weight:500}
+.pk-ok{position:absolute;right:14px;top:50%;transform:translateY(-50%) scale(.6);opacity:0;color:var(--green);font-size:19px;font-weight:800;transition:transform .22s cubic-bezier(.3,1.5,.5,1),opacity .18s}
+.prokey-field.valid .pk-ok{opacity:1;transform:translateY(-50%) scale(1)}
+.prokey-field.valid input{border-color:var(--green)}
+.pk-hint{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.pk-hint a{color:var(--accent-text);font-weight:700}
+
+/* "Justera själv" — nu bara rubrik/pris. Lite mjukare. */
+details.adv{border-radius:14px}
+
+/* CTA — gradient + rörelse + pil, mjukt glöd. */
+.cta{background:linear-gradient(135deg,var(--accent),var(--accent-h));border-radius:16px;box-shadow:0 8px 22px -8px rgba(204,107,44,.55);display:inline-flex;align-items:center;justify-content:center;gap:10px}
+.cta::after{content:'→';font-size:19px;transition:transform .2s}
+.cta:hover:not(:disabled){box-shadow:0 12px 30px -8px rgba(204,107,44,.65);transform:translateY(-1px)}
+.cta:hover:not(:disabled)::after{transform:translateX(4px)}
+.cta:active:not(:disabled){transform:translateY(1px)}
+.cta:disabled::after{opacity:.5}
+
+/* Tier-raden (kredit-kostnaden) — lugnare, som en liten info-rad. */
+.tierline{justify-content:center;margin-top:16px;padding:9px 12px;background:var(--surface);border-radius:10px}
+
+/* Mobil: dashed-connector-steppern blir för hög (wrappar 2+1). Återgå till kompakta
+   centrerade pilar som balanserar snyggt vid radbrytning. */
+@media(max-width:520px){
+  .steps-mini{justify-content:center;gap:5px 9px;padding:2px 0 16px}
+  .steps-mini .arr{flex:0 0 auto;min-width:auto;width:auto;height:auto;margin:0;background:none;color:var(--muted);font-weight:400}
+  .steps-mini span:not(.arr){gap:6px}
+  .steps-mini b{width:22px;height:22px}
+}
+/* Resultat-avslöjning lite mjukare redan via .reveal — inget mer behövs. */
 </style>
 
 <div class="wrap">
@@ -233,16 +329,31 @@ footer a{color:var(--mid)}
     <div class="imgs" id="imgprev"></div>
 
     <details class="adv" id="advfields">
-      <summary id="t-adv">Justera själv — rubrik, pris eller licensnyckel</summary>
+      <summary id="t-adv">Rätta rubrik eller pris</summary>
       <div class="adv-body">
         <label for="f-title" id="t-l-title">Vad är det för vara?</label>
         <input type="text" id="f-title" placeholder="t.ex. iPhone 13 128GB · Volvo V70 2012"/>
         <label for="f-price" id="t-l-price">Begärt pris (kr) <span class="sub" id="t-l-price-s">— valfritt</span></label>
         <input type="number" id="f-price" min="0" step="1" inputmode="numeric" placeholder="t.ex. 3500"/>
-        <label for="f-lic" id="t-l-lic">Licensnyckel <span class="sub" id="t-l-lic-s">— om du har en</span></label>
-        <input type="text" id="f-lic" placeholder="FS-XXXX-XXXX" spellcheck="false"/>
       </div>
     </details>
+
+    <!-- Pro-nyckel: egen tydlig men diskret affordans (2026-07-23) — inte längre gömd i
+         "Justera själv". Klick → mjuk reveal av ett rent fält med live-formatvalidering. -->
+    <div class="prokey" id="prokey">
+      <button type="button" class="prokey-toggle" id="prokey-toggle" aria-expanded="false" aria-controls="prokey-body">
+        <span class="pk-ic" aria-hidden="true">🔑</span>
+        <span id="t-prokey">Har du en Pro-nyckel? <span class="pk-sub" id="t-prokey-s">— lås upp live-marknadskoll</span></span>
+        <span class="pk-chev" aria-hidden="true">▸</span>
+      </button>
+      <div class="prokey-body" id="prokey-body">
+        <div class="prokey-field" id="prokey-field">
+          <input type="text" id="f-lic" placeholder="FS-XXXX-XXXX" spellcheck="false" autocapitalize="characters" aria-label="Licensnyckel"/>
+          <span class="pk-ok" id="pk-ok" aria-hidden="true">✓</span>
+        </div>
+        <div class="pk-hint" id="t-prokey-hint">Krediter från köp eller prenumeration. Ingen nyckel? <a href="/#pricing">Se paketen →</a></div>
+      </div>
+    </div>
 
     <div class="tierline"><span id="t-tier">Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)</span></div>
     <div id="cf-holder"></div>
@@ -295,7 +406,8 @@ var T={
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
-   lTitle:'Vad är det för vara?',lDesc:'Klistra in annonsen',lDescS:'— rubrik, text och pris, allt på en gång',adv:'Justera själv — rubrik, pris eller licensnyckel',rMore:'Visa hela analysen',steps:'<span><b>1</b> Kopiera annonsen</span><span class="arr">→</span><span><b>2</b> Klistra in här</span><span class="arr">→</span><span><b>3</b> Få domen</span>',
+   lTitle:'Vad är det för vara?',lDesc:'Klistra in annonsen',lDescS:'— rubrik, text och pris, allt på en gång',adv:'Rätta rubrik eller pris',rMore:'Visa hela analysen',steps:'<span><b>1</b> Kopiera annonsen</span><span class="arr">→</span><span><b>2</b> Klistra in här</span><span class="arr">→</span><span><b>3</b> Få domen</span>',
+   proKey:'Har du en Pro-nyckel?',proKeyS:'— lås upp live-marknadskoll',proKeyHint:'Krediter från köp eller prenumeration. Ingen nyckel? <a href="/#pricing">Se paketen →</a>',
    lPrice:'Begärt pris (kr)',lPriceS:'— valfritt',lPhotos:'Foton från annonsen',lPhotosS:'— valfritt, ger skickbedömning',
    drop:'<b>Välj foton</b> eller släpp dem här',takePhoto:'Ta foto med kameran',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
    lLic:'Licensnyckel',lLicS:'— om du har en',btn:'Analysera annonsen',verifying:'Verifierar…',
@@ -339,7 +451,8 @@ var T={
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
-   lTitle:'What is the item?',lDesc:'Paste the listing',lDescS:'— title, text and price, all at once',adv:'Adjust yourself — title, price or license key',rMore:'Show the full analysis',steps:'<span><b>1</b> Copy the listing</span><span class="arr">→</span><span><b>2</b> Paste it here</span><span class="arr">→</span><span><b>3</b> Get the verdict</span>',
+   lTitle:'What is the item?',lDesc:'Paste the listing',lDescS:'— title, text and price, all at once',adv:'Fix title or price',rMore:'Show the full analysis',steps:'<span><b>1</b> Copy the listing</span><span class="arr">→</span><span><b>2</b> Paste it here</span><span class="arr">→</span><span><b>3</b> Get the verdict</span>',
+   proKey:'Have a Pro key?',proKeyS:'— unlock the live market check',proKeyHint:'Credits from a purchase or subscription. No key? <a href="/#pricing">See the packs →</a>',
    lPrice:'Asking price (SEK)',lPriceS:'— optional',lPhotos:'Photos from the listing',lPhotosS:'— optional, adds a condition read',
    drop:'<b>Choose photos</b> or drop them here',takePhoto:'Take a photo',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
    lLic:'License key',lLicS:'— if you have one',btn:'Analyze listing',verifying:'Verifying…',
@@ -469,6 +582,15 @@ $('f-cam').addEventListener('change',function(e){addFiles(e.target.files);});
 ['dragover','dragenter'].forEach(function(ev){$('drop').addEventListener(ev,function(e){e.preventDefault();$('drop').classList.add('drag');});});
 ['dragleave','drop'].forEach(function(ev){$('drop').addEventListener(ev,function(e){e.preventDefault();$('drop').classList.remove('drag');});});
 $('drop').addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.files)addFiles(e.dataTransfer.files);});
+
+// ── Pro-nyckel-affordans (2026-07-23) ── egen mjuk reveal + live-formatvalidering (grön ✓).
+(function(){
+  var pk=$('prokey'),tog=$('prokey-toggle'),fld=$('prokey-field'),inp=$('f-lic');
+  if(!pk||!tog||!inp||!fld)return;
+  function openPk(o){pk.classList.toggle('open',o);tog.setAttribute('aria-expanded',o?'true':'false');if(o)setTimeout(function(){inp.focus();},70);}
+  tog.addEventListener('click',function(){openPk(!pk.classList.contains('open'));});
+  inp.addEventListener('input',function(){var v=inp.value.trim();var ok=LICENSE_RE.test(v);fld.classList.toggle('valid',ok);pk.classList.toggle('active',ok);});
+})();
 
 function showMsg(html,cls){$('result').innerHTML='<div class="panel reveal"><div class="msg '+(cls||'info')+'">'+html+'</div></div>';}
 function showLoader(){
@@ -848,7 +970,7 @@ function updateQuota(pj){var q=$('quota');if(pj&&typeof pj.credits_remaining==='
 // ── language ──
 function applyLang(){
   document.documentElement.lang=lang;
-  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn','ex-btn':'exBtn','t-modeBuy':'modeBuy','t-modeSell':'modeSell','t-cam':'takePhoto','t-adv':'adv'};
+  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','btn':'btn','ex-btn':'exBtn','t-modeBuy':'modeBuy','t-modeSell':'modeSell','t-cam':'takePhoto','t-adv':'adv'};
   // BUGGFIX 2026-07-20: textContent på en label RADERADE dess under-<span> → nästa rad
   // kastade på null och DÖDADE allt efter applyLang() i bootstrap (bl.a. initTurnstile —
   // widgeten har aldrig renderats; ts_pass=0 var symtomet). Nu: byt bara första textnoden
@@ -858,7 +980,11 @@ function applyLang(){
     else el.textContent=t(ids[id]);
   }
   $('t-lead').innerHTML=t('lead');$('t-drop').innerHTML=t('drop');$('t-tier').innerHTML=t('tier');var _st=$('t-steps');if(_st)_st.innerHTML=t('steps');
-  var subs={'t-l-desc-s':'lDescS','t-l-price-s':'lPriceS','t-l-photos-s':'lPhotosS','t-l-lic-s':'lLicS'};
+  // Pro-nyckel-affordansen (huvudtext med .pk-sub-span + hint med länk).
+  var _pk=$('t-prokey');if(_pk&&_pk.firstChild&&_pk.firstChild.nodeType===3)_pk.firstChild.nodeValue=t('proKey')+' ';
+  var _pks=$('t-prokey-s');if(_pks)_pks.textContent=t('proKeyS');
+  var _pkh=$('t-prokey-hint');if(_pkh)_pkh.innerHTML=t('proKeyHint');
+  var subs={'t-l-desc-s':'lDescS','t-l-price-s':'lPriceS','t-l-photos-s':'lPhotosS'};
   for(var sid in subs){var se=$(sid);if(se)se.textContent=t(subs[sid]);}
   document.querySelectorAll('.lang-btn').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===lang?'true':'false');});
   syncModeTexts();
