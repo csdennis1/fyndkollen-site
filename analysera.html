@@ -53,8 +53,24 @@ label{display:block;font-size:13px;font-weight:700;color:var(--text);margin:18px
 label:first-child{margin-top:0}
 .sub{font-weight:500;color:var(--muted);font-size:12px}
 input[type=text],input[type=number],textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:13px 15px;font:inherit;font-size:16px;color:var(--text);transition:border-color .15s,box-shadow .15s} /* 16px: under 16 auto-zoomar iOS Safari in vid fokus */
-.exlink{display:block;margin:0 0 14px auto;background:none;border:none;padding:4px 0;font:inherit;font-size:13px;font-weight:600;color:#A9521C;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.exlink{display:block;margin:6px 0 18px auto;background:none;border:none;padding:4px 0;font:inherit;font-size:13px;font-weight:600;color:#A9521C;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 :root[data-theme=dark] .exlink{color:var(--accent)}
+/* Oteknisk-först (2026-07-22): mini-stegen, stora klistra-fältet, hopfällda avancerat-fälten */
+.steps-mini{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 12px;font-size:13px;color:var(--mid);font-weight:600;margin:0 0 18px;padding:11px 8px;background:var(--surface);border-radius:12px}
+.steps-mini b{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;border-radius:50%;background:var(--accent-text);color:#fff;font-size:12px;margin-right:6px}
+.steps-mini .arr{color:var(--muted);font-weight:400}
+.bigpaste{min-height:150px;font-size:15.5px}
+details.adv{margin:16px 0 4px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+details.adv summary{list-style:none;cursor:pointer;padding:13px 16px;font-size:13.5px;font-weight:700;color:var(--mid)}
+details.adv summary::-webkit-details-marker{display:none}
+details.adv summary::before{content:'▸ ';color:var(--accent-text)}
+details.adv[open] summary::before{content:'▾ '}
+details.adv .adv-body{padding:2px 16px 16px}
+details.rdetails{margin-top:14px;border-top:1px solid var(--border);padding-top:4px}
+details.rdetails summary{list-style:none;cursor:pointer;padding:10px 2px;font-size:14px;font-weight:700;color:var(--accent-text)}
+details.rdetails summary::-webkit-details-marker{display:none}
+details.rdetails summary::before{content:'▸ ';font-size:12px}
+details.rdetails[open] summary::before{content:'▾ '}
 .exlink:hover{opacity:.8}
 /* Köp/Sälj-växeln (2026-07-20: säljhjälpen — värdering + färdig annonstext) */
 .mode-tog{display:flex;gap:0;background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:4px;margin:0 auto 18px;max-width:420px}
@@ -199,15 +215,13 @@ footer a{color:var(--mid)}
   </div>
 
   <form class="panel" id="form" autocomplete="off">
+    <!-- Oteknisk-först (2026-07-22): ETT stort klistra-in-fält är hela flödet. Rubrik + pris
+         parsas automatiskt ur texten vid analys; de gamla fälten lever kvar under "Justera
+         själv" (details) så inget i submit-kontraktet ändrats. -->
+    <div class="steps-mini" id="t-steps"><span><b>1</b> Kopiera annonsen</span><span class="arr">→</span><span><b>2</b> Klistra in här</span><span class="arr">→</span><span><b>3</b> Få domen</span></div>
+    <label for="f-desc" id="t-l-desc">Klistra in annonsen <span class="sub" id="t-l-desc-s">— rubrik, text och pris, allt på en gång</span></label>
+    <textarea id="f-desc" class="bigpaste" placeholder="Markera allt i annonsen — rubrik, beskrivning och pris — kopiera och klistra in här. Vi läser ut resten automatiskt."></textarea>
     <button type="button" class="exlink" id="ex-btn">Ingen annons till hands? Testa med ett exempel</button>
-    <label for="f-title" id="t-l-title">Vad är det för vara?</label>
-    <input type="text" id="f-title" placeholder="t.ex. iPhone 13 128GB · Volvo V70 2012 · Omega Seamaster" required/>
-
-    <label for="f-desc" id="t-l-desc">Klistra in annonstexten <span class="sub" id="t-l-desc-s">— skick, specs, vad som ingår, ålder, mil…</span></label>
-    <textarea id="f-desc" placeholder="Markera hela beskrivningen i annonsen, kopiera och klistra in här. Ju mer text, desto bättre värdering."></textarea>
-
-    <label for="f-price" id="t-l-price">Begärt pris (kr) <span class="sub" id="t-l-price-s">— valfritt</span></label>
-    <input type="number" id="f-price" min="0" step="1" inputmode="numeric" placeholder="t.ex. 3500"/>
 
     <label id="t-l-photos">Foton från annonsen <span class="sub" id="t-l-photos-s">— valfritt, ger skickbedömning</span></label>
     <div class="dropzone" id="drop" tabindex="0" role="button">
@@ -217,11 +231,20 @@ footer a{color:var(--mid)}
     <input type="file" id="f-cam" accept="image/*" capture="environment" hidden/>
     <button type="button" class="cambtn" id="t-cam" hidden>Ta foto med kameran</button>
     <div class="imgs" id="imgprev"></div>
+
+    <details class="adv" id="advfields">
+      <summary id="t-adv">Justera själv — rubrik, pris eller licensnyckel</summary>
+      <div class="adv-body">
+        <label for="f-title" id="t-l-title">Vad är det för vara?</label>
+        <input type="text" id="f-title" placeholder="t.ex. iPhone 13 128GB · Volvo V70 2012"/>
+        <label for="f-price" id="t-l-price">Begärt pris (kr) <span class="sub" id="t-l-price-s">— valfritt</span></label>
+        <input type="number" id="f-price" min="0" step="1" inputmode="numeric" placeholder="t.ex. 3500"/>
+        <label for="f-lic" id="t-l-lic">Licensnyckel <span class="sub" id="t-l-lic-s">— om du har en</span></label>
+        <input type="text" id="f-lic" placeholder="FS-XXXX-XXXX" spellcheck="false"/>
+      </div>
+    </details>
+
     <div class="tierline"><span id="t-tier">Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)</span></div>
-
-    <label for="f-lic" id="t-l-lic">Licensnyckel <span class="sub" id="t-l-lic-s">— om du har en</span></label>
-    <input type="text" id="f-lic" placeholder="FS-XXXX-XXXX" spellcheck="false"/>
-
     <div id="cf-holder"></div>
     <button type="submit" class="cta" id="btn">Analysera annonsen</button>
     <div class="quota" id="quota"></div>
@@ -272,7 +295,7 @@ var T={
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
-   lTitle:'Vad är det för vara?',lDesc:'Klistra in annonstexten',lDescS:'— skick, specs, vad som ingår, ålder, mil…',
+   lTitle:'Vad är det för vara?',lDesc:'Klistra in annonsen',lDescS:'— rubrik, text och pris, allt på en gång',adv:'Justera själv — rubrik, pris eller licensnyckel',rMore:'Visa hela analysen',steps:'<span><b>1</b> Kopiera annonsen</span><span class="arr">→</span><span><b>2</b> Klistra in här</span><span class="arr">→</span><span><b>3</b> Få domen</span>',
    lPrice:'Begärt pris (kr)',lPriceS:'— valfritt',lPhotos:'Foton från annonsen',lPhotosS:'— valfritt, ger skickbedömning',
    drop:'<b>Välj foton</b> eller släpp dem här',takePhoto:'Ta foto med kameran',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
    lLic:'Licensnyckel',lLicS:'— om du har en',btn:'Analysera annonsen',verifying:'Verifierar…',
@@ -285,7 +308,7 @@ var T={
    redflag:'Varning',warnings:'Varningar',scamRisk:'Ovanligt lågt pris mot marknaden — var vaksam på bluff. Möt lokalt och betala vid hämtning, aldrig i förskott.',dealScoreLbl:'Fynd-poäng',coach:'Förhandlingshjälp',sellerLabel:'Färdigt meddelande till säljaren:',copymsg:'Kopiera meddelande',again:'Analysera en annan annons',shareBtn:'Dela resultatet',
    certBtn:'📄 Spara värderingsintyg',certTitle:'VÄRDERINGSRAPPORT',certVerdictGood:'BRA FYND',certVerdictFair:'RIMLIGT PRIS',certVerdictOver:'ÖVERPRISSATT',certMarket:'Marknadsvärde',certAsking:'Begärt pris',certGrounded:'Grundad i {n} verifierade slutpriser',certScore:'Fynd-poäng',certDisclaimer:'Uppskattning grundad i marknadsdata — inte ett officiellt intyg.',
    confHigh:'Hög säkerhet',confMed:'Medel säkerhet',confLow:'Låg säkerhet',basedWeb:'Grundat i marknadsdata + websökning',
-   needTitle:'Fyll i vad det är för vara.',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
+   needTitle:'Klistra in annonsen först — eller skriv vad det är för vara under "Justera själv".',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
    quotaWall:'Dina 5 gratiskollar är slut. Köp krediter eller starta en prenumeration för att fortsätta — <a href="/#pricing">se paketen →</a>',
    creditsWall:'Dina krediter är slut. <a href="/#pricing">Fyll på →</a> — de staplas på samma nyckel.',
    maint:'Tjänsten är pausad tillfälligt för underhåll. Försök snart igen — ingen kredit drogs.',
@@ -314,7 +337,7 @@ var T={
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
-   lTitle:'What is the item?',lDesc:'Paste the listing text',lDescS:'— condition, specs, what’s included, age, mileage…',
+   lTitle:'What is the item?',lDesc:'Paste the listing',lDescS:'— title, text and price, all at once',adv:'Adjust yourself — title, price or license key',rMore:'Show the full analysis',steps:'<span><b>1</b> Copy the listing</span><span class="arr">→</span><span><b>2</b> Paste it here</span><span class="arr">→</span><span><b>3</b> Get the verdict</span>',
    lPrice:'Asking price (SEK)',lPriceS:'— optional',lPhotos:'Photos from the listing',lPhotosS:'— optional, adds a condition read',
    drop:'<b>Choose photos</b> or drop them here',takePhoto:'Take a photo',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
    lLic:'License key',lLicS:'— if you have one',btn:'Analyze listing',verifying:'Verifying…',
@@ -327,7 +350,7 @@ var T={
    redflag:'Warning',warnings:'Warnings',scamRisk:'Unusually low price vs the market — be cautious of scams. Meet locally and pay on pickup, never in advance.',dealScoreLbl:'Deal score',coach:'Negotiation help',sellerLabel:'Ready message to the seller:',copymsg:'Copy message',again:'Analyze another listing',shareBtn:'Share result',
    certBtn:'📄 Save valuation report',certTitle:'VALUATION REPORT',certVerdictGood:'GOOD DEAL',certVerdictFair:'FAIR PRICE',certVerdictOver:'OVERPRICED',certMarket:'Market value',certAsking:'Asking price',certGrounded:'Grounded in {n} verified sold prices',certScore:'Deal score',certDisclaimer:'Estimate based on market data — not an official certificate.',
    confHigh:'High confidence',confMed:'Medium confidence',confLow:'Low confidence',basedWeb:'Grounded in market data + web search',
-   needTitle:'Fill in what the item is.',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
+   needTitle:'Paste the listing first — or type what the item is under "Adjust yourself".',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
    quotaWall:'Your 5 free checks are used up. Buy credits or start a subscription to keep going — <a href="/#pricing">see the packs →</a>',
    creditsWall:'Your credits are used up. <a href="/#pricing">Top up →</a> — they stack on the same key.',
    maint:'Service paused for maintenance. Try again soon — no credit was charged.',
@@ -600,8 +623,11 @@ function render(r,price){
   h+='<div class="panel reveal">';
   if(r.itemName)h+='<div class="ident">'+esc(r.itemName)+(r.category?' <span class="cat">· '+esc(catName(r.category))+'</span>':'')+'</div>';
   if(cs>0){h+='<div class="meter"><i style="width:'+(cs*10)+'%;background:'+cColor+'"></i></div><div class="meter-lbl"><span>'+t('condition')+(r.conditionLabel?': '+esc(condName(r.conditionLabel)):'')+'</span><span>'+cs+'/10</span></div>';}
-  if(r.conditionNotes)h+='<div class="cnotes">'+esc(r.conditionNotes)+'</div>';
-  if(r.reasoning)h+='<div class="reason">'+esc(r.reasoning)+'</div>';
+  // Oteknisk-först: AI-prosan (skickanteckningar + resonemang) fälls ihop bakom "Visa hela
+  // analysen" — domen, varningarna och de handlingsbara delarna (bud/förhandling) syns direkt.
+  var moreHtml='';
+  if(r.conditionNotes)moreHtml+='<div class="cnotes">'+esc(r.conditionNotes)+'</div>';
+  if(r.reasoning)moreHtml+='<div class="reason">'+esc(r.reasoning)+'</div>';
   var warns=[];
   if(r.redFlag)warns.push(esc(r.redFlag));
   if(price>0&&r.marketValue&&price<r.marketValue*0.55)warns.push(t('scamRisk'));
@@ -611,6 +637,7 @@ function render(r,price){
   var smsg=null;if(typeof r.sellerMessage==='string'&&r.sellerMessage.indexOf('{OFFER}')>=0&&r.suggestedOffer&&price>0)smsg=r.sellerMessage.split('{OFFER}').join(fmt(r.suggestedOffer)+' kr').slice(0,500);
   if(pts.length){h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><ul>';pts.forEach(function(p){h+='<li>'+esc(p)+'</li>';});h+='</ul>';if(smsg)h+='<div style="font-size:12.5px;color:var(--muted);margin-top:9px">'+t('sellerLabel')+'</div><div class="smsg" id="smsg">'+esc(smsg)+'</div><button class="copybtn" id="copymsg" style="margin-top:10px">'+t('copymsg')+'</button>';h+='</div>';}
   else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
+  if(moreHtml)h+='<details class="rdetails"><summary>'+t('rMore')+'</summary>'+moreHtml+'</details>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
   h+='</div>'+compsHtml(r,price)+tierHtml()+
     ((r.marketValue>0&&price>0)?'<button class="again share" id="certbtn">'+t('certBtn')+'</button>':'')+
@@ -630,7 +657,7 @@ function render(r,price){
     if(navigator.share){navigator.share({text:txt}).catch(function(){});}
     else copy(txt,$('share'));
   };
-  $('again').onclick=function(){$('result').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});$('f-title').focus();};
+  $('again').onclick=function(){$('result').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
 }
 // Säljlägets resultat: prisförslag + färdig annons (rubrik + text, kopierbara) + tips.
 function renderSell(r,priceIdea){
@@ -663,7 +690,7 @@ function renderSell(r,priceIdea){
   $('result').innerHTML=h;
   var ct=$('copyadtitle');if(ct)ct.onclick=function(){copy(r.adTitle,ct);};
   var ca=$('copyadtext');if(ca)ca.onclick=function(){copy(r.adText,ca);};
-  $('again').onclick=function(){$('result').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});$('f-title').focus();};
+  $('again').onclick=function(){$('result').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});$('f-desc').focus();};
 }
 function catName(c){var m={sv:{watches:'Klockor',electronics:'Elektronik',clothing:'Kläder',furniture:'Möbler',cars:'Bilar',boats:'Båtar',mc:'MC',bikes:'Cyklar',other:'Övrigt'},en:{watches:'Watches',electronics:'Electronics',clothing:'Clothing',furniture:'Furniture',cars:'Cars',boats:'Boats',mc:'Motorcycles',bikes:'Bicycles',other:'Other'}};return (m[lang]&&m[lang][c])||c;}
 function condName(c){var m={sv:{Mint:'Toppskick',Excellent:'Mycket bra',Good:'Bra',Fair:'Okej',Poor:'Dåligt'},en:{Mint:'Mint',Excellent:'Excellent',Good:'Good',Fair:'Fair',Poor:'Poor'}};return (m[lang]&&m[lang][c])||c;}
@@ -700,9 +727,15 @@ function cfReset(){cfTokenValue='';cfState='loading';try{if(window.turnstile&&cf
 // ── submit ──
 $('form').addEventListener('submit',async function(e){
   e.preventDefault();
-  var title=$('f-title').value.trim();if(!title){showMsg(t('needTitle'),'err');return;}
+  // Oteknisk-först: rubrik + pris parsas automatiskt ur den inklistrade texten när
+  // "Justera själv"-fälten är tomma. Rubrik = första raden; pris = första "X kr"/"X:-"-
+  // träffen (kr-suffixet krävs så specs som "128GB" aldrig misstas för pris).
   var desc=$('f-desc').value.trim();
+  var title=$('f-title').value.trim();
+  if(!title&&desc){var _ln=desc.split('\n').map(function(s){return s.trim();}).filter(Boolean);title=(_ln[0]||'').slice(0,80);}
+  if(!title){showMsg(t('needTitle'),'err');return;}
   var price=parseInt($('f-price').value,10);if(!(price>0))price=0;
+  if(!price&&desc){var _pm=desc.match(/(\d[\d\s .,]{0,9}\d|\d)\s*(?:kr|:-|sek)\b/i);if(_pm){var _pv=parseInt(_pm[1].replace(/[^\d]/g,''),10);if(_pv>0&&_pv<10000000)price=_pv;}}
   var licRaw=$('f-lic').value.trim();
   if(licRaw&&!LICENSE_RE.test(licRaw)){showMsg(t('badLic'),'err');return;}
   // Turnstile only for free-tier (no license). Vänta in att widgeten löst (cfState='ready')
@@ -751,7 +784,7 @@ function updateQuota(pj){var q=$('quota');if(pj&&typeof pj.credits_remaining==='
 // ── language ──
 function applyLang(){
   document.documentElement.lang=lang;
-  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn','ex-btn':'exBtn','t-modeBuy':'modeBuy','t-modeSell':'modeSell','t-cam':'takePhoto'};
+  var ids={'t-navback':'navback','t-eyebrow':'eyebrow','t-h1':'h1','t-b1':'b1','t-b2':'b2','t-b3':'b3','t-l-title':'lTitle','t-l-desc':'lDesc','t-l-price':'lPrice','t-l-photos':'lPhotos','t-l-lic':'lLic','btn':'btn','ex-btn':'exBtn','t-modeBuy':'modeBuy','t-modeSell':'modeSell','t-cam':'takePhoto','t-adv':'adv'};
   // BUGGFIX 2026-07-20: textContent på en label RADERADE dess under-<span> → nästa rad
   // kastade på null och DÖDADE allt efter applyLang() i bootstrap (bl.a. initTurnstile —
   // widgeten har aldrig renderats; ts_pass=0 var symtomet). Nu: byt bara första textnoden
@@ -760,7 +793,7 @@ function applyLang(){
     if(el.querySelector&&el.querySelector('.sub')&&el.firstChild&&el.firstChild.nodeType===3){el.firstChild.nodeValue=t(ids[id])+' ';}
     else el.textContent=t(ids[id]);
   }
-  $('t-lead').innerHTML=t('lead');$('t-drop').innerHTML=t('drop');$('t-tier').innerHTML=t('tier');
+  $('t-lead').innerHTML=t('lead');$('t-drop').innerHTML=t('drop');$('t-tier').innerHTML=t('tier');var _st=$('t-steps');if(_st)_st.innerHTML=t('steps');
   var subs={'t-l-desc-s':'lDescS','t-l-price-s':'lPriceS','t-l-photos-s':'lPhotosS','t-l-lic-s':'lLicS'};
   for(var sid in subs){var se=$(sid);if(se)se.textContent=t(subs[sid]);}
   document.querySelectorAll('.lang-btn').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-lang')===lang?'true':'false');});
