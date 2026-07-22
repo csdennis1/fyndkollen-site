@@ -48,7 +48,11 @@
 <!-- Inter via Bunny Fonts: GDPR-safe drop-in for Google Fonts (EU-hosted, zero logging/tracking —
      the Google Fonts CDN itself is a documented GDPR problem for an EU audience). Verified 200. -->
 <link rel="preconnect" href="https://fonts.bunny.net"/>
-<style>@import url('https://fonts.bunny.net/css?family=inter:400,500,600,700,800');</style>
+<!-- Preload the two above-the-fold weights (body 400, hero 800) so they paint WITH Inter and
+     don't swap-in late (CLS-källa 2026-07-22). Slow @import ersatt av vanlig <link> + display=swap. -->
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.bunny.net/inter/files/inter-latin-400-normal.woff2" crossorigin/>
+<link rel="preload" as="font" type="font/woff2" href="https://fonts.bunny.net/inter/files/inter-latin-800-normal.woff2" crossorigin/>
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap"/>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -275,7 +279,7 @@
   @keyframes fkPopIn{0%{opacity:0;transform:scale(.85) translateY(10px)}70%{transform:scale(1.015) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
   @keyframes fkFadeStep{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   @keyframes fkFillX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-  @keyframes fkScan{0%{top:2%;opacity:0}8%{opacity:.9}92%{opacity:.9}100%{top:96%;opacity:0}}
+  @keyframes fkScan{0%{transform:translateY(3px);opacity:0}8%{opacity:.9}92%{opacity:.9}100%{transform:translateY(125px);opacity:0}}
   .badge-float{animation:fkPopIn .5s var(--ease-out) .15s both}
   .result-card{animation:fkPopIn .6s var(--ease-out) .45s both}
   .result-card .rc-verdict{animation:fkFadeStep .4s ease .9s both}
@@ -285,7 +289,7 @@
   .rc-condbar{height:4px;background:var(--border);border-radius:3px;overflow:hidden;margin:1px 0 9px;animation:fkFadeStep .4s ease 1.35s both}
   .rc-condbar span{display:block;height:100%;width:82%;background:var(--green);border-radius:3px;transform-origin:left;transform:scaleX(0);animation:fkFillX .7s var(--ease-out) 1.55s both}
   .result-card .rc-margin{animation:fkFadeStep .4s ease 1.75s both}
-  .listing-mock .ph::before{content:'';position:absolute;left:4%;right:4%;height:3px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;animation:fkScan 3.6s ease-in-out .6s infinite}
+  .listing-mock .ph::before{content:'';position:absolute;left:4%;right:4%;top:0;height:3px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;will-change:transform;animation:fkScan 3.6s ease-in-out .6s infinite}
 
   footer{padding:30px 0 50px;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:13px;position:relative;z-index:1}
   footer a{color:var(--muted)}
