@@ -216,10 +216,10 @@ async function call(action, extra){
 async function login(){
   PW=document.getElementById("pw").value;
   var r=await call("data",{period:PERIOD});
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic);startAuto();lifeLoad();setTab('overview');}
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage);startAuto();lifeLoad();setTab('overview');}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -236,7 +236,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s,sf,ce,f50,ts,wpv,wap,tr){
+function render(s,sf,ce,f50,ts,wpv,wap,tr,cov){
   LAST_STATS=s; // Life-panelens Översikt läser intäkts-KPI:n härifrån
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
@@ -366,6 +366,16 @@ function render(s,sf,ce,f50,ts,wpv,wap,tr){
      (bs.length? bs.map(function(x){var pct=ttot>0?Math.round(x.n/ttot*100):0;return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)"><span><b>'+x.source+'</b> <span class="muted" style="font-size:12px">'+(x.medium||'')+'</span></span><span>'+n(x.n)+' <span class="muted">('+pct+'%)</span></span></div>';}).join('')
         : '<div class="muted" style="font-size:13px">Inga besök registrerade än för perioden. Dela dina länkar med <code>?utm_source=tiktok</code> osv (mall: launch/acquisition-plan.md) så syns varje kanal här.</div>')+
      (bc.length? '<div class="k-sub" style="margin-top:12px"><b>Kampanjer:</b> '+bc.map(function(x){return x.campaign+' ('+n(x.n)+')';}).join(' · ')+'</div>' : '')+
+     '</div>';
+  // Vad vi är bäst på att värdera (2026-07-23): per-kategori grundnings-täckning.
+  // well_grounded = produkter med ≥6 verifierade slutpriser (Pro-nivå, hoppar websökning).
+  var cov2=cov||{},cats=(cov2.categories||[]),ctot=cov2.totals||{};
+  var CATSV={electronics:'Elektronik',clothing:'Kläder',watches:'Klockor',furniture:'Möbler',cars:'Bilar',boats:'Båtar',mc:'MC & moped',bikes:'Cyklar',other:'Övrigt (glas/design/verktyg)'};
+  var cmax=cats.reduce(function(a,x){return Math.max(a,Number(x.well_grounded||0));},1)||1;
+  h+='<div class="card"><h2>Vad vi är bäst på att värdera</h2>'+
+     '<div class="k-sub" style="margin-bottom:12px">'+n(ctot.well_grounded||0)+' produkter Pro-grundade (≥6 verifierade slutpriser) · '+n(ctot.anchored||0)+' förankrade (≥2) · '+n(ctot.products||0)+' produkter totalt</div>'+
+     cats.map(function(x){var wg=Number(x.well_grounded||0);var w=Math.round(wg/cmax*100);return '<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:3px"><span><b>'+(CATSV[x.cat]||x.cat)+'</b></span><span>'+n(wg)+' pro · <span class="muted">'+n(x.anchored||0)+' förankrade</span></span></div><div style="height:8px;background:var(--border);border-radius:5px;overflow:hidden"><i style="display:block;height:100%;width:'+w+'%;background:'+(wg>=50?'#0E9F6E':wg>=10?'#D97706':'#B0653C')+';border-radius:5px"></i></div></div>';}).join('')+
+     '<div class="k-sub" style="margin-top:11px">Grön = stark · orange = medel · brun = tunn. Tunna premium-kategorier (klockor/möbler/övrigt) är exakt vad auktionshus-hämtaren stärker.</div>'+
      '</div>';
   h+='<div class="card" id="kvd-card"><h2>KVD-hämtaren (bilpriser)</h2><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
   h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><input id="kamt" type="number" placeholder="Antal krediter att ge" style="margin-bottom:9px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="keyAct(\'grant_credits\')">Ge krediter</button><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
