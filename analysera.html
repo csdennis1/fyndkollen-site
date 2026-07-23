@@ -1027,8 +1027,27 @@ try{var _ul=new URLSearchParams(location.search).get('lang');var _sv=localStorag
 // Tidsfönster-guard i localStorage (max en per 30 min) — den gamla sessionStorage-guarden
 // fastnade på långlivade/återställda flikar och undertryckte beaconen permanent (upptäckt
 // 2026-07-14: web_appraise tickade men pv_web låg kvar på 0 i en flik som hölls öppen).
+// Källattribution (2026-07-23): samma logik som säljsidan — taggad länk/referrer → kanalnamn,
+// first-touch 30 d i localStorage. Ingen PII/cookie/tredjepart, bara kanalnamnet i beaconen.
+function fkSource(){
+  try{
+    var q=new URLSearchParams(location.search);
+    var s=(q.get('utm_source')||q.get('ref')||'').toLowerCase();
+    var m=(q.get('utm_medium')||'').toLowerCase();
+    var c=(q.get('utm_campaign')||'').toLowerCase();
+    if(s){var o={s:s,m:m||'tagged',c:c,t:Date.now()};try{localStorage.setItem('fk_src',JSON.stringify(o));}catch(e){}return o;}
+    try{var st=JSON.parse(localStorage.getItem('fk_src')||'null');if(st&&Date.now()-st.t<2592000000)return st;}catch(e){}
+    var host='';try{host=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,'').toLowerCase():'';}catch(e){}
+    var map={'t.co':'twitter','x.com':'twitter','twitter.com':'twitter','l.instagram.com':'instagram','instagram.com':'instagram','lm.facebook.com':'facebook','l.facebook.com':'facebook','m.facebook.com':'facebook','facebook.com':'facebook','tiktok.com':'tiktok','vt.tiktok.com':'tiktok','vm.tiktok.com':'tiktok','youtube.com':'youtube','youtu.be':'youtube','reddit.com':'reddit','out.reddit.com':'reddit','flashback.org':'flashback','sweclockers.com':'sweclockers','bing.com':'bing','duckduckgo.com':'duckduckgo'};
+    if(!host||host.indexOf('fyndkollen.com')>=0)return {s:'direct',m:'none',c:''};
+    if(map[host])return {s:map[host],m:'referral',c:''};
+    if(host==='google.com'||host.indexOf('.google.')>=0||host.indexOf('google.')===0)return {s:'google',m:'organic',c:''};
+    return {s:host,m:'referral',c:''};
+  }catch(e){return {s:'direct',m:'none',c:''};}
+}
 try{var _pl=+(localStorage.getItem('fk_pv_web_ts')||0);if(Date.now()-_pl>1800000){localStorage.setItem('fk_pv_web_ts',String(Date.now()));
-  fetch('https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'pageview',page:'web'}),keepalive:true}).catch(function(){});}}catch(e){}
+  var _s=fkSource();
+  fetch('https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'pageview',page:'web',source:_s.s,medium:_s.m,campaign:_s.c}),keepalive:true}).catch(function(){});}}catch(e){}
 applyLang();initTurnstile();
 })();
 </script>

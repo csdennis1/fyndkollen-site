@@ -1107,7 +1107,7 @@
       helpLead: 'Email is the fastest way to reach us — we reply within 24 hours on weekdays.',
       metodH2: 'How we work it out — no guessing',
       metodLead: 'Value is based on what things actually sold for — not on asking prices.',
-      metod1h: 'Real sold prices.', metod1p: 'We ground the valuation in one of Sweden's largest databases of verified secondhand sold prices — 26,000+ completed sales, growing daily. Never in what sellers ask.',
+      metod1h: 'Real sold prices.', metod1p: 'We ground the valuation in one of Sweden\'s largest databases of verified secondhand sold prices — 26,000+ completed sales, growing daily. Never in what sellers ask.',
       metod2h: 'We trim the extremes.', metod2p: 'A stray joke bid or luxury variant can\'t skew the average; we use a robust median.',
       metod3h: 'We never set the price.', metod3p: 'Our valuation reads the market — it never sets a price for a seller or buyer.',
       metod4h: 'You see the proof.', metod4p: 'The result shows the actual sales behind the number — click and check for yourself.',
@@ -1305,15 +1305,36 @@
 
   var FEEDBACK_URL = 'https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
 
+  // ── Källattribution (2026-07-23) ── härleder VARIFRÅN besökaren kom: taggad länk
+  // (?utm_source=/&ref=) först, annars referrer-hosten mappad till en läsbar kanal. First-
+  // touch sparas 30 d i localStorage så en senare konvertering kan tillskrivas rätt kanal.
+  // Ingen PII, ingen cookie, ingen tredjepart — bara ett kanalnamn skickat med besöksbeaconen.
+  function fkSource(){
+    try{
+      var q=new URLSearchParams(location.search);
+      var s=(q.get('utm_source')||q.get('ref')||'').toLowerCase();
+      var m=(q.get('utm_medium')||'').toLowerCase();
+      var c=(q.get('utm_campaign')||'').toLowerCase();
+      if(s){var o={s:s,m:m||'tagged',c:c,t:Date.now()};try{localStorage.setItem('fk_src',JSON.stringify(o));}catch(e){}return o;}
+      try{var st=JSON.parse(localStorage.getItem('fk_src')||'null');if(st&&Date.now()-st.t<2592000000)return st;}catch(e){}
+      var host='';try{host=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,'').toLowerCase():'';}catch(e){}
+      var map={'t.co':'twitter','x.com':'twitter','twitter.com':'twitter','l.instagram.com':'instagram','instagram.com':'instagram','lm.facebook.com':'facebook','l.facebook.com':'facebook','m.facebook.com':'facebook','facebook.com':'facebook','tiktok.com':'tiktok','vt.tiktok.com':'tiktok','vm.tiktok.com':'tiktok','youtube.com':'youtube','youtu.be':'youtube','reddit.com':'reddit','out.reddit.com':'reddit','flashback.org':'flashback','sweclockers.com':'sweclockers','bing.com':'bing','duckduckgo.com':'duckduckgo'};
+      if(!host||host.indexOf('fyndkollen.com')>=0)return {s:'direct',m:'none',c:''};
+      if(map[host])return {s:map[host],m:'referral',c:''};
+      if(host==='google.com'||host.indexOf('.google.')>=0||host.indexOf('google.')===0)return {s:'google',m:'organic',c:''};
+      return {s:host,m:'referral',c:''};
+    }catch(e){return {s:'direct',m:'none',c:''};}
+  }
   // ── Privacy-friendly visitor count ── fire-and-forget aggregate page-view ping (no PII,
   // no cookie, no third party). Once per tab so a reload spree doesn't inflate it.
   (function () {
     try {
       if (sessionStorage.getItem('fk_pv')) return;
       sessionStorage.setItem('fk_pv', '1');
+      var _s = fkSource();
       fetch(FEEDBACK_URL, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'pageview' }), keepalive: true
+        body: JSON.stringify({ type: 'pageview', source: _s.s, medium: _s.m, campaign: _s.c }), keepalive: true
       }).catch(function () {});
     } catch (e) {}
   })();

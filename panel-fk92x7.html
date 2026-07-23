@@ -216,10 +216,10 @@ async function call(action, extra){
 async function login(){
   PW=document.getElementById("pw").value;
   var r=await call("data",{period:PERIOD});
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today);startAuto();lifeLoad();setTab('overview');}
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic);startAuto();lifeLoad();setTab('overview');}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -236,7 +236,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s,sf,ce,f50,ts,wpv,wap){
+function render(s,sf,ce,f50,ts,wpv,wap,tr){
   LAST_STATS=s; // Life-panelens Översikt läser intäkts-KPI:n härifrån
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
@@ -357,6 +357,15 @@ function render(s,sf,ce,f50,ts,wpv,wap){
      '</div>'+
      (tfail>=20?'<div class="warn" style="margin:0 0 9px"><span>▲</span><div><b>'+n(tfail)+' avvisade tokens idag</b> — möjlig bot-attack. Per-IP-taket binder ändå kostnaden.</div></div>':'')+
      '<div class="k-sub">7 dagar: '+n(tw.pass||0)+' ✓ · '+n(tw.fail||0)+' ✗ · '+n(tw.missing||0)+' utan token · <a href="https://dash.cloudflare.com/?to=/:account/turnstile" target="_blank" rel="noopener">Cloudflare-analys →</a></div>'+
+     '</div>';
+  // Källattribution (2026-07-23): varifrån besökarna kommer. Källa/medium hårt saneras
+  // serversidigt ([a-z0-9._-]) → säkert att rendera direkt. 'direct' = ingen referrer/tagg.
+  var tr2=tr||{},bs=(tr2.by_source||[]),bc=(tr2.by_campaign||[]),ttot=Number(tr2.total||0);
+  h+='<div class="card"><h2>Varifrån besökarna kommer</h2>'+
+     '<div class="k-sub" style="margin-bottom:11px">Källattribution ('+PERIOD+') · totalt '+n(ttot)+' besök</div>'+
+     (bs.length? bs.map(function(x){var pct=ttot>0?Math.round(x.n/ttot*100):0;return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border)"><span><b>'+x.source+'</b> <span class="muted" style="font-size:12px">'+(x.medium||'')+'</span></span><span>'+n(x.n)+' <span class="muted">('+pct+'%)</span></span></div>';}).join('')
+        : '<div class="muted" style="font-size:13px">Inga besök registrerade än för perioden. Dela dina länkar med <code>?utm_source=tiktok</code> osv (mall: launch/acquisition-plan.md) så syns varje kanal här.</div>')+
+     (bc.length? '<div class="k-sub" style="margin-top:12px"><b>Kampanjer:</b> '+bc.map(function(x){return x.campaign+' ('+n(x.n)+')';}).join(' · ')+'</div>' : '')+
      '</div>';
   h+='<div class="card" id="kvd-card"><h2>KVD-hämtaren (bilpriser)</h2><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
   h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><input id="kamt" type="number" placeholder="Antal krediter att ge" style="margin-bottom:9px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="keyAct(\'grant_credits\')">Ge krediter</button><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
