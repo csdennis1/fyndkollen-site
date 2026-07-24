@@ -974,7 +974,8 @@ $('form').addEventListener('submit',async function(e){
     var pk=null;try{pk=window.PriceDBWeb.productKey(title,desc,null);}catch(e){}
     // Säljläget skickar INTE asking_price: säljarens prisidé är en önskan, inte ett observerat
     // annonspris — får aldrig förorena asking-ankaret i price_anchors.
-    var body={client_id:clientId(),license:licRaw||'',content:content,web_search:true,item_id:null,platform:'web',product_key:pk,asking_price:(MODE==='buy'&&price>0)?price:null,lang:lang,turnstile_token:tsToken};
+    var _src=fkSource(); // käll-tratt: tagga analysen med kanal/kampanj (samma härledning som besöks-beaconen)
+    var body={client_id:clientId(),license:licRaw||'',content:content,web_search:true,item_id:null,platform:'web',product_key:pk,asking_price:(MODE==='buy'&&price>0)?price:null,lang:lang,turnstile_token:tsToken,source:_src.s,medium:_src.m,campaign:_src.c};
     var res=await fetch(APPRAISE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     var pj=await res.json().catch(function(){return {};});
     clearInterval(timer);
