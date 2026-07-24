@@ -229,6 +229,15 @@
   .price-tag.sm{font-size:24px;font-weight:800;letter-spacing:-1px;margin-top:6px}
   .pack-each{font-size:12px;color:var(--muted);margin:2px 0 16px}
   .cta.sm{font-size:14px;padding:10px 22px;display:block}
+  /* Baskoll-mikro (2026-07-24): tydligt AVSKILD från pro-paketen — samma analys som gratis,
+     ingen websökning, inte Pro. Egen box så kredit-typerna aldrig blandas ihop. */
+  .basic-pack{display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;margin:16px auto 0;max-width:660px;border:1.5px solid rgba(204,107,44,.30);background:rgba(204,107,44,.05);border-radius:14px;padding:18px 22px;text-align:left}
+  .basic-pack .pack-name{font-size:17px;margin:0}
+  .basic-badge{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-text);background:rgba(204,107,44,.14);padding:2px 9px;border-radius:100px;margin-left:8px}
+  .basic-desc{font-size:13px;color:var(--muted);line-height:1.5;max-width:400px;margin-top:7px}
+  .basic-pack-buy{text-align:center;flex-shrink:0}
+  .basic-pack-buy .price-tag.sm{margin-top:2px}
+  @media(max-width:560px){.basic-pack{flex-direction:column;align-items:stretch;text-align:center}.basic-desc{max-width:none}.basic-pack-buy .cta{width:100%}}
   .free-note{font-size:13px;color:var(--muted);margin-top:18px}
   .pay-row{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:16px}
   .pay-pill{font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--dark-mid);border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:3px 9px}
@@ -780,6 +789,17 @@
         <a class="cta sm" href="https://buy.stripe.com/7sY9AU9KcbZV8zQcYkb3q0d" data-i18n="buyBtn">Köp krediter</a>
       </div>
     </div>
+    <div class="basic-pack">
+      <div>
+        <div class="pack-name">Baskoll<span class="basic-badge" data-i18n="basicBadge">mikro</span></div>
+        <div class="basic-desc" data-i18n-html="basicDesc"><b>Samma analys som gratisläget</b> — jämför mot vår slutprisdatabas. Ingen live-websökning, ingen prenumeration, <b>inte Pro</b>. För dig som bara vill kolla några fler priser billigt.</div>
+      </div>
+      <div class="basic-pack-buy">
+        <div class="pack-credits">5<span data-i18n="basicUnit"> baskoll</span></div>
+        <div class="price-tag sm">10&nbsp;kr</div>
+        <a class="cta sm" href="https://buy.stripe.com/dRmeVe9KcaVR9DU0byb3q0h" data-i18n="basicBuyBtn">Köp baskoll</a>
+      </div>
+    </div>
     <div class="free-note" style="text-align:center" data-i18n="freeNote">5 gratiskrediter vid start. Inget kort krävs.</div>
     <div class="pick-note" data-i18n="pickNote">Osäker? Börja gratis — 5 krediter ingår utan kort. Prenumerera när du märker att du använder det ofta, eller köp ett kreditpaket när gratiskrediterna tar slut.</div>
     <div class="pay-row" aria-hidden="true">
@@ -953,6 +973,8 @@
       subEach2: '0,40 kr per kredit · säg upp när som helst',
       subBtn: 'Prenumerera', subBtnFeatured: 'Prenumerera – bäst värde',
       packsOneH: 'Hellre utan prenumeration? Köp ett engångspaket',
+      basicBadge: 'mikro', basicUnit: ' baskoll', basicBuyBtn: 'Köp baskoll',
+      basicDesc: '<b>Samma analys som gratisläget</b> — jämför mot vår slutprisdatabas. Ingen live-websökning, ingen prenumeration, <b>inte Pro</b>. För dig som bara vill kolla några fler priser billigt.',
       refH: 'Värva en vän — få 20 krediter',
       refP: 'Dela din personliga länk. När en vän gör sitt första köp — paket eller prenumeration — läggs 20 krediter på din nyckel, automatiskt.',
       refPlaceholder: 'Din licensnyckel (FS-XXXX-XXXX)',
@@ -1066,6 +1088,8 @@
       subEach2: '0.40 kr per credit · cancel anytime',
       subBtn: 'Subscribe', subBtnFeatured: 'Subscribe — best value',
       packsOneH: 'Rather skip the subscription? Buy a one-time pack',
+      basicBadge: 'micro', basicUnit: ' basic checks', basicBuyBtn: 'Buy basic checks',
+      basicDesc: '<b>The same analysis as the free mode</b> — compared against our sold-price database. No live web search, no subscription, <b>not Pro</b>. For when you just want to check a few more prices cheaply.',
       refH: 'Refer a friend — get 20 credits',
       refP: 'Share your personal link. When a friend makes their first purchase — pack or subscription — 20 credits land on your key, automatically.',
       refPlaceholder: 'Your license key (FS-XXXX-XXXX)',

@@ -171,6 +171,21 @@ a.comp:hover{border-color:var(--accent);transform:translateY(-1px)}
 .again{display:block;width:100%;background:var(--surface);color:var(--text);font-weight:700;font-size:15px;padding:13px;border:1.5px solid var(--border);border-radius:12px;margin-top:14px;cursor:pointer}
 .again.share{background:rgba(204,107,44,.10);color:var(--accent);border-color:rgba(204,107,44,.35)}
 .again:hover{border-color:var(--accent)}
+/* Betalväggs-panel (#3, 2026-07-24): väggögonblicket som ett tydligt VAL, inte en textrad.
+   Två kort — Baskoll (billig, samma som gratis) vs Pro (live-marknadskoll). */
+.pw{padding:2px 0}
+.pw-h{font-size:20px;font-weight:800;color:var(--text);text-align:center;letter-spacing:-.3px}
+.pw-subh{font-size:14px;color:var(--muted);text-align:center;margin:6px 0 16px}
+.pw-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.pw-cards{grid-template-columns:1fr}}
+.pw-card{display:block;text-decoration:none;border:1.5px solid var(--border);border-radius:14px;padding:16px;background:var(--surface);transition:border-color .15s,transform .15s}
+.pw-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pw-basic{border-color:rgba(204,107,44,.38);background:rgba(204,107,44,.06)}
+.pw-tag{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--accent-text)}
+.pw-price{font-size:25px;font-weight:800;color:var(--text);margin:6px 0 3px}
+.pw-sub{font-size:12.5px;color:var(--muted);line-height:1.45}
+.pw-cta{margin-top:11px;font-size:14px;font-weight:700;color:var(--accent)}
+.pw-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.55}
 .msg{text-align:center;padding:20px;border-radius:14px;font-size:15px;line-height:1.5}
 .msg.err{background:rgba(224,36,36,.08);color:var(--red)}
 .msg.info{background:var(--surface);color:var(--mid)}
@@ -375,6 +390,7 @@ details.adv{border-radius:14px}
 (function(){
 'use strict';
 var APPRAISE_URL='https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/appraise';
+var MICRO_URL='https://buy.stripe.com/dRmeVe9KcaVR9DU0byb3q0h'; // Baskoll-mikro 10 kr / 5 koll (gratis-stil, ingen websök)
 // ── Cloudflare Turnstile ── klistra in din SITE-nyckel här när widgeten är skapad i
 // Cloudflare (och sätt TURNSTILE_SECRET som Supabase-secret). Tom = av (sidan funkar ändå).
 var TURNSTILE_SITEKEY='0x4AAAAAAD1K3XqeXuFrGoC2';
@@ -396,7 +412,7 @@ var T={
    sellTipsH:'Innan du publicerar',sellOn:'Bäst att sälja på',
    tierPaidSearched:'Pro-analys · live-marknadskoll',tierPaidGrounded:'Pro-analys · grundad i verifierade slutpriser',
    tierFree:'Gratis-analys — snabb uppskattning ur vår slutprisdatabas.',
-   tierUpsell:'Vill du ha den mest träffsäkra analysen? Pro-analysen kollar även live-marknaden — särskilt värdefullt för ovanliga varor.',tierUpsellCta:'Skaffa krediter →',
+   tierUpsell:'Vill du ha den mest träffsäkra analysen? Pro-analysen kollar även live-marknaden — särskilt värdefullt för ovanliga varor.',tierUpsellCta:'Skaffa krediter →',tierBasic:'samma analys som gratisläget (ingen live-websökning)',
    compsTitle:'Vad liknande faktiskt gick för',compsSub:'Verkliga slutpriser bakom värderingen — klicka för att se auktionen.',
    liqHigh:'Säljs ofta — {n} verifierade försäljningar senaste ~4 mån',liqMed:'Säljs regelbundet — {n} verifierade försäljningar senaste ~4 mån',liqLow:'Ovanlig vara — {n} verifierade försäljningar senaste ~4 mån',
    levStrong:'Bra förhandlingsläge: varan säljs ofta och den här ligger över typiskt slutpris — pruta med stöd i siffrorna.',levFair:'Priset ligger nära det typiska slutpriset — men testa gärna ett lägre bud ändå.',levRare:'Färre jämförelser gör priset svårare att pressa — men varan är också svårare att hitta någon annanstans.',
@@ -425,6 +441,11 @@ var T={
    needTitle:'Klistra in annonsen först — eller skriv vad det är för vara under "Justera själv".',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
    quotaWall:'Dina 5 gratiskollar är slut. Köp krediter eller starta en prenumeration för att fortsätta — <a href="/#pricing">se paketen →</a>',
    creditsWall:'Dina krediter är slut. <a href="/#pricing">Fyll på →</a> — de staplas på samma nyckel.',
+   pwQuotaH:'Dina 5 gratiskollar är slut',pwCreditsH:'Dina krediter är slut',pwSubh:'Fortsätt kolla priser — välj vad som passar dig:',
+   pwBasicTag:'Baskoll',pwBasicSub:'5 fler koll, <b>exakt som gratisläget</b> — jämför mot vår slutprisdatabas. Ingen live-websökning, ingen prenumeration. Inte en Pro-uppgradering.',pwBasicCta:'5 koll för 10 kr →',
+   pwProTag:'Pro-krediter',pwProPrice:'från 30 kr',pwProSub:'Allt i baskoll <b>plus live-marknadskoll</b> som söker aktuella priser — mest värt på ovanliga varor.',pwProCta:'Se paketen →',
+   pwNote:'Krediterna staplas på samma nyckel och gäller för alltid. 14 dagars ångerrätt på oanvända krediter.',pwBack:'‹ Tillbaka',
+   basicActive:'Baskoll aktiv · <b>{n}</b> koll kvar',
    maint:'Tjänsten är pausad tillfälligt för underhåll. Försök snart igen — ingen kredit drogs.',
    unavail:'AI:n är tillfälligt otillgänglig. Ingen kredit drogs — försök igen om en stund.',
    turnstile:'Säkerhetskontrollen är inte klar än — vänta ett ögonblick och försök igen.',
@@ -441,7 +462,7 @@ var T={
    sellTipsH:'Before you publish',sellOn:'Best place to sell',
    tierPaidSearched:'Pro analysis · live market check',tierPaidGrounded:'Pro analysis · grounded in verified sold prices',
    tierFree:'Free analysis — a quick estimate from our sold-price database.',
-   tierUpsell:'Want the most accurate analysis? Pro also checks the live market — especially valuable for uncommon items.',tierUpsellCta:'Get credits →',
+   tierUpsell:'Want the most accurate analysis? Pro also checks the live market — especially valuable for uncommon items.',tierUpsellCta:'Get credits →',tierBasic:'the same analysis as the free mode (no live web search)',
    compsTitle:'What similar ones actually sold for',compsSub:'Real sold prices behind the valuation — click to see the auction.',
    liqHigh:'Sells often — {n} verified sales in the last ~4 months',liqMed:'Sells regularly — {n} verified sales in the last ~4 months',liqLow:'Uncommon item — {n} verified sales in the last ~4 months',
    levStrong:'Good bargaining position: it sells often and this one is above the typical sold price — haggle with the numbers on your side.',levFair:'The price is close to the typical sold price — but it never hurts to offer a bit less.',levRare:'Fewer comparisons make the price harder to push down — but the item is also harder to find elsewhere.',
@@ -470,6 +491,11 @@ var T={
    needTitle:'Paste the listing first — or type what the item is under "Adjust yourself".',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
    quotaWall:'Your 5 free checks are used up. Buy credits or start a subscription to keep going — <a href="/#pricing">see the packs →</a>',
    creditsWall:'Your credits are used up. <a href="/#pricing">Top up →</a> — they stack on the same key.',
+   pwQuotaH:'Your 5 free checks are used up',pwCreditsH:'Your credits are used up',pwSubh:'Keep checking prices — pick what fits you:',
+   pwBasicTag:'Basic',pwBasicSub:'5 more checks, <b>exactly like the free mode</b> — compared against our sold-price database. No live web search, no subscription. Not a Pro upgrade.',pwBasicCta:'5 checks for 10 kr →',
+   pwProTag:'Pro credits',pwProPrice:'from 30 kr',pwProSub:'Everything in basic <b>plus live market check</b> that searches current prices — most valuable on uncommon items.',pwProCta:'See the packs →',
+   pwNote:'Credits stack on the same key and never expire. 14-day right of withdrawal on unused credits.',pwBack:'‹ Back',
+   basicActive:'Basic active · <b>{n}</b> checks left',
    maint:'Service paused for maintenance. Try again soon — no credit was charged.',
    unavail:'The AI is temporarily unavailable. No credit was charged — try again shortly.',
    turnstile:'Security check not ready yet — wait a moment and try again.',
@@ -593,6 +619,19 @@ $('drop').addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.
 })();
 
 function showMsg(html,cls){$('result').innerHTML='<div class="panel reveal"><div class="msg '+(cls||'info')+'">'+html+'</div></div>';}
+// Betalväggen som ett tydligt VAL (#3, 2026-07-24): Baskoll (billig, samma som gratis) vs Pro.
+function showPaywall(kind){
+  var h=kind==='credits'?t('pwCreditsH'):t('pwQuotaH');
+  $('result').innerHTML='<div class="panel reveal"><div class="pw">'
+    +'<div class="pw-h">'+h+'</div><div class="pw-subh">'+t('pwSubh')+'</div>'
+    +'<div class="pw-cards">'
+    +'<a class="pw-card pw-basic" href="'+MICRO_URL+'"><div class="pw-tag">'+t('pwBasicTag')+'</div><div class="pw-price">10 kr</div><div class="pw-sub">'+t('pwBasicSub')+'</div><div class="pw-cta">'+t('pwBasicCta')+'</div></a>'
+    +'<a class="pw-card pw-pro" href="/#pricing"><div class="pw-tag">'+t('pwProTag')+'</div><div class="pw-price">'+t('pwProPrice')+'</div><div class="pw-sub">'+t('pwProSub')+'</div><div class="pw-cta">'+t('pwProCta')+'</div></a>'
+    +'</div><div class="pw-note">'+t('pwNote')+'</div>'
+    +'<button class="again" id="pwback">'+t('pwBack')+'</button></div></div>';
+  $('pwback').onclick=function(){$('result').innerHTML='';$('form').style.display='';window.scrollTo({top:0,behavior:'smooth'});};
+  $('form').style.display='none';$('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
 function showLoader(){
   $('result').innerHTML='<div class="panel reveal loader"><div class="ring"></div><div class="steps">'+
     '<div class="step active" id="ls1"><span class="ic">1</span>'+t('s1')+'</div>'+
@@ -720,6 +759,10 @@ function tierHtml(){
   var tr=LAST_TIER||{};
   if(tr.tier==='paid'){
     return '<div class="tier-note paid"><b>✓</b> '+esc(tr.searched?t('tierPaidSearched'):t('tierPaidGrounded'))+'</div>';
+  }
+  if(tr.tier==='basic'){
+    return '<div class="tier-note free"><b>Baskoll</b> · '+esc(t('tierBasic'))+'<br>'+esc(t('tierUpsell'))+
+      ' <a class="up" href="/#pricing">'+esc(t('tierUpsellCta'))+'</a></div>';
   }
   return '<div class="tier-note free">'+esc(t('tierFree'))+'<br>'+esc(t('tierUpsell'))+
     ' <a class="up" href="/#pricing">'+esc(t('tierUpsellCta'))+'</a></div>';
@@ -936,7 +979,7 @@ $('form').addEventListener('submit',async function(e){
     var pj=await res.json().catch(function(){return {};});
     clearInterval(timer);
     if(pj&&pj.error==='turnstile'){cfReset();showMsg(t('turnstile'),'err');return;}
-    if(res.status===402||(pj&&(pj.error==='quota'||pj.error==='credits'))){showMsg(pj.error==='credits'?t('creditsWall'):t('quotaWall'),'err');return;}
+    if(res.status===402||(pj&&(pj.error==='quota'||pj.error==='credits'))){showPaywall(pj.error==='credits'?'credits':'quota');return;}
     if(pj&&pj.error==='maintenance'){showMsg(t('maint'),'info');return;}
     if((pj&&pj.error==='unavailable')||res.status===502||res.status===503){showMsg(t('unavail'),'info');return;}
     if(!res.ok){showMsg(t('generic'),'err');return;}
@@ -965,7 +1008,7 @@ $('form').addEventListener('submit',async function(e){
   }catch(err){clearInterval(timer);showMsg(t('generic'),'err');}
   finally{btn.disabled=false;}
 });
-function updateQuota(pj){var q=$('quota');if(pj&&typeof pj.credits_remaining==='number'){q.innerHTML=t('licActive',{n:pj.credits_remaining});return;}if(pj&&typeof pj.used==='number'&&typeof pj.limit==='number'){q.innerHTML=t('freeLeft',{n:Math.max(0,pj.limit-pj.used)});}}
+function updateQuota(pj){var q=$('quota');if(pj&&typeof pj.basic_remaining==='number'){q.innerHTML=t('basicActive',{n:pj.basic_remaining});return;}if(pj&&typeof pj.credits_remaining==='number'){q.innerHTML=t('licActive',{n:pj.credits_remaining});return;}if(pj&&typeof pj.used==='number'&&typeof pj.limit==='number'){q.innerHTML=t('freeLeft',{n:Math.max(0,pj.limit-pj.used)});}}
 
 // ── language ──
 function applyLang(){
