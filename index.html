@@ -4,6 +4,28 @@
 <meta charset="UTF-8"/>
 <!-- Set data-theme before first paint so a saved dark-mode choice never flashes light first. -->
 <script>(function(){try{if(localStorage.getItem('fk_site_theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}})();</script>
+<!-- BETALD TRAFIK → DIREKT TILL VERKTYGET (2026-07-26) ─────────────────────────────────────
+     Meta-annonsen landar på hemsidan trots att destinationen ändrades — en pågående boost
+     låter dig inte byta URL i efterhand. Mätningen: av 19 betalda besök 26 juli nådde 2 (!)
+     verktyget. Annonsen lovar "testa gratis", så säljsidan är fel destination: den ber om
+     ytterligare ett klick som nästan ingen gör.
+     Vi löser det på VÅR sida i stället för att slåss med annonsverktyget — det fungerar för
+     alla framtida annonser oavsett vilken URL som råkar stå i dem.
+     STRIKT VILLKOR (får aldrig fånga organisk trafik): endast utm_medium=paid, eller en
+     Meta-klickmarkör (fbclid) tillsammans med utm_source=fb/ig. Alla parametrar följer med
+     så attributionen behåller källa/kampanj. location.replace → back-knappen fastnar inte.
+     Körs FÖRE besöks-beaconen så inget dubbelräknas som både site- och web-besök. -->
+<script>(function(){try{
+  if(location.pathname.indexOf('analysera')>=0)return;              // redan på verktyget
+  var q=new URLSearchParams(location.search);
+  var med=(q.get('utm_medium')||'').toLowerCase();
+  var src=(q.get('utm_source')||'').toLowerCase();
+  var paid = med==='paid' || (q.has('fbclid') && (src==='fb'||src==='ig'||src==='facebook'||src==='instagram'));
+  if(!paid)return;
+  if(sessionStorage.getItem('fk_ad_routed'))return;                 // bara en gång per session
+  sessionStorage.setItem('fk_ad_routed','1');
+  location.replace('/analysera.html'+location.search+location.hash);
+}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title data-i18n="pageTitle">Fyndkollen – priskoll för begagnat, köp och sälj</title>
 <meta name="description" content="Betala inte överpris. Klistra in en begagnatannons — Blocket, Facebook Marketplace, Tradera — och få ett rakt besked: fynd, rimligt eller för dyrt, grundat i verkliga slutpriser. Samma kunskap vare sig du köper eller säljer. Gratis, inget konto."/>
