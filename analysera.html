@@ -186,6 +186,17 @@ a.comp:hover{border-color:var(--accent);transform:translateY(-1px)}
 .pw-sub{font-size:12.5px;color:var(--muted);line-height:1.45}
 .pw-cta{margin-top:11px;font-size:14px;font-weight:700;color:var(--accent)}
 .pw-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.55}
+/* Prisbevakning (2026-07-26): ger en anledning att komma tillbaka — utan konto. */
+.watch{margin-top:14px;border:1.5px solid var(--border);border-radius:14px;padding:15px 16px;background:var(--surface)}
+.watch-h{font-size:15px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:8px}
+.watch-sub{font-size:12.5px;color:var(--muted);margin-top:5px;line-height:1.5}
+.watch-row{display:flex;gap:8px;margin-top:11px}
+.watch-row input{flex:1;min-width:0;padding:11px 13px;border:1.5px solid var(--border);border-radius:11px;font:inherit;font-size:14px;background:var(--bg);color:var(--text)}
+.watch-row input:focus{outline:none;border-color:var(--accent)}
+.watch-row button{flex-shrink:0;padding:11px 18px;border:0;border-radius:11px;background:var(--accent);color:#fff;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.watch-row button:disabled{opacity:.55;cursor:default}
+.watch-ok{font-size:13.5px;font-weight:700;color:#059669;margin-top:10px}
+.watch-err{font-size:13px;color:#DC2626;margin-top:8px}
 .msg{text-align:center;padding:20px;border-radius:14px;font-size:15px;line-height:1.5}
 .msg.err{background:rgba(224,36,36,.08);color:var(--red)}
 .msg.info{background:var(--surface);color:var(--mid)}
@@ -390,6 +401,7 @@ details.adv{border-radius:14px}
 (function(){
 'use strict';
 var APPRAISE_URL='https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/appraise';
+var FEEDBACK_URL='https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
 var MICRO_URL='https://buy.stripe.com/dRmeVe9KcaVR9DU0byb3q0h'; // Baskoll-mikro 10 kr / 5 koll (gratis-stil, ingen websök)
 // ── Cloudflare Turnstile ── klistra in din SITE-nyckel här när widgeten är skapad i
 // Cloudflare (och sätt TURNSTILE_SECRET som Supabase-secret). Tom = av (sidan funkar ändå).
@@ -412,7 +424,7 @@ var T={
    sellTipsH:'Innan du publicerar',sellOn:'Bäst att sälja på',
    tierPaidSearched:'Pro-analys · live-marknadskoll',tierPaidGrounded:'Pro-analys · grundad i verifierade slutpriser',
    tierFree:'Gratis-analys — snabb uppskattning ur vår slutprisdatabas.',
-   tierUpsell:'Vill du ha den mest träffsäkra analysen? Pro-analysen kollar även live-marknaden — särskilt värdefullt för ovanliga varor.',tierUpsellCta:'Skaffa krediter →',tierBasic:'samma analys som gratisläget (ingen live-websökning)',
+   tierUpsell:'Vill du ha den mest träffsäkra analysen? Pro-analysen kollar även live-marknaden — särskilt värdefullt för ovanliga varor.',tierUpsellCta:'Skaffa krediter →',watchH:'Bevaka priset',watchSub:'Vi mejlar dig om marknadsvärdet rör sig — bra läge att slå till, eller argument när du förhandlar. Inget konto, avsluta när du vill.',watchPh:'din@epost.se',watchBtn:'Bevaka',watchWait:'…',watchOk:'✓ Klart — vi hör av oss när priset rör sig.',watchAlready:'✓ Du bevakar redan den här varan.',watchBad:'Kontrollera e-postadressen.',watchLimit:'Du har nått max antal bevakningar (25).',watchFail:'Kunde inte spara — försök igen.',tierBasic:'samma analys som gratisläget (ingen live-websökning)',
    compsTitle:'Vad liknande faktiskt gick för',compsSub:'Verkliga slutpriser bakom värderingen — klicka för att se auktionen.',
    liqHigh:'Säljs ofta — {n} verifierade försäljningar senaste ~4 mån',liqMed:'Säljs regelbundet — {n} verifierade försäljningar senaste ~4 mån',liqLow:'Ovanlig vara — {n} verifierade försäljningar senaste ~4 mån',
    levStrong:'Bra förhandlingsläge: varan säljs ofta och den här ligger över typiskt slutpris — pruta med stöd i siffrorna.',levFair:'Priset ligger nära det typiska slutpriset — men testa gärna ett lägre bud ändå.',levRare:'Färre jämförelser gör priset svårare att pressa — men varan är också svårare att hitta någon annanstans.',
@@ -462,7 +474,7 @@ var T={
    sellTipsH:'Before you publish',sellOn:'Best place to sell',
    tierPaidSearched:'Pro analysis · live market check',tierPaidGrounded:'Pro analysis · grounded in verified sold prices',
    tierFree:'Free analysis — a quick estimate from our sold-price database.',
-   tierUpsell:'Want the most accurate analysis? Pro also checks the live market — especially valuable for uncommon items.',tierUpsellCta:'Get credits →',tierBasic:'the same analysis as the free mode (no live web search)',
+   tierUpsell:'Want the most accurate analysis? Pro also checks the live market — especially valuable for uncommon items.',tierUpsellCta:'Get credits →',watchH:'Watch this price',watchSub:'We email you when the market value moves — a good moment to buy, or leverage when you negotiate. No account, unsubscribe anytime.',watchPh:'your@email.com',watchBtn:'Watch',watchWait:'…',watchOk:'\u2713 Done \u2014 we will tell you when the price moves.',watchAlready:'\u2713 You already watch this item.',watchBad:'Check the email address.',watchLimit:'You have reached the maximum of 25 watches.',watchFail:'Could not save \u2014 please try again.',tierBasic:'the same analysis as the free mode (no live web search)',
    compsTitle:'What similar ones actually sold for',compsSub:'Real sold prices behind the valuation — click to see the auction.',
    liqHigh:'Sells often — {n} verified sales in the last ~4 months',liqMed:'Sells regularly — {n} verified sales in the last ~4 months',liqLow:'Uncommon item — {n} verified sales in the last ~4 months',
    levStrong:'Good bargaining position: it sells often and this one is above the typical sold price — haggle with the numbers on your side.',levFair:'The price is close to the typical sold price — but it never hurts to offer a bit less.',levRare:'Fewer comparisons make the price harder to push down — but the item is also harder to find elsewhere.',
@@ -643,6 +655,38 @@ function showLoader(){
 
 var LAST_TIER=null;
 var LAST_GROUNDING=null;
+var LAST_PK=null;      // produktnyckel för prisbevakningen
+var LAST_NAME=null;    // visningsnamn för bevakningen
+// PRISBEVAKNING (2026-07-26): en engångsanalys ger ingen anledning att komma tillbaka —
+// bevakningen gör det. Visas bara när värderingen VILAR PÅ VERIFIERADE slutpriser (annars
+// kan vi inte larma ärligt) och aldrig i säljläget.
+function watchHtml(r){
+  if(!LAST_PK||!(r&&r.marketValue>0))return '';
+  var g=LAST_GROUNDING;
+  if(!g||g.kind!=='verified_sold'||!(g.n>=4))return '';
+  return '<div class="watch"><div class="watch-h"><span>🔔</span> '+esc(t('watchH'))+'</div>'+
+    '<div class="watch-sub">'+esc(t('watchSub'))+'</div>'+
+    '<div class="watch-row"><input type="email" id="watch-mail" placeholder="'+esc(t('watchPh'))+'" autocomplete="email" inputmode="email"/>'+
+    '<button type="button" id="watch-btn">'+esc(t('watchBtn'))+'</button></div>'+
+    '<div id="watch-msg"></div></div>';
+}
+function wireWatch(r){
+  var b=$('watch-btn'); if(!b) return;
+  b.onclick=function(){
+    var el=$('watch-mail'), msg=$('watch-msg'), em=(el.value||'').trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){msg.className='watch-err';msg.textContent=t('watchBad');return;}
+    b.disabled=true;b.textContent=t('watchWait');
+    fetch(FEEDBACK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      type:'watch_add',email:em,product_key:LAST_PK,item_name:LAST_NAME||(r&&r.itemName)||null,
+      market_value:Math.round(r.marketValue),source:'web'})})
+      .then(function(x){return x.json();}).then(function(j){
+        if(j&&j.ok){msg.className='watch-ok';msg.textContent=j.already?t('watchAlready'):t('watchOk');
+          $('watch-mail').style.display='none';b.style.display='none';}
+        else {msg.className='watch-err';msg.textContent=j&&j.error==='limit'?t('watchLimit'):t('watchFail');
+          b.disabled=false;b.textContent=t('watchBtn');}
+      }).catch(function(){msg.className='watch-err';msg.textContent=t('watchFail');b.disabled=false;b.textContent=t('watchBtn');});
+  };
+}
 // "Visa jämförelserna" + MARKNADSLÄGE (Lodisen/Sweclockers 2026-07-22 + konkurrens-R4):
 // de verkliga verifierade slutpriserna bakom värderingen (Tradera-länkar) PLUS en köpar-
 // förhandlingssignal härledd klientsidigt ur likviditeten (antal försäljningar) och pris-
@@ -835,10 +879,11 @@ function render(r,price){
   else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
   if(moreHtml)h+='<details class="rdetails"><summary>'+t('rMore')+'</summary>'+moreHtml+'</details>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
-  h+='</div>'+compsHtml(r,price)+tierHtml()+
+  h+='</div>'+compsHtml(r,price)+watchHtml(r)+tierHtml()+
     ((r.marketValue>0&&price>0&&!suspect)?'<button class="again share" id="certbtn">'+t('certBtn')+'</button>':'')+
     '<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
+  wireWatch(r);
   var co=$('copyoffer');if(co)co.onclick=function(){copy(String(co.getAttribute('data-v')),co);};
   var cb=$('certbtn');if(cb)cb.onclick=function(){makeCert(r,price,tier,ds);};
   var cm=$('copymsg');if(cm)cm.onclick=function(){copy(smsg,cm);};
@@ -988,7 +1033,7 @@ $('form').addEventListener('submit',async function(e){
     var txt=(data.content||[]).map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
     var s=txt.indexOf('{'),e2=txt.lastIndexOf('}');if(s>=0&&e2>s)txt=txt.slice(s,e2+1);
     LAST_TIER={tier:pj.tier,searched:pj.web_searched}; // tier-märke + gratis-uppsäljning
-    LAST_GROUNDING=pj.grounding||null; // verkliga jämförelse-slutpriser (Tradera-länkar)
+    LAST_PK=pk; LAST_NAME=(title||"").slice(0,80)||null; LAST_GROUNDING=pj.grounding||null; // verkliga jämförelse-slutpriser (Tradera-länkar)
     // Servern är sanningskälla för "otillräckligt underlag" (pj.insufficient) — den drog INGEN
     // kredit då. Rendera den ärliga icke-värderingen även om AI-texten inte är parsebar JSON
     // (modellen kan ha vägrat i prosa). Behåll ändå det vi kan tyda (itemName/reasoning).

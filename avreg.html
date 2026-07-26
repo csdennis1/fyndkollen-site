@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="robots" content="noindex"/>
+<title>Sluta bevaka priset · Fyndkollen</title>
+<link rel="icon" href="icon128.png"/>
+<style>
+  :root{--bg:#FAFAF8;--surface:#fff;--text:#1A1A1A;--muted:#786858;--border:#EBE5DC;--accent:#CC6B2C;--accent-text:#A9521C;--ok:#059669}
+  @media(prefers-color-scheme:dark){:root{--bg:#17140F;--surface:#201B15;--text:#F5F1EA;--muted:#988A79;--border:#332B22}}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+       background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  main{width:100%;max-width:460px;background:var(--surface);border:1.5px solid var(--border);border-radius:18px;padding:32px 28px;text-align:center}
+  .logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px}
+  .logo span{width:34px;height:34px;border-radius:9px;background:var(--accent)}
+  .logo b{font-size:22px;letter-spacing:-.5px}
+  h1{font-size:21px;margin:0 0 10px;letter-spacing:-.3px}
+  p{font-size:14.5px;color:var(--muted);line-height:1.6;margin:0 0 20px}
+  button{width:100%;padding:13px;border:0;border-radius:12px;background:var(--accent);color:#fff;
+         font:inherit;font-weight:700;font-size:15px;cursor:pointer}
+  button:disabled{opacity:.55;cursor:default}
+  .ok{color:var(--ok);font-weight:700;font-size:15px}
+  .err{color:#DC2626;font-size:14px}
+  a{color:var(--accent-text);font-size:13.5px}
+</style>
+</head>
+<body>
+<main>
+  <div class="logo"><span></span><b>Fyndkollen</b></div>
+  <div id="view">
+    <h1>Sluta bevaka priset?</h1>
+    <p>Du slutar få mejl när marknadsvärdet för den här varan rör sig. Du kan alltid starta en ny bevakning senare.</p>
+    <button id="go">Ja, sluta bevaka</button>
+  </div>
+  <p style="margin:18px 0 0"><a href="/">← Till fyndkollen.com</a></p>
+</main>
+<script>
+var FEEDBACK_URL='https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback';
+var token=new URLSearchParams(location.search).get('t')||'';
+var view=document.getElementById('view');
+function done(html){view.innerHTML=html;}
+if(!/^[0-9a-f-]{36}$/i.test(token)){
+  done('<h1>Länken ser fel ut</h1><p>Kontrollera att du klickade på hela länken i mejlet. Hör av dig till <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a> så hjälper vi dig.</p>');
+}else{
+  document.getElementById('go').onclick=function(){
+    var b=this;b.disabled=true;b.textContent='…';
+    fetch(FEEDBACK_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({type:'watch_remove',token:token})})
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(j&&j.ok)done('<h1>Klart</h1><p class="ok">✓ Bevakningen är borttagen.</p><p>Din e-postadress är raderad ur bevakningen.</p>');
+        else done('<h1>Något gick fel</h1><p class="err">Försök igen, eller mejla <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.</p>');
+      })
+      .catch(function(){done('<h1>Något gick fel</h1><p class="err">Försök igen, eller mejla <a href="mailto:FyndKollen@protonmail.com">FyndKollen@protonmail.com</a>.</p>');});
+  };
+}
+</script>
+</body>
+</html>
