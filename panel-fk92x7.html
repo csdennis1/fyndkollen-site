@@ -216,10 +216,10 @@ async function call(action, extra){
 async function login(){
   PW=document.getElementById("pw").value;
   var r=await call("data",{period:PERIOD});
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage);startAuto();lifeLoad();setTab('overview');}
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage,r.body.demand);startAuto();lifeLoad();setTab('overview');}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage,r.body.demand);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -236,7 +236,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s,sf,ce,f50,ts,wpv,wap,tr,cov){
+function render(s,sf,ce,f50,ts,wpv,wap,tr,cov,dem){
   LAST_STATS=s; // Life-panelens Översikt läser intäkts-KPI:n härifrån
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
@@ -376,6 +376,28 @@ function render(s,sf,ce,f50,ts,wpv,wap,tr,cov){
      '<div class="k-sub" style="margin-bottom:12px">'+n(ctot.well_grounded||0)+' produkter Pro-grundade (≥6 verifierade slutpriser) · '+n(ctot.anchored||0)+' förankrade (≥2) · '+n(ctot.products||0)+' produkter totalt</div>'+
      cats.map(function(x){var wg=Number(x.well_grounded||0);var w=Math.round(wg/cmax*100);return '<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:3px"><span><b>'+(CATSV[x.cat]||x.cat)+'</b></span><span>'+n(wg)+' pro · <span class="muted">'+n(x.anchored||0)+' förankrade</span></span></div><div style="height:8px;background:var(--border);border-radius:5px;overflow:hidden"><i style="display:block;height:100%;width:'+w+'%;background:'+(wg>=50?'#0E9F6E':wg>=10?'#D97706':'#B0653C')+';border-radius:5px"></i></div></div>';}).join('')+
      '<div class="k-sub" style="margin-top:11px">Grön = stark · orange = medel · brun = tunn. Tunna premium-kategorier (klockor/möbler/övrigt) är exakt vad auktionshus-hämtaren stärker.</div>'+
+     '</div>';
+  // HÅLLER KÄRNLÖFTET? (2026-07-26) — den mätning som avslöjade att insamlingen var blind:
+  // andel av det användarna FAKTISKT analyserar som vilar på verifierade slutpriser.
+  var d=dem||{},pu=Number(d.procent_utan||0),tl=(d.topp_luckor||[]);
+  var pColor=pu>=60?'#DC2626':pu>=30?'#D97706':'#0E9F6E';
+  h+='<div class="card"><h2>Håller kärnlöftet?</h2>'+
+     '<div class="k-sub" style="margin-bottom:10px">Av de <b>'+n(d.analyserade_produkter||0)+'</b> produkter riktiga användare analyserat senaste 30 dagarna:</div>'+
+     '<div style="display:flex;align-items:baseline;gap:9px;margin-bottom:9px"><span style="font-size:30px;font-weight:800;color:'+pColor+'">'+pu+'%</span><span class="muted" style="font-size:13px">saknar HELT verifierad prisdata</span></div>'+
+     '<div style="height:10px;display:flex;border-radius:6px;overflow:hidden;background:var(--border)">'+
+       '<i style="display:block;height:100%;width:'+Math.round((d.val_grundade||0)/Math.max(1,d.analyserade_produkter||1)*100)+'%;background:#0E9F6E"></i>'+
+       '<i style="display:block;height:100%;width:'+Math.round((d.nagon_data||0)/Math.max(1,d.analyserade_produkter||1)*100)+'%;background:#D97706"></i>'+
+     '</div>'+
+     '<div class="k-sub" style="margin-top:7px">Grön '+n(d.val_grundade||0)+' välgrundade (≥6) · orange '+n(d.nagon_data||0)+' tunna (1–5) · grått '+n(d.utan_data||0)+' utan data</div>'+
+     '<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">'+
+       '<div style="font-size:13.5px;font-weight:700;margin-bottom:6px">Efterfrågestyrd insamling</div>'+
+       '<div class="k-sub">'+n(d.luckor_sokta||0)+' luckor sökta · '+n(d.luckor_med_traff||0)+' gav träff · KVD: '+n(d.kvd_skordade||0)+' skördade, '+n(d.kvd_kvar||0)+' i kö</div>'+
+       (tl.length?('<div class="k-sub" style="margin-top:8px">Näst på tur: '+tl.map(function(x){return '<b>'+String(x.sokterm||'').slice(0,28)+'</b> ('+x.analyser+')';}).join(' · ')+'</div>'):'')+
+     '</div>'+
+     '<div style="margin-top:12px;padding-top:11px;border-top:1px solid var(--border)">'+
+       '<div style="font-size:13.5px;font-weight:700;margin-bottom:6px">Prisbevakningar</div>'+
+       '<div class="k-sub">'+n(d.bevakningar||0)+' aktiva · '+n(d.bevak_notiser||0)+' notiser skickade</div>'+
+     '</div>'+
      '</div>';
   h+='<div class="card" id="kvd-card"><h2>KVD-hämtaren (bilpriser)</h2><span class="muted" style="font-size:12.5px">Laddar…</span></div>';
   h+='<div class="card"><h2>Hantera licensnyckel</h2><input id="kkey" placeholder="FS-XXXX-XXXX" style="margin-bottom:9px"><input id="kamt" type="number" placeholder="Antal krediter att ge" style="margin-bottom:9px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="keyAct(\'grant_credits\')">Ge krediter</button><button class="btn" onclick="keyAct(\'disable_key\')">Spärra</button><button class="btn danger" onclick="keyAct(\'refund_key\')">Refund</button></div><div id="kmsg" class="muted" style="font-size:12px;margin-top:9px"></div></div>';
