@@ -1168,6 +1168,13 @@ function fkValueSummary(){
   return {n:hist.length,total:total,best:best,bestName:bestName,cat:topCat,lastName:(last&&last.n)||'',lastMv:(last&&last.mv)||0};
 }
 
+// Uppskattningsnotis — delad av köp- OCH säljläget. Låg först bara i render(), vilket gav
+// säljaren en metodbaserad siffra utan att säga att den var det.
+function estNoteHtml(){
+  if(!LAST_ESTIMATED)return '';
+  return '<div class="panel reveal"><div class="ident">'+t('estTitle')+'</div>'+
+    '<div class="cnotes" style="margin-top:8px">'+t('estBody')+'</div></div>';
+}
 function render(r,price){
   // OTILLRÄCKLIGT UNDERLAG (2026-07-22): modellen hittade ingen prisdata (DB eller webb) och
   // gissade INTE. Visa en ärlig icke-värdering i stället för ett falskt tal — servern drog
@@ -1189,9 +1196,7 @@ function render(r,price){
   }
   var pos=r.pricePosition;var tier=(pos==='Significantly underpriced'||pos==='Underpriced')?'good':(pos==='Fair'||!pos)?'fair':'over';
   var noPrice=!(price>0);
-  // Uppskattningsnotis: byggs här, klistras in sist i resultatet (se estNote nedan).
-  var estNote=LAST_ESTIMATED?('<div class="panel reveal"><div class="ident">'+t('estTitle')+'</div>'+
-    '<div class="cnotes" style="margin-top:8px">'+t('estBody')+'</div></div>'):'';
+  var estNote=estNoteHtml();
   // SANITY-GATE (2026-07-22, kritisk): ett pris >65% UNDER marknaden är nästan aldrig ett
   // riktigt fynd — det är ett felläst/ofullständigt pris eller en bluff. Fira ALDRIG då; flagga
   // för verifiering. Krävde denna fix efter en bil (84 900 kr felparsat → "Bra fynd 100/100").
@@ -1296,6 +1301,7 @@ function renderSell(r,priceIdea){
   if(r.reasoning)h+='<div class="reason">'+esc(r.reasoning)+'</div>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
   h+='</div>';
+  h+=estNoteHtml();
   h+=sellMktHtml(r);
   // Den färdiga annonsen
   h+='<div class="panel reveal"><div class="coach-h" style="font-weight:800;font-size:15px;margin-bottom:8px">'+t('sellAdH')+'</div>';
