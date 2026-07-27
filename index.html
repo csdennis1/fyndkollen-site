@@ -1532,6 +1532,22 @@
     .packs.subs{grid-template-columns:1fr} /* högre specificitet än .packs — behöver egen mobilregel */
     .hdr-right{width:100%;justify-content:space-between}
     .nav a:first-child{margin-left:0}
+    /* Headern åt 170 px av 812 på mobil (21 % av skärmen) — brand, fyra ankarlänkar som
+       radbröts till två rader, installknapp, språkväxel och temaknapp staplade i tre
+       rader innan innehållet ens började. Annonstrafiken landar här, på mobil, och ska
+       möta erbjudandet — inte en meny.
+       Ankarlänkarna döljs: sajten är ENSIDIG, så varje mål nås genom att skrolla, och
+       #pricing finns dessutom både som hero-länk ("Vad kostar det?") och i footern.
+       Installknappen döljs likaså — den är inte borta, den står kvar i hero direkt under
+       primär-CTA:n, så mobilheadern slipper bära en dubblett. Rör inte positioneringen:
+       webb-först är redan beslutat (2026-07-14) och båda vägarna finns kvar i hero. */
+    header .nav,header .install-pill{display:none}
+    header{padding:14px 0}
+    /* header{display:flex} gäller bara sitt ENDA barn .wrap-wide, som är display:block på
+       mobil — därför staplades logotyp och reglage som blockelement, två rader där en
+       räcker. Flexa wrappen i stället (130 px + 130 px ryms väl på 375). */
+    header .wrap-wide{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .hdr-right{width:auto}
     .band-bg,.trust-strip{display:none}
     /* Tap-targets: chipsen är nätta på desktop men måste bli fingervänliga på mobil. */
     .store-chip{padding:11px 16px;font-size:13px}
