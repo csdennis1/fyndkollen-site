@@ -195,6 +195,15 @@
   .cta.ghost{background:transparent;color:var(--accent-text);border:1.5px solid var(--accent);box-shadow:none;margin-top:12px}
   .cta.ghost:hover{filter:none;background:rgba(204,107,44,.08);box-shadow:none}
   .web-cta-sub{font-size:12.5px;color:var(--muted);margin-top:7px}
+  /* Butiksraden (2026-07-27): tidigare fanns BARA en knapp mot den detekterade butiken —
+     surfade du i Chrome men ville ha Firefox-versionen fanns ingen väg dit. Nu listas alla
+     tre butikerna explicit, med den egna webbläsaren markerad. */
+  .stores{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px}
+  .stores-lbl{font-size:12px;color:var(--muted);font-weight:600}
+  .store-chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--mid);text-decoration:none;border:1px solid var(--border);background:var(--card);border-radius:100px;padding:6px 13px;transition:border-color .15s,color .15s,background .15s}
+  .store-chip:hover{border-color:var(--accent);color:var(--accent-text);background:rgba(204,107,44,.06)}
+  .store-chip.current{border-color:var(--accent);color:var(--accent-text);background:rgba(204,107,44,.08)}
+  .store-chip .you{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;opacity:.75}
   .cta-sub{font-size:13px;color:var(--muted);margin-top:12px}
   .secondary-cta{margin-top:14px;font-size:13.5px}
   .secondary-cta a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
@@ -661,6 +670,12 @@
           <div class="cta-sub" data-i18n="webCtaSub">Klistra in en annons du funderar på — Blocket, Facebook Marketplace, Tradera. På mobil eller dator, inget konto, 5 gratisanalyser. Ska du sälja? Växla till säljläget.</div>
           <a class="cta ghost" href="https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka" target="_blank" rel="noopener" data-i18n="installBtn">Lägg till i Chrome, gratis</a>
           <div class="web-cta-sub" data-i18n="installSub">Föredrar du ett tillägg? Fyndkollen auto-läser Blocket-annonsen du är på — Chrome, Edge, Firefox.</div>
+          <div class="stores" id="stores">
+            <span class="stores-lbl" data-i18n="storesLbl">Finns för:</span>
+            <a class="store-chip" data-store="chrome" href="https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka" target="_blank" rel="noopener">Chrome</a>
+            <a class="store-chip" data-store="edge" href="https://microsoftedge.microsoft.com/addons/detail/fyndkollen/lpijjamgenlgfamfmjcepfoimmehlljg" target="_blank" rel="noopener">Edge</a>
+            <a class="store-chip" data-store="firefox" href="https://addons.mozilla.org/firefox/addon/fyndkollen/" target="_blank" rel="noopener">Firefox</a>
+          </div>
           <div class="secondary-cta"><a href="#pricing" data-i18n="secondaryCta">Vad kostar det?</a></div>
           <div class="privacy-note" data-i18n-html="privacyNote">Vi sparar inte dina sökningar — läs vår <a href="privacy.html">policy</a></div>
         </div>
@@ -968,7 +983,9 @@
       promoSub: 'Riktiga slutpriser avgör — inte säljarens förhoppning.',
       promoCta: 'Analysera din annons – gratis →',
       installBtn: 'Lägg till i Chrome, gratis',
-      installSub: 'Föredrar du ett tillägg? Fyndkollen auto-läser Blocket-annonsen du är på — Chrome, Edge, Firefox.',
+      installSub: 'Föredrar du ett tillägg? Fyndkollen auto-läser Blocket-annonsen du är på.',
+      storesLbl: 'Finns för:',
+      storesYou: 'din webbläsare',
       secondaryCta: 'Vad kostar det?',
       webCta: 'Analysera en annons – gratis',
       webCtaSub: 'Klistra in en annons du funderar på — Blocket, Facebook Marketplace, Tradera. På mobil eller dator, inget konto, 5 gratisanalyser. Ska du sälja? Växla till säljläget.',
@@ -1084,7 +1101,9 @@
       promoSub: 'Real sold prices decide — not the seller’s wishful thinking.',
       promoCta: 'Analyze your listing – free →',
       installBtn: 'Add to Chrome',
-      installSub: 'Prefer an extension? Fyndkollen auto-reads the Blocket listing you’re on — Chrome, Edge, Firefox.',
+      installSub: 'Prefer an extension? Fyndkollen auto-reads the Blocket listing you’re on.',
+      storesLbl: 'Available for:',
+      storesYou: 'your browser',
       secondaryCta: 'What does it cost?',
       webCta: 'Analyze a listing – free',
       webCtaSub: 'Paste a listing you’re eyeing — Blocket, Facebook Marketplace, Tradera. Mobile or desktop, no account, 5 free analyses. Selling? Switch to sell mode.',
@@ -1218,14 +1237,14 @@
   // ── Butiksrouting per webbläsare (2026-07-10 — tillägget finns nu i Chrome Web Store,
   // Edge Add-ons och Firefox Add-ons inkl. Android). Firefox-användare skickas till AMO,
   // Edge-användare till Edge Add-ons, alla andra till Chrome Web Store. Knapptexternas
-  // "Chrome" byts till rätt webbläsarnamn. EDGE-URL:EN: tom sträng = fall tillbaka på
-  // Chrome Web Store (fungerar i Edge) tills Partner Center-listningens URL klistrats in.
+  // "Chrome" byts till rätt webbläsarnamn. Alla tre butikerna är live (CWS/Edge/AMO), så
+  // varje besökare får sin egen butik — ingen fallback behövs längre.
   var STORE_URLS = {
     chrome: 'https://chromewebstore.google.com/detail/fyndkollen/jmilbnofnpifmmlikffkkgeecilgjbka',
     firefox: 'https://addons.mozilla.org/firefox/addon/fyndkollen/',
-    edge: '' // NÄR Edge-listningen är LIVE (5.2.1 låg i draft 2026-07-10, CRX-id känt): sätt
-              // 'https://microsoftedge.microsoft.com/addons/detail/fyndkollen/lpijjamgenlgfamfmjcepfoimmehlljg'
-              // — INTE innan publicering (404). Tom sträng = CWS-fallback som fungerar i Edge.
+    // Edge-listningen ÄR live sedan 2026-07 (verifierad 2026-07-27: svarar 200 med en
+    // riktig listning). Edge-användare skickas nu dit i stället för CWS-fallbacken.
+    edge: 'https://microsoftedge.microsoft.com/addons/detail/fyndkollen/lpijjamgenlgfamfmjcepfoimmehlljg'
   };
   var BROWSER_NAMES = { chrome: 'Chrome', firefox: 'Firefox', edge: 'Edge' };
   function detectBrowser() {
@@ -1234,9 +1253,35 @@
     if (ua.indexOf('Firefox/') !== -1 && ua.indexOf('Seamonkey') === -1) return 'firefox';
     return 'chrome';
   }
-  var INSTALL_LINKS = Array.prototype.slice.call(document.querySelectorAll('a[href*="chromewebstore.google.com"]'));
+  var INSTALL_LINKS = Array.prototype.slice.call(document.querySelectorAll('a[href*="chromewebstore.google.com"]'))
+    .filter(function(a) { return !a.hasAttribute('data-store'); }); // butikschipsen pekar medvetet var för sig
+  // Markerar besökarens egen webbläsare i butiksraden ("din webbläsare"), så valet blir
+  // uppenbart utan att de andra två butikerna göms.
+  // Till skillnad från detectBrowser() (som faller tillbaka på chrome för allt okänt)
+  // returnerar denna null när webbläsaren inte är en av de tre — annars skulle en
+  // Safari-användare felaktigt få "Chrome · din webbläsare".
+  function detectBrowserStrict() {
+    var ua = navigator.userAgent;
+    if (ua.indexOf('Edg/') !== -1) return 'edge';
+    if (ua.indexOf('Firefox/') !== -1 && ua.indexOf('Seamonkey') === -1) return 'firefox';
+    if (ua.indexOf('Chrome/') !== -1 && ua.indexOf('OPR/') === -1) return 'chrome';
+    return null;
+  }
+  function markCurrentStore() {
+    var b = detectBrowserStrict(), row = document.getElementById('stores');
+    if (!row) return;
+    Array.prototype.slice.call(row.querySelectorAll('.store-chip')).forEach(function(a) {
+      var mine = a.getAttribute('data-store') === b;
+      a.classList.toggle('current', mine);
+      var tag = a.querySelector('.you');
+      if (mine && !tag) { a.insertAdjacentHTML('beforeend', '<span class="you">' + DICT[document.documentElement.lang === 'en' ? 'en' : 'sv'].storesYou + '</span>'); }
+      else if (mine && tag) { tag.textContent = DICT[document.documentElement.lang === 'en' ? 'en' : 'sv'].storesYou; }
+      else if (!mine && tag) { tag.remove(); }
+    });
+  }
   function patchInstallLinks() {
     var b = detectBrowser();
+    markCurrentStore();
     if (b === 'chrome') return; // default-markupen är redan rätt
     var url = STORE_URLS[b] || STORE_URLS.chrome;
     INSTALL_LINKS.forEach(function(a) {
@@ -1488,6 +1533,9 @@
     .hdr-right{width:100%;justify-content:space-between}
     .nav a:first-child{margin-left:0}
     .band-bg,.trust-strip{display:none}
+    /* Tap-targets: chipsen är nätta på desktop men måste bli fingervänliga på mobil. */
+    .store-chip{padding:11px 16px;font-size:13px}
+    .stores{gap:9px}
     .card p{line-height:1.75}
     section{padding:48px 0}
   }
