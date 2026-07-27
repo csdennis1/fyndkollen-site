@@ -301,6 +301,40 @@ details.adv{border-radius:14px}
   .steps-mini span:not(.arr){gap:6px}
   .steps-mini b{width:22px;height:22px}
 }
+/* ── Betalvägg 3.0 (2026-07-27): tre steg, personligt utfall, engångserbjudande ── */
+.pw3{text-align:center;padding:6px 2px}
+.pw3-step{animation:pw3in .28s cubic-bezier(.2,.8,.3,1)}
+@keyframes pw3in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.pw3-h{font-size:20px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:10px}
+.pw3-big{font-size:44px;font-weight:800;color:var(--accent-text);line-height:1.05;letter-spacing:-1px}
+.pw3-sub{font-size:14px;color:var(--mid);margin-top:2px}
+.pw3-line{font-size:13.5px;color:var(--mid);margin-top:12px;line-height:1.5}
+.pw3-note{font-size:13px;color:var(--muted);line-height:1.6;margin:16px auto 0;max-width:420px}
+.pw3-offer{font-size:14px;color:var(--text);line-height:1.6;margin:0 auto 16px;max-width:440px;
+  background:rgba(204,107,44,.08);border:1px solid rgba(204,107,44,.3);border-radius:12px;padding:12px 16px}
+.pw3-cta{margin-top:18px;background:var(--accent);color:#fff;border:none;border-radius:13px;
+  padding:14px 26px;font:inherit;font-size:15.5px;font-weight:700;cursor:pointer;transition:filter .15s}
+.pw3-cta:hover{filter:brightness(1.06)}
+.pw3-back,.pw3-decline{display:block;margin:12px auto 0;background:none;border:none;font:inherit;
+  font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.pw3-decline{margin-top:18px}
+.pw3-tbl{width:100%;max-width:420px;margin:6px auto 0;border-collapse:collapse;font-size:14.5px}
+.pw3-tbl td{padding:11px 4px;border-bottom:1px solid var(--border);text-align:left;color:var(--mid)}
+.pw3-tbl td:last-child{text-align:right;font-weight:700;color:var(--text)}
+.pw3-tbl .pw3-hi td{color:var(--accent-text);font-weight:700}
+.pw3-cards{display:flex;flex-direction:column;gap:10px;margin-top:4px;text-align:left}
+.pw3-card{display:block;text-decoration:none;background:var(--surface);border:1.5px solid var(--border);
+  border-radius:14px;padding:14px 16px;transition:border-color .15s,background .15s}
+.pw3-card:hover{border-color:var(--accent);background:rgba(204,107,44,.05)}
+.pw3-nm{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.pw3-pr{font-size:19px;font-weight:800;color:var(--text);margin:3px 0 5px}
+.pw3-pr s{font-size:13px;font-weight:600;color:var(--muted);margin-left:6px}
+.pw3-ds{font-size:12.5px;color:var(--mid);line-height:1.55}
+.pw3-code{margin-top:7px;font-size:12px;color:var(--accent-text);background:rgba(204,107,44,.08);border-radius:8px;padding:5px 9px;display:inline-block}
+.pw3-dots{display:flex;justify-content:center;gap:7px;margin-top:22px}
+.pw3-dots span{width:7px;height:7px;border-radius:50%;background:var(--border)}
+.pw3-dots span.on{background:var(--accent)}
+@media(max-width:520px){.pw3-big{font-size:38px}.pw3-h{font-size:18px}}
 /* Resultat-avslöjning lite mjukare redan via .reveal — inget mer behövs. */
 </style>
 
@@ -466,6 +500,37 @@ var T={
    pwProTag:'Pro-krediter',pwProPrice:'från 30 kr',pwProSub:'Allt i baskoll <b>plus live-marknadskoll</b> som söker aktuella priser — mest värt på ovanliga varor.',pwProCta:'Se paketen →',
    pwNote:'Krediterna staplas på samma nyckel och gäller för alltid. 14 dagars ångerrätt på oanvända krediter.',pwBack:'‹ Tillbaka',
    basicActive:'Baskoll aktiv · <b>{n}</b> koll kvar',
+   pw3aH:'Det här har dina {n} analyser visat',
+   pw3aTotal:'i skillnad mot marknadsvärdet',
+   pw3aBest:'Största enskilda: <b>{name}</b> — {kr} kr från marknadsvärdet',
+   pw3aLast:'Senast kollade du <b>{name}</b>.',
+   pw3aSub:'Det var din sista gratisanalys. Så här ser nästa steg ut.',
+   pw3aCta:'Vad kostar det? →',
+   pw3bH:'Vad en priskoll är värd',
+   pw3bRowCheck:'En priskoll',
+   pw3bRowCoffee:'En kaffe på stan',
+   pw3bRowMiss:'Ett felköp du inte upptäckte',
+   pw3bCoffee:'ca 45 kr',
+   pw3bMissYour:'{kr} kr',
+   pw3bMissGeneric:'ofta tusenlappar',
+   pw3bNote:'Du behöver inte ha rätt varje gång. Det räcker att du undviker ett enda dåligt köp.',
+   pw3bCta:'Se mitt erbjudande →',
+   pw3cH:'Ditt erbjudande',
+   pw3cSub:'Eftersom det är ditt första köp: <b>{pct} % rabatt</b> på allt. Erbjudandet gäller nu — tackar du nej försvinner det.',
+   pw3cBasic:'Baskoll',
+   pw3cBasicSub:'5 koll, samma analys som gratisläget. Ingen prenumeration.',
+   pw3cPro:'Pro-krediter',
+   pw3cProSub:'Live-marknadskoll som söker aktuella priser. Bäst på ovanliga varor.',
+   pw3cSub2:'Prenumeration',
+   pw3cSub2Sub:'Månatlig påfyllning. <b>Ingen bindningstid — säg upp när du vill</b>, och krediterna du fått behåller du.',
+   pw3cWas:'ord. {kr} kr',
+   pw3cCode:'Ange koden <b>{code}</b> i kassan för rabatten.',
+   pw3cDecline:'Nej tack — jag vill inte ha rabatten',
+   pw3cDeclineConfirm:'Säker? Rabatten kommer inte tillbaka.',
+   pw3cDeclineYes:'Ja, ta bort erbjudandet',
+   pw3cDeclineNo:'Avbryt',
+   pw3cGone:'Erbjudandet är borttaget. Paketen finns kvar till ordinarie pris.',
+   pw3Back:'‹ Tillbaka',
    maint:'Tjänsten är pausad tillfälligt för underhåll. Försök snart igen — ingen kredit drogs.',
    unavail:'AI:n är tillfälligt otillgänglig. Ingen kredit drogs — försök igen om en stund.',
    turnstile:'Säkerhetskontrollen är inte klar än — vänta ett ögonblick och försök igen.',
@@ -516,6 +581,37 @@ var T={
    pwProTag:'Pro credits',pwProPrice:'from 30 kr',pwProSub:'Everything in basic <b>plus live market check</b> that searches current prices — most valuable on uncommon items.',pwProCta:'See the packs →',
    pwNote:'Credits stack on the same key and never expire. 14-day right of withdrawal on unused credits.',pwBack:'‹ Back',
    basicActive:'Basic active · <b>{n}</b> checks left',
+   pw3aH:'This is what your {n} analyses found',
+   pw3aTotal:'in difference from market value',
+   pw3aBest:'Biggest single one: <b>{name}</b> — {kr} kr from market value',
+   pw3aLast:'You last checked <b>{name}</b>.',
+   pw3aSub:'That was your last free analysis. Here is what comes next.',
+   pw3aCta:'What does it cost? →',
+   pw3bH:'What a price check is worth',
+   pw3bRowCheck:'One price check',
+   pw3bRowCoffee:'A coffee out',
+   pw3bRowMiss:'One bad buy you did not catch',
+   pw3bCoffee:'about 45 kr',
+   pw3bMissYour:'{kr} kr',
+   pw3bMissGeneric:'often thousands',
+   pw3bNote:'You do not have to be right every time. Avoiding a single bad purchase is enough.',
+   pw3bCta:'See my offer →',
+   pw3cH:'Your offer',
+   pw3cSub:'Because this is your first purchase: <b>{pct}% off</b> everything. It applies now — decline and it is gone.',
+   pw3cBasic:'Basic',
+   pw3cBasicSub:'5 checks, same analysis as the free mode. No subscription.',
+   pw3cPro:'Pro credits',
+   pw3cProSub:'Live market check that searches current prices. Best for uncommon items.',
+   pw3cSub2:'Subscription',
+   pw3cSub2Sub:'Monthly top-up. <b>No lock-in — cancel whenever you want</b>, and you keep the credits you have received.',
+   pw3cWas:'was {kr} kr',
+   pw3cCode:'Enter code <b>{code}</b> at checkout for the discount.',
+   pw3cDecline:'No thanks — I do not want the discount',
+   pw3cDeclineConfirm:'Sure? The discount will not come back.',
+   pw3cDeclineYes:'Yes, remove the offer',
+   pw3cDeclineNo:'Cancel',
+   pw3cGone:'The offer has been removed. The packs remain at regular price.',
+   pw3Back:'‹ Back',
    maint:'Service paused for maintenance. Try again soon — no credit was charged.',
    unavail:'The AI is temporarily unavailable. No credit was charged — try again shortly.',
    turnstile:'Security check not ready yet — wait a moment and try again.',
@@ -640,7 +736,108 @@ $('drop').addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.
 
 function showMsg(html,cls){$('result').innerHTML='<div class="panel reveal"><div class="msg '+(cls||'info')+'">'+html+'</div></div>';}
 // Betalväggen som ett tydligt VAL (#3, 2026-07-24): Baskoll (billig, samma som gratis) vs Pro.
+// Har användaren redan tackat nej till engångserbjudandet? Då är det borta — permanent.
+function fkOfferDeclined(){try{return localStorage.getItem('fk_offer_declined')==='1';}catch(e){return false;}}
+function fkDeclineOffer(){
+  try{localStorage.setItem('fk_offer_declined','1');}catch(e){}
+  // Best-effort till servern så avböjandet överlever mellan enheter för samma client_id.
+  try{fetch(FEEDBACK_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({type:'offer_declined',client_id:clientId()}),keepalive:true}).catch(function(){});}catch(e){}
+}
+var PW_STEP=1;
+var PW_KIND='quota';
+var OFFER_PCT=30;              // rabatt i procent — MÅSTE matcha Stripe-kupongen FORSTAKOP30
+var OFFER_CODE='FORSTA30';     // Stripe promotion code (first_time_transaction=true)
+// Hänger på promokoden så kassan visar det rabatterade priset direkt.
+function withPromo(url){return url+(url.indexOf('?')>=0?'&':'?')+'prefilled_promo_code='+OFFER_CODE;}
+
+// Steg 1 — DITT UTFALL. Personligt, sant, deras egna siffror.
+function pwStep1(){
+  var v=fkValueSummary();
+  var h='<div class="pw3-step">';
+  if(v&&v.total>0){
+    h+='<div class="pw3-h">'+esc(t('pw3aH',{n:v.n}))+'</div>'+
+       '<div class="pw3-big">'+fmt(v.total)+' kr</div>'+
+       '<div class="pw3-sub">'+esc(t('pw3aTotal'))+'</div>';
+    if(v.best>0&&v.bestName)h+='<div class="pw3-line">'+t('pw3aBest',{name:esc(v.bestName),kr:fmt(v.best)})+'</div>';
+  } else {
+    h+='<div class="pw3-h">'+esc(t('pwQuotaH'))+'</div>';
+    if(v&&v.lastName)h+='<div class="pw3-line">'+t('pw3aLast',{name:esc(v.lastName)})+'</div>';
+  }
+  h+='<div class="pw3-note">'+esc(t('pw3aSub'))+'</div>'+
+     '<button class="pw3-cta" id="pw3-next1">'+esc(t('pw3aCta'))+'</button></div>';
+  return h;
+}
+
+// Steg 2 — VAD EN KOLL ÄR VÄRD. Jämförelsen är styckpris mot vardagsutgift mot deras
+// eget största fynd. Har vi inget eget fynd att visa säger vi "ofta tusenlappar" i
+// stället för att hitta på en siffra.
+function pwStep2(){
+  var v=fkValueSummary();
+  var styck=Math.round((10*(100-OFFER_PCT)/100)/5*100)/100; // baskoll efter rabatt / 5 koll
+  var miss=(v&&v.best>0)?t('pw3bMissYour',{kr:fmt(v.best)}):esc(t('pw3bMissGeneric'));
+  return '<div class="pw3-step">'+
+    '<div class="pw3-h">'+esc(t('pw3bH'))+'</div>'+
+    '<table class="pw3-tbl"><tbody>'+
+    '<tr class="pw3-hi"><td>'+esc(t('pw3bRowCheck'))+'</td><td>'+String(styck).replace('.',',')+' kr</td></tr>'+
+    '<tr><td>'+esc(t('pw3bRowCoffee'))+'</td><td>'+esc(t('pw3bCoffee'))+'</td></tr>'+
+    '<tr><td>'+esc(t('pw3bRowMiss'))+'</td><td>'+miss+'</td></tr>'+
+    '</tbody></table>'+
+    '<div class="pw3-note">'+esc(t('pw3bNote'))+'</div>'+
+    '<button class="pw3-cta" id="pw3-next2">'+esc(t('pw3bCta'))+'</button>'+
+    '<button class="pw3-back" id="pw3-back2">'+esc(t('pw3Back'))+'</button></div>';
+}
+
+// Steg 3 — ERBJUDANDET. Rabatt på alla tre vägarna. Prenumerationen bär uttryckligen
+// "ingen bindningstid, säg upp när du vill" — det är ett krav, inte en artighet.
+function pwStep3(){
+  var declined=fkOfferDeclined();
+  var d=function(n){return Math.round(n*(100-OFFER_PCT)/100);};
+  var h='<div class="pw3-step">'+
+    '<div class="pw3-h">'+esc(declined?t('pwQuotaH'):t('pw3cH'))+'</div>';
+  if(!declined)h+='<div class="pw3-offer">'+t('pw3cSub',{pct:OFFER_PCT})+'</div>';
+  var codeLine=declined?'':'<div class="pw3-code">'+t('pw3cCode',{code:OFFER_CODE})+'</div>';
+  h+='<div class="pw3-cards">'+
+    '<a class="pw3-card" href="'+(declined?MICRO_URL:withPromo(MICRO_URL))+'"><div class="pw3-nm">'+esc(t('pw3cBasic'))+'</div>'+
+      '<div class="pw3-pr">'+(declined?'10 kr':d(10)+' kr <s>'+t('pw3cWas',{kr:10})+'</s>')+'</div>'+
+      '<div class="pw3-ds">'+esc(t('pw3cBasicSub'))+'</div></a>'+
+    '<a class="pw3-card" href="/#pricing"><div class="pw3-nm">'+esc(t('pw3cPro'))+'</div>'+
+      '<div class="pw3-pr">från 30 kr</div>'+
+      '<div class="pw3-ds">'+esc(t('pw3cProSub'))+'</div>'+codeLine+'</a>'+
+    '<a class="pw3-card" href="/#pricing"><div class="pw3-nm">'+esc(t('pw3cSub2'))+'</div>'+
+      '<div class="pw3-pr">från 39 kr/mån</div>'+
+      '<div class="pw3-ds">'+t('pw3cSub2Sub')+'</div>'+codeLine+'</a>'+
+    '</div>';
+  if(declined)h+='<div class="pw3-note">'+esc(t('pw3cGone'))+'</div>';
+  else h+='<button class="pw3-decline" id="pw3-decline">'+esc(t('pw3cDecline'))+'</button>';
+  h+='<button class="pw3-back" id="pw3-back3">'+esc(t('pw3Back'))+'</button></div>';
+  return h;
+}
+
+function pwRender(){
+  var body=PW_STEP===1?pwStep1():PW_STEP===2?pwStep2():pwStep3();
+  var dots='<div class="pw3-dots">'+[1,2,3].map(function(i){return '<span class="'+(i===PW_STEP?'on':'')+'"></span>';}).join('')+'</div>';
+  $('result').innerHTML='<div class="panel reveal"><div class="pw3">'+body+dots+'</div></div>';
+  var n1=$('pw3-next1'); if(n1)n1.onclick=function(){PW_STEP=2;pwRender();};
+  var n2=$('pw3-next2'); if(n2)n2.onclick=function(){PW_STEP=3;pwRender();};
+  var b2=$('pw3-back2'); if(b2)b2.onclick=function(){PW_STEP=1;pwRender();};
+  var b3=$('pw3-back3'); if(b3)b3.onclick=function(){PW_STEP=2;pwRender();};
+  var dc=$('pw3-decline');
+  if(dc)dc.onclick=function(){
+    // Bekräfta EN gång — inte för att pressa, utan för att avböjandet är permanent och
+    // användaren ska förstå det innan det sker.
+    if(!confirm(t('pw3cDeclineConfirm')))return;
+    fkDeclineOffer();PW_STEP=3;pwRender();
+  };
+  $('form').style.display='none';$('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
 function showPaywall(kind){
+  // Betalvägg 3.0: tre steg. Har användaren redan tackat nej till erbjudandet hoppar vi
+  // direkt till paketvyn (steg 3) — ingen anledning att gå igenom säljstegen igen.
+  PW_KIND=kind||'quota'; PW_STEP=fkOfferDeclined()?3:1; pwRender(); return;
+}
+function showPaywallLegacy(kind){
   var h=kind==='credits'?t('pwCreditsH'):t('pwQuotaH');
   $('result').innerHTML='<div class="panel reveal"><div class="pw">'
     +'<div class="pw-h">'+h+'</div><div class="pw-subh">'+t('pwSubh')+'</div>'
@@ -822,10 +1019,46 @@ function tierHtml(){
   return '<div class="tier-note free">'+esc(t('tierFree'))+'<br>'+esc(t('tierUpsell'))+
     ' <a class="up" href="/#pricing">'+esc(t('tierUpsellCta'))+'</a></div>';
 }
+// Sparar en rad per analys lokalt: vad varan hette, kategori, och hur stor skillnaden
+// mot marknadsvärdet var. Används av betalväggen för att visa användarens EGET utfall
+// ("dina 5 analyser hittade 3 200 kr i skillnad") i stället för generisk säljtext.
+// Bara lokalt i webbläsaren, max 20 rader, ingen server inblandad.
+function fkTrackValue(r,price){
+  try{
+    if(!(r&&r.marketValue>0))return;
+    var diff=(price>0)?Math.round(r.marketValue-price):0;
+    var hist=[];
+    try{hist=JSON.parse(localStorage.getItem('fk_hist')||'[]');}catch(e){hist=[];}
+    hist.push({n:(r.itemName||'').slice(0,60),c:r.category||'other',d:diff,mv:Math.round(r.marketValue),t:Date.now()});
+    if(hist.length>20)hist=hist.slice(-20);
+    localStorage.setItem('fk_hist',JSON.stringify(hist));
+  }catch(e){}
+}
+// Summerar historiken till det betalväggen behöver: total skillnad hittad, bästa enskilda
+// fynd, vanligaste kategori och senaste varan.
+function fkValueSummary(){
+  var hist=[];
+  try{hist=JSON.parse(localStorage.getItem('fk_hist')||'[]');}catch(e){return null;}
+  if(!hist.length)return null;
+  var total=0,best=0,bestName='',cats={};
+  for(var i=0;i<hist.length;i++){
+    var h=hist[i];
+    var abs=Math.abs(h.d||0);
+    total+=abs;
+    if(abs>best){best=abs;bestName=h.n||'';}
+    cats[h.c]=(cats[h.c]||0)+1;
+  }
+  var topCat='other',topN=0;
+  for(var k in cats){if(cats[k]>topN){topN=cats[k];topCat=k;}}
+  var last=hist[hist.length-1];
+  return {n:hist.length,total:total,best:best,bestName:bestName,cat:topCat,lastName:(last&&last.n)||'',lastMv:(last&&last.mv)||0};
+}
+
 function render(r,price){
   // OTILLRÄCKLIGT UNDERLAG (2026-07-22): modellen hittade ingen prisdata (DB eller webb) och
   // gissade INTE. Visa en ärlig icke-värdering i stället för ett falskt tal — servern drog
   // ingen kredit (insufficient:true). Kort kort, ingen dom/bud/stämpel.
+  fkTrackValue(r,price);
   if(r.insufficientData===true){
     var iz=r.reasoning?esc(r.reasoning):'';
     var ih='<div class="panel verdict reveal"><div class="vicon" style="background:var(--muted);color:#fff">?</div>'+
