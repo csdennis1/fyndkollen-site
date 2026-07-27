@@ -995,7 +995,20 @@ $('form').addEventListener('submit',async function(e){
   // träffen (kr-suffixet krävs så specs som "128GB" aldrig misstas för pris).
   var desc=$('f-desc').value.trim();
   var title=$('f-title').value.trim();
-  if(!title&&desc){var _ln=desc.split('\n').map(function(s){return s.trim();}).filter(Boolean);title=(_ln[0]||'').slice(0,80);}
+  if(!title&&desc){
+    var _ln=desc.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    // Sektionsrubriker och etiketter som Blocket/Marketplace/Tradera lägger före varunamnet,
+    // plus rader som bara är ett pris eller en plats. En rad räknas som rubrik när den har
+    // minst två tecken, inte är ett rent tal/pris, och inte är ett känt sektionsord.
+    var _skip=/^(beskrivning|om varan|om annonsen|produktbeskrivning|information|detaljer|specifikation(?:er)?|pris|begärt pris|utropspris|totalt pris|skick|kategori|frakt|betalning|säljes|säljs|till salu|annons(?:en)?|visningar|publicerad|plats|ort)\s*[:\-–]?\s*$/i;
+    var _num=/^[\d\s.,:%-]+(?:kr|sek|:-)?$/i;
+    for(var _i=0;_i<_ln.length&&_i<8;_i++){
+      var _c=_ln[_i];
+      if(_c.length<2||_skip.test(_c)||_num.test(_c))continue;
+      title=_c.slice(0,80);break;
+    }
+    if(!title)title=(_ln[0]||'').slice(0,80); // hellre något än inget
+  }
   if(!title){showMsg(t('needTitle'),'err');return;}
   var price=parseInt($('f-price').value,10);if(!(price>0))price=0;
   if(!price&&desc){
