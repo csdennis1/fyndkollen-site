@@ -16,7 +16,7 @@ const CATS = {
     br: ['rolex','omega','tudor','seiko','casio','tissot','tag heuer','breitling','hamilton','citizen','orient','festina','longines','rado','bulova','fossil','diesel','invicta','certina','oris','iwc','patek','cartier']
   },
   electronics: {
-    kw: ['iphone','macbook','laptop','dator','telefon','airpods','ipad','playstation','xbox','nintendo','grafikkort','gpu','geforce','radeon','rtx','gtx','hörlurar','headphones','ps5','ps4','gpu','skärm','monitor'],
+    kw: ['iphone','macbook','laptop','dator','telefon','pixel','airpods','ipad','playstation','xbox','nintendo','grafikkort','gpu','geforce','radeon','rtx','gtx','hörlurar','headphones','ps5','ps4','gpu','skärm','monitor'],
     br: ['apple','samsung','sony','lg','asus','acer','lenovo','dell','hp','google','huawei','oneplus','xiaomi','nintendo','microsoft','nikon','canon','gopro','nvidia','amd','msi','gigabyte','sapphire','zotac','evga','palit','powercolor','gainward']
   },
   clothing: {
@@ -98,8 +98,16 @@ function _withCap(key, tl){ var c=_capTok(tl); return (c && key.indexOf(c)<0)?(k
 // 5700 med 7900. Graftas nu på nyckeln oavsett position, precis som kapaciteten.
 function _modelTok(tl){ var m=(tl||'').match(/\b(?:rtx|gtx|rx|gt)\s?(\d{3,4})\b/); return m?m[1]:''; }
 function _withModel(key, tl){ var c=_modelTok(tl); return (c && key.indexOf(c)<0)?(key+'_'+c).slice(0,30):key; }
+// Försäljningsfraser i titeln ("Pixel 9a SÄLJES") skapade egna hinkar som aldrig delade
+// prisdata med samma vara utan ordet. Tvättas bort före all annan normalisering — efter
+// å/ä/ö-strippningen är "säljes" redan "sljes" och går inte att känna igen.
+var SALE_WORDS = /\b(?:s[aä]ljes|s[aä]ljs|s[aä]lj|till\s+salu|salu|bortsk[aä]nkes|uthyres)\b/g;
+// Redundant märkesord framför en modell som bara det märket gör ("Google Pixel" →
+// "Pixel"). Utan detta hamnar samma telefon i två hinkar beroende på hur annonsen är
+// skriven, och användarens skrivsätt matchar inte skördedatans.
+var REDUNDANT_BRAND = /\bgoogle\s+(?=pixel\b)/g;
 function bucketKey(title, cat) {
-  const tl = (title||'').toLowerCase();
+  const tl = (title||'').toLowerCase().replace(SALE_WORDS, ' ').replace(REDUNDANT_BRAND, '').replace(/\s+/g, ' ').trim();
   if (CATS[cat]) {
     for (const br of CATS[cat].br) {
       if (_wordHit(tl, br)) {
