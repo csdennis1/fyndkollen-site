@@ -497,6 +497,8 @@ var T={
    thanksWait:'Hämtar din nyckel …',
    thanksOk:'Din nyckel <b>{k}</b> är ifylld och sparad. Du har <b>{n}</b> kollar.',
    thanksCopy:'Kopiera nyckeln',thanksCopied:'Kopierad!',thanksCopyFail:'Markera nyckeln ovan och kopiera',
+   estTitle:'Uppskattning — ingen slutprisdata för just den här varan',
+   estBody:'Vi har inga verifierade slutpriser för den här produkten i vår databas. Värderingen bygger i stället på websökning och på hur varutypen brukar hålla värde (nypris, ålder, skick, hur lätt den är att sälja). Räkna med större osäkerhet än vanligt — se spannet.',
    thanksExt:'Använder du webbläsartillägget? Klistra in samma nyckel i tilläggets popup — krediterna delas mellan webben och tillägget.',
    thanksMail:'Nyckeln är på väg till din mejl — den brukar komma inom en minut. Klistra in den under "Justera själv" när den kommer.',
    licSaved:'Din nyckel är sparad på den här enheten.',
@@ -585,6 +587,8 @@ var T={
    thanksWait:'Fetching your key …',
    thanksOk:'Your key <b>{k}</b> is filled in and saved. You have <b>{n}</b> checks.',
    thanksCopy:'Copy key',thanksCopied:'Copied!',thanksCopyFail:'Select the key above and copy it',
+   estTitle:'Estimate — no sold-price data for this exact item',
+   estBody:'We have no verified sold prices for this product in our database. The valuation is based on web search and on how this type of item typically holds value (new price, age, condition, how easily it sells). Expect more uncertainty than usual — see the range.',
    thanksExt:'Using the browser extension? Paste the same key into the extension popup — credits are shared between the web and the extension.',
    thanksMail:'Your key is on its way by email — it usually arrives within a minute. Paste it under "Adjust yourself" when it does.',
    licSaved:'Your key is saved on this device.',
@@ -967,6 +971,7 @@ function showLoader(){
   return setInterval(function(){if(i>=seq.length)return;var d=$(seq[i][0]),a=$(seq[i][1]);if(d){d.classList.remove('active');d.classList.add('done');d.querySelector('.ic').textContent='✓';}if(a)a.classList.add('active');i++;},2600);
 }
 
+var LAST_ESTIMATED=false;
 var LAST_TIER=null;
 var LAST_GROUNDING=null;
 var LAST_PK=null;      // produktnyckel för prisbevakningen
@@ -1184,6 +1189,9 @@ function render(r,price){
   }
   var pos=r.pricePosition;var tier=(pos==='Significantly underpriced'||pos==='Underpriced')?'good':(pos==='Fair'||!pos)?'fair':'over';
   var noPrice=!(price>0);
+  // Uppskattningsnotis: byggs här, klistras in sist i resultatet (se estNote nedan).
+  var estNote=LAST_ESTIMATED?('<div class="panel reveal"><div class="ident">'+t('estTitle')+'</div>'+
+    '<div class="cnotes" style="margin-top:8px">'+t('estBody')+'</div></div>'):'';
   // SANITY-GATE (2026-07-22, kritisk): ett pris >65% UNDER marknaden är nästan aldrig ett
   // riktigt fynd — det är ett felläst/ofullständigt pris eller en bluff. Fira ALDRIG då; flagga
   // för verifiering. Krävde denna fix efter en bil (84 900 kr felparsat → "Bra fynd 100/100").
@@ -1232,7 +1240,9 @@ function render(r,price){
   else if(r.negotiationTip)h+='<div class="coach"><div class="coach-h">'+t('coach')+'</div><div style="font-size:14px;color:var(--mid)">'+esc(r.negotiationTip)+'</div></div>';
   if(moreHtml)h+='<details class="rdetails"><summary>'+t('rMore')+'</summary>'+moreHtml+'</details>';
   h+='<div class="conf"><span class="dots">●●○</span> '+(r.marketValueBasis?esc(r.marketValueBasis):t('basedWeb'))+'</div>';
-  h+='</div>'+compsHtml(r,price)+watchHtml(r)+tierHtml()+
+  // estNote direkt efter domen och före jämförelserna: den nyanserar siffran användaren
+  // just läst, och ska inte hamna längst ned där den missas.
+  h+='</div>'+estNote+compsHtml(r,price)+watchHtml(r)+tierHtml()+
     ((r.marketValue>0&&price>0&&!suspect)?'<button class="again share" id="certbtn">'+t('certBtn')+'</button>':'')+
     '<button class="again share" id="share">'+t('shareBtn')+'</button><button class="again" id="again">'+t('again')+'</button>';
   $('result').innerHTML=h;
@@ -1399,6 +1409,9 @@ $('form').addEventListener('submit',async function(e){
     var txt=(data.content||[]).map(function(b){return b.text||'';}).join('').replace(/```json|```/g,'').trim();
     var s=txt.indexOf('{'),e2=txt.lastIndexOf('}');if(s>=0&&e2>s)txt=txt.slice(s,e2+1);
     LAST_TIER={tier:pj.tier,searched:pj.web_searched}; // tier-märke + gratis-uppsäljning
+    // Vi saknade slutprisdata för produkten (2026-07-27) → värderingen vilar på websökning
+    // och kategorimetodik. Servern äger flaggan; klienten får inte påstå mer än den betyder.
+    LAST_ESTIMATED = pj.estimated === true;
     LAST_PK=pk; LAST_NAME=(title||"").slice(0,80)||null; LAST_GROUNDING=pj.grounding||null; // verkliga jämförelse-slutpriser (Tradera-länkar)
     // Servern är sanningskälla för "otillräckligt underlag" (pj.insufficient) — den drog INGEN
     // kredit då. Rendera den ärliga icke-värderingen även om AI-texten inte är parsebar JSON
