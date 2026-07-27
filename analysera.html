@@ -496,6 +496,8 @@ var T={
    thanksTitle:'Tack — betalningen gick igenom!',
    thanksWait:'Hämtar din nyckel …',
    thanksOk:'Din nyckel <b>{k}</b> är ifylld och sparad. Du har <b>{n}</b> kollar.',
+   thanksCopy:'Kopiera nyckeln',thanksCopied:'Kopierad!',thanksCopyFail:'Markera nyckeln ovan och kopiera',
+   thanksExt:'Använder du webbläsartillägget? Klistra in samma nyckel i tilläggets popup — krediterna delas mellan webben och tillägget.',
    thanksMail:'Nyckeln är på väg till din mejl — den brukar komma inom en minut. Klistra in den under "Justera själv" när den kommer.',
    licSaved:'Din nyckel är sparad på den här enheten.',
    quotaWall:'Dina 5 gratiskollar är slut. Köp krediter eller starta en prenumeration för att fortsätta — <a href="/#pricing">se paketen →</a>',
@@ -582,6 +584,8 @@ var T={
    thanksTitle:'Thank you — your payment went through!',
    thanksWait:'Fetching your key …',
    thanksOk:'Your key <b>{k}</b> is filled in and saved. You have <b>{n}</b> checks.',
+   thanksCopy:'Copy key',thanksCopied:'Copied!',thanksCopyFail:'Select the key above and copy it',
+   thanksExt:'Using the browser extension? Paste the same key into the extension popup — credits are shared between the web and the extension.',
    thanksMail:'Your key is on its way by email — it usually arrives within a minute. Paste it under "Adjust yourself" when it does.',
    licSaved:'Your key is saved on this device.',
    quotaWall:'Your 5 free checks are used up. Buy credits or start a subscription to keep going — <a href="/#pricing">see the packs →</a>',
@@ -758,6 +762,19 @@ $('drop').addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.
 //
 // Nu: Stripe skickar tillbaka köparen hit med sitt checkout-session-id, sidan byter det mot
 // nyckeln (feedback-fn, action claim_license) och sparar den. Kunden kan analysera direkt.
+// Returnerar true/false — anroparen MÅSTE veta om det gick, annars kan knappen sitta
+// tyst kvar efter ett misslyckat klick.
+function fallbackCopy(text){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=text;ta.setAttribute('readonly','');
+    ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    var ok=!!(document.execCommand&&document.execCommand('copy'));
+    document.body.removeChild(ta);
+    return ok;
+  }catch(e){return false;}
+}
 function fkSaveLic(v){try{localStorage.setItem('fk_license',v);}catch(e){}}
 function fkRestoreLic(){
   try{
@@ -787,7 +804,30 @@ function fkClaimLicense(sid){
       .then(function(j){
         if(j&&j.ok&&j.license){
           fkSaveLic(j.license);fkRestoreLic();
-          panel(t('thanksOk',{k:j.license,n:(j.credits!=null?j.credits:'')}));
+          // Kopieringsknappen + tilläggsraden stänger en lucka returvägen SJÄLV skapade:
+          // en tilläggsanvändare som köper landar numera här i stället för i sin inkorg,
+          // och behöver nyckeln i tilläggets popup — men inget sa det, och nyckeln gick
+          // inte att kopiera utan att markera den för hand.
+          panel(t('thanksOk',{k:j.license,n:(j.credits!=null?j.credits:'')})
+            +'<div style="margin-top:10px"><button type="button" id="lic-copy" class="copybtn">'+t('thanksCopy')+'</button></div>'
+            +'<div class="sub" style="margin-top:10px">'+t('thanksExt')+'</div>');
+          var cb=$('lic-copy');
+          if(cb)cb.addEventListener('click',function(){
+            // Ett klick måste ALLTID ge ett synligt svar. Clipboard-API:t kan nekas
+            // (NotAllowedError utan användargest, äldre browsers, strikt policy) och
+            // execCommand kan returnera false — utan en felväg satt knappen tyst kvar och
+            // kunden visste inte om nyckeln hamnat i urklipp. Går inget vägen ber vi dem
+            // markera nyckeln, som står i klartext strax ovanför.
+            var done=function(){cb.textContent=t('thanksCopied');};
+            var fail=function(){cb.textContent=t('thanksCopyFail');cb.disabled=true;};
+            try{
+              if(navigator.clipboard&&navigator.clipboard.writeText){
+                navigator.clipboard.writeText(j.license).then(done,function(){
+                  if(fallbackCopy(j.license))done();else fail();
+                });
+              }else if(fallbackCopy(j.license))done();else fail();
+            }catch(e){ if(fallbackCopy(j.license))done();else fail(); }
+          });
           var q=$('quota');if(q&&j.credits!=null)q.innerHTML=t('licActive',{n:j.credits});
           return;
         }
