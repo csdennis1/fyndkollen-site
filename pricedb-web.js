@@ -16,8 +16,8 @@ const CATS = {
     br: ['rolex','omega','tudor','seiko','casio','tissot','tag heuer','breitling','hamilton','citizen','orient','festina','longines','rado','bulova','fossil','diesel','invicta','certina','oris','iwc','patek','cartier']
   },
   electronics: {
-    kw: ['iphone','macbook','laptop','dator','telefon','airpods','ipad','playstation','xbox','nintendo','grafikkort','hörlurar','headphones','ps5','ps4','gpu','skärm','monitor'],
-    br: ['apple','samsung','sony','lg','asus','acer','lenovo','dell','hp','google','huawei','oneplus','xiaomi','nintendo','microsoft','nikon','canon','gopro']
+    kw: ['iphone','macbook','laptop','dator','telefon','airpods','ipad','playstation','xbox','nintendo','grafikkort','gpu','geforce','radeon','rtx','gtx','hörlurar','headphones','ps5','ps4','gpu','skärm','monitor'],
+    br: ['apple','samsung','sony','lg','asus','acer','lenovo','dell','hp','google','huawei','oneplus','xiaomi','nintendo','microsoft','nikon','canon','gopro','nvidia','amd','msi','gigabyte','sapphire','zotac','evga','palit','powercolor','gainward']
   },
   clothing: {
     kw: ['jacka','jacket','skor','shoes','sneakers','byxor','hoodie','tröja','klänning','väska','bag','streetwear'],
@@ -93,6 +93,11 @@ function detectCategory(title, desc) {
 // KEEP IDENTICAL across priceDB.js, supabase-tradera-ingest-function.ts, pricedb-web.js.
 function _capTok(tl){ var m=(tl||'').match(/\b(\d{1,4})\s?(gb|tb)\b/); return m?(m[1]+m[2]):''; }
 function _withCap(key, tl){ var c=_capTok(tl); return (c && key.indexOf(c)<0)?(key+'_'+c).slice(0,30):key; }
+// MODELLNUMMER (2026-07-27, lord_dubbdäck): GPU-modellen sitter ofta efter märkesorden
+// och föll utanför slice(0,3) — "Asus AMD Radeon RX 5700" blev asus_amd_radeon och blandade
+// 5700 med 7900. Graftas nu på nyckeln oavsett position, precis som kapaciteten.
+function _modelTok(tl){ var m=(tl||'').match(/\b(?:rtx|gtx|rx|gt)\s?(\d{3,4})\b/); return m?m[1]:''; }
+function _withModel(key, tl){ var c=_modelTok(tl); return (c && key.indexOf(c)<0)?(key+'_'+c).slice(0,30):key; }
 function bucketKey(title, cat) {
   const tl = (title||'').toLowerCase();
   if (CATS[cat]) {
@@ -107,14 +112,14 @@ function bucketKey(title, cat) {
         var brKey = br.replace(/[^a-z0-9]/g, '').slice(0, 20);
         if (brIdx >= 0) {
           var model = words.slice(brIdx + brWords.length, brIdx + brWords.length + 2).join('_');
-          if (model) return _withCap((brKey + '_' + model).replace(/[^a-z0-9_]/g, '').slice(0, 30), tl);
+          if (model) return _withModel(_withCap((brKey + '_' + model).replace(/[^a-z0-9_]/g, '').slice(0, 30), tl), tl);
         }
-        return _withCap(brKey, tl);
+        return _withModel(_withCap(brKey, tl), tl);
       }
     }
   }
   var base = tl.replace(/[^\w\s]/g,'').split(/\s+/).filter(w=>w.length>2 || /\d/.test(w)).slice(0,3).join('_').slice(0,20) || 'general';
-  return _withCap(base, tl);
+  return _withModel(_withCap(base, tl), tl);
 }
 function productKey(title, desc, pageCategory) {
   const cat = mapPageCategory(pageCategory) || detectCategory(title, desc);
