@@ -674,7 +674,7 @@ function watchHtml(r){
   // g.wide = grundningen kommer från hela modellfamiljen (fordons-fallbacken), inte den
   // exakta varan. watch-check slår upp på exakt product_key och skulle aldrig kunna larma
   // — erbjud därför ingen bevakning vi inte kan infria.
-  if(!g||g.kind!=='verified_sold'||!(g.n>=4)||g.wide)return '';
+  if(!g||g.kind!=='verified_sold'||!(g.n>=2)||g.wide)return ''; // ≥2 speglar watch-checks MIN_POINTS
   return '<div class="watch"><div class="watch-h"><span>🔔</span> '+esc(t('watchH'))+'</div>'+
     '<div class="watch-sub">'+esc(t('watchSub'))+'</div>'+
     '<div class="watch-row"><input type="email" id="watch-mail" placeholder="'+esc(t('watchPh'))+'" autocomplete="email" inputmode="email"/>'+
