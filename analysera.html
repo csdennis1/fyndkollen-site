@@ -495,7 +495,7 @@ var T={
    needTitle:'Klistra in annonsen först — eller skriv vad det är för vara under "Justera själv".',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
    thanksTitle:'Tack — betalningen gick igenom!',
    thanksWait:'Hämtar din nyckel …',
-   thanksOk:'Din nyckel <b>{k}</b> är ifylld och sparad. Du har <b>{n}</b> kollar.',
+   thanksOk:'Din nyckel <b>{k}</b> är ifylld och sparad. Köpet gav dig <b>{n}</b> kollar.',
    thanksCopy:'Kopiera nyckeln',thanksCopied:'Kopierad!',thanksCopyFail:'Markera nyckeln ovan och kopiera',
    estTitle:'Uppskattning — ingen slutprisdata för just den här varan',
    estBody:'Vi har inga verifierade slutpriser för den här produkten i vår databas. Värderingen bygger i stället på websökning och på hur varutypen brukar hålla värde (nypris, ålder, skick, hur lätt den är att sälja). Räkna med större osäkerhet än vanligt — se spannet.',
@@ -585,7 +585,7 @@ var T={
    needTitle:'Paste the listing first — or type what the item is under "Adjust yourself".',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
    thanksTitle:'Thank you — your payment went through!',
    thanksWait:'Fetching your key …',
-   thanksOk:'Your key <b>{k}</b> is filled in and saved. You have <b>{n}</b> checks.',
+   thanksOk:'Your key <b>{k}</b> is filled in and saved. Your purchase added <b>{n}</b> checks.',
    thanksCopy:'Copy key',thanksCopied:'Copied!',thanksCopyFail:'Select the key above and copy it',
    estTitle:'Estimate — no sold-price data for this exact item',
    estBody:'We have no verified sold prices for this product in our database. The valuation is based on web search and on how this type of item typically holds value (new price, age, condition, how easily it sells). Expect more uncertainty than usual — see the range.',
@@ -812,6 +812,11 @@ function fkClaimLicense(sid){
           // en tilläggsanvändare som köper landar numera här i stället för i sin inkorg,
           // och behöver nyckeln i tilläggets popup — men inget sa det, och nyckeln gick
           // inte att kopiera utan att markera den för hand.
+          // j.credits är krediterna i DENNA order — inte nyckelns totala saldo, som staplas
+          // för en återkommande köpare. Formulera därför som "köpet gav dig N", inte som
+          // ett saldo, och rör INTE kvot-badgen: den skulle bli fel både i siffra och i
+          // tier (Baskoll har egen pool och egen badge). Rätt saldo kommer ändå vid nästa
+          // analys, då servern svarar med det verkliga värdet.
           panel(t('thanksOk',{k:j.license,n:(j.credits!=null?j.credits:'')})
             +'<div style="margin-top:10px"><button type="button" id="lic-copy" class="copybtn">'+t('thanksCopy')+'</button></div>'
             +'<div class="sub" style="margin-top:10px">'+t('thanksExt')+'</div>');
@@ -832,7 +837,6 @@ function fkClaimLicense(sid){
               }else if(fallbackCopy(j.license))done();else fail();
             }catch(e){ if(fallbackCopy(j.license))done();else fail(); }
           });
-          var q=$('quota');if(q&&j.credits!=null)q.innerHTML=t('licActive',{n:j.credits});
           return;
         }
         if(tries<6){setTimeout(attempt,2500);return;}
