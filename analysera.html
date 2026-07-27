@@ -493,6 +493,11 @@ var T={
    certBtn:'📄 Spara värderingsintyg',certTitle:'VÄRDERINGSRAPPORT',certVerdictGood:'BRA FYND',certVerdictFair:'RIMLIGT PRIS',certVerdictOver:'ÖVERPRISSATT',certMarket:'Marknadsvärde',certAsking:'Begärt pris',certGrounded:'Grundad i {n} verifierade slutpriser',certScore:'Fynd-poäng',certDisclaimer:'Uppskattning grundad i marknadsdata — inte ett officiellt intyg.',
    confHigh:'Hög säkerhet',confMed:'Medel säkerhet',confLow:'Låg säkerhet',basedWeb:'Grundat i marknadsdata + websökning',
    needTitle:'Klistra in annonsen först — eller skriv vad det är för vara under "Justera själv".',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
+   thanksTitle:'Tack — betalningen gick igenom!',
+   thanksWait:'Hämtar din nyckel …',
+   thanksOk:'Din nyckel <b>{k}</b> är ifylld och sparad. Du har <b>{n}</b> kollar.',
+   thanksMail:'Nyckeln är på väg till din mejl — den brukar komma inom en minut. Klistra in den under "Justera själv" när den kommer.',
+   licSaved:'Din nyckel är sparad på den här enheten.',
    quotaWall:'Dina 5 gratiskollar är slut. Köp krediter eller starta en prenumeration för att fortsätta — <a href="/#pricing">se paketen →</a>',
    creditsWall:'Dina krediter är slut. <a href="/#pricing">Fyll på →</a> — de staplas på samma nyckel.',
    pwQuotaH:'Dina 5 gratiskollar är slut',pwCreditsH:'Dina krediter är slut',pwSubh:'Fortsätt kolla priser — välj vad som passar dig:',
@@ -574,6 +579,11 @@ var T={
    certBtn:'📄 Save valuation report',certTitle:'VALUATION REPORT',certVerdictGood:'GOOD DEAL',certVerdictFair:'FAIR PRICE',certVerdictOver:'OVERPRICED',certMarket:'Market value',certAsking:'Asking price',certGrounded:'Grounded in {n} verified sold prices',certScore:'Deal score',certDisclaimer:'Estimate based on market data — not an official certificate.',
    confHigh:'High confidence',confMed:'Medium confidence',confLow:'Low confidence',basedWeb:'Grounded in market data + web search',
    needTitle:'Paste the listing first — or type what the item is under "Adjust yourself".',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
+   thanksTitle:'Thank you — your payment went through!',
+   thanksWait:'Fetching your key …',
+   thanksOk:'Your key <b>{k}</b> is filled in and saved. You have <b>{n}</b> checks.',
+   thanksMail:'Your key is on its way by email — it usually arrives within a minute. Paste it under "Adjust yourself" when it does.',
+   licSaved:'Your key is saved on this device.',
    quotaWall:'Your 5 free checks are used up. Buy credits or start a subscription to keep going — <a href="/#pricing">see the packs →</a>',
    creditsWall:'Your credits are used up. <a href="/#pricing">Top up →</a> — they stack on the same key.',
    pwQuotaH:'Your 5 free checks are used up',pwCreditsH:'Your credits are used up',pwSubh:'Keep checking prices — pick what fits you:',
@@ -731,8 +741,67 @@ $('drop').addEventListener('drop',function(e){if(e.dataTransfer&&e.dataTransfer.
   if(!pk||!tog||!inp||!fld)return;
   function openPk(o){pk.classList.toggle('open',o);tog.setAttribute('aria-expanded',o?'true':'false');if(o)setTimeout(function(){inp.focus();},70);}
   tog.addEventListener('click',function(){openPk(!pk.classList.contains('open'));});
-  inp.addEventListener('input',function(){var v=inp.value.trim();var ok=LICENSE_RE.test(v);fld.classList.toggle('valid',ok);pk.classList.toggle('active',ok);});
+  inp.addEventListener('input',function(){var v=inp.value.trim();var ok=LICENSE_RE.test(v);fld.classList.toggle('valid',ok);pk.classList.toggle('active',ok);
+    // Spara så fort nyckeln är giltig — se fkRestoreLic nedan för varför.
+    if(ok)fkSaveLic(v);});
 })();
+
+// ── Returvägen efter köp + nyckeln som stannar kvar (2026-07-27) ─────────────
+// Två fel i pengavägen, båda upptäckta genom att läsa vad kunden faktiskt måste göra:
+//
+// 1. Nyckeln sparades ALDRIG. Den låg bara i inmatningsfältet, så en BETALANDE kund fick
+//    leta upp sitt mejl och klistra in nyckeln på nytt vid varje besök — i ett fält som
+//    dessutom ligger hopfällt under "Justera själv". Det är den sortens friktion som gör
+//    att man inte kommer tillbaka.
+// 2. Efter betalningen lämnades kunden på Stripes generiska sida och fick vänta på ett
+//    mejl. Första riktiga kunden fick aldrig sitt mejl och köpte i stället en gång till.
+//
+// Nu: Stripe skickar tillbaka köparen hit med sitt checkout-session-id, sidan byter det mot
+// nyckeln (feedback-fn, action claim_license) och sparar den. Kunden kan analysera direkt.
+function fkSaveLic(v){try{localStorage.setItem('fk_license',v);}catch(e){}}
+function fkRestoreLic(){
+  try{
+    var v=localStorage.getItem('fk_license');
+    if(!v||!LICENSE_RE.test(v))return;
+    var inp=$('f-lic'),fld=$('prokey-field'),pk=$('prokey');
+    if(!inp)return;
+    inp.value=v;
+    if(fld)fld.classList.add('valid');
+    if(pk)pk.classList.add('active');
+  }catch(e){}
+}
+
+// Väntar in webhooken. Den är oftast klar innan kunden ens landar, men inte alltid —
+// därför några försök i stället för ett. Misslyckas allt är det INTE en återvändsgränd:
+// mejlet är kvar som väg, och panelen säger det.
+function fkClaimLicense(sid){
+  var box=$('result');
+  function panel(inner){box.innerHTML='<div class="panel reveal"><div class="msg ok"><b>'+t('thanksTitle')+'</b><br>'+inner+'</div></div>';}
+  panel(t('thanksWait'));
+  var tries=0;
+  (function attempt(){
+    tries++;
+    fetch(FEEDBACK_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({type:'claim_license',session_id:sid})})
+      .then(function(r){return r.json();})
+      .then(function(j){
+        if(j&&j.ok&&j.license){
+          fkSaveLic(j.license);fkRestoreLic();
+          panel(t('thanksOk',{k:j.license,n:(j.credits!=null?j.credits:'')}));
+          var q=$('quota');if(q&&j.credits!=null)q.innerHTML=t('licActive',{n:j.credits});
+          return;
+        }
+        if(tries<6){setTimeout(attempt,2500);return;}
+        panel(t('thanksMail'));
+      })
+      .catch(function(){ if(tries<6){setTimeout(attempt,2500);} else {panel(t('thanksMail'));} });
+  })();
+}
+
+// Återställningen är språkoberoende och kan köras direkt. Själva köp-returen körs däremot
+// FÖRST i bootstrap (efter att språket avgjorts) — annars hade en engelsk kund fått
+// tack-panelen på svenska, just på den skärm som betyder mest i hela tratten.
+fkRestoreLic();
 
 function showMsg(html,cls){$('result').innerHTML='<div class="panel reveal"><div class="msg '+(cls||'info')+'">'+html+'</div></div>';}
 // Betalväggen som ett tydligt VAL (#3, 2026-07-24): Baskoll (billig, samma som gratis) vs Pro.
@@ -1395,5 +1464,15 @@ try{var _pl=+(localStorage.getItem('fk_pv_web_ts')||0);if(Date.now()-_pl>1800000
   var _s=fkSource();
   fetch('https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'pageview',page:'web',source:_s.s,medium:_s.m,campaign:_s.c}),keepalive:true}).catch(function(){});}}catch(e){}
 applyLang();initTurnstile();
+// Köp-returen sist: språket är avgjort här, så tack-panelen möter kunden på rätt språk.
+try{
+  var _cs=/[?&]session=(cs_(?:live|test)_[A-Za-z0-9]+)/.exec(location.search);
+  if(_cs){
+    // Bort ur adressfältet: en omladdning ska inte köra om flödet, och session-id:t ska
+    // inte följa med om kunden delar länken vidare.
+    try{history.replaceState({},'',location.pathname);}catch(e){}
+    fkClaimLicense(_cs[1]);
+  }
+}catch(e){}
 })();
 </script>
