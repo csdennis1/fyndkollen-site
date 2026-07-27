@@ -628,6 +628,25 @@ async function loadKvd(){
   h+='<div style="flex:1"><div class="k-val">'+n(q.tracking)+'</div><div class="k-lbl">spåras</div></div>';
   h+='<div style="flex:1"><div class="k-val">'+n(q.harvested)+'</div><div class="k-lbl">skördade</div></div>';
   h+='<div style="flex:1"><div class="k-val">'+n(q.anchors)+'</div><div class="k-lbl">bilpriser i DB</div></div></div>';
+  // "spåras" i klump gick inte att tolka (2026-07-27): den blandar auktioner som helt
+  // normalt inte avslutats än med sådana som väntar på ENRICH-steget. 461 låg i det senare
+  // — arv från tiden före KVD-fixen — och kortet såg exakt likadant ut som om allt vore
+  // friskt. Uppdelat visar en stall sig direkt, och kön får en uppskattad tömningstid
+  // (~90 hämtningar/dygn mot ~40 nya auktioner) så en siffra i hundratal inte skrämmer
+  // i onödan när den faktiskt betas av.
+  if(q.backlog!=null){
+    var drain=q.backlog>0?Math.ceil(q.backlog/50):0; // netto ~50/dygn: 90 ut, 40 in
+    h+='<div style="display:flex;gap:12px;text-align:center;margin-bottom:10px">';
+    h+='<div style="flex:1"><div class="k-val">'+n(q.backlog)+'</div><div class="k-lbl">i kö till hämtning'+(drain?' · ~'+drain+' d':'')+'</div></div>';
+    h+='<div style="flex:1"><div class="k-val">'+n(q.awaiting_end)+'</div><div class="k-lbl">auktion pågår</div></div>';
+    h+='<div style="flex:1"><div class="k-val">'+n(q.overdue)+'</div><div class="k-lbl">avslutad, ej hämtad</div></div></div>';
+  }
+  // Antal RADER säger inget om produkten går att lita på. Det gör antalet BILMODELLER som
+  // når ankarets 2-punktskrav — det måttet gick från ~0 före KVD-fixen till 73.
+  if(q.car_models){
+    var c=q.car_models;
+    h+='<div class="k-sub" style="margin-bottom:9px">Användbart underlag: <b>'+n(c.med_2plus)+'</b> av '+n(c.modeller)+' bilmodeller når ankarets 2-punktskrav ('+n(c.med_4plus)+' har ≥4). Under 2 punkter faller värderingen tillbaka på familjematchning eller websökning.</div>';
+  }
   if((q.latest||[]).length){h+='<div class="k-lbl" style="margin-bottom:3px">Senast skördade</div>'+q.latest.map(function(x){return '<div class="muted" style="font-size:12px">'+escT(x.title||"")+' — <b>'+n(x.sold_price)+' kr</b></div>';}).join("");}
   h+='<div style="display:flex;gap:8px;margin-top:10px"><button class="btn danger" onclick="kvdPause(true)">Pausa</button><button class="btn" onclick="kvdPause(false)">Återuppta</button></div>';
   el.innerHTML=h;
