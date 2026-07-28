@@ -106,7 +106,7 @@ var SALE_WORDS = /\b(?:s[aä]ljes|s[aä]ljs|s[aä]lj|till\s+salu|salu|bortsk[aä
 // Redundant märkesord framför en modell som bara det märket gör ("Google Pixel" →
 // "Pixel"). Utan detta hamnar samma telefon i två hinkar beroende på hur annonsen är
 // skriven, och användarens skrivsätt matchar inte skördedatans.
-var REDUNDANT_BRAND = /\bgoogle\s+(?=pixel\b)/g;
+var REDUNDANT_BRAND = /\b(?:google\s+(?=pixel\b)|apple\s+(?=(?:airpods|ipad|iphone|macbook|imac|ipod|homepod|earpods|magic)\b))/g;
 var BRAND_ALIAS = [
   [/\bvw\b/g, 'volkswagen'],              // KVD skriver "vw passat", annonser "Volkswagen Passat"
   [/\bps([345])\b/g, 'sony playstation $1'],  // "PS5 Slim" och "Sony Playstation 5" ska bli samma hink
