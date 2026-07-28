@@ -29,7 +29,7 @@ const CATS = {
   },
   cars: {
     kw: ['suv','kombi','miltal','årsmodell','cabriolet','halvkombi','dragkrok','nybilsgaranti'],
-    br: ['volvo','bmw','audi','mercedes','volkswagen','toyota','ford','honda','tesla','hyundai','kia','mazda','subaru','nissan','opel','skoda','porsche']
+    br: ['volvo','bmw','audi','mercedes','volkswagen','toyota','ford','honda','tesla','hyundai','kia','mazda','subaru','nissan','opel','skoda','porsche','renault','peugeot','mitsubishi','fiat','dacia','lexus']
   },
   boats: {
     kw: ['båt','segelbåt','motorbåt','roddbåt','jolle','snipa','daycruiser','styrpulpet','utombordare','inombordare','akterspegel','ruffbåt','vattenskoter','motortimmar','segeljolle'],
@@ -106,8 +106,9 @@ var SALE_WORDS = /\b(?:s[aä]ljes|s[aä]ljs|s[aä]lj|till\s+salu|salu|bortsk[aä
 // "Pixel"). Utan detta hamnar samma telefon i två hinkar beroende på hur annonsen är
 // skriven, och användarens skrivsätt matchar inte skördedatans.
 var REDUNDANT_BRAND = /\bgoogle\s+(?=pixel\b)/g;
+var BRAND_ALIAS = /\bvw\b/g;   // KVD skriver "vw passat", annonser "Volkswagen Passat"
 function bucketKey(title, cat) {
-  const tl = (title||'').toLowerCase().replace(SALE_WORDS, ' ').replace(REDUNDANT_BRAND, '').replace(/\s+/g, ' ').trim();
+  const tl = (title||'').toLowerCase().replace(SALE_WORDS, ' ').replace(REDUNDANT_BRAND, '').replace(BRAND_ALIAS, 'volkswagen').replace(/\s+/g, ' ').trim();
   if (CATS[cat]) {
     for (const br of CATS[cat].br) {
       if (_wordHit(tl, br)) {
