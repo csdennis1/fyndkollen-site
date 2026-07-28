@@ -1414,9 +1414,18 @@ $('form').addEventListener('submit',async function(e){
   if(!price&&desc){
     var _pv=0;
     // Foredra ETIKETTMARKT pris (Totalt pris/Pris:/Begart/Saljes for). \b hindrar "pris" i "nypris".
-    var _lab=desc.match(/\b(?:totalt\s+pris|utropspris|begärt\s+pris|(?:säljes|säljs)\s+för|pris)\b\s*[:\-–]?\s*(\d[\d\s.,]{0,9}\d|\d)\s*(?:kr|sek|:-)?/i);
+    // ⚠️ TALET FÅR ALDRIG SPÄNNA ÖVER EN RADBRYTNING. Teckenklassen innehöll tidigare `\s`,
+    // som matchar newline — så en siffra i rubriken klistrades ihop med priset på nästa rad:
+    //   "Bose QuietComfort 45" + "1900:-"      → 451900 kr
+    //   "Canon EOS 5D från 2015" + "6 000 kr"  → 20 156 000 kr
+    // Ett felläst pris ger en självsäker men helt fel dom — samma klass som Passat-buggen
+    // 2026-07-22 (84 900 kr lästes som 1 834 och firades som "Bra fynd"). Sanity-grinden i
+    // appraise fångar bara de grova fallen, inte ett fel som råkar hamna rimligt.
+    // Därför: bara mellanslag och hårt mellanslag i talet, aldrig `\s`.
+    var _sif='[\\d \\u00a0.,]';
+    var _lab=desc.match(new RegExp('\\b(?:totalt\\s+pris|utropspris|begärt\\s+pris|(?:säljes|säljs)\\s+för|pris)\\b\\s*[:\\-–]?\\s*(\\d'+_sif+'{0,9}\\d|\\d)[ \\u00a0]*(?:kr|sek|:-)?','i'));
     if(_lab)_pv=parseInt(_lab[1].replace(/[^\d]/g,""),10);
-    if(!(_pv>0)){var _pm=desc.match(/(\d[\d\s.,]{0,9}\d|\d)\s*(?:kr\b|sek\b|:-)/i);if(_pm)_pv=parseInt(_pm[1].replace(/[^\d]/g,""),10);}
+    if(!(_pv>0)){var _pm=desc.match(new RegExp('(\\d'+_sif+'{0,9}\\d|\\d)[ \\u00a0]*(?:kr\\b|sek\\b|:-)','i'));if(_pm)_pv=parseInt(_pm[1].replace(/[^\d]/g,""),10);}
     if(_pv>0&&_pv<100000000)price=_pv;
   }
   var licRaw=$('f-lic').value.trim();
