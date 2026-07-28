@@ -69,8 +69,9 @@ function mapPageCategory(pc) {
   const last = segs.length ? segs[segs.length - 1] : full;
   return _catFromSegment(last) || _catFromSegment(full);
 }
+function _deacc(s) { return (s || '').replace(/[\u00e5\u00e4]/g, 'a').replace(/\u00f6/g, 'o').replace(/[\u00e9\u00e8]/g, 'e').replace(/\u00fc/g, 'u'); }
 function _wordHit(text, term) {
-  return new RegExp('(^|[^a-z0-9åäö])' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z0-9åäö]|$)').test(text);
+  return new RegExp('(^|[^a-z0-9åäö])' + _deacc(term).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^a-z0-9åäö]|$)').test(_deacc(text));
 }
 const AMBIGUOUS_WATCH_BRANDS = ['diesel', 'fossil'];
 function detectCategory(title, desc) {
@@ -114,7 +115,7 @@ var BRAND_ALIAS = [
 ];
 function _alias(s) { for (var i = 0; i < BRAND_ALIAS.length; i++) s = s.replace(BRAND_ALIAS[i][0], BRAND_ALIAS[i][1]); return s; }
 function bucketKey(title, cat) {
-  const tl = _alias((title||'').toLowerCase().replace(SALE_WORDS, ' ').replace(REDUNDANT_BRAND, '')).replace(/\s+/g, ' ').trim();
+  const tl = _alias(_deacc((title||'').toLowerCase().replace(SALE_WORDS, ' ').replace(REDUNDANT_BRAND, ''))).replace(/\s+/g, ' ').trim();
   if (CATS[cat]) {
     for (const br of CATS[cat].br) {
       if (_wordHit(tl, br)) {
