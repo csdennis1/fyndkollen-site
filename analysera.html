@@ -954,6 +954,9 @@ function showPaywall(kind){
   // direkt till paketvyn (steg 3) — ingen anledning att gå igenom säljstegen igen.
   PW_KIND=kind||'quota'; PW_STEP=fkOfferDeclined()?3:1; pwRender(); return;
 }
+// ⚠️ DÖD KOD (konstaterat 2026-07-28: enda förekomsten i filen är den här definitionen).
+// Detta är den GAMLA tvåkorts-betalväggen. Den som ska ändra betalväggen ska ändra
+// showPaywall/pwRender ovan — inte den här. Behållen som referens för hur 2.0 såg ut.
 function showPaywallLegacy(kind){
   var h=kind==='credits'?t('pwCreditsH'):t('pwQuotaH');
   $('result').innerHTML='<div class="panel reveal"><div class="pw">'
