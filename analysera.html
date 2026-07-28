@@ -1368,13 +1368,45 @@ $('form').addEventListener('submit',async function(e){
     // Sektionsrubriker och etiketter som Blocket/Marketplace/Tradera lägger före varunamnet,
     // plus rader som bara är ett pris eller en plats. En rad räknas som rubrik när den har
     // minst två tecken, inte är ett rent tal/pris, och inte är ett känt sektionsord.
+    // OMSKRIVEN 2026-07-28. Den gamla varianten tog FÖRSTA raden som inte var ett rent tal
+    // eller ett känt sektionsord — och plockade därför "Marketplace", "Hej!", "Avslutad
+    // auktion" och kategorismulan "Elektronik och vitvaror" som varunamn. Mätt: 5 av 7
+    // realistiska inklistringar gav en oanvändbar rubrik. Konsekvensen syns i produktions-
+    // datan (nycklar som other:hej, cars:beskrivning) och rimligen i att 76 % av analyserna
+    // den 27 juli inte gav någon värdering: AI:n får "Marketplace" som produktnamn och
+    // svarar helt korrekt att varan inte går att identifiera.
+    // Nu POÄNGSÄTTS raderna i stället för att den första dugliga tas. Starkaste signalen är
+    // att en annonsrubrik nästan alltid står DIREKT ÖVER priset.
     var _skip=/^(beskrivning|om varan|om annonsen|produktbeskrivning|information|detaljer|specifikation(?:er)?|pris|begärt pris|utropspris|totalt pris|skick|kategori|frakt|betalning|säljes|säljs|till salu|annons(?:en)?|visningar|publicerad|plats|ort)\s*[:\-–]?\s*$/i;
+    // Gränssnittstext och hälsningsfraser — aldrig ett varunamn, var de än står på raden.
+    var _chrome=/^(marketplace|facebook|blocket|tradera|avslutad auktion|auktionen? avslutad|köp nu|fri frakt|hej+|hejsan|tja|halloj|hallå|god morgon|kontakta|swish|hämtas|kan skickas|nyskick|oanvänd)\b/i;
+    // Kategorismulor: "Elektronik och vitvaror", "Telefoner och tillbehör" — beskriver var
+    // annonsen ligger, inte vad varan är.
+    var _brod=/^[A-Za-zÅÄÖåäö\s]+ (och|&) [A-Za-zÅÄÖåäö\s]+$/;
     var _num=/^[\d\s.,:%-]+(?:kr|sek|:-)?$/i;
-    for(var _i=0;_i<_ln.length&&_i<8;_i++){
+    // Etikett + belopp på samma rad ("Pris: 129 000 kr") är aldrig ett varunamn. Utan detta
+    // vann den raden över "Jag säljer min Volvo V60 D4 från 2016." i meddelandeformade
+    // annonser, eftersom meningen straffas för att vara en mening.
+    var _prisrad=/^(pris|begärt\s+pris|utropspris|totalt\s+pris|pris\s+idag)\s*[:\-–]?\s*[\d\s.,]+(?:kr|sek|:-)?\s*$/i;
+    // NAKET pris på egen rad ("4 200 kr") — det är den raden som står under annonsrubriken.
+    // "Pris 6000 kr" mitt i brödtexten räknas INTE: annars vinner meningen ovanför den, vilket
+    // fick "Kamerahus i bra skick." att slå "Canon EOS 5D Mark III" i regressionstestet.
+    var _arPris=function(s){return /^[\d\s.,]{1,12}(?:kr|sek|:-)\s*$/i.test((s||'').trim());};
+    var _bast=null,_bastP=-99;
+    for(var _i=0;_i<_ln.length&&_i<12;_i++){
       var _c=_ln[_i];
-      if(_c.length<2||_skip.test(_c)||_num.test(_c))continue;
-      title=_c.slice(0,80);break;
+      if(_c.length<3||_skip.test(_c)||_num.test(_c)||_prisrad.test(_c))continue;
+      var _p=0;
+      if(_chrome.test(_c))_p-=10;                       // gränssnitt/hälsning: nästan aldrig rätt
+      if(_brod.test(_c)&&!/\d/.test(_c))_p-=6;          // kategorismula
+      if(_arPris(_ln[_i+1]||''))_p+=5;                  // rubrik står direkt över priset
+      if(/\d/.test(_c))_p+=2;                           // modellnummer/kapacitet
+      if(_c.length>=8&&_c.length<=60)_p+=2;             // rimlig rubriklängd
+      if(/[.!?]$/.test(_c))_p-=3;                       // hel mening, inte en rubrik
+      if(_i<3)_p+=1;                                    // tidigt i texten väger lätt
+      if(_p>_bastP){_bastP=_p;_bast=_c;}
     }
+    if(_bast&&_bastP>-5)title=_bast.slice(0,80);
     if(!title)title=(_ln[0]||'').slice(0,80); // hellre något än inget
   }
   if(!title){showMsg(t('needTitle'),'err');return;}
