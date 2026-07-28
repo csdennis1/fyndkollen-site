@@ -81,4 +81,19 @@ försäljningar siffran vilar på, med länk så du kan kontrollera oss.</p>
 <footer>Uppdaterad 2026-07-27. Saknas en vara? Klistra in annonsen på
 <a href="/analysera.html">analysera</a> — verktyget värderar vad som helst, inte bara listan ovan.</footer>
 </div>
+<script>
+(function(){try{
+  var k='fk_pv_v_index',n=Date.now();
+  if(n-(+(localStorage.getItem(k)||0))<43200000)return;
+  localStorage.setItem(k,String(n));
+  var q=new URLSearchParams(location.search),s=(q.get('utm_source')||q.get('ref')||'').toLowerCase(),m=(q.get('utm_medium')||'').toLowerCase();
+  if(!s){var h='';try{h=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,'').toLowerCase():'';}catch(e){}
+    if(!h||h.indexOf('fyndkollen.com')>=0){s='direct';m='none';}
+    else if(h==='google.com'||h.indexOf('.google.')>=0||h.indexOf('google.')===0){s='google';m='organic';}
+    else if(h.indexOf('bing.')>=0){s='bing';m='organic';}
+    else if(h.indexOf('duckduckgo.')>=0){s='duckduckgo';m='organic';}
+    else {s=h;m='referral';}}
+  fetch('https://bixsxcyvrvyokeutauyz.supabase.co/functions/v1/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'pageview',page:'vardering',source:s,medium:m||'tagged',campaign:'index'}),keepalive:true}).catch(function(){});
+}catch(e){}})();
+</script>
 </body></html>
