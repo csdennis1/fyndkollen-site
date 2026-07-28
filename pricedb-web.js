@@ -74,7 +74,7 @@ function _wordHit(text, term) {
 }
 const AMBIGUOUS_WATCH_BRANDS = ['diesel', 'fossil'];
 function detectCategory(title, desc) {
-  const text = ((title||'') + ' ' + (desc||'')).toLowerCase();
+  const text = _alias(((title||'') + ' ' + (desc||'')).toLowerCase());
   let best = 'other', bestScore = 0;
   for (const [cat, p] of Object.entries(CATS)) {
     let s = 0;
@@ -106,9 +106,15 @@ var SALE_WORDS = /\b(?:s[aä]ljes|s[aä]ljs|s[aä]lj|till\s+salu|salu|bortsk[aä
 // "Pixel"). Utan detta hamnar samma telefon i två hinkar beroende på hur annonsen är
 // skriven, och användarens skrivsätt matchar inte skördedatans.
 var REDUNDANT_BRAND = /\bgoogle\s+(?=pixel\b)/g;
-var BRAND_ALIAS = /\bvw\b/g;   // KVD skriver "vw passat", annonser "Volkswagen Passat"
+var BRAND_ALIAS = [
+  [/\bvw\b/g, 'volkswagen'],              // KVD skriver "vw passat", annonser "Volkswagen Passat"
+  [/\bps([345])\b/g, 'sony playstation $1'],  // "PS5 Slim" och "Sony Playstation 5" ska bli samma hink
+  [/\bplaystation\b/g, 'sony playstation'],
+  [/\bsony\s+sony\b/g, 'sony'],           // städar dubbleringen de två reglerna ovan skapar — MÅSTE ligga sist
+];
+function _alias(s) { for (var i = 0; i < BRAND_ALIAS.length; i++) s = s.replace(BRAND_ALIAS[i][0], BRAND_ALIAS[i][1]); return s; }
 function bucketKey(title, cat) {
-  const tl = (title||'').toLowerCase().replace(SALE_WORDS, ' ').replace(REDUNDANT_BRAND, '').replace(BRAND_ALIAS, 'volkswagen').replace(/\s+/g, ' ').trim();
+  const tl = _alias((title||'').toLowerCase().replace(SALE_WORDS, ' ').replace(REDUNDANT_BRAND, '')).replace(/\s+/g, ' ').trim();
   if (CATS[cat]) {
     for (const br of CATS[cat].br) {
       if (_wordHit(tl, br)) {
