@@ -17,7 +17,7 @@ const CATS = {
   },
   electronics: {
     kw: ['iphone','macbook','laptop','dator','telefon','pixel','airpods','ipad','playstation','xbox','nintendo','grafikkort','gpu','geforce','radeon','rtx','gtx','hörlurar','headphones','ps5','ps4','gpu','skärm','monitor'],
-    br: ['apple','samsung','sony','lg','asus','acer','lenovo','dell','hp','google','huawei','oneplus','xiaomi','nintendo','microsoft','nikon','canon','gopro','nvidia','amd','msi','gigabyte','sapphire','zotac','evga','palit','powercolor','gainward']
+    br: ['apple','samsung','sony','lg','asus','acer','lenovo','dell','hp','google','huawei','oneplus','xiaomi','nintendo','microsoft','nikon','canon','gopro','nvidia','amd','msi','gigabyte','sapphire','zotac','evga','palit','powercolor','gainward','bose','jbl','sennheiser','garmin','pentax','logitech']
   },
   clothing: {
     kw: ['jacka','jacket','skor','shoes','sneakers','byxor','hoodie','tröja','klänning','väska','bag','streetwear'],
