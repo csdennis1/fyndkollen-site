@@ -378,9 +378,14 @@ details.adv{border-radius:14px}
     <!-- Tutorial-videon (2026-07-28): 30-sek demo av exakt flödet ovan. preload=none →
          kostar ingen bandbredd förrän någon öppnar; details → noll layoutvikt. -->
     <details class="adv vid">
-      <summary id="t-vidsum">▶ Se hur det funkar — 30 sekunder</summary>
+      <summary id="t-vidsum">▶ Se hur det funkar — 28 sekunder</summary>
       <div class="adv-body">
-        <video src="/media/tutorial.mp4" controls playsinline preload="none" style="width:100%;border-radius:12px;display:block"></video>
+        <!-- poster + width/height = ingen layoutförskjutning när <details> öppnas; preload="none"
+             gör att varken postern eller filmen kostar bandbredd förrän någon fäller ut den.
+             Måtten är klippets riktiga 1080×1920 (9:16) så aspect-ration räknas rätt. -->
+        <video src="/media/tutorial.mp4" poster="/media/tutorial-poster.jpg" width="1080" height="1920"
+               controls playsinline preload="none"
+               style="width:100%;max-width:300px;margin:0 auto;height:auto;aspect-ratio:9/16;border-radius:12px;display:block"></video>
       </div>
     </details>
     <label for="f-desc" id="t-l-desc">Klistra in annonsen <span class="sub" id="t-l-desc-s">— rubrik, text och pris, allt på en gång</span></label>
@@ -476,7 +481,7 @@ var T={
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
    sellIdeaHigh:'Du tänkte {p} kr — i högsta laget, kan ta längre tid att sälja.',
-   lTitle:'Vad är det för vara?',lDesc:'Klistra in annonsen',lDescS:'— rubrik, text och pris, allt på en gång',adv:'Rätta rubrik eller pris',rMore:'Visa hela analysen',vidSum:'▶ Se hur det funkar — 30 sekunder',steps:'<span><b>1</b> Kopiera annonsen</span><span class="arr">→</span><span><b>2</b> Klistra in här</span><span class="arr">→</span><span><b>3</b> Få domen</span>',
+   lTitle:'Vad är det för vara?',lDesc:'Klistra in annonsen',lDescS:'— rubrik, text och pris, allt på en gång',adv:'Rätta rubrik eller pris',rMore:'Visa hela analysen',vidSum:'▶ Se hur det funkar — 28 sekunder',steps:'<span><b>1</b> Kopiera annonsen</span><span class="arr">→</span><span><b>2</b> Klistra in här</span><span class="arr">→</span><span><b>3</b> Få domen</span>',
    proKey:'Har du en Pro-nyckel?',proKeyS:'— lås upp live-marknadskoll',proKeyHint:'Krediter från köp eller prenumeration. Ingen nyckel? <a href="/#pricing">Se paketen →</a>',
    lPrice:'Begärt pris (kr)',lPriceS:'— valfritt',lPhotos:'Foton från annonsen',lPhotosS:'— valfritt, ger skickbedömning',
    drop:'<b>Välj foton</b> eller släpp dem här',takePhoto:'Ta foto med kameran',tier:'Utan foton: <span class="pill">1 kredit</span> · Med foton: <span class="pill">5 krediter</span> (skickbedömning från bilderna)',
@@ -566,7 +571,7 @@ var T={
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
    sellIdeaHigh:'You had {p} kr in mind — on the high side, may take longer to sell.',
-   lTitle:'What is the item?',lDesc:'Paste the listing',lDescS:'— title, text and price, all at once',adv:'Fix title or price',rMore:'Show the full analysis',vidSum:'▶ See how it works — 30 seconds',steps:'<span><b>1</b> Copy the listing</span><span class="arr">→</span><span><b>2</b> Paste it here</span><span class="arr">→</span><span><b>3</b> Get the verdict</span>',
+   lTitle:'What is the item?',lDesc:'Paste the listing',lDescS:'— title, text and price, all at once',adv:'Fix title or price',rMore:'Show the full analysis',vidSum:'▶ See how it works — 28 seconds',steps:'<span><b>1</b> Copy the listing</span><span class="arr">→</span><span><b>2</b> Paste it here</span><span class="arr">→</span><span><b>3</b> Get the verdict</span>',
    proKey:'Have a Pro key?',proKeyS:'— unlock the live market check',proKeyHint:'Credits from a purchase or subscription. No key? <a href="/#pricing">See the packs →</a>',
    lPrice:'Asking price (SEK)',lPriceS:'— optional',lPhotos:'Photos from the listing',lPhotosS:'— optional, adds a condition read',
    drop:'<b>Choose photos</b> or drop them here',takePhoto:'Take a photo',tier:'Without photos: <span class="pill">1 credit</span> · With photos: <span class="pill">5 credits</span> (condition read from the images)',
