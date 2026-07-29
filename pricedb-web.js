@@ -97,6 +97,31 @@ function _withCap(key, tl){ var c=_capTok(tl); return (c && key.indexOf(c)<0)?(k
 // MODELLNUMMER (2026-07-27, lord_dubbdäck): GPU-modellen sitter ofta efter märkesorden
 // och föll utanför slice(0,3) — "Asus AMD Radeon RX 5700" blev asus_amd_radeon och blandade
 // 5700 med 7900. Graftas nu på nyckeln oavsett position, precis som kapaciteten.
+// MODELLVARIANT (2026-07-29). Uppmätt problem: kvalificeraren överlever bara om den råkar
+// hamna inom bucketKeys slice(0,3), vilket är godtyckligt i förhållande till hur mycket den
+// betyder. "PlayStation 5 Pro" blev `sony_playstation_5` — samma hink som grundmodellen —
+// och "Xbox Series S" och "Xbox Series X" blev BÅDA `xbox_series`.
+// Effekten i live-datan: xbox_series (n=26) hade p25 2 369 kr och p75 5 138 kr, alltså två
+// produkter i en hink. Medianen 2 815 kr är fel för båda — en Series X-ägare fick sitt
+// rimliga pris kallat överprissatt med ~37 %. Det är samma sorts självsäkert felaktiga dom
+// som Passat-buggen, och det felläget är det produkten minst tål.
+// `xl` är MEDVETET utelämnad: den är en klädstorlek och hade splittrat plaggnycklar.
+// KEEP IDENTICAL across priceDB.js, supabase-tradera-ingest-function.ts, pricedb-web.js.
+function _variantToks(tl){
+  var ut=[];
+  var x=(tl||'').match(/\bseries\s+([sx])\b/);        // Xbox Series S / X — enbokstavsvariant
+  if(x) ut.push('series'+x[1]);
+  var m=(tl||'').match(/\b(pro|max|plus|ultra|lite|mini)\b/g);
+  if(m) for(var i=0;i<m.length;i++) ut.push(m[i]);
+  return ut;
+}
+// Ta den första kvalificeraren som INTE redan finns i nyckeln. Utan det tappades
+// "DJI Mini 3 Pro": "mini" matchade först, fanns redan i nyckeln, och "pro" nåddes aldrig.
+function _withVariant(key, tl){
+  var v=_variantToks(tl);
+  for(var i=0;i<v.length;i++) if(key.indexOf(v[i])<0) return (key+'_'+v[i]).slice(0,30);
+  return key;
+}
 function _modelTok(tl){ var m=(tl||'').match(/\b(?:rtx|gtx|rx|gt)\s?(\d{3,4})\b/); return m?m[1]:''; }
 function _withModel(key, tl){ var c=_modelTok(tl); return (c && key.indexOf(c)<0)?(key+'_'+c).slice(0,30):key; }
 // Försäljningsfraser i titeln ("Pixel 9a SÄLJES") skapade egna hinkar som aldrig delade
@@ -128,14 +153,14 @@ function bucketKey(title, cat) {
         var brKey = br.replace(/[^a-z0-9]/g, '').slice(0, 20);
         if (brIdx >= 0) {
           var model = words.slice(brIdx + brWords.length, brIdx + brWords.length + 2).join('_');
-          if (model) return _withModel(_withCap((brKey + '_' + model).replace(/[^a-z0-9_]/g, '').slice(0, 30), tl), tl);
+          if (model) return _withVariant(_withModel(_withCap((brKey + '_' + model).replace(/[^a-z0-9_]/g, '').slice(0, 30), tl), tl), tl);
         }
-        return _withModel(_withCap(brKey, tl), tl);
+        return _withVariant(_withModel(_withCap(brKey, tl), tl), tl);
       }
     }
   }
   var base = tl.replace(/[^\w\s]/g,'').split(/\s+/).filter(w=>w.length>2 || /\d/.test(w)).slice(0,3).join('_').slice(0,20) || 'general';
-  return _withModel(_withCap(base, tl), tl);
+  return _withVariant(_withModel(_withCap(base, tl), tl), tl);
 }
 function productKey(title, desc, pageCategory) {
   const cat = mapPageCategory(pageCategory) || detectCategory(title, desc);
