@@ -28,6 +28,11 @@
   .brand{font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:14px;text-decoration:none;color:var(--text)}
   h1{font-size:29px;line-height:1.2;margin:0 0 12px}
   .lead{color:var(--mid);font-size:17px;margin:0 0 28px}
+  /* Kategorirubriker (2026-07-29) — separerar de fyra grupperna utan att konkurrera med h1. */
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+     font-weight:800;margin:30px 0 4px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  h2:first-of-type{margin-top:22px}
+  h2 .n{text-transform:none;letter-spacing:0;font-weight:600}
   ul{list-style:none;padding:0;margin:0}
   li{border-bottom:1px solid var(--line)}
   li a{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:13px 2px;text-decoration:none;color:var(--text)}
@@ -46,6 +51,8 @@
 1563 verifierade slutpriser från avslutade auktioner —
 alltså vad köpare faktiskt betalade, inte vad säljare bad om. Varje sida visar de
 försäljningar siffran vilar på, med länk så du kan kontrollera oss.</p>
+
+<h2 id="electronics">Elektronik <span class="n">41 varor</span></h2>
 <ul>
   <li><a href="samsung-galaxy-s23.html"><span>Samsung Galaxy S23</span>
     <span><span class="pris">2 398 kr</span> <span class="n">96 sålda</span></span></a></li>
@@ -53,8 +60,6 @@ försäljningar siffran vilar på, med länk så du kan kontrollera oss.</p>
     <span><span class="pris">5 000 kr</span> <span class="n">60 sålda</span></span></a></li>
   <li><a href="hp-elitebook-850-8-gb.html"><span>HP EliteBook 850 (8 GB)</span>
     <span><span class="pris">1 306 kr</span> <span class="n">58 sålda</span></span></a></li>
-  <li><a href="omega-x-swatch-moonswatch.html"><span>Omega x Swatch MoonSwatch</span>
-    <span><span class="pris">2 436 kr</span> <span class="n">56 sålda</span></span></a></li>
   <li><a href="google-nest-audio.html"><span>Google Nest Audio</span>
     <span><span class="pris">950 kr</span> <span class="n">52 sålda</span></span></a></li>
   <li><a href="iphone-14-pro.html"><span>iPhone 14 Pro</span>
@@ -63,10 +68,6 @@ försäljningar siffran vilar på, med länk så du kan kontrollera oss.</p>
     <span><span class="pris">862 kr</span> <span class="n">44 sålda</span></span></a></li>
   <li><a href="iphone-13-pro.html"><span>iPhone 13 Pro</span>
     <span><span class="pris">2 609 kr</span> <span class="n">43 sålda</span></span></a></li>
-  <li><a href="tag-heuer-formula-1.html"><span>TAG Heuer Formula 1</span>
-    <span><span class="pris">8 010 kr</span> <span class="n">43 sålda</span></span></a></li>
-  <li><a href="muminmugg-mumindagen.html"><span>Muminmugg Mumindagen</span>
-    <span><span class="pris">400 kr</span> <span class="n">42 sålda</span></span></a></li>
   <li><a href="apple-watch-ultra.html"><span>Apple Watch Ultra</span>
     <span><span class="pris">4 500 kr</span> <span class="n">41 sålda</span></span></a></li>
   <li><a href="playstation-5.html"><span>PlayStation 5</span>
@@ -93,10 +94,6 @@ försäljningar siffran vilar på, med länk så du kan kontrollera oss.</p>
     <span><span class="pris">922 kr</span> <span class="n">22 sålda</span></span></a></li>
   <li><a href="iphone-14-pro-256-gb.html"><span>iPhone 14 Pro 256 GB</span>
     <span><span class="pris">3 850 kr</span> <span class="n">21 sålda</span></span></a></li>
-  <li><a href="adidas-handball-spezial.html"><span>Adidas Handball Spezial</span>
-    <span><span class="pris">470 kr</span> <span class="n">21 sålda</span></span></a></li>
-  <li><a href="festool-tcl-6.html"><span>Festool TCL 6</span>
-    <span><span class="pris">525 kr</span> <span class="n">21 sålda</span></span></a></li>
   <li><a href="jbl-charge-3.html"><span>JBL Charge 3</span>
     <span><span class="pris">410 kr</span> <span class="n">21 sålda</span></span></a></li>
   <li><a href="hp-probook-640-8-gb.html"><span>HP ProBook 640 (8 GB)</span>
@@ -105,8 +102,6 @@ försäljningar siffran vilar på, med länk så du kan kontrollera oss.</p>
     <span><span class="pris">999 kr</span> <span class="n">21 sålda</span></span></a></li>
   <li><a href="marshall-stanmore.html"><span>Marshall Stanmore</span>
     <span><span class="pris">1 238 kr</span> <span class="n">20 sålda</span></span></a></li>
-  <li><a href="tissot-prx-powermatic-80.html"><span>Tissot PRX Powermatic 80</span>
-    <span><span class="pris">4 999 kr</span> <span class="n">20 sålda</span></span></a></li>
   <li><a href="iphone-14.html"><span>iPhone 14</span>
     <span><span class="pris">3 000 kr</span> <span class="n">20 sålda</span></span></a></li>
   <li><a href="iphone-17-pro.html"><span>iPhone 17 Pro</span>
@@ -115,62 +110,83 @@ försäljningar siffran vilar på, med länk så du kan kontrollera oss.</p>
     <span><span class="pris">435 kr</span> <span class="n">20 sålda</span></span></a></li>
   <li><a href="sony-alpha-a7.html"><span>Sony Alpha A7</span>
     <span><span class="pris">7 737 kr</span> <span class="n">19 sålda</span></span></a></li>
-  <li><a href="festina-chronograph-herrklocka.html"><span>Festina Chronograph herrklocka</span>
-    <span><span class="pris">314 kr</span> <span class="n">19 sålda</span></span></a></li>
   <li><a href="ipad-7-e-generationen-32-gb.html"><span>iPad (7:e generationen) 32 GB</span>
     <span><span class="pris">632 kr</span> <span class="n">19 sålda</span></span></a></li>
   <li><a href="canon-eos-700d.html"><span>Canon EOS 700D</span>
     <span><span class="pris">1 780 kr</span> <span class="n">19 sålda</span></span></a></li>
-  <li><a href="tissot-prx-quartz.html"><span>Tissot PRX Quartz</span>
-    <span><span class="pris">2 240 kr</span> <span class="n">18 sålda</span></span></a></li>
   <li><a href="apple-usb-superdrive.html"><span>Apple USB SuperDrive</span>
     <span><span class="pris">302 kr</span> <span class="n">18 sålda</span></span></a></li>
   <li><a href="xiaomi-mi-box.html"><span>Xiaomi Mi Box</span>
     <span><span class="pris">420 kr</span> <span class="n">18 sålda</span></span></a></li>
   <li><a href="garmin-fenix-5.html"><span>Garmin Fenix 5</span>
     <span><span class="pris">750 kr</span> <span class="n">18 sålda</span></span></a></li>
-  <li><a href="shure-sm58-mikrofon.html"><span>Shure SM58 mikrofon</span>
-    <span><span class="pris">724 kr</span> <span class="n">17 sålda</span></span></a></li>
   <li><a href="steam-deck-lcd.html"><span>Steam Deck LCD</span>
     <span><span class="pris">3 995 kr</span> <span class="n">17 sålda</span></span></a></li>
-  <li><a href="adidas-samba-og.html"><span>Adidas Samba OG</span>
-    <span><span class="pris">600 kr</span> <span class="n">17 sålda</span></span></a></li>
   <li><a href="google-chromecast-ultra.html"><span>Google Chromecast Ultra</span>
     <span><span class="pris">350 kr</span> <span class="n">17 sålda</span></span></a></li>
-  <li><a href="festool-hkc-55.html"><span>Festool HKC 55</span>
-    <span><span class="pris">3 300 kr</span> <span class="n">17 sålda</span></span></a></li>
   <li><a href="iphone-16-pro.html"><span>iPhone 16 Pro</span>
     <span><span class="pris">8 425 kr</span> <span class="n">16 sålda</span></span></a></li>
   <li><a href="playstation-portal.html"><span>PlayStation Portal</span>
     <span><span class="pris">1 670 kr</span> <span class="n">16 sålda</span></span></a></li>
-  <li><a href="omega-fickur-i-silver.html"><span>Omega fickur i silver</span>
-    <span><span class="pris">1 448 kr</span> <span class="n">16 sålda</span></span></a></li>
   <li><a href="dji-mavic-air.html"><span>DJI Mavic Air</span>
     <span><span class="pris">1 600 kr</span> <span class="n">15 sålda</span></span></a></li>
-  <li><a href="nike-vomero-plus.html"><span>Nike Vomero Plus</span>
-    <span><span class="pris">650 kr</span> <span class="n">15 sålda</span></span></a></li>
+  <li><a href="olympus-mju-1.html"><span>Olympus mju-1</span>
+    <span><span class="pris">950 kr</span> <span class="n">14 sålda</span></span></a></li>
+  <li><a href="xbox-originalkonsolen.html"><span>Xbox (originalkonsolen)</span>
+    <span><span class="pris">464 kr</span> <span class="n">13 sålda</span></span></a></li>
+  <li><a href="iphone-13-128-gb.html"><span>iPhone 13 128 GB</span>
+    <span><span class="pris">2 182 kr</span> <span class="n">8 sålda</span></span></a></li>
+</ul>
+<h2 id="watches">Klockor <span class="n">11 varor</span></h2>
+<ul>
+  <li><a href="omega-x-swatch-moonswatch.html"><span>Omega x Swatch MoonSwatch</span>
+    <span><span class="pris">2 436 kr</span> <span class="n">56 sålda</span></span></a></li>
+  <li><a href="tag-heuer-formula-1.html"><span>TAG Heuer Formula 1</span>
+    <span><span class="pris">8 010 kr</span> <span class="n">43 sålda</span></span></a></li>
+  <li><a href="tissot-prx-powermatic-80.html"><span>Tissot PRX Powermatic 80</span>
+    <span><span class="pris">4 999 kr</span> <span class="n">20 sålda</span></span></a></li>
+  <li><a href="festina-chronograph-herrklocka.html"><span>Festina Chronograph herrklocka</span>
+    <span><span class="pris">314 kr</span> <span class="n">19 sålda</span></span></a></li>
+  <li><a href="tissot-prx-quartz.html"><span>Tissot PRX Quartz</span>
+    <span><span class="pris">2 240 kr</span> <span class="n">18 sålda</span></span></a></li>
+  <li><a href="omega-fickur-i-silver.html"><span>Omega fickur i silver</span>
+    <span><span class="pris">1 448 kr</span> <span class="n">16 sålda</span></span></a></li>
   <li><a href="tudor-black-bay.html"><span>Tudor Black Bay</span>
     <span><span class="pris">28 500 kr</span> <span class="n">14 sålda</span></span></a></li>
   <li><a href="seiko-herrklocka-quartz.html"><span>Seiko herrklocka quartz</span>
     <span><span class="pris">323 kr</span> <span class="n">14 sålda</span></span></a></li>
-  <li><a href="lisa-larson-kalle.html"><span>Lisa Larson Kalle</span>
-    <span><span class="pris">1 388 kr</span> <span class="n">14 sålda</span></span></a></li>
-  <li><a href="olympus-mju-1.html"><span>Olympus mju-1</span>
-    <span><span class="pris">950 kr</span> <span class="n">14 sålda</span></span></a></li>
   <li><a href="omega-geneve-automatic.html"><span>Omega Genève Automatic</span>
     <span><span class="pris">3 564 kr</span> <span class="n">14 sålda</span></span></a></li>
   <li><a href="citizen-promaster-eco-drive.html"><span>Citizen Promaster Eco-Drive</span>
     <span><span class="pris">1 702 kr</span> <span class="n">13 sålda</span></span></a></li>
-  <li><a href="xbox-originalkonsolen.html"><span>Xbox (originalkonsolen)</span>
-    <span><span class="pris">464 kr</span> <span class="n">13 sålda</span></span></a></li>
-  <li><a href="kemppi-minarcevo.html"><span>Kemppi MinarcEvo</span>
-    <span><span class="pris">4 650 kr</span> <span class="n">13 sålda</span></span></a></li>
   <li><a href="omega-seamaster-cosmic.html"><span>Omega Seamaster Cosmic</span>
     <span><span class="pris">4 738 kr</span> <span class="n">13 sålda</span></span></a></li>
+</ul>
+<h2 id="other">Övrigt <span class="n">7 varor</span></h2>
+<ul>
+  <li><a href="muminmugg-mumindagen.html"><span>Muminmugg Mumindagen</span>
+    <span><span class="pris">400 kr</span> <span class="n">42 sålda</span></span></a></li>
+  <li><a href="festool-tcl-6.html"><span>Festool TCL 6</span>
+    <span><span class="pris">525 kr</span> <span class="n">21 sålda</span></span></a></li>
+  <li><a href="shure-sm58-mikrofon.html"><span>Shure SM58 mikrofon</span>
+    <span><span class="pris">724 kr</span> <span class="n">17 sålda</span></span></a></li>
+  <li><a href="festool-hkc-55.html"><span>Festool HKC 55</span>
+    <span><span class="pris">3 300 kr</span> <span class="n">17 sålda</span></span></a></li>
+  <li><a href="lisa-larson-kalle.html"><span>Lisa Larson Kalle</span>
+    <span><span class="pris">1 388 kr</span> <span class="n">14 sålda</span></span></a></li>
+  <li><a href="kemppi-minarcevo.html"><span>Kemppi MinarcEvo</span>
+    <span><span class="pris">4 650 kr</span> <span class="n">13 sålda</span></span></a></li>
   <li><a href="callaway-rogue-max.html"><span>Callaway Rogue Max</span>
     <span><span class="pris">1 396 kr</span> <span class="n">12 sålda</span></span></a></li>
-  <li><a href="iphone-13-128-gb.html"><span>iPhone 13 128 GB</span>
-    <span><span class="pris">2 182 kr</span> <span class="n">8 sålda</span></span></a></li>
+</ul>
+<h2 id="clothing">Kläder och skor <span class="n">3 varor</span></h2>
+<ul>
+  <li><a href="adidas-handball-spezial.html"><span>Adidas Handball Spezial</span>
+    <span><span class="pris">470 kr</span> <span class="n">21 sålda</span></span></a></li>
+  <li><a href="adidas-samba-og.html"><span>Adidas Samba OG</span>
+    <span><span class="pris">600 kr</span> <span class="n">17 sålda</span></span></a></li>
+  <li><a href="nike-vomero-plus.html"><span>Nike Vomero Plus</span>
+    <span><span class="pris">650 kr</span> <span class="n">15 sålda</span></span></a></li>
 </ul>
 <a class="cta" href="/analysera.html?utm_source=vardering&utm_medium=organic&utm_campaign=index">Kolla din egen annons – gratis</a>
 <footer>Uppdaterad 2026-07-29. Saknas en vara? Klistra in annonsen på
