@@ -473,10 +473,10 @@ var T={
    tierFree:'Gratis-analys — snabb uppskattning ur vår slutprisdatabas.',
    tierUpsell:'Vill du ha den mest träffsäkra analysen? Pro-analysen kollar även live-marknaden — särskilt värdefullt för ovanliga varor.',tierUpsellCta:'Skaffa krediter →',watchH:'Bevaka priset',watchSub:'Vi mejlar dig om marknadsvärdet rör sig — bra läge att slå till, eller argument när du förhandlar. Inget konto, avsluta när du vill.',watchPh:'din@epost.se',watchBtn:'Bevaka',watchWait:'…',watchOk:'✓ Klart — vi hör av oss när priset rör sig.',watchAlready:'✓ Du bevakar redan den här varan.',watchBad:'Kontrollera e-postadressen.',watchLimit:'Du har nått max antal bevakningar (25).',watchFail:'Kunde inte spara — försök igen.',tierBasic:'samma analys som gratisläget (ingen live-websökning)',
    compsTitle:'Vad liknande faktiskt gick för',compsSub:'Verkliga slutpriser bakom värderingen — klicka för att se auktionen.',
-   liqHigh:'Säljs ofta — {n} verifierade försäljningar senaste ~4 mån',liqMed:'Säljs regelbundet — {n} verifierade försäljningar senaste ~4 mån',liqLow:'Ovanlig vara — {n} verifierade försäljningar senaste ~4 mån',
+   liqHigh:'Säljs ofta — {n} verifierade försäljningar {p}',liqMed:'Säljs regelbundet — {n} verifierade försäljningar {p}',liqLow:'Ovanlig vara — {n} verifierade försäljningar {p}',
    levStrong:'Bra förhandlingsläge: varan säljs ofta och den här ligger över typiskt slutpris — pruta med stöd i siffrorna.',levFair:'Priset ligger nära det typiska slutpriset — men testa gärna ett lägre bud ändå.',levRare:'Färre jämförelser gör priset svårare att pressa — men varan är också svårare att hitta någon annanstans.',
    trendDown:'Priset har fallit ~{p}% de senaste månaderna — läge att bjuda under.',trendUp:'Priset har stigit ~{p}% de senaste månaderna — vänta inte för länge om du vill ha den.',
-   sellLiqHigh:'Säljs ofta ({n} sålda senaste ~4 mån) — lätt att sälja, prissätt självsäkert nära marknaden.',sellLiqMed:'Säljs regelbundet ({n} sålda senaste ~4 mån) — sätt ett marknadsmässigt pris så går det undan.',sellLiqLow:'Ovanlig vara ({n} sålda senaste ~4 mån) — färre köpare, men rätt köpare kan betala bra. Ha tålamod.',
+   sellLiqHigh:'Säljs ofta ({n} sålda {p}) — lätt att sälja, prissätt självsäkert nära marknaden.',sellLiqMed:'Säljs regelbundet ({n} sålda {p}) — sätt ett marknadsmässigt pris så går det undan.',sellLiqLow:'Ovanlig vara ({n} sålda {p}) — färre köpare, men rätt köpare kan betala bra. Ha tålamod.',
    sellTrendDown:'Priset faller (~{p}% senaste månaderna) — sälj hellre förr än senare.',sellTrendUp:'Priset stiger (~{p}% senaste månaderna) — du har medvind.',
    sellIdeaLow:'Du tänkte {p} kr — det är lågt, du kan troligen ta mer.',
    sellIdeaOk:'Du tänkte {p} kr — helt rimligt.',
@@ -563,10 +563,10 @@ var T={
    tierFree:'Free analysis — a quick estimate from our sold-price database.',
    tierUpsell:'Want the most accurate analysis? Pro also checks the live market — especially valuable for uncommon items.',tierUpsellCta:'Get credits →',watchH:'Watch this price',watchSub:'We email you when the market value moves — a good moment to buy, or leverage when you negotiate. No account, unsubscribe anytime.',watchPh:'your@email.com',watchBtn:'Watch',watchWait:'…',watchOk:'\u2713 Done \u2014 we will tell you when the price moves.',watchAlready:'\u2713 You already watch this item.',watchBad:'Check the email address.',watchLimit:'You have reached the maximum of 25 watches.',watchFail:'Could not save \u2014 please try again.',tierBasic:'the same analysis as the free mode (no live web search)',
    compsTitle:'What similar ones actually sold for',compsSub:'Real sold prices behind the valuation — click to see the auction.',
-   liqHigh:'Sells often — {n} verified sales in the last ~4 months',liqMed:'Sells regularly — {n} verified sales in the last ~4 months',liqLow:'Uncommon item — {n} verified sales in the last ~4 months',
+   liqHigh:'Sells often — {n} verified sales {p}',liqMed:'Sells regularly — {n} verified sales {p}',liqLow:'Uncommon item — {n} verified sales {p}',
    levStrong:'Good bargaining position: it sells often and this one is above the typical sold price — haggle with the numbers on your side.',levFair:'The price is close to the typical sold price — but it never hurts to offer a bit less.',levRare:'Fewer comparisons make the price harder to push down — but the item is also harder to find elsewhere.',
    trendDown:'Price has fallen ~{p}% over recent months — room to offer below asking.',trendUp:'Price has risen ~{p}% over recent months — don\'t wait too long if you want it.',
-   sellLiqHigh:'Sells often ({n} sold in the last ~4 months) — easy to sell, price confidently near market.',sellLiqMed:'Sells regularly ({n} sold in the last ~4 months) — set a market price and it\'ll move.',sellLiqLow:'Uncommon item ({n} sold in the last ~4 months) — fewer buyers, but the right one may pay well. Be patient.',
+   sellLiqHigh:'Sells often ({n} sold {p}) — easy to sell, price confidently near market.',sellLiqMed:'Sells regularly ({n} sold {p}) — set a market price and it\'ll move.',sellLiqLow:'Uncommon item ({n} sold {p}) — fewer buyers, but the right one may pay well. Be patient.',
    sellTrendDown:'Price is falling (~{p}% in recent months) — sell sooner rather than later.',sellTrendUp:'Price is rising (~{p}% in recent months) — the wind is at your back.',
    sellIdeaLow:'You had {p} kr in mind — that\'s low, you can likely ask more.',
    sellIdeaOk:'You had {p} kr in mind — perfectly reasonable.',
@@ -1027,6 +1027,20 @@ function wireWatch(r){
 // läget. Detta är vår strukturella fördel mot generiska foto-värderare (Flipit m.fl.): äkta
 // svensk slutprisdata omsatt till köparstyrka. Renderas bara i köpläget, ≥2 verifierade prover.
 // Marknadsvärde/pris skickas in så förhandlingsläget kan bedömas.
+// Periodtext ur grounding.days (2026-07-29). Etiketterna sa tidigare "senaste ~4 mån",
+// hämtat ur ankarfönstrets 120 dagar — men fönstret är ett TAK, inte en beskrivning av
+// datan. Medianproduktens punkter låg inom 5,4 dagar, så texten underdrev omsättningen
+// ~20× och påstod ett tidsfönster vi saknar data för. Utan mätt spann: ingen tidsuppgift.
+function liqPeriod(g){
+  var d=(g&&typeof g.days==='number'&&isFinite(g.days))?g.days:null;
+  if(d==null)return '';
+  var en=(lang==='en');
+  if(d<=1)return en?'in the last day':'det senaste dygnet';
+  if(d<31)return en?('in the last '+d+' days'):('de senaste '+d+' dagarna');
+  var m=Math.round(d/30);
+  if(m<=1)return en?'in the last month':'den senaste månaden';
+  return en?('in the last '+m+' months'):('de senaste '+m+' månaderna');
+}
 function compsHtml(r,price){
   var g=LAST_GROUNDING;
   if(!g||g.kind!=='verified_sold'||!Array.isArray(g.samples)||g.samples.length<2)return '';
@@ -1053,7 +1067,7 @@ function compsHtml(r,price){
                 :'<span class="comp comp-nolink">'+lbl+'</span>';
   }).join('');
   return '<div class="panel comps reveal">'+
-         '<div class="mkt"><span class="mkt-i">'+liqIcon+'</span><span class="mkt-t">'+t(liqKey,{n:n})+'</span></div>'+
+         '<div class="mkt"><span class="mkt-i">'+liqIcon+'</span><span class="mkt-t">'+t(liqKey,{n:n,p:liqPeriod(g)})+'</span></div>'+
          (lev?'<div class="mkt-lev">'+esc(lev)+'</div>':'')+trendHtml+
          '<div class="comps-h">'+t('compsTitle')+'</div>'+
          '<div class="comps-sub">'+t('compsSub')+'</div><div class="comps-row">'+chips+'</div></div>';
@@ -1077,7 +1091,7 @@ function sellMktHtml(r){
                 :'<span class="comp comp-nolink">'+lbl+'</span>';
   }).join('');
   return '<div class="panel comps reveal">'+
-         '<div class="mkt"><span class="mkt-i">'+liqIcon+'</span><span class="mkt-t">'+t(liqKey,{n:n})+'</span></div>'+trendHtml+
+         '<div class="mkt"><span class="mkt-i">'+liqIcon+'</span><span class="mkt-t">'+t(liqKey,{n:n,p:liqPeriod(g)})+'</span></div>'+trendHtml+
          '<div class="comps-h">'+t('compsTitle')+'</div>'+
          '<div class="comps-sub">'+t('compsSub')+'</div><div class="comps-row">'+chips+'</div></div>';
 }
