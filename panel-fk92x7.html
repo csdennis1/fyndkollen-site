@@ -216,10 +216,10 @@ async function call(action, extra){
 async function login(){
   PW=document.getElementById("pw").value;
   var r=await call("data",{period:PERIOD});
-  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage,r.body.demand);startAuto();lifeLoad();setTab('overview');}
+  if(r.status===200){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage,r.body.demand,r.body.outcomes);startAuto();lifeLoad();setTab('overview');}
   else{document.getElementById("lerr").textContent="Fel lösenord.";}
 }
-async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage,r.body.demand);}
+async function load(){var r=await call("data",{period:PERIOD});if(r.status===200)render(r.body.stats,r.body.scrape_fail_today,r.body.client_error_today,r.body.forst50,r.body.turnstile,r.body.web_pv_today,r.body.web_appr_today,r.body.traffic,r.body.coverage,r.body.demand,r.body.outcomes);}
 function setP(p){PERIOD=p;["today","7d","30d"].forEach(function(x){document.getElementById("c-"+x).classList.toggle("on",x===p);});load();}
 function startAuto(){if(TIMER)clearInterval(TIMER);TIMER=setInterval(load,30000);}
 function toggleTheme(){var d=document.documentElement.getAttribute("data-theme")==="dark";if(d){document.documentElement.removeAttribute("data-theme");}else{document.documentElement.setAttribute("data-theme","dark");}try{localStorage.setItem("fk_admin_theme",d?"light":"dark");}catch(e){}}
@@ -236,7 +236,7 @@ function spark(arr,key){
   return '<svg class="chart" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none"><path d="M0,'+H+' L'+pts.join(" L")+' L'+W+','+H+' Z" fill="rgba(204,107,44,.09)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg>';
 }
 function plabel(){return PERIOD==="today"?"idag":PERIOD==="30d"?"30 d":"7 d";}
-function render(s,sf,ce,f50,ts,wpv,wap,tr,cov,dem){
+function render(s,sf,ce,f50,ts,wpv,wap,tr,cov,dem,out){
   LAST_STATS=s; // Life-panelens Översikt läser intäkts-KPI:n härifrån
   var K=s.kpi,q=s.quota,pd=s.price_data,rev=s.revenue,cr=s.credits,vi=s.visitors,sy=s.system;
   var dbMB=q.db_bytes/1048576,dbLimit=500;
@@ -344,6 +344,33 @@ function render(s,sf,ce,f50,ts,wpv,wap,tr,cov,dem){
        '<div style="flex:1"><div class="k-val">'+n(wapN)+'</div><div class="k-lbl">analyser</div></div>'+
        '<div style="flex:1"><div class="k-val">'+(wpvN>0?Math.round(wapN/wpvN*100):0)+'%</div><div class="k-lbl">konvertering</div></div>'+
      '</div></div>';
+  // ── Vad händer i analyserna? (2026-07-29) ──────────────────────────────────────
+  // Andelen som slutar UTAN värdering är den enda siffran som direkt mäter om produkten
+  // levererar. Den var 76 % den 28 juli; fixarna (rubrik- och prisparsern, nyckelfixarna)
+  // deployades samma natt men utfallet gick BARA att läsa via en manuell SQL-fråga.
+  // VIKTIGT: visa aldrig "0 %" när underlaget är tomt — "inga analyser än" och "noll
+  // misslyckanden" är helt olika besked, och det senare vore falsk trygghet.
+  var o=out||{},oTot=Number(o.total||0),oIng=Number(o.ingen_vardering||0);
+  var oPct=(o.ingen_vardering_pct==null?null:Number(o.ingen_vardering_pct));
+  var oFarg=oPct==null?'':(oPct>=40?' style="color:#E02424"':oPct>=20?' style="color:#C27803"':' style="color:#0E9F6E"');
+  h+='<div class="card"><h2>Vad händer i analyserna?</h2>'+
+     '<div class="k-sub" style="margin-bottom:11px">Utfall per analys ('+PERIOD+') · '+n(oTot)+' analyser, '+n(Number(o.unika||0))+' unika användare</div>';
+  if(!oTot){
+    h+='<div class="muted" style="font-size:13px">Inga analyser loggade för perioden än. Loggen är verifierad att fungera — den är laddad men otömd. Siffrorna nedan fylls i så fort riktiga användare kör analyser.</div></div>';
+  }else{
+    h+='<div style="display:flex;gap:12px;text-align:center;margin-bottom:10px">'+
+       '<div style="flex:1"><div class="k-val"'+oFarg+'>'+(oPct==null?'–':oPct+'%')+'</div><div class="k-lbl">utan värdering</div></div>'+
+       '<div style="flex:1"><div class="k-val">'+(o.verifierad_pct==null?'–':o.verifierad_pct+'%')+'</div><div class="k-lbl">på verifierad data</div></div>'+
+       '<div style="flex:1"><div class="k-val">'+n(Number(o.websokt||0))+'</div><div class="k-lbl">websökta</div></div>'+
+       '<div style="flex:1"><div class="k-val"'+(Number(o.fel||0)>0?' style="color:#E02424"':'')+'>'+n(Number(o.fel||0))+'</div><div class="k-lbl">serverfel</div></div>'+
+       '</div>'+
+       (oPct!=null&&oPct>=40?'<div class="warn" style="margin:0 0 9px"><span>▲</span><div><b>'+oPct+'% av analyserna ger ingen värdering.</b> Kolla värstingarna nedan — det är de varorna insamlingen ska jaga.</div></div>':'')+
+       (Number(o.fel||0)>0?'<div class="warn" style="margin:0 0 9px"><span>▲</span><div><b>'+n(Number(o.fel||0))+' serverfel</b> i perioden. Felmeddelandet finns i <code>appraisal_events.error_note</code>.</div></div>':'')+
+       ((o.per_tier||[]).length?'<div class="k-sub" style="margin-bottom:6px"><b>Per nivå:</b> '+(o.per_tier||[]).map(function(x){return x.tier+' '+n(x.n)+(x.ingen?' ('+x.ingen+' utan värdering)':'');}).join(' · ')+'</div>':'')+
+       ((o.per_plattform||[]).length?'<div class="k-sub" style="margin-bottom:6px"><b>Per yta:</b> '+(o.per_plattform||[]).map(function(x){return x.plattform+' '+n(x.n)+(x.ingen?' ('+x.ingen+' utan värdering)':'');}).join(' · ')+'</div>':'')+
+       ((o.varsta_produkter||[]).length?'<div class="k-sub"><b>Misslyckas oftast:</b> '+(o.varsta_produkter||[]).map(function(x){return escT(String(x.nyckel))+' ('+x.n+')';}).join(' · ')+'</div>':'')+
+       '</div>';
+  }
   // Cloudflare Turnstile-översikt (webbanalysens botskydd). Verifieringar räknas bara när
   // TURNSTILE_SECRET är satt → pass+fail>0 = aktivt. Många "avvisade" = möjlig bot-attack.
   var tt=(ts&&ts.today)||{},tw=(ts&&ts.week)||{};
