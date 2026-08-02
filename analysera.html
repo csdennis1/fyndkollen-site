@@ -497,7 +497,8 @@ var T={
    redflag:'Varning',warnings:'Varningar',scamRisk:'Ovanligt lågt pris mot marknaden — var vaksam på bluff. Möt lokalt och betala vid hämtning, aldrig i förskott.',dealScoreLbl:'Fynd-poäng',coach:'Förhandlingshjälp',sellerLabel:'Färdigt meddelande till säljaren:',copymsg:'Kopiera meddelande',again:'Analysera en annan annons',shareBtn:'Dela resultatet',
    certBtn:'📄 Spara värderingsintyg',certTitle:'VÄRDERINGSRAPPORT',certVerdictGood:'BRA FYND',certVerdictFair:'RIMLIGT PRIS',certVerdictOver:'ÖVERPRISSATT',certMarket:'Marknadsvärde',certAsking:'Begärt pris',certGrounded:'Grundad i {n} verifierade slutpriser',certScore:'Fynd-poäng',certDisclaimer:'Uppskattning grundad i marknadsdata — inte ett officiellt intyg.',
    confHigh:'Hög säkerhet',confMed:'Medel säkerhet',confLow:'Låg säkerhet',basedWeb:'Grundat i marknadsdata + websökning',
-   needTitle:'Klistra in annonsen först — eller skriv vad det är för vara under "Justera själv".',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
+   needTitle:'Klistra in annonsen först — eller skriv vad det är för vara under "Justera själv".',
+   needText:'Det där är bara en länk. Öppna annonsen, markera texten och klistra in den — vi kan inte läsa annonsen åt dig från adressen.',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
    thanksTitle:'Tack — betalningen gick igenom!',
    thanksWait:'Hämtar din nyckel …',
    thanksOk:'Din nyckel <b>{k}</b> är ifylld och sparad. Köpet gav dig <b>{n}</b> kollar.',
@@ -587,7 +588,8 @@ var T={
    redflag:'Warning',warnings:'Warnings',scamRisk:'Unusually low price vs the market — be cautious of scams. Meet locally and pay on pickup, never in advance.',dealScoreLbl:'Deal score',coach:'Negotiation help',sellerLabel:'Ready message to the seller:',copymsg:'Copy message',again:'Analyze another listing',shareBtn:'Share result',
    certBtn:'📄 Save valuation report',certTitle:'VALUATION REPORT',certVerdictGood:'GOOD DEAL',certVerdictFair:'FAIR PRICE',certVerdictOver:'OVERPRICED',certMarket:'Market value',certAsking:'Asking price',certGrounded:'Grounded in {n} verified sold prices',certScore:'Deal score',certDisclaimer:'Estimate based on market data — not an official certificate.',
    confHigh:'High confidence',confMed:'Medium confidence',confLow:'Low confidence',basedWeb:'Grounded in market data + web search',
-   needTitle:'Paste the listing first — or type what the item is under "Adjust yourself".',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
+   needTitle:'Paste the listing first — or type what the item is under "Adjust yourself".',
+   needText:"That's just a link. Open the listing, select the text and paste it — we can't read the listing for you from the address.",badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
    thanksTitle:'Thank you — your payment went through!',
    thanksWait:'Fetching your key …',
    thanksOk:'Your key <b>{k}</b> is filled in and saved. Your purchase added <b>{n}</b> checks.',
@@ -1429,6 +1431,12 @@ $('form').addEventListener('submit',async function(e){
     if(!title)title=(_ln[0]||'').slice(0,80); // hellre något än inget
   }
   if(!title){showMsg(t('needTitle'),'err');return;}
+  // BARA EN LÄNK (2026-08-02). Observerad i skarp logg 31 juli: en användare klistrade in
+  // Blocket-URL:en i stället för annonstexten. Rubrikväljaren tog URL:en som produktnamn
+  // (nyckel other:httpswwwblocketsemob), analysen kunde omöjligt lyckas — och en kredit drogs.
+  // Vi hämtar INTE sidan (skrapning), vi säger vad som saknas. URL blandad med text är OK:
+  // rubrikväljaren plockar rätt rad då, verifierat.
+  if(/^(https?:\/\/|www\.)\S*$/i.test(title.trim())){showMsg(t('needText'),'err');return;}
   var price=parseInt($('f-price').value,10);if(!(price>0))price=0;
   if(!price&&desc){
     var _pv=0;
