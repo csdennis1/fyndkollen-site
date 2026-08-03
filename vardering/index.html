@@ -204,7 +204,8 @@ Sidorna täcker de varor där underlaget är djupast; hela prisdatabasen rymmer 
   localStorage.setItem(k,String(n));
   var q=new URLSearchParams(location.search),s=(q.get('utm_source')||q.get('ref')||'').toLowerCase(),m=(q.get('utm_medium')||'').toLowerCase();
   if(!s){var h='';try{h=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,'').toLowerCase():'';}catch(e){}
-    if(!h||h.indexOf('fyndkollen.com')>=0){s='direct';m='none';}
+    if(!h){s='direct';m='none';}
+    else if(h.indexOf('fyndkollen.com')>=0){s='internal';m='none';}
     else if(h==='google.com'||h.indexOf('.google.')>=0||h.indexOf('google.')===0){s='google';m='organic';}
     else if(h.indexOf('bing.')>=0){s='bing';m='organic';}
     else if(h.indexOf('duckduckgo.')>=0){s='duckduckgo';m='organic';}
