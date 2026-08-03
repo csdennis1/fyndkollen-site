@@ -498,7 +498,8 @@ var T={
    certBtn:'📄 Spara värderingsintyg',certTitle:'VÄRDERINGSRAPPORT',certVerdictGood:'BRA FYND',certVerdictFair:'RIMLIGT PRIS',certVerdictOver:'ÖVERPRISSATT',certMarket:'Marknadsvärde',certAsking:'Begärt pris',certGrounded:'Grundad i {n} verifierade slutpriser',certScore:'Fynd-poäng',certDisclaimer:'Uppskattning grundad i marknadsdata — inte ett officiellt intyg.',
    confHigh:'Hög säkerhet',confMed:'Medel säkerhet',confLow:'Låg säkerhet',basedWeb:'Grundat i marknadsdata + websökning',
    needTitle:'Klistra in annonsen först — eller skriv vad det är för vara under "Justera själv".',
-   needText:'Det där är bara en länk. Öppna annonsen, markera texten och klistra in den — vi kan inte läsa annonsen åt dig från adressen.',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
+   needText:'Det där är bara en länk. Öppna annonsen, markera texten och klistra in den — vi kan inte läsa annonsen åt dig från adressen.',
+   imgTooBig:'Bilderna är för stora för att skickas. Ta bort någon, eller kör analysen på texten utan foton — ingen kredit drogs.',badLic:'Nyckeln ser inte giltig ut (FS-XXXX-XXXX).',
    thanksTitle:'Tack — betalningen gick igenom!',
    thanksWait:'Hämtar din nyckel …',
    thanksOk:'Din nyckel <b>{k}</b> är ifylld och sparad. Köpet gav dig <b>{n}</b> kollar.',
@@ -589,7 +590,8 @@ var T={
    certBtn:'📄 Save valuation report',certTitle:'VALUATION REPORT',certVerdictGood:'GOOD DEAL',certVerdictFair:'FAIR PRICE',certVerdictOver:'OVERPRICED',certMarket:'Market value',certAsking:'Asking price',certGrounded:'Grounded in {n} verified sold prices',certScore:'Deal score',certDisclaimer:'Estimate based on market data — not an official certificate.',
    confHigh:'High confidence',confMed:'Medium confidence',confLow:'Low confidence',basedWeb:'Grounded in market data + web search',
    needTitle:'Paste the listing first — or type what the item is under "Adjust yourself".',
-   needText:"That's just a link. Open the listing, select the text and paste it — we can't read the listing for you from the address.",badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
+   needText:"That's just a link. Open the listing, select the text and paste it — we can't read the listing for you from the address.",
+   imgTooBig:'The photos are too large to send. Remove one, or run the analysis on the text without photos — no credit was spent.',badLic:"That key doesn't look valid (FS-XXXX-XXXX).",
    thanksTitle:'Thank you — your payment went through!',
    thanksWait:'Fetching your key …',
    thanksOk:'Your key <b>{k}</b> is filled in and saved. Your purchase added <b>{n}</b> checks.',
@@ -730,7 +732,39 @@ function buildSellPrompt(title,desc,price,imgCount){
 }
 
 function clientId(){var id=localStorage.getItem('fk_web_cid');if(!id){id=(crypto.randomUUID?crypto.randomUUID():String(Math.random()).slice(2)+Date.now());localStorage.setItem('fk_web_cid',id);}return id;}
-function fileToBlock(f){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){var d=String(r.result);res({type:'image',source:{type:'base64',media_type:f.type||'image/jpeg',data:d.slice(d.indexOf(',')+1)}});};r.onerror=rej;r.readAsDataURL(f);});}
+// FOTON SKALAS NER FÖRE SÄNDNING (2026-08-03, Dennis-rapport: "flera bilder + beskrivning gav
+// bara felkod"). Tidigare base64-kodades ORIGINALFILEN rakt av. Ett mobilfoto är 2–5 MB och
+// base64 lägger på ~33 % → 3,4 MB nyttolast mot serverns tak på 600 KB → 413, som klienten
+// bara visade som ett generiskt fel. Fotovägen har alltså aldrig kunnat ta ett riktigt
+// mobilfoto (bevisat mot skarp backend: 1 foto 3413 KB → 413, 3 foton 10240 KB → 413).
+// Claude skalar ändå ner bilder till ~1568 px långsida, så mer upplösning än så är ren spill.
+var IMG_MAX_PX=1400, IMG_Q=0.82;
+function fileToBlock(f){
+  return new Promise(function(res,rej){
+    var url=URL.createObjectURL(f), img=new Image();
+    function rawFallback(){ // t.ex. format webbläsaren inte kan avkoda (HEIC) — hellre försöka
+      var r=new FileReader();
+      r.onload=function(){var d=String(r.result);res({type:'image',source:{type:'base64',media_type:f.type||'image/jpeg',data:d.slice(d.indexOf(',')+1)}});};
+      r.onerror=rej; r.readAsDataURL(f);
+    }
+    img.onload=function(){
+      try{
+        var w=img.naturalWidth||0, h=img.naturalHeight||0;
+        if(!w||!h){URL.revokeObjectURL(url);return rawFallback();}
+        var s=Math.min(1,IMG_MAX_PX/Math.max(w,h));
+        var c=document.createElement('canvas');
+        c.width=Math.max(1,Math.round(w*s)); c.height=Math.max(1,Math.round(h*s));
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        var d=c.toDataURL('image/jpeg',IMG_Q);
+        URL.revokeObjectURL(url);
+        if(d.indexOf(',')<0)return rawFallback();
+        res({type:'image',source:{type:'base64',media_type:'image/jpeg',data:d.slice(d.indexOf(',')+1)}});
+      }catch(e){URL.revokeObjectURL(url);rawFallback();}
+    };
+    img.onerror=function(){URL.revokeObjectURL(url);rawFallback();};
+    img.src=url;
+  });
+}
 
 // verdict/profit/offer — IDENTICAL to extension/main.js 936–975
 function derive(r,price){var mv=r.marketValue;if(mv>0&&price>0){var fee=RESALE_FEE[r.category]!=null?RESALE_FEE[r.category]:0.10;r.profit=Math.round(mv*(1-fee)-price);r.marginPct=Math.round((r.profit/price)*100);var ratio=price/mv;r.pricePosition=ratio<=0.70?'Significantly underpriced':ratio<=0.88?'Underpriced':ratio<=1.08?'Fair':ratio<=1.25?'Overpriced':'Significantly overpriced';var cap=Math.round(mv*0.97);var o=Math.min(price,cap);o=Math.min(o,Math.round(price*0.93));o=Math.max(o,Math.min(Math.round(price*0.5),cap));r.suggestedOffer=Math.round(o/10)*10;}return r;}
@@ -1473,6 +1507,10 @@ $('form').addEventListener('submit',async function(e){
   try{
     var content=[{type:'text',text:(MODE==='sell'?buildSellPrompt:buildPrompt)(title,desc,price,files.length)}];
     for(var i=0;i<files.length&&i<4;i++){content.push(await fileToBlock(files[i]));}
+    // Sista skyddet: om nedskalningen foll tillbaka pa originalfilen (format vi inte kan avkoda)
+    // kan nyttolasten anda passera serverns tak. Sag DA vad som ar fel i stallet for att lata
+    // det bli ett 413 som klienten renderar som ett intetsagande "nagot gick fel".
+    if(JSON.stringify(content).length>2800000){clearInterval(timer);showMsg(t('imgTooBig'),'err');return;}
     var pk=null;try{pk=window.PriceDBWeb.productKey(title,desc,null);}catch(e){}
     // Säljläget skickar INTE asking_price: säljarens prisidé är en önskan, inte ett observerat
     // annonspris — får aldrig förorena asking-ankaret i price_anchors.
@@ -1484,6 +1522,7 @@ $('form').addEventListener('submit',async function(e){
     if(pj&&pj.error==='turnstile'){cfReset();showMsg(t('turnstile'),'err');return;}
     if(res.status===402||(pj&&(pj.error==='quota'||pj.error==='credits'))){showPaywall(pj.error==='credits'?'credits':'quota');return;}
     if(pj&&pj.error==='maintenance'){showMsg(t('maint'),'info');return;}
+    if(res.status===413||(pj&&pj.error==='payload too large')){showMsg(t('imgTooBig'),'err');return;}
     if((pj&&pj.error==='unavailable')||res.status===502||res.status===503){showMsg(t('unavail'),'info');return;}
     if(!res.ok){showMsg(t('generic'),'err');return;}
     var data=pj.data||pj;
