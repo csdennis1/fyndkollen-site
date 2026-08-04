@@ -1628,8 +1628,10 @@ function fkSource(){
     var host='';try{host=document.referrer?new URL(document.referrer).hostname.replace(/^www\./,'').toLowerCase():'';}catch(e){}
     var map={'t.co':'twitter','x.com':'twitter','twitter.com':'twitter','l.instagram.com':'instagram','instagram.com':'instagram','lm.facebook.com':'facebook','l.facebook.com':'facebook','m.facebook.com':'facebook','facebook.com':'facebook','tiktok.com':'tiktok','vt.tiktok.com':'tiktok','vm.tiktok.com':'tiktok','youtube.com':'youtube','youtu.be':'youtube','reddit.com':'reddit','out.reddit.com':'reddit','flashback.org':'flashback','sweclockers.com':'sweclockers','bing.com':'bing','duckduckgo.com':'duckduckgo'};
     if(!host||host.indexOf('fyndkollen.com')>=0)return {s:'direct',m:'none',c:''};
-    if(map[host])return {s:map[host],m:'referral',c:''};
-    if(host==='google.com'||host.indexOf('.google.')>=0||host.indexOf('google.')===0)return {s:'google',m:'organic',c:''};
+    // Spara aven harledd kalla, annars tappas den vid nasta sidbyte (se kommentar ovan).
+  function _spara(o){try{localStorage.setItem('fk_src',JSON.stringify({s:o.s,m:o.m,c:o.c,t:Date.now()}));}catch(e){}return o;}
+  if(map[host])return _spara({s:map[host],m:'referral',c:''});
+    if(host==='google.com'||host.indexOf('.google.')>=0||host.indexOf('google.')===0)return _spara({s:'google',m:'organic',c:''});
     return {s:host,m:'referral',c:''};
   }catch(e){return {s:'direct',m:'none',c:''};}
 }
