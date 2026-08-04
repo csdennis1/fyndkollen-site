@@ -350,21 +350,44 @@ function render(s,sf,ce,f50,ts,wpv,wap,tr,cov,dem,out){
   // deployades samma natt men utfallet gick BARA att läsa via en manuell SQL-fråga.
   // VIKTIGT: visa aldrig "0 %" när underlaget är tomt — "inga analyser än" och "noll
   // misslyckanden" är helt olika besked, och det senare vore falsk trygghet.
+  // UPPDATERAD 2026-08-04 (roadmap 145). Tre ändringar som hänger ihop:
+  // (a) testrader räknas inte längre med — de raderas inte heller, de flaggas vid insättning;
+  // (b) de tidiga returvägarna loggas nu, så TRATTEN visar betalväggskohorten som tidigare
+  //     var helt osynlig. Kvalitetstalen är skopade till outcome='ok' så nya radtyper inte
+  //     får "utan värdering" att hoppa upp och se ut som en försämring;
+  // (c) missmåttet visas i BÅDA formerna. Mekaniskt = jämförbart med den gamla 76 %-mätningen.
+  //     Äkta = minus den ärliga icke-värderingen, alltså det som faktiskt är sönder. Skillnaden
+  //     mellan dem är inte en detalj: 3 av 7 mekaniskt, 1 av 7 äkta, i den första riktiga datan.
   var o=out||{},oTot=Number(o.total||0),oIng=Number(o.ingen_vardering||0);
   var oPct=(o.ingen_vardering_pct==null?null:Number(o.ingen_vardering_pct));
-  var oFarg=oPct==null?'':(oPct>=40?' style="color:#E02424"':oPct>=20?' style="color:#C27803"':' style="color:#0E9F6E"');
+  var oAkta=(o.miss_akta_pct==null?null:Number(o.miss_akta_pct));
+  var oFarg=oAkta==null?'':(oAkta>=30?' style="color:#E02424"':oAkta>=15?' style="color:#C27803"':' style="color:#0E9F6E"');
+  var UTFALL={ok:'analys',wall_quota:'betalvägg · gratis slut',wall_credits:'betalvägg · krediter slut',
+    turnstile:'botskydd',too_large:'för stora bilder',bad_request:'felaktig begäran',
+    rate_limited:'hastighetsspärr',ip_cap:'IP-tak',maintenance:'underhållsläge',
+    unavailable:'AI otillgänglig',uncaught:'oväntat fel'};
+  var oTest=Number(o.testrader||0);
   h+='<div class="card"><h2>Vad händer i analyserna?</h2>'+
-     '<div class="k-sub" style="margin-bottom:11px">Utfall per analys ('+PERIOD+') · '+n(oTot)+' analyser, '+n(Number(o.unika||0))+' unika användare</div>';
+     '<div class="k-sub" style="margin-bottom:11px">Utfall per analys ('+PERIOD+') · '+n(oTot)+' analyser, '+n(Number(o.unika||0))+' unika användare'+
+     (oTest?' · <span class="muted">'+n(oTest)+' testrader exkluderade</span>':'')+'</div>';
   if(!oTot){
     h+='<div class="muted" style="font-size:13px">Inga analyser loggade för perioden än. Loggen är verifierad att fungera — den är laddad men otömd. Siffrorna nedan fylls i så fort riktiga användare kör analyser.</div></div>';
   }else{
     h+='<div style="display:flex;gap:12px;text-align:center;margin-bottom:10px">'+
-       '<div style="flex:1"><div class="k-val"'+oFarg+'>'+(oPct==null?'–':oPct+'%')+'</div><div class="k-lbl">utan värdering</div></div>'+
+       '<div style="flex:1"><div class="k-val"'+oFarg+'>'+(oAkta==null?'–':oAkta+'%')+'</div><div class="k-lbl">äkta miss</div></div>'+
+       '<div style="flex:1"><div class="k-val">'+(oPct==null?'–':oPct+'%')+'</div><div class="k-lbl">utan värdering</div></div>'+
        '<div style="flex:1"><div class="k-val">'+(o.verifierad_pct==null?'–':o.verifierad_pct+'%')+'</div><div class="k-lbl">på verifierad data</div></div>'+
-       '<div style="flex:1"><div class="k-val">'+n(Number(o.websokt||0))+'</div><div class="k-lbl">websökta</div></div>'+
        '<div style="flex:1"><div class="k-val"'+(Number(o.fel||0)>0?' style="color:#E02424"':'')+'>'+n(Number(o.fel||0))+'</div><div class="k-lbl">serverfel</div></div>'+
        '</div>'+
-       (oPct!=null&&oPct>=40?'<div class="warn" style="margin:0 0 9px"><span>▲</span><div><b>'+oPct+'% av analyserna ger ingen värdering.</b> Kolla värstingarna nedan — det är de varorna insamlingen ska jaga.</div></div>':'')+
+       '<div class="k-sub" style="margin-bottom:9px">Av '+n(oTot)+' analyser saknade '+n(oIng)+' värdering, men bara '+
+         n(Number(o.miss_akta||0))+' var ett verkligt fel'+(Number(o.miss_parsning||0)?' (varav '+n(Number(o.miss_parsning||0))+' parsningsfel)':'')+
+         '. Resten är ärliga icke-värderingar på varor vi saknar slutpriser för — produktens rätta beteende, inte ett fel.</div>'+
+       // TRATTEN. Det här är det som saknades: fram till 2026-08-04 loggades bara lyckade
+       // analyser, så de som mötte betalväggen syntes inte alls i instrumentet.
+       ((o.tratt||[]).length>1?'<div class="k-sub" style="margin-bottom:6px"><b>Tratt:</b> '+
+         (o.tratt||[]).map(function(x){var k=String(x.utfall||'ok');
+           return (UTFALL[k]||escT(k))+' '+n(x.n);}).join(' · ')+'</div>':'')+
+       (oAkta!=null&&oAkta>=30?'<div class="warn" style="margin:0 0 9px"><span>▲</span><div><b>'+oAkta+'% äkta miss.</b> Det är parsning eller värdering som är sönder — inte ett datagap. Kolla <code>appraisal_events</code> med <code>outcome=\'ok\'</code>.</div></div>':'')+
        (Number(o.fel||0)>0?'<div class="warn" style="margin:0 0 9px"><span>▲</span><div><b>'+n(Number(o.fel||0))+' serverfel</b> i perioden. Felmeddelandet finns i <code>appraisal_events.error_note</code>.</div></div>':'')+
        ((o.per_tier||[]).length?'<div class="k-sub" style="margin-bottom:6px"><b>Per nivå:</b> '+(o.per_tier||[]).map(function(x){return x.tier+' '+n(x.n)+(x.ingen?' ('+x.ingen+' utan värdering)':'');}).join(' · ')+'</div>':'')+
        ((o.per_plattform||[]).length?'<div class="k-sub" style="margin-bottom:6px"><b>Per yta:</b> '+(o.per_plattform||[]).map(function(x){return x.plattform+' '+n(x.n)+(x.ingen?' ('+x.ingen+' utan värdering)':'');}).join(' · ')+'</div>':'')+
